@@ -51,12 +51,18 @@ namespace Catan
                 server.Receive(respuesta);
                 mensaje = Encoding.ASCII.GetString(respuesta).Split('\0')[0];
 
-                if (mensaje != "0")
-                    //Si se recibe '0' es porque no se pudo iniciar sesión
-                    MessageBox.Show("Tu nombre ES bonito.");
+                if (mensaje == "YES")
+                {
+                    //Se ha creado el usuario correctamente
+                    MessageBox.Show("Usuario creado correctamente.");
+                    this.Close();
+                  
+                }
+                    
                 else
                 {
-
+                    //No se ha creado el usuario
+                    MessageBox.Show("Usuario ya existente.");
                 }
             }
             catch (SocketException ex)

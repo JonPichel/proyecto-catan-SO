@@ -45,11 +45,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Monotype Corsiva", 60F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
-                | System.Drawing.FontStyle.Underline))));
-            this.label1.Location = new System.Drawing.Point(-1, -2);
+            this.label1.Font = new System.Drawing.Font("Palatino Linotype", 60F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
+                | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(-1, -3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(285, 97);
+            this.label1.Size = new System.Drawing.Size(316, 106);
             this.label1.TabIndex = 0;
             this.label1.Text = "CATAN";
             // 
@@ -57,10 +57,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Monotype Corsiva", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(6, 82);
+            this.label2.Font = new System.Drawing.Font("Palatino Linotype", 20F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.label2.Location = new System.Drawing.Point(18, 95);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(266, 39);
+            this.label2.Size = new System.Drawing.Size(275, 35);
             this.label2.TabIndex = 1;
             this.label2.Text = "Colonos de la EETAC";
             // 
@@ -80,7 +80,7 @@
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.Font = new System.Drawing.Font("Monotype Corsiva", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLogin.ForeColor = System.Drawing.SystemColors.Info;
-            this.btnLogin.Location = new System.Drawing.Point(30, 235);
+            this.btnLogin.Location = new System.Drawing.Point(30, 239);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(130, 40);
             this.btnLogin.TabIndex = 3;
@@ -90,7 +90,7 @@
             // 
             // tboxNickname
             // 
-            this.tboxNickname.Location = new System.Drawing.Point(30, 154);
+            this.tboxNickname.Location = new System.Drawing.Point(30, 158);
             this.tboxNickname.MaxLength = 20;
             this.tboxNickname.Name = "tboxNickname";
             this.tboxNickname.Size = new System.Drawing.Size(130, 20);
@@ -98,7 +98,7 @@
             // 
             // tboxPwd
             // 
-            this.tboxPwd.Location = new System.Drawing.Point(30, 200);
+            this.tboxPwd.Location = new System.Drawing.Point(30, 204);
             this.tboxPwd.MaxLength = 20;
             this.tboxPwd.Name = "tboxPwd";
             this.tboxPwd.Size = new System.Drawing.Size(130, 20);
@@ -108,10 +108,10 @@
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Monotype Corsiva", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(30, 135);
+            this.label4.Font = new System.Drawing.Font("Palatino Linotype", 10F);
+            this.label4.Location = new System.Drawing.Point(30, 139);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(121, 18);
+            this.label4.Size = new System.Drawing.Size(136, 19);
             this.label4.TabIndex = 7;
             this.label4.Text = "Nombre de usuario:";
             // 
@@ -119,10 +119,10 @@
             // 
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("Monotype Corsiva", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(30, 181);
+            this.label7.Font = new System.Drawing.Font("Palatino Linotype", 10F);
+            this.label7.Location = new System.Drawing.Point(30, 185);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(73, 18);
+            this.label7.Size = new System.Drawing.Size(86, 19);
             this.label7.TabIndex = 10;
             this.label7.Text = "Contraseña:";
             // 

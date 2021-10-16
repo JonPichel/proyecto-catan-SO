@@ -70,7 +70,8 @@ namespace Catan
                 else
                 {
                     int idJ = Convert.ToInt32(mensaje);
-                    Form menu = new Menu();
+                    Form menu = new Menu(server, idJ);
+                    this.Hide();
                     menu.ShowDialog();
                     this.Close();
                 }
