@@ -1,0 +1,27 @@
+(1)(alba) dado un id de partida dame los nombres de los jugadores
+(2)(jony) la posicion en la que quedo un jugador en una partida concreta
+(3)(raul) calcular la media de puntos de todas tus partidas
+
+# CERRAR CONEXION
+PET: 0/
+RES: nada
+
+# REGISTRARSE
+PET: 1/nombre,pass
+RES: YES o NO (registro correcto, error)
+
+# INICIAR SESION
+PET: 2/nombre,pass
+RES: idJ o 0 (login correcto, incorrecto)
+
+# MOSTRAR PARTIDAS (2)
+PET: 3/idJ
+RES: #partidas/idP,posicion,puntos,fechahora,...
+
+# INFORMACION PARTIDA (1,2)
+PET: 4/idP
+RES: #jugadores/posicion,nombre,puntos,...
+
+# MEDIA DE PUNTOS (3)
+PET: 5/idJ
+RES: MEDIA
