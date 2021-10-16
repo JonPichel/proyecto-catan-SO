@@ -14,16 +14,23 @@ namespace Catan
     public partial class Login : Form
     {
         Socket server;
+
         public Login()
         {
             InitializeComponent();
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+            
         }
 
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
             Form registro = new Registro();
             this.Hide();
-            registro.Show();
+            registro.ShowDialog();
+            this.Show();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -41,17 +48,42 @@ namespace Catan
                 server.Connect(ipep);//Intentamos conectar el socket
                 //MessageBox.Show("Conectado");
 
-                // 1/ Login
+                //Quieremos comprobar si el nombre y la contraseña estan en la base de datos
+                string mensaje = "2/" + tboxNickname.Text + "," + tboxPwd.Text;
+                //Enviamos al servidor el mensaje
+                byte[] peticion = System.Text.Encoding.ASCII.GetBytes(mensaje);
+                server.Send(peticion);
 
-                // Yes si esta en la sql
-                // No no existe el usuario
+                //Recibimos la respuesta del servidor
+                byte[] respuesta = new byte[512];
+                server.Receive(respuesta);
+                mensaje = Encoding.ASCII.GetString(respuesta).Split('\0')[0];
+
+                if (mensaje != "0")
+                {
+                    //Si se recibe '0' es porque no se pudo iniciar sesión
+                    MessageBox.Show("Contraseña incorrecta");
+                    tboxNickname.Text = "";
+                    tboxPwd.Text = "";
+                }
+                    
+                else
+                {
+                    int idJ = Convert.ToInt32(mensaje);
+                    Form menu = new Menu();
+                    menu.ShowDialog();
+                    this.Close();
+                }
+                    
             }
             catch (SocketException ex)
             {
                 //Si hay excepcion imprimimos error y salimos del programa con return 
-                MessageBox.Show("No he podido conectar con el servidor");
+                MessageBox.Show("No se ha podido conectar con el servidor");
                 return;
             }
         }
+
+        
     }
 }
