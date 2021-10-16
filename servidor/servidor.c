@@ -125,26 +125,26 @@ int main(void) {
         close(sock_conn);
     }
 }
-
+//JONATHAN
 void pet_registrar_jugador(char *nombre, char *pass, char *respuesta) {
 
 }
-
+//ALBA
 void pet_iniciar_sesion(char *nombre, char *pass, char *respuesta) {
 
 }
 
-// Usar la de jonathan
+// Usar la de jonathan - JONATHAN
 void pet_informacion_partidas_jugador(int idJ, char *respuesta) {
 
 }
 
-// Usar las de jonathan y alba
+// Usar las de jonathan y alba - ALBA
 void pet_informacion_partida(int idP, char *respuesta) {
 
 }
 
-// Usar la de raul
+// Usar la de raul - ALBA
 void pet_puntuacion_media_jugador(int idJ, char *respuesta) {
 
 }
