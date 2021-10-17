@@ -7,7 +7,7 @@
 #include <netinet/in.h> 
 #include <mysql.h>
 
-#define PORT        4444
+#define PORT        4445
 #define MAX_CONN    5
 
 /* Funciones peticiones */
@@ -214,6 +214,7 @@ void pet_informacion_partida(int idP, char *respuesta) {
     char *p;
 
     
+    numj = bdd_info_participaciones(idP, &ids, info);
     sprintf(respuesta, "%d/", numj);
     p = strtok(info, ",");
     for (i = 0; i < numj; i++) {
