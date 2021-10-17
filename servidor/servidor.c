@@ -23,7 +23,7 @@ float bdd_puntuacion_media(int idJ);                        // raul
 int bdd_posicion(int idJ, int idP);                         // jon
 int bdd_nombre_pass(char *nombre, char *pass);
 int bdd_registrar_jugador(char *nombre, char *pass);
-int bdd_info_participaciones(int idP, int **ids, char *puntuaciones);
+int bdd_info_participaciones(int idP, int **ids, char *info);
 
 int main(void) {
     int sock_listen, sock_conn, nbytes;
@@ -184,7 +184,32 @@ void pet_informacion_partidas_jugador(int idJ, char *respuesta) {
 // Usar las de jonathan y alba - JONATHAN
 // TODO
 void pet_informacion_partida(int idP, char *respuesta) {
-    char nombres[100];
+    /*
+    Descripcion:
+        Atiende la peticion de informacion de partida y genera la respuesta
+    Parametros:
+        idP: id de la Partida
+        respuesta: mensaje de respuesta con los datos
+    */
+
+    int i, numj, *ids; // ids de los jugadores
+    char info[200];
+    char *p;
+
+    
+    sprintf(respuesta, "%d/", numj);
+    p = strtok(info, ",");
+    for (i = 0; i < numj; i++) {
+        sprintf(respuesta, "%s%d,", respuesta, bdd_posicion(ids[i], idP));
+        strcat(respuesta, p);
+        strcat(respuesta, ",");
+        p = strtok(NULL, ",");
+        strcat(respuesta, p);
+        strcat(respuesta, ",");
+        p = strtok(NULL, ",");
+    }
+    // Eliminar la coma del final
+    respuesta[strlen(respuesta) - 1] = '\0';
 }
 
 // Usar la de raul - ALBA
@@ -245,57 +270,6 @@ int bdd_nombre_pass(char *nombre, char *pass) {
     } else {
         return -1;
     }
-}
-
-// Alba
-int bdd_nombres_jugadores_partida(int idP, char *nombres) {
-    /*
-    Descripcion:
-        Obtiene los nombres de los Jugadores que participaron en una partida de la base de datos dado el id de la partida
-    Parametros:
-        idP: id de la partida
-        nombres: nombres de Jugadores de una partida separados por una coma
-    Retorno:
-        num. de jugadores si OK, -1 si ERR
-    */
-    MYSQL *conn;
-    MYSQL_RES *tabla;
-    MYSQL_ROW fila;
-    char consulta[160];
-
-    if ((conn = mysql_init(NULL)) ==NULL) {
-        printf("Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
-
-    conn = mysql_real_connect(conn, "localhost", "root", "mysql", "catan", 0, NULL, 0);
-    if (conn == NULL) {
-        printf("Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
-
-    sprintf(consulta, "SELECT Jugador.nombre FROM Jugador, Participacion "
-        "WHERE Participacion.idP = %d AND Participacion.idJ = Jugador.id;", idP);
-
-    if (mysql_query(conn, consulta) != 0) {
-        printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        mysql_close(conn);
-        return -1;
-    }
-
-    tabla = mysql_store_result(conn);
-
-    nombres[0] = '\0';
-    int j = 0;
-    while ((fila = mysql_fetch_row(tabla)) != NULL) {
-        sprintf(nombres, "%s%s,", nombres, fila[0]);
-        j++;
-    }
-    // Borrar coma
-    nombres[strlen(nombres)-1]='\0';
-    mysql_close(conn);
-
-    return j;
 }
 
 // Raul
@@ -466,21 +440,21 @@ int bdd_registrar_jugador(char *nombre, char *pass) {
     }
 }
 
-int bdd_info_participaciones(int idP, int **ids, char *puntuaciones) {
+int bdd_info_participaciones(int idP, int **ids, char *info) {
     /*
     Descripcion:
         Obtiene informacion de las participaciones de una partida
     Parametros:
         idP: id de la partida
         ids: pointer a un vector de ids
-        puntuaciones: mensaje con formato puntos1,puntos2...
+        info: mensaje con formato nombre1,puntos1,nombre2,puntos2...
     Retorno:
         num. de Jugadores si OK, -1 si ERR
     */
     MYSQL *conn;
     MYSQL_RES *tabla;
     MYSQL_ROW fila;
-    char consulta[160];
+    char consulta[200];
     int numj;
 
     if ((conn = mysql_init(NULL)) == NULL) {
@@ -494,8 +468,8 @@ int bdd_info_participaciones(int idP, int **ids, char *puntuaciones) {
         return -1;
     }
 
-    sprintf(consulta, "SELECT Jugador.id, Participacion.puntos FROM (Jugador, Participacion)"
-            "WHERE Participacion.IdP = %d AND Jugador.id = Participacion.idJ;", idP);
+    sprintf(consulta, "SELECT Jugador.id, Jugador.nombre, Participacion.puntos FROM (Jugador, Participacion)"
+            "WHERE Participacion.IdP = %d AND Jugador.id = Participacion.idJ ORDER BY Participacion.puntos DESC;", idP);
 
     if (mysql_query(conn, consulta) != 0) {
         printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
@@ -513,12 +487,14 @@ int bdd_info_participaciones(int idP, int **ids, char *puntuaciones) {
     *ids = (int *)malloc(sizeof(int) * numj);
 
     int j = 0;
+    info[0] = '\0';
     while ((fila = mysql_fetch_row(tabla)) != NULL) {
-        *ids[j] = atoi(fila[0]);
-        sprintf(puntuaciones, "%s%s,%s,", fila[1]);
+        (*ids)[j] = atoi(fila[0]);
+        sprintf(info, "%s%s,%s,", info, fila[1], fila[2]); // ...nombre,puntos,...
         j++;
     }
-
+    // Borrar coma
+    info[strlen(info)-1]='\0';
     mysql_close(conn);
     return numj;
 }
