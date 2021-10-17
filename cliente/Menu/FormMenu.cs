@@ -22,6 +22,17 @@ namespace cliente.Menu
             this.idJ = idJ;
         }
 
+        private void FormMenu_Load(object sender, EventArgs e)
+        {
+            dataGridPartidas.RowHeadersVisible = false;
+            dataGridPartidas.Columns.Add("ID", "ID");
+            dataGridPartidas.Columns.Add("Posición", "Posición");
+            dataGridPartidas.Columns.Add("Puntos", "Puntos");
+            dataGridPartidas.Columns.Add("Fecha y Hora", "Fecha y Hora");
+            dataGridPartidas.Columns.Add("Duración", "Duración");
+            dataGridPartidas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+        }
+
         private void btnMedia_Click(object sender, EventArgs e)
         {
             string pet = "5/" + idJ.ToString();
@@ -33,6 +44,46 @@ namespace cliente.Menu
             string res = Encoding.ASCII.GetString(res_b).Split('\0')[0];
 
             lblMedia.Text = "Puntuación media: " + res;
+        }
+
+        private void btnPartidas_Click(object sender, EventArgs e)
+        {
+            string pet = "3/" + idJ.ToString();
+            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+            conn.Send(pet_b);
+
+            byte[] res_b = new byte[512];
+            conn.Receive(res_b);
+            string res = Encoding.ASCII.GetString(res_b).Split('\0')[0];
+
+            // Ahora primero separamos el numero de partidas juagadas
+            // de los datos de cada partida
+            string[] trozos = res.Split(new string[] { "/" }, 2, StringSplitOptions.None);  // Tendremos 2 trozos
+            
+            int partidas = Convert.ToInt32(trozos[0]);      // Numero de partidas
+            string[] datos = trozos[1].Split(',');          // Datos de las partidas
+
+            MessageBox.Show(Convert.ToString(datos.Length));
+
+            // Rellenamos la tabla con los datos de las partidas
+            dataGridPartidas.Rows.Add(partidas-1);
+            int j = 0;
+            for (int i = 0; i < partidas; i++)
+            {
+                dataGridPartidas.Rows[i].Cells[0].Value = datos[j];         // Id Partida
+                dataGridPartidas.Rows[i].Cells[1].Value = datos[j + 1];     // Posicion del jugador
+                dataGridPartidas.Rows[i].Cells[2].Value = datos[j + 2];     // Puntos del jugador
+                dataGridPartidas.Rows[i].Cells[3].Value = datos[j + 3];     // Fecha y hora de la partida
+                dataGridPartidas.Rows[i].Cells[4].Value = datos[j + 4];     // Duracion de la partida
+                j += 5;
+            }
+
+        }
+
+        private void btnDesconectar_Click(object sender, EventArgs e)
+        {
+            // Cerramos el form y por tanto se cerrará la conexión
+            this.Close();
         }
     }
 }
