@@ -87,7 +87,10 @@ namespace cliente.Menu
 
         private void btnRegistro_Click(object sender, EventArgs e)
         {
-
+            Form formRegistro = new FormRegistro(this.conn);
+            this.Hide();
+            formRegistro.ShowDialog();
+            this.Show();
         }
     }
 }
