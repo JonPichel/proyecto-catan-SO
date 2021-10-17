@@ -14,6 +14,7 @@ namespace cliente.Menu
     {
         Socket conn;
         int idJ;
+        int idP;
 
         public FormMenu(Socket conn, int idJ)
         {
@@ -63,10 +64,8 @@ namespace cliente.Menu
             int partidas = Convert.ToInt32(trozos[0]);      // Numero de partidas
             string[] datos = trozos[1].Split(',');          // Datos de las partidas
 
-            MessageBox.Show(Convert.ToString(datos.Length));
-
             // Rellenamos la tabla con los datos de las partidas
-            dataGridPartidas.Rows.Add(partidas-1);
+            dataGridPartidas.Rows.Add(partidas);
             int j = 0;
             for (int i = 0; i < partidas; i++)
             {
@@ -84,6 +83,18 @@ namespace cliente.Menu
         {
             // Cerramos el form y por tanto se cerrará la conexión
             this.Close();
+        }
+
+        private void dataGridPartidas_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int row = e.RowIndex;
+
+            this.idP = Convert.ToInt32(dataGridPartidas.Rows[row].Cells[0].Value);
+
+            Form formInfoPartida = new FormInfoPartida(conn, idP);
+            this.Hide();
+            formInfoPartida.ShowDialog();
+            this.Show();
         }
     }
 }

@@ -94,11 +94,14 @@ namespace cliente.Menu
             // 
             // dataGridPartidas
             // 
+            this.dataGridPartidas.AllowUserToAddRows = false;
+            this.dataGridPartidas.AllowUserToDeleteRows = false;
             this.dataGridPartidas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridPartidas.Location = new System.Drawing.Point(213, 97);
             this.dataGridPartidas.Name = "dataGridPartidas";
             this.dataGridPartidas.Size = new System.Drawing.Size(371, 150);
             this.dataGridPartidas.TabIndex = 3;
+            this.dataGridPartidas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridPartidas_CellClick);
             // 
             // lblMedia
             // 
