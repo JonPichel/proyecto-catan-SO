@@ -16,7 +16,7 @@ RES: idJ o -1 (login correcto, incorrecto)
 
 # MOSTRAR PARTIDAS (2)
 PET: 3/idJ
-RES: #partidas/idP,posicion,puntos,fechahora,...
+RES: #partidas/idP,posicion,puntos,fechahora,duracion,...
 
 # INFORMACION PARTIDA (1,2)
 PET: 4/idP

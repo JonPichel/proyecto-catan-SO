@@ -7,7 +7,7 @@
 #include <netinet/in.h> 
 #include <mysql.h>
 
-#define PORT        4444
+#define PORT        4445
 #define MAX_CONN    5
 
 /* Funciones peticiones */
@@ -18,10 +18,11 @@ void pet_informacion_partida(int idP, char *respuesta);
 void pet_puntuacion_media_jugador(int idJ, char *respuesta);
 
 /* Consultas bases de datos (ejercicios individuales) */
-void bdd_nombres_jugadores_partida(int idP, char *nombres); // alba
+int bdd_nombres_jugadores_partida(int idP, char *nombres); // alba
 float bdd_puntuacion_media(int idJ);                        // raul
 int bdd_posicion(int idJ, int idP);                         // jon
-int bdd_nombre_pass(char nombre, char *pass);
+int bdd_nombre_pass(char *nombre, char *pass);
+int bdd_registrar_jugador(char *nombre, char *pass);
 
 int main(void) {
     int sock_listen, sock_conn, nbytes;
@@ -72,10 +73,11 @@ int main(void) {
                 break;
             }
 
+            char nombre[20], pass[20];
+            int idJ, idP;
             switch (codigo) {
                 case 1:
                     /* REGISTRO DE JUGADOR */
-                    char nombre[20], pass[20];
                     p = strtok(NULL, ",");
                     strncpy(nombre, p, sizeof(nombre));
                     p = strtok(NULL, ",");
@@ -84,7 +86,6 @@ int main(void) {
                     break;
                 case 2:
                     /* INICIO SESION DE JUGADOR */
-                    char nombre[20], pass[20];
                     p = strtok(NULL, ",");
                     strncpy(nombre, p, sizeof(nombre));
                     p = strtok(NULL, ",");
@@ -93,21 +94,18 @@ int main(void) {
                     break;
                 case 3:
                     /* PARTIDAS DE JUGADOR */
-                    int idJ;
                     p = strtok(NULL, ",");
                     idJ = atoi(p);
                     pet_informacion_partidas_jugador(idJ, respuesta);
                     break;
                 case 4:
                     /* INFORMACION DE PARTIDA */
-                    int idP;
                     p = strtok(NULL, ",");
                     idP = atoi(p);
                     pet_informacion_partida(idP, respuesta);
                     break;
                 case 5:
                     /* PUNTUACION MEDIA DE JUGADOR */
-                    int idJ;
                     p = strtok(NULL, ",");
                     idJ = atoi(p);
                     pet_puntuacion_media_jugador(idJ, respuesta);
@@ -200,7 +198,7 @@ void pet_puntuacion_media_jugador(int idJ, char *respuesta) {
     sprintf(respuesta, "%.2f", bdd_puntuacion_media(idJ));
 }
 
-int bdd_nombre_pass(char nombre, char *pass) {
+int bdd_nombre_pass(char *nombre, char *pass) {
     /*
     Descripcion:
         Obtiene el id y la contraseña de un Jugador de la base de datos dado su nombre
@@ -235,13 +233,13 @@ int bdd_nombre_pass(char nombre, char *pass) {
     }
 
     tabla = mysql_store_result(conn);
-    fila = mysql_fetch_row (resultado);
+    fila = mysql_fetch_row (tabla);
     mysql_close(conn);
 
-    if (row != NULL) {
+    if (fila != NULL) {
             if (pass != NULL)
-                strcpy(pass, row[1]);
-            return atoi(row[0]);
+                strcpy(pass, fila[1]);
+            return atoi(fila[0]);
     } else {
         return -1;
     }
@@ -346,7 +344,7 @@ float bdd_puntuacion_media(int idJ) {
 }
 
 // Jonathan
-int bdd_posicion(int idJ, int idP, int *puntuacion) {
+int bdd_posicion(int idJ, int idP) {
     /*
     Descripcion:
         Obtiene la posicion en la que ha quedado el jugador en la partida
