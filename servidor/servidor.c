@@ -21,7 +21,7 @@ void pet_puntuacion_media_jugador(int idJ, char *respuesta);
 void bdd_nombres_jugadores_partida(int idP, char *nombres); // alba
 float bdd_puntuacion_media(int idJ);                        // raul
 int bdd_posicion(int idJ, int idP);                         // jon
-void bdd_nombre_pass(char nombre, int *idJ, char *pass);
+int bdd_nombre_pass(char nombre, char *pass);
 
 int main(void) {
     int sock_listen, sock_conn, nbytes;
@@ -128,231 +128,228 @@ int main(void) {
 }
 //JONATHAN
 void pet_registrar_jugador(char *nombre, char *pass, char *respuesta) {
+    /*
+    Descripcion:
+        Atiende la peticion de registrar jugador y genera la respuesta
+    Parametros:
+        nombre: nombre Jugador
+        pass: contraseña introducida
+        respuesta: mensaje de respuesta con el id del Jugador
+    */
+    char pass_real[20];
+    int idJ;
 
+    if (bdd_nombre_pass(nombre, NULL) == -1) {
+        if (bdd_registrar_jugador(nombre, pass) == 0)
+            strcpy(respuesta, "YES");
+        else
+            strcpy(respuesta, "NO");
+    }
+    else
+        // Ya existe el usuario
+        strcpy(respuesta, "NO");
 }
 //ALBA
 void pet_iniciar_sesion(char *nombre, char *pass, char *respuesta) {
     /*
     Descripcion:
-	Busca un Jugador en la base de datos y si existe comprueba que la contraseña sea correcta
+        Atiende la peticion de iniciar sesion y genera la respuesta
     Parametros:
-	nombre: nombre Jugador
-	pass: contraseña introducida
-	respuesta: Mensaje de respuesta con el Id del Jugador
+        nombre: nombre Jugador
+        pass: contraseña introducida
+        respuesta: mensaje de respuesta con el id del Jugador
     */
     char pass_real[20];
     int idJ;
-	
-    int existe = bdd_nombre_pass(nombre, idJ, pass_real);
-	
-    if (existe ==1){
-	if (strcmp(pass,pass_real)==0)
-		sprintf(respuesta, "%d", idJ);
-	else
-		sprintf(respuesta, "0");
-    }
+
+    idJ = bdd_nombre_pass(nombre, pass_real);
+    if (idJ != -1){
+        if (strcmp(pass, pass_real) == 0)
+            sprintf(respuesta, "%d", idJ);
+        else
+            // Contraseña incorrecta
+            strcpy(respuesta, "-1");
+        }
     else
-	sprintf(respuesta, "0")
+        // No existe el usuario
+        strcpy(respuesta, "-1");
 }
 
 // Usar la de jonathan - JONATHAN
+// TODO
 void pet_informacion_partidas_jugador(int idJ, char *respuesta) {
 
 }
 
 // Usar las de jonathan y alba - ALBA
+// TODO
 void pet_informacion_partida(int idP, char *respuesta) {
-
-	char nombres[100];
-
-
+    char nombres[100];
 }
 
 // Usar la de raul - ALBA
 void pet_puntuacion_media_jugador(int idJ, char *respuesta) {
     /*
     Descripcion:
-        Construye el mensaje de respuesta en caso de pedir la media de puntuaciones obtenidas por un Jugador
+        Atiende la peticion de puntuacion media y genera la respuesta
     Parametros:
         idJ: id del Jugador
-		respuesta: Mensaje de respuesta con la media 
+        respuesta: Mensaje de respuesta con la media 
     */
 
-    float media = bdd_puntuacion_media(idJ);
-    if (media == -1)
-	printf("Error en realizar la consulta");
-    else{
-	sprintf(respuesta, "%f", media);
-    }	
+    sprintf(respuesta, "%.2f", bdd_puntuacion_media(idJ));
 }
 
-int bdd_nombre_pass(char nombre, int *idJ, char *pass) {
+int bdd_nombre_pass(char nombre, char *pass) {
     /*
     Descripcion:
-        Busca el ID y contrasena de un Jugador dado su nombre
+        Obtiene el id y la contraseña de un Jugador de la base de datos dado su nombre
     Parametros:
-	nombre: nombre del Jugador
-        idJ: id del Jugador
-	pass: contraseÃ±a del Jugador
+        nombre: nombre del Jugador
+        pass: contraseña del Jugador
     Retorno:
-	1 si ha encontrado el Jugador en la base de datos, -1 si no lo ha encontrado o ha habido un error
+        idJ si OK, -1 si no lo ha encontrado o ERR
     */
-   
-    MYSQL *conn;
-    int err;
-    MYSQL_RES *resultado;
-    MYSQL_ROW row;
-    char consulta[80];
-	
-	
-    conn=mysql_init(NULL);
-    if (conn==NULL) {
-	printf("Error al crear la conexion: %u %s\n",mysql_errno(conn), mysql_error(conn));
-	return -1;
-    }
-    conn=mysql_real_connect(conn, "localhost","root","mysql","catan",0,NULL,0);
-    if (conn==NULL) {
-	printf("Error al inicializar la conexion: %u %s\n",mysql_errno(conn), mysql_error(conn));
-	return -1;
-    }
-	
-    sprintf(consulta,"SELECT Jugador.id, Jugador.pass FROM Jugador WHERE Jugador.nombre = '%s';",nombre);
 
-    err = mysql_query(conn,consulta);
-	
-    if (err!=0) {
-	printf("Error al consultar datos de la base %u %s\n", mysql_errno(conn), mysql_error(conn));
-	return -1;
+    MYSQL *conn;
+    MYSQL_RES *tabla;
+    MYSQL_ROW fila;
+    char consulta[160];
+
+    if ((conn = mysql_init(NULL)) == NULL) {
+        printf("Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
     }
-	
-    resultado = mysql_store_result(conn);
-    row = mysql_fetch_row (resultado);
+
+    conn = mysql_real_connect(conn, "localhost", "root", "mysql", "catan", 0, NULL, 0);
+    if (conn == NULL) {
+        printf("Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
+    }
+
+    sprintf(consulta, "SELECT Jugador.id, Jugador.pass FROM Jugador WHERE Jugador.nombre = \'%s\';", nombre);
+
+    if (mysql_query(conn, consulta) != 0) {
+        printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
+    }
+
+    tabla = mysql_store_result(conn);
+    fila = mysql_fetch_row (resultado);
     mysql_close(conn);
 
-    if (row == NULL){
-	printf("No se han obtenido datos en la consulta\n");
-	return -1;
-    }
-    else{
-	idJ = atoi(row[0]);
-	sprintf(pass,"%s",row[1]); 
-	return 1;
+    if (row != NULL) {
+            if (pass != NULL)
+                strcpy(pass, row[1]);
+            return atoi(row[0]);
+    } else {
+        return -1;
     }
 }
 
 // Alba
-void bdd_nombres_jugadores_partida(int idP, char *nombres) {
+int bdd_nombres_jugadores_partida(int idP, char *nombres) {
     /*
     Descripcion:
-        Devuelve los nombres de los Jugadores que participaron en una partida dado el ID de la partida.
+        Obtiene los nombres de los Jugadores que participaron en una partida de la base de datos dado el id de la partida
     Parametros:
         idP: id de la partida
-	nombres: nombres de Jugadores de una partida separados por una coma
+        nombres: nombres de Jugadores de una partida separados por una coma
+    Retorno:
+        num. de jugadores si OK, -1 si ERR
     */
-   
     MYSQL *conn;
-    int err;
-    MYSQL_RES *resultado;
-    MYSQL_ROW row;
-    char consulta[80];
-	
-    conn=mysql_init(NULL);
-    if (conn==NULL) {
-	printf("Error al crear la conexion: %u %s\n",mysql_errno(conn), mysql_error(conn));
-		
-    }
-    conn=mysql_real_connect(conn, "localhost","root","mysql","catan",0,NULL,0);
-    if (conn==NULL) {
-	printf("Error al inicializar la conexion: %u %s\n",mysql_errno(conn), mysql_error(conn));
-		
-    }
-	
-    sprintf(consulta,"SELECT Jugador.nombre FROM Jugador, Participacion "
-	"WHERE Participacion.idP = %d AND Participacion.idJ = Jugador.id;",idP);
+    MYSQL_RES *tabla;
+    MYSQL_ROW fila;
+    char consulta[160];
 
-    err = mysql_query(conn,consulta);
-	
-    if (err!=0) {
-	printf("Error al consultar datos de la base %u %s\n", mysql_errno(conn), mysql_error(conn));
-	
+    if ((conn = mysql_init(NULL)) ==NULL) {
+        printf("Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
     }
-	
-    resultado = mysql_store_result(conn);
-    row = mysql_fetch_row (resultado);
-	
-    if (row == NULL)
-	printf("No se han obtenido datos en la consulta\n");
-    else{
-	printf("Los Jugadores de la partida son:\n");
-	while (row !=NULL) {
-		printf("%s\n", row[0]);
-		sprintf(nombres,"%s%s,",nombres,row[0]);
-		row = mysql_fetch_row(resultado);
-	}
-	nombres[strlen(nombres)-1]='\0';
+
+    conn = mysql_real_connect(conn, "localhost", "root", "mysql", "catan", 0, NULL, 0);
+    if (conn == NULL) {
+        printf("Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
     }
+
+    sprintf(consulta, "SELECT Jugador.nombre FROM Jugador, Participacion "
+        "WHERE Participacion.idP = %d AND Participacion.idJ = Jugador.id;", idP);
+
+    if (mysql_query(conn, consulta) != 0) {
+        printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        mysql_close(conn);
+        return -1;
+    }
+
+    tabla = mysql_store_result(conn);
+
+    nombres[0] = '\0';
+    int j = 0;
+    while ((fila = mysql_fetch_row(tabla)) != NULL) {
+        sprintf(nombres, "%s%s,", nombres, fila[0]);
+        j++;
+    }
+    // Borrar coma
+    nombres[strlen(nombres)-1]='\0';
     mysql_close(conn);
+
+    return j;
 }
 
 // Raul
 float bdd_puntuacion_media(int idJ) {
     /*
     Descripcion:
-        Devuelve el calculo del promedio de puntos de un jugador obtenidos en todas sus partidas
+        Obtiene el promedio de puntos de un jugador en todas sus partidas de la base de datos
     Parametros:
         idJ: id del Jugador
     Retorno:
-       	Promedio de puntos, -1 si ha habido un error
+        Promedio de puntos, -1 si ERR
     */
 
     MYSQL *conn;
-    int err;
-    MYSQL_RES *resultado;
-    MYSQL_ROW row;
+    MYSQL_RES *tabla;
+    MYSQL_ROW fila;
+    char consulta[160];
     float media;
-    char nombre[20];
-    char consulta[100];
-	
-    conn=mysql_init(NULL);
-    if (conn==NULL) {
-	printf("Error al crear la conexion: %u %s\n",mysql_errno(conn), mysql_error(conn));
-	return -1;
-    }
-    conn=mysql_real_connect(conn, "localhost","root","mysql","catan",0,NULL,0);
-    if (conn==NULL) {
-	printf("Error al inicializar la conexion: %u %s\n",mysql_errno(conn), mysql_error(conn));
-	return -1;
-    }
-	
-    sprintf(consulta,"SELECT AVG(Participacion.puntos) FROM (Participacion) WHERE Participacion.idJ = %d;",idJ);
 
-    err = mysql_query(conn,consulta);
-	
-    if (err!=0) {
-	printf("Error al consultar datos de la base %u %s\n", mysql_errno(conn), mysql_error(conn));
-	return -1;
+    if ((conn = mysql_init(NULL)) == NULL) {
+        printf("Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
     }
-	
-    resultado = mysql_store_result(conn);
-    row = mysql_fetch_row (resultado);
-	
-    if (row == NULL){
-	printf("No se han obtenido datos en la consulta\n");
-	media = 0;
+
+    conn = mysql_real_connect(conn, "localhost", "root", "mysql", "catan", 0, NULL, 0);
+    if (conn == NULL) {
+        printf("Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
     }
-    else{
-	printf ("Promedio de puntos: %s puntos\n", row[0]);
-	media = atof(row[0]);
+
+    sprintf(consulta, "SELECT AVG(Participacion.puntos) FROM (Participacion) WHERE Participacion.idJ = %d;", idJ);
+
+    if (mysql_query(conn, consulta) != 0) {
+        printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        mysql_close(conn);
+        return -1;
     }
+
+    tabla = mysql_store_result(conn);
+    fila = mysql_fetch_row(tabla);
     mysql_close(conn);
-    return media;
+
+    // No hay partidas para el jugador
+    if (fila == NULL)
+        return -1;
+    else
+        return atof(fila[0]);
 }
 
 // Jonathan
 int bdd_posicion(int idJ, int idP, int *puntuacion) {
     /*
     Descripcion:
-        Devuelve la posicion en la que ha quedado el jugador en la partida.
+        Obtiene la posicion en la que ha quedado el jugador en la partida
     Parametros:
         idJ: id del jugador
         idP: id de la partida
@@ -362,7 +359,7 @@ int bdd_posicion(int idJ, int idP, int *puntuacion) {
     MYSQL *conn;
     MYSQL_RES *tabla;
     MYSQL_ROW fila;
-    char buffer[160];
+    char consulta[160];
     int numj, puntuacion, *puntos;
     int i, j, aux;
 
@@ -377,11 +374,12 @@ int bdd_posicion(int idJ, int idP, int *puntuacion) {
         return -1;
     }
 
-    sprintf(buffer, "SELECT Jugador.id, Participacion.puntos FROM (Jugador, Participacion)"
+    sprintf(consulta, "SELECT Jugador.id, Participacion.puntos FROM (Jugador, Participacion)"
             "WHERE Participacion.IdP = %d AND Jugador.id = Participacion.idJ;", idP);
 
-    if (mysql_query(conn, buffer) != 0) {
-        printf("Error en la consulta de datos: %u %s\n", mysql_errno(conn), mysql_error(conn));
+    if (mysql_query(conn, consulta) != 0) {
+        printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        mysql_close(conn);
         return -1;
     }
 
@@ -401,12 +399,13 @@ int bdd_posicion(int idJ, int idP, int *puntuacion) {
         puntos[i++] = atoi(fila[1]);
     }
 
-    // El jugador no participo en la partida
-    if (puntuacion == -1)
-        return -1;
 
     // Cerrar la conexion y liberar la memoria
     mysql_close(conn);
+
+    // El jugador no participo en la partida
+    if (puntuacion == -1)
+        return -1;
 
     // Ordenar las puntuaciones de mayor a menor (bubblesort)
     for (i = 0; i < numj - 1; i++) {
@@ -426,5 +425,43 @@ int bdd_posicion(int idJ, int idP, int *puntuacion) {
             free(puntos);
             return i+1;
         }
+    }
+}
+
+int bdd_registrar_jugador(char *nombre, char *pass) {
+    /*
+    Descripcion:
+        Registra al jugador en la base de datos
+    Parametros:
+        nombre: nombre del jugador
+        pass: contraseña del jugador
+    Retorno:
+        0 si OK, -1 si ERR
+    */
+    MYSQL *conn;
+    MYSQL_RES *tabla;
+    MYSQL_ROW fila;
+    char consulta[160];
+
+    if ((conn = mysql_init(NULL)) == NULL) {
+        printf("Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
+    }
+
+    conn = mysql_real_connect(conn, "localhost", "root", "mysql", "catan", 0, NULL, 0);
+    if (conn == NULL) {
+        printf("Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
+    }
+
+    sprintf(consulta, "INSERT INTO Jugador VALUES (0, '%s', '%s')", nombre, pass);
+
+    if (mysql_query(conn, consulta) != 0) {
+        printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        mysql_close(conn);
+        return -1;
+    } else {
+        mysql_close(conn);
+        return 0;
     }
 }

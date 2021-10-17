@@ -12,7 +12,7 @@ RES: YES o NO (registro correcto, error)
 
 # INICIAR SESION
 PET: 2/nombre,pass
-RES: idJ o 0 (login correcto, incorrecto)
+RES: idJ o -1 (login correcto, incorrecto)
 
 # MOSTRAR PARTIDAS (2)
 PET: 3/idJ
@@ -24,6 +24,4 @@ RES: #jugadores/posicion,nombre,puntos,...
 
 # MEDIA DE PUNTOS (3)
 PET: 5/idJ
-RES: MEDIA
-
-...
+RES: MEDIA o -1
