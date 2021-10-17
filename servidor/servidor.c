@@ -21,6 +21,7 @@ void pet_puntuacion_media_jugador(int idJ, char *respuesta);
 void bdd_nombres_jugadores_partida(int idP, char *nombres); // alba
 float bdd_puntuacion_media(int idJ);                        // raul
 int bdd_posicion(int idJ, int idP);                         // jon
+void bdd_nombre_pass(char nombre, int *idJ, char *pass);
 
 int main(void) {
     int sock_listen, sock_conn, nbytes;
@@ -67,7 +68,7 @@ int main(void) {
             codigo = atoi(p);
 
             if (codigo == 0) {
-                /* CERRAR CONEXIÓN */
+                /* CERRAR CONEXION */
                 break;
             }
 
@@ -82,7 +83,7 @@ int main(void) {
                     pet_registrar_jugador(nombre, pass, respuesta);
                     break;
                 case 2:
-                    /* INICIO SESIÓN DE JUGADOR */
+                    /* INICIO SESION DE JUGADOR */
                     char nombre[20], pass[20];
                     p = strtok(NULL, ",");
                     strncpy(nombre, p, sizeof(nombre));
@@ -98,14 +99,14 @@ int main(void) {
                     pet_informacion_partidas_jugador(idJ, respuesta);
                     break;
                 case 4:
-                    /* INFORMACIÓN DE PARTIDA */
+                    /* INFORMACION DE PARTIDA */
                     int idP;
                     p = strtok(NULL, ",");
                     idP = atoi(p);
                     pet_informacion_partida(idP, respuesta);
                     break;
                 case 5:
-                    /* PUNTUACIÓN MEDIA DE JUGADOR */
+                    /* PUNTUACION MEDIA DE JUGADOR */
                     int idJ;
                     p = strtok(NULL, ",");
                     idJ = atoi(p);
@@ -131,7 +132,27 @@ void pet_registrar_jugador(char *nombre, char *pass, char *respuesta) {
 }
 //ALBA
 void pet_iniciar_sesion(char *nombre, char *pass, char *respuesta) {
-
+    /*
+    Descripcion:
+	Busca un Jugador en la base de datos y si existe comprueba que la contrase�a sea correcta
+    Parametros:
+	nombre: nombre Jugador
+	pass: contrase�a introducida
+	respuesta: Mensaje de respuesta con el Id del Jugador
+    */
+    char pass_real[20];
+    int idJ;
+	
+    int existe = bdd_nombre_pass(nombre, idJ, pass_real);
+	
+    if (existe ==1){
+	if (strcmp(pass,pass_real)==0)
+		sprintf(respuesta, "%d", idJ);
+	else
+		sprintf(respuesta, "0");
+    }
+    else
+	sprintf(respuesta, "0")
 }
 
 // Usar la de jonathan - JONATHAN
@@ -142,25 +163,193 @@ void pet_informacion_partidas_jugador(int idJ, char *respuesta) {
 // Usar las de jonathan y alba - ALBA
 void pet_informacion_partida(int idP, char *respuesta) {
 
+	char nombres[100];
+
+
 }
 
 // Usar la de raul - ALBA
 void pet_puntuacion_media_jugador(int idJ, char *respuesta) {
+    /*
+    Descripcion:
+        Construye el mensaje de respuesta en caso de pedir la media de puntuaciones obtenidas por un Jugador
+    Parametros:
+        idJ: id del Jugador
+		respuesta: Mensaje de respuesta con la media 
+    */
 
+    float media = bdd_puntuacion_media(idJ);
+    if (media == -1)
+	printf("Error en realizar la consulta");
+    else{
+	sprintf(respuesta, "%f", media);
+    }	
+}
+
+int bdd_nombre_pass(char nombre, int *idJ, char *pass) {
+    /*
+    Descripcion:
+        Busca el ID y contrasena de un Jugador dado su nombre
+    Parametros:
+	nombre: nombre del Jugador
+        idJ: id del Jugador
+	pass: contraseña del Jugador
+    Retorno:
+	1 si ha encontrado el Jugador en la base de datos, -1 si no lo ha encontrado o ha habido un error
+    */
+   
+    MYSQL *conn;
+    int err;
+    MYSQL_RES *resultado;
+    MYSQL_ROW row;
+    char consulta[80];
+	
+	
+    conn=mysql_init(NULL);
+    if (conn==NULL) {
+	printf("Error al crear la conexion: %u %s\n",mysql_errno(conn), mysql_error(conn));
+	return -1;
+    }
+    conn=mysql_real_connect(conn, "localhost","root","mysql","catan",0,NULL,0);
+    if (conn==NULL) {
+	printf("Error al inicializar la conexion: %u %s\n",mysql_errno(conn), mysql_error(conn));
+	return -1;
+    }
+	
+    sprintf(consulta,"SELECT Jugador.id, Jugador.pass FROM Jugador WHERE Jugador.nombre = '%s';",nombre);
+
+    err = mysql_query(conn,consulta);
+	
+    if (err!=0) {
+	printf("Error al consultar datos de la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+	return -1;
+    }
+	
+    resultado = mysql_store_result(conn);
+    row = mysql_fetch_row (resultado);
+    mysql_close(conn);
+
+    if (row == NULL){
+	printf("No se han obtenido datos en la consulta\n");
+	return -1;
+    }
+    else{
+	idJ = atoi(row[0]);
+	sprintf(pass,"%s",row[1]); 
+	return 1;
+    }
 }
 
 // Alba
 void bdd_nombres_jugadores_partida(int idP, char *nombres) {
+    /*
+    Descripcion:
+        Devuelve los nombres de los Jugadores que participaron en una partida dado el ID de la partida.
+    Parametros:
+        idP: id de la partida
+	nombres: nombres de Jugadores de una partida separados por una coma
+    */
+   
+    MYSQL *conn;
+    int err;
+    MYSQL_RES *resultado;
+    MYSQL_ROW row;
+    char consulta[80];
+	
+    conn=mysql_init(NULL);
+    if (conn==NULL) {
+	printf("Error al crear la conexion: %u %s\n",mysql_errno(conn), mysql_error(conn));
+		
+    }
+    conn=mysql_real_connect(conn, "localhost","root","mysql","catan",0,NULL,0);
+    if (conn==NULL) {
+	printf("Error al inicializar la conexion: %u %s\n",mysql_errno(conn), mysql_error(conn));
+		
+    }
+	
+    sprintf(consulta,"SELECT Jugador.nombre FROM Jugador, Participacion "
+	"WHERE Participacion.idP = %d AND Participacion.idJ = Jugador.id;",idP);
 
+    err = mysql_query(conn,consulta);
+	
+    if (err!=0) {
+	printf("Error al consultar datos de la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+	
+    }
+	
+    resultado = mysql_store_result(conn);
+    row = mysql_fetch_row (resultado);
+	
+    if (row == NULL)
+	printf("No se han obtenido datos en la consulta\n");
+    else{
+	printf("Los Jugadores de la partida son:\n");
+	while (row !=NULL) {
+		printf("%s\n", row[0]);
+		sprintf(nombres,"%s%s,",nombres,row[0]);
+		row = mysql_fetch_row(resultado);
+	}
+	nombres[strlen(nombres)-1]='\0';
+    }
+    mysql_close(conn);
 }
 
 // Raul
 float bdd_puntuacion_media(int idJ) {
+    /*
+    Descripcion:
+        Devuelve el calculo del promedio de puntos de un jugador obtenidos en todas sus partidas
+    Parametros:
+        idJ: id del Jugador
+    Retorno:
+       	Promedio de puntos, -1 si ha habido un error
+    */
 
+    MYSQL *conn;
+    int err;
+    MYSQL_RES *resultado;
+    MYSQL_ROW row;
+    float media;
+    char nombre[20];
+    char consulta[100];
+	
+    conn=mysql_init(NULL);
+    if (conn==NULL) {
+	printf("Error al crear la conexion: %u %s\n",mysql_errno(conn), mysql_error(conn));
+	return -1;
+    }
+    conn=mysql_real_connect(conn, "localhost","root","mysql","catan",0,NULL,0);
+    if (conn==NULL) {
+	printf("Error al inicializar la conexion: %u %s\n",mysql_errno(conn), mysql_error(conn));
+	return -1;
+    }
+	
+    sprintf(consulta,"SELECT AVG(Participacion.puntos) FROM (Participacion) WHERE Participacion.idJ = %d;",idJ);
+
+    err = mysql_query(conn,consulta);
+	
+    if (err!=0) {
+	printf("Error al consultar datos de la base %u %s\n", mysql_errno(conn), mysql_error(conn));
+	return -1;
+    }
+	
+    resultado = mysql_store_result(conn);
+    row = mysql_fetch_row (resultado);
+	
+    if (row == NULL){
+	printf("No se han obtenido datos en la consulta\n");
+	media = 0;
+    }
+    else{
+	printf ("Promedio de puntos: %s puntos\n", row[0]);
+	media = atof(row[0]);
+    }
+    mysql_close(conn);
+    return media;
 }
 
 // Jonathan
-int bdd_posicion(int idJ, int idP) {
+int bdd_posicion(int idJ, int idP, int *puntuacion) {
     /*
     Descripcion:
         Devuelve la posicion en la que ha quedado el jugador en la partida.
@@ -199,7 +388,7 @@ int bdd_posicion(int idJ, int idP) {
     tabla = mysql_store_result(conn);
     numj = mysql_num_rows(tabla);
 
-    // Reservamos la memoria del array de puntos dinámicamente
+    // Reservamos la memoria del array de puntos dinamicamente
     puntos = (int *)calloc(numj, sizeof(int));
     puntuacion = -1;
     i = 0;
