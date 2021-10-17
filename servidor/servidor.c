@@ -24,6 +24,7 @@ int bdd_posicion(int idJ, int idP);                         // jon
 int bdd_nombre_pass(char *nombre, char *pass);
 int bdd_registrar_jugador(char *nombre, char *pass);
 int bdd_info_participaciones(int idP, int **ids, char *info);
+int bdd_info_partidas(int idJ, char *datos);
 
 int main(void) {
     int sock_listen, sock_conn, nbytes;
@@ -137,6 +138,7 @@ void pet_registrar_jugador(char *nombre, char *pass, char *respuesta) {
     */
     char pass_real[20];
     int idJ;
+    
 
     if (bdd_nombre_pass(nombre, NULL) == -1) {
         if (bdd_registrar_jugador(nombre, pass) == 0)
@@ -178,6 +180,25 @@ void pet_iniciar_sesion(char *nombre, char *pass, char *respuesta) {
 // TODO
 void pet_informacion_partidas_jugador(int idJ, char *respuesta) {
     
+    char datos[400];
+    int nump = bdd_info_partidas(idJ, datos);
+    char *p;
+    
+    sprintf(respuesta, "%d/",nump);
+    p = strtok(datos,"/");
+        
+    if (nump != -1){
+        int j = 1;
+        while (j<=nump){
+            sprintf(respuesta,"%s%s,%d,",respuesta,p,bdd_posicion(idJ,atoi(p)));
+            p = strtok(NULL,"/");
+            sprintf(respuesta,"%s%s,",respuesta,p);
+            p = strtok(NULL,"/");
+            j++;
+        }
+    }
+
+    respuesta[strlen(respuesta)-1]='\0';
 
 }
 
@@ -438,6 +459,64 @@ int bdd_registrar_jugador(char *nombre, char *pass) {
         mysql_close(conn);
         return 0;
     }
+}
+
+int bdd_info_partidas(int idJ, char *datos){
+    /*
+    Descripcion:
+    Obtiene informacion de las partidas de un Jugador
+    Parametros:
+    idJ: id del Jugador
+    datos: mensaje con formato idp1,puntos1,fechahora1,duracion1...
+    Retorno:
+    num. de Partidas si OK, -1 si ERR
+    */   
+    
+    MYSQL *conn;
+    MYSQL_RES *tabla;
+    MYSQL_ROW fila;
+    char consulta[200];
+    int nump;
+    
+    if ((conn = mysql_init(NULL)) == NULL) {
+        printf("Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
+    }
+    
+    conn = mysql_real_connect(conn, "localhost", "root", "mysql", "catan", 0, NULL, 0);
+    if (conn == NULL) {
+        printf("Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
+    }
+    
+    sprintf(consulta, "SELECT Partida.id,Participacion.puntos,Partida.fechahora,Partida.duracion "
+            "FROM (Partida,Participacion) "
+            "WHERE Participacion.idJ = %d AND Partida.id = Participacion.idP;", idJ);
+    
+    if (mysql_query(conn, consulta) != 0) {
+        printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        mysql_close(conn);
+        return -1;
+    }
+    
+    tabla = mysql_store_result(conn);
+    nump = mysql_num_rows(tabla);
+    if (nump == 0) {
+        mysql_close(conn);
+        return 0;
+    }
+    
+    datos[0] = '\0';
+    int j = 0;
+    while ((fila = mysql_fetch_row(tabla)) != NULL) {
+        sprintf(datos, "%s%s/%s,%s,%s/", datos, fila[0], fila[1], fila[2], fila[3]);
+        j++;
+    }
+    // Borrar barra
+    datos[strlen(datos)-1]='\0';
+    
+    mysql_close(conn);
+    return nump;
 }
 
 int bdd_info_participaciones(int idP, int **ids, char *info) {
