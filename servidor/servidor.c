@@ -28,7 +28,7 @@ int main(void) {
     struct sockaddr_in host_addr;
     char peticion[512], respuesta[512];
 
-    if ((sock_listen = socket(AF_INET, SOCK_STREM, 0)) < 0) {
+    if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
 		printf("Error creando el socket");
         return -1;
     }
