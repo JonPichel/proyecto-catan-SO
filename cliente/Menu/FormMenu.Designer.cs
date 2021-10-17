@@ -111,9 +111,9 @@ namespace cliente.Menu
             this.lblMedia.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.lblMedia.Location = new System.Drawing.Point(213, 250);
             this.lblMedia.Name = "lblMedia";
-            this.lblMedia.Size = new System.Drawing.Size(143, 19);
+            this.lblMedia.Size = new System.Drawing.Size(136, 19);
             this.lblMedia.TabIndex = 4;
-            this.lblMedia.Text = "Puntuación media: 0";
+            this.lblMedia.Text = "Puntuación media: ";
             // 
             // label1
             // 

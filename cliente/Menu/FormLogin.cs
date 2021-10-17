@@ -25,7 +25,7 @@ namespace cliente.Menu
         {
             // Conectar al servidor
             IPAddress addrServer = IPAddress.Parse("192.168.56.101");
-            IPEndPoint ipep = new IPEndPoint(addrServer, 9070);
+            IPEndPoint ipep = new IPEndPoint(addrServer, 4444);
 
             conn = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
