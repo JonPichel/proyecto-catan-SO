@@ -14,6 +14,7 @@ namespace cliente.Menu
     {
         Socket conn;
         int idJ;
+        bool noConn = false;
 
         public FormLogin()
         {
@@ -23,8 +24,8 @@ namespace cliente.Menu
         private void FormLogin_Load(object sender, EventArgs e)
         {
             // Conectar al servidor
-            IPAddress addrServer = IPAddress.Parse("10.0.2.2");
-            IPEndPoint ipep = new IPEndPoint(addrServer, 4444);
+            IPAddress addrServer = IPAddress.Parse("192.168.56.101");
+            IPEndPoint ipep = new IPEndPoint(addrServer, 9070);
 
             conn = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
@@ -35,6 +36,8 @@ namespace cliente.Menu
             catch (SocketException exc)
             {
                 MessageBox.Show("No he podido conectar con el servidor");
+                this.noConn = true;
+                this.Close();
             }
 
             // Inicializar GUI
@@ -43,13 +46,16 @@ namespace cliente.Menu
 
         private void FormLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Desconectar servidor
-            string pet = "0/";
-            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
-            conn.Send(pet_b);
+            if (!noConn)
+            {
+                // Desconectar servidor
+                string pet = "0/";
+                byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                conn.Send(pet_b);
 
-            conn.Shutdown(SocketShutdown.Both);
-            conn.Close();
+                conn.Shutdown(SocketShutdown.Both);
+                conn.Close();
+            }
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -63,19 +69,25 @@ namespace cliente.Menu
             string res = Encoding.ASCII.GetString(res_b).Split('\0')[0];
 
             this.idJ = Convert.ToInt32(res);
-            if (this.idJ != 0)
+            if (this.idJ != -1)
             {
                 this.Hide();
                 FormMenu formMenu = new FormMenu(this.conn, this.idJ);
                 formMenu.ShowDialog();
                 this.Close();
-            } else
+            } 
+            else
             {
                 txtNombre.Text = "";
                 txtPass.Text = "";
-                lblError.Text = "Credenciales incorrectas";
+                lblError.Text = "*Credenciales incorrectas";
                 lblError.Show();
             }
+        }
+
+        private void btnRegistro_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
