@@ -7,7 +7,7 @@
 #include <netinet/in.h> 
 #include <mysql.h>
 
-#define PORT        4445
+#define PORT        4444
 #define MAX_CONN    5
 
 /* Funciones peticiones */
@@ -150,6 +150,7 @@ void pet_registrar_jugador(char *nombre, char *pass, char *respuesta) {
         // Ya existe el usuario
         strcpy(respuesta, "NO");
 }
+
 //ALBA
 void pet_iniciar_sesion(char *nombre, char *pass, char *respuesta) {
     /*
@@ -177,33 +178,28 @@ void pet_iniciar_sesion(char *nombre, char *pass, char *respuesta) {
 }
 
 // Usar la de jonathan - ALBA
-// TODO
 void pet_informacion_partidas_jugador(int idJ, char *respuesta) {
     
     char datos[400];
     int nump = bdd_info_partidas(idJ, datos);
     char *p;
     
-    sprintf(respuesta, "%d/",nump);
-    p = strtok(datos,"/");
+    sprintf(respuesta, "%d/", nump);
+    p = strtok(datos, "#");
         
     if (nump != -1){
-        int j = 1;
-        while (j<=nump){
-            sprintf(respuesta,"%s%s,%d,",respuesta,p,bdd_posicion(idJ,atoi(p)));
-            p = strtok(NULL,"/");
-            sprintf(respuesta,"%s%s,",respuesta,p);
-            p = strtok(NULL,"/");
-            j++;
+        for (int j = 0; j < nump; j++) {
+            sprintf(respuesta,"%s%s,%d,", respuesta, p, bdd_posicion(idJ, atoi(p)));
+            p = strtok(NULL,"#");
+            sprintf(respuesta,"%s%s,", respuesta, p);
+            p = strtok(NULL,"#");
         }
     }
 
-    respuesta[strlen(respuesta)-1]='\0';
-
+    respuesta[strlen(respuesta) - 1]='\0';
 }
 
 // Usar las de jonathan y alba - JONATHAN
-// TODO
 void pet_informacion_partida(int idP, char *respuesta) {
     /*
     Descripcion:
@@ -491,7 +487,7 @@ int bdd_info_partidas(int idJ, char *datos){
     
     sprintf(consulta, "SELECT Partida.id,Participacion.puntos,Partida.fechahora,Partida.duracion "
             "FROM (Partida,Participacion) "
-            "WHERE Participacion.idJ = %d AND Partida.id = Participacion.idP;", idJ);
+            "WHERE Participacion.idJ = %d AND Partida.id = Participacion.idP ORDER BY Partida.id DESC;", idJ);
     
     if (mysql_query(conn, consulta) != 0) {
         printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
@@ -509,7 +505,7 @@ int bdd_info_partidas(int idJ, char *datos){
     datos[0] = '\0';
     int j = 0;
     while ((fila = mysql_fetch_row(tabla)) != NULL) {
-        sprintf(datos, "%s%s/%s,%s,%s/", datos, fila[0], fila[1], fila[2], fila[3]);
+        sprintf(datos, "%s%s#%s,%s,%s#", datos, fila[0], fila[1], fila[2], fila[3]);
         j++;
     }
     // Borrar barra
