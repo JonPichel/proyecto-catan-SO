@@ -23,6 +23,7 @@ float bdd_puntuacion_media(int idJ);                        // raul
 int bdd_posicion(int idJ, int idP);                         // jon
 int bdd_nombre_pass(char *nombre, char *pass);
 int bdd_registrar_jugador(char *nombre, char *pass);
+int bdd_info_participaciones(int idP, int **ids, char *puntuaciones);
 
 int main(void) {
     int sock_listen, sock_conn, nbytes;
@@ -173,13 +174,14 @@ void pet_iniciar_sesion(char *nombre, char *pass, char *respuesta) {
         strcpy(respuesta, "-1");
 }
 
-// Usar la de jonathan - JONATHAN
+// Usar la de jonathan - ALBA
 // TODO
 void pet_informacion_partidas_jugador(int idJ, char *respuesta) {
+    
 
 }
 
-// Usar las de jonathan y alba - ALBA
+// Usar las de jonathan y alba - JONATHAN
 // TODO
 void pet_informacion_partida(int idP, char *respuesta) {
     char nombres[100];
@@ -462,4 +464,61 @@ int bdd_registrar_jugador(char *nombre, char *pass) {
         mysql_close(conn);
         return 0;
     }
+}
+
+int bdd_info_participaciones(int idP, int **ids, char *puntuaciones) {
+    /*
+    Descripcion:
+        Obtiene informacion de las participaciones de una partida
+    Parametros:
+        idP: id de la partida
+        ids: pointer a un vector de ids
+        puntuaciones: mensaje con formato puntos1,puntos2...
+    Retorno:
+        num. de Jugadores si OK, -1 si ERR
+    */
+    MYSQL *conn;
+    MYSQL_RES *tabla;
+    MYSQL_ROW fila;
+    char consulta[160];
+    int numj;
+
+    if ((conn = mysql_init(NULL)) == NULL) {
+        printf("Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
+    }
+
+    conn = mysql_real_connect(conn, "localhost", "root", "mysql", "catan", 0, NULL, 0);
+    if (conn == NULL) {
+        printf("Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
+    }
+
+    sprintf(consulta, "SELECT Jugador.id, Participacion.puntos FROM (Jugador, Participacion)"
+            "WHERE Participacion.IdP = %d AND Jugador.id = Participacion.idJ;", idP);
+
+    if (mysql_query(conn, consulta) != 0) {
+        printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        mysql_close(conn);
+        return -1;
+    }
+
+    tabla = mysql_store_result(conn);
+    numj = mysql_num_rows(tabla);
+    if (numj == 0) {
+        mysql_close(conn);
+        return 0;
+    }
+
+    *ids = (int *)malloc(sizeof(int) * numj);
+
+    int j = 0;
+    while ((fila = mysql_fetch_row(tabla)) != NULL) {
+        *ids[j] = atoi(fila[0]);
+        sprintf(puntuaciones, "%s%s,%s,", fila[1]);
+        j++;
+    }
+
+    mysql_close(conn);
+    return numj;
 }
