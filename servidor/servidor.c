@@ -18,7 +18,6 @@ void pet_informacion_partida(int idP, char *respuesta);
 void pet_puntuacion_media_jugador(int idJ, char *respuesta);
 
 /* Consultas bases de datos (ejercicios individuales) */
-int bdd_nombres_jugadores_partida(int idP, char *nombres); // alba
 float bdd_puntuacion_media(int idJ);                        // raul
 int bdd_posicion(int idJ, int idP);                         // jon
 int bdd_nombre_pass(char *nombre, char *pass);

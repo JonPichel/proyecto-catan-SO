@@ -1,6 +1,10 @@
-# proyecto-catan-SO
-Proyecto de Sistemas Operativos del Grupo 8 (QT 21/22)
+# Proyecto SO - Grupo 8
 
-# Equipo
+## Catan
 
-Raúl Criado, Alba Roma, Jonathan Pichel
+## Versión 1
+
+Cliente-Servidor y consultas básicas
+ * **Generada** por Jonathan
+ * **Verificada** por Raúl
+ * **Comunicada** por Alba
