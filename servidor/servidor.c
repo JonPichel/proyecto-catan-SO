@@ -6,8 +6,9 @@
 #include <sys/socket.h> 
 #include <netinet/in.h> 
 #include <mysql.h>
+#include <pthread.h>
 
-#define PORT        4445
+#define PORT        4444
 #define MAX_CONN    5
 
 /* Funciones peticiones */
@@ -25,10 +26,12 @@ int bdd_registrar_jugador(char *nombre, char *pass);
 int bdd_info_participaciones(int idP, int **ids, char *info);
 int bdd_info_partidas(int idJ, char *datos);
 
+/* Funcion AtenderCliente */
+void *AtenderCliente (void *socket);
+
 int main(void) {
-    int sock_listen, sock_conn, nbytes;
+    int sock_listen, sock_conn;
     struct sockaddr_in host_addr;
-    char peticion[512], respuesta[512];
 
     if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
 		printf("Error creando el socket");
@@ -53,76 +56,20 @@ int main(void) {
 		printf("Error en el listen");
         return -1;
     }
-
-    char *p;
-    int codigo;
+    
+    int **sockets;
+    pthread_t **thread;
+    
     while (1) {
         printf("Escuchando...\n");
 
         sock_conn = accept(sock_listen, NULL, NULL);
         printf("Conexion establecida\n");
-        while (1) {
-            nbytes = read(sock_conn, peticion, sizeof(peticion));
-            peticion[nbytes] = '\0';
-            printf("Peticion: %s\n", peticion);
-
-            p = strtok(peticion, "/");
-            codigo = atoi(p);
-
-            if (codigo == 0) {
-                /* CERRAR CONEXION */
-                break;
-            }
-
-            char nombre[20], pass[20];
-            int idJ, idP;
-            switch (codigo) {
-                case 1:
-                    /* REGISTRO DE JUGADOR */
-                    p = strtok(NULL, ",");
-                    strncpy(nombre, p, sizeof(nombre));
-                    p = strtok(NULL, ",");
-                    strncpy(pass, p, sizeof(pass));
-                    pet_registrar_jugador(nombre, pass, respuesta);
-                    break;
-                case 2:
-                    /* INICIO SESION DE JUGADOR */
-                    p = strtok(NULL, ",");
-                    strncpy(nombre, p, sizeof(nombre));
-                    p = strtok(NULL, ",");
-                    strncpy(pass, p, sizeof(pass));
-                    pet_iniciar_sesion(nombre, pass, respuesta);
-                    break;
-                case 3:
-                    /* PARTIDAS DE JUGADOR */
-                    p = strtok(NULL, ",");
-                    idJ = atoi(p);
-                    pet_informacion_partidas_jugador(idJ, respuesta);
-                    break;
-                case 4:
-                    /* INFORMACION DE PARTIDA */
-                    p = strtok(NULL, ",");
-                    idP = atoi(p);
-                    pet_informacion_partida(idP, respuesta);
-                    break;
-                case 5:
-                    /* PUNTUACION MEDIA DE JUGADOR */
-                    p = strtok(NULL, ",");
-                    idJ = atoi(p);
-                    pet_puntuacion_media_jugador(idJ, respuesta);
-                    break;
-                default:
-                    printf("Peticion desconocida: %d\n", codigo);
-                    close(sock_conn);
-                    return -1;
-            }
-
-            printf("Respuesta: %s\n", respuesta);
-            write(sock_conn, respuesta, strlen(respuesta));
-        }
-
-        printf("Cerrando conexion...\n\n\n");
-        close(sock_conn);
+        
+        sockets = sock_conn;
+        
+        pthread_create(&thread,NULL,AtenderCliente,&sockets);
+    
     }
 }
 //JONATHAN
@@ -573,3 +520,81 @@ int bdd_info_participaciones(int idP, int **ids, char *info) {
     mysql_close(conn);
     return numj;
 }
+
+void *AtenderCliente (void *socket)
+{
+    int sock_conn;
+    int *s;
+    s= (int *) socket;
+    sock_conn= *s;
+    
+    char peticion[512], respuesta[512];
+    int nbytes;
+    char *p;
+    int codigo;
+    
+    
+    while (1) {
+        nbytes = read(sock_conn, peticion, sizeof(peticion));
+        peticion[nbytes] = '\0';
+        printf("Peticion: %s\n", peticion);
+        
+        p = strtok(peticion, "/");
+        codigo = atoi(p);
+        
+        if (codigo == 0) {
+            /* CERRAR CONEXION */
+            break;
+        }
+        
+        char nombre[20], pass[20];
+        int idJ, idP;
+        switch (codigo) {
+        case 1:
+            /* REGISTRO DE JUGADOR */
+            p = strtok(NULL, ",");
+            strncpy(nombre, p, sizeof(nombre));
+            p = strtok(NULL, ",");
+            strncpy(pass, p, sizeof(pass));
+            pet_registrar_jugador(nombre, pass, respuesta);
+            break;
+        case 2:
+            /* INICIO SESION DE JUGADOR */
+            p = strtok(NULL, ",");
+            strncpy(nombre, p, sizeof(nombre));
+            p = strtok(NULL, ",");
+            strncpy(pass, p, sizeof(pass));
+            pet_iniciar_sesion(nombre, pass, respuesta);
+            break;
+        case 3:
+            /* PARTIDAS DE JUGADOR */
+            p = strtok(NULL, ",");
+            idJ = atoi(p);
+            pet_informacion_partidas_jugador(idJ, respuesta);
+            break;
+        case 4:
+            /* INFORMACION DE PARTIDA */
+            p = strtok(NULL, ",");
+            idP = atoi(p);
+            pet_informacion_partida(idP, respuesta);
+            break;
+        case 5:
+            /* PUNTUACION MEDIA DE JUGADOR */
+            p = strtok(NULL, ",");
+            idJ = atoi(p);
+            pet_puntuacion_media_jugador(idJ, respuesta);
+            break;
+        default:
+            printf("Peticion desconocida: %d\n", codigo);
+            close(sock_conn);
+            return -1;
+        }
+        
+        printf("Respuesta: %s\n", respuesta);
+        write(sock_conn, respuesta, strlen(respuesta));
+    }
+        
+    printf("Cerrando conexion...\n\n\n");
+    close(sock_conn);
+}
+
