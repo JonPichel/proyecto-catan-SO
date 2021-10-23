@@ -137,8 +137,7 @@ void pet_iniciar_sesion(char *nombre, char *pass, char *respuesta) {
 
 // Usar la de jonathan - ALBA
 void pet_informacion_partidas_jugador(int idJ, char *respuesta) {
-    
-    char datos[400];
+    char datos[512];
     int nump = bdd_info_partidas(idJ, datos);
     char *p;
     
@@ -291,8 +290,12 @@ float bdd_puntuacion_media(int idJ) {
     // No hay partidas para el jugador
     if (fila == NULL)
         return -1;
-    else
-        return atof(fila[0]);
+    else {
+        if (fila[0] != NULL)
+            return atof(fila[0]);
+        else
+            return -1;
+    }
 }
 
 // Jonathan
