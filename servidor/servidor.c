@@ -8,7 +8,6 @@
 #include <mysql.h>
 #include <pthread.h>
 
-#define PORT        4444
 #define MAX_CONN    5
 
 /* Funciones peticiones */
@@ -26,12 +25,25 @@ int bdd_registrar_jugador(char *nombre, char *pass);
 int bdd_info_participaciones(int idP, int **ids, char *info);
 int bdd_info_partidas(int idJ, char *datos);
 
-/* Funcion AtenderCliente */
-void *AtenderCliente (void *socket);
+void *atender_cliente(void *socket);
 
-int main(void) {
+int main(int argc, char *argv[]) {
     int sock_listen, sock_conn;
     struct sockaddr_in host_addr;
+    int puerto;
+
+    if (argc < 2) {
+        printf("Uso: %s <PORT>\n", argv[0]);
+        return -1;
+    } else {
+        puerto = atoi(argv[1]);
+        if (puerto == 0) {
+            printf("Numero de puerto invalido: %s\n", argv[1]);
+            return -1;
+        } else {
+            printf("Se usara el #%d\n", puerto);
+        }
+    }
 
     if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
 		printf("Error creando el socket");
@@ -43,7 +55,7 @@ int main(void) {
 	host_addr.sin_family = AF_INET;
     // Asocia el socket a cualquier IP de la maquina
 	host_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-	host_addr.sin_port = htons(PORT);
+	host_addr.sin_port = htons(puerto);
 
     // Hacemos bind al socket
 	if (bind(sock_listen, (struct sockaddr *)&host_addr, sizeof(host_addr)) < 0) {
@@ -57,19 +69,19 @@ int main(void) {
         return -1;
     }
     
-    int **sockets;
-    pthread_t **thread;
-    
-    while (1) {
+    int sockets[100];
+    pthread_t threads[100];
+    for (int i = 0; i < 10; i++) {
         printf("Escuchando...\n");
 
         sock_conn = accept(sock_listen, NULL, NULL);
         printf("Conexion establecida\n");
         
-        sockets = sock_conn;
-        
-        pthread_create(&thread,NULL,AtenderCliente,&sockets);
-    
+        sockets[i] = sock_conn;
+        pthread_create(&threads[i], NULL, atender_cliente, &sock_conn);
+    }
+    for (int i = 0; i < 10; i++) {
+        pthread_join(threads[i], NULL);
     }
 }
 //JONATHAN
@@ -521,18 +533,11 @@ int bdd_info_participaciones(int idP, int **ids, char *info) {
     return numj;
 }
 
-void *AtenderCliente (void *socket)
-{
-    int sock_conn;
-    int *s;
-    s= (int *) socket;
-    sock_conn= *s;
-    
+void *atender_cliente(void *socket) {
+    int sock_conn = *(int *)socket;
     char peticion[512], respuesta[512];
-    int nbytes;
     char *p;
-    int codigo;
-    
+    int nbytes, codigo;
     
     while (1) {
         nbytes = read(sock_conn, peticion, sizeof(peticion));
@@ -587,7 +592,7 @@ void *AtenderCliente (void *socket)
         default:
             printf("Peticion desconocida: %d\n", codigo);
             close(sock_conn);
-            return -1;
+            return NULL;
         }
         
         printf("Respuesta: %s\n", respuesta);
