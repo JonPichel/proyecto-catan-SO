@@ -28,6 +28,12 @@ namespace cliente.Menu
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            if (txtNombre.Text == "" || txtPass.Text == "")
+            {
+                lblError.Text = "Falta uno de los datos";
+                lblError.Show();
+                return;
+            }
             string pet = "2/" + txtNombre.Text + "," + txtPass.Text;
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             this.conn.Send(pet_b);
@@ -46,7 +52,7 @@ namespace cliente.Menu
             {
                 txtNombre.Text = "";
                 txtPass.Text = "";
-                lblError.Text = "*Credenciales incorrectas";
+                lblError.Text = "Credenciales incorrectas";
                 lblError.Show();
             }
         }

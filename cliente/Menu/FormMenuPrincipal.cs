@@ -25,7 +25,7 @@ namespace cliente.Menu
         {
             // Conectar al servidor
             IPAddress addrServer = IPAddress.Parse("10.0.2.2");
-            IPEndPoint ipep = new IPEndPoint(addrServer, 4445);
+            IPEndPoint ipep = new IPEndPoint(addrServer, 4444);
 
             conn = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
@@ -35,7 +35,9 @@ namespace cliente.Menu
             }
             catch (SocketException exc)
             {
-                MessageBox.Show("No he podido conectar con el servidor");
+                MessageBox.Show("No se ha podido conectar con el servidor.", "Error de conexión",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.conn = null;
                 this.Close();
             }
 
