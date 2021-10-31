@@ -1,7 +1,7 @@
 ﻿
-namespace cliente.Menu
+namespace cliente.Partida
 {
-    partial class FormMenuPrincipal
+    partial class FormPartida
     {
         /// <summary>
         /// Required designer variable.
@@ -29,19 +29,16 @@ namespace cliente.Menu
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMenuPrincipal));
             this.SuspendLayout();
             // 
-            // FormMenuPrincipal
+            // FormPartida
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(609, 401);
-            this.Name = "FormMenuPrincipal";
-            this.Text = "Menu";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMenuPrincipal_FormClosing);
-            this.Load += new System.EventHandler(this.FormMenuPrincipal_Load);
+            this.Name = "FormPartida";
+            this.Text = "Partida";
+            this.Load += new System.EventHandler(this.FormPartida_Load);
             this.ResumeLayout(false);
 
         }
