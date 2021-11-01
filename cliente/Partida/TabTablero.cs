@@ -63,6 +63,22 @@ namespace cliente.Partida
         Point basePoint;
         Point oldMouse;
 
+        Bitmap[] numbers = new Bitmap[]
+        {
+            cliente.Properties.Resources._1,
+            cliente.Properties.Resources._2,
+            cliente.Properties.Resources._3,
+            cliente.Properties.Resources._4,
+            cliente.Properties.Resources._5,
+            cliente.Properties.Resources._6,
+            cliente.Properties.Resources._7,
+            cliente.Properties.Resources._8,
+            cliente.Properties.Resources._9,
+            cliente.Properties.Resources._10,
+            cliente.Properties.Resources._11,
+            cliente.Properties.Resources._12,
+        };
+
         public TabTablero()
         {
             InitializeComponent();
@@ -87,38 +103,44 @@ namespace cliente.Partida
         {
             e.Graphics.Clear(Color.Gray);
 
-            Image img;
+            Bitmap bmp;
             Size size = new Size(Tile.BWIDTH / this.zoomLevel, Tile.BHEIGHT / this.zoomLevel);
             foreach (Tile tile in this.tiles)
             {
                 switch (tile)
                 {
                     case TileDesierto desierto:
-                        img = TileDesierto.Image;
+                        bmp = TileDesierto.Bitmap;
                         break;
                     case TileMar mar:
-                        img = TileMar.Image;
+                        bmp = TileMar.Bitmap;
                         break;
                     case TileMadera madera:
-                        img = TileMadera.Image;
+                        bmp = TileMadera.Bitmap;
                         break;
                     case TileLadrillo ladrillo:
-                        img = TileLadrillo.Image;
+                        bmp = TileLadrillo.Bitmap;
                         break;
                     case TileOveja oveja:
-                        img = TileOveja.Image;
+                        bmp = TileOveja.Bitmap;
                         break;
                     case TileTrigo trigo:
-                        img = TileTrigo.Image;
+                        bmp = TileTrigo.Bitmap;
                         break;
                     case TilePiedra piedra:
-                        img = TilePiedra.Image;
+                        bmp = TilePiedra.Bitmap;
                         break;
                     default:
-                        img = TileDesierto.Image;
+                        bmp = TileDesierto.Bitmap;
                         break;
                 }
-                e.Graphics.DrawImage(img, new Rectangle(tile.PixelCoords(this.basePoint, this.zoomLevel), size));
+                Rectangle rect = new Rectangle(tile.PixelCoords(this.basePoint, this.zoomLevel), size);
+                e.Graphics.DrawImage(bmp, rect);
+                if (tile.valor != null)
+                {
+                    e.Graphics.DrawImage(numbers[(int)tile.valor - 1], rect);
+                }
+                
             }
         }
 

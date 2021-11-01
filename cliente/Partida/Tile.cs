@@ -35,7 +35,7 @@ namespace cliente.Partida
 
     class TileDesierto : Tile
     {
-        public static readonly Image Image = Image.FromFile("../../../Media/Images/TileDesierto.png", true);
+        public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.TileDesiertoBmp);
 
         public TileDesierto(int q, int r) : base(q, r, null)
         {
@@ -44,7 +44,7 @@ namespace cliente.Partida
 
     class TileMar : Tile
     {
-        public static readonly Image Image = Image.FromFile("../../../Media/Images/TileDesierto.png", true);
+        public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.TileMarBmp);
 
         public TileMar(int q, int r) : base(q, r, null)
         {
@@ -53,7 +53,7 @@ namespace cliente.Partida
 
     class TileMadera : Tile
     {
-        public static readonly Image Image = Image.FromFile("../../../Media/Images/TileMadera.png", true);
+        public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.TileMaderaBmp);
 
         public TileMadera(int q, int r, int value) : base(q, r, value)
         {
@@ -62,7 +62,7 @@ namespace cliente.Partida
 
     class TileLadrillo : Tile
     {
-        public static readonly Image Image  = Image.FromFile("../../../Media/Images/TileLadrillo.png", true);
+        public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.TileLadrilloBmp);
 
         public TileLadrillo(int q, int r, int value) : base(q, r, value)
         {
@@ -71,7 +71,7 @@ namespace cliente.Partida
 
     class TileOveja : Tile
     {
-        public static readonly Image Image = Image.FromFile("../../../Media/Images/TileOveja.png", true);
+        public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.TileOvejaBmp);
 
         public TileOveja(int q, int r, int value) : base(q, r, value)
         {
@@ -80,7 +80,7 @@ namespace cliente.Partida
 
     class TileTrigo : Tile
     {
-        public static readonly Image Image = Image.FromFile("../../../Media/Images/TileTrigo.png", true);
+        public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.TileTrigoBmp);
 
         public TileTrigo(int q, int r, int value) : base(q, r, value)
         {
@@ -89,7 +89,7 @@ namespace cliente.Partida
 
     class TilePiedra : Tile
     {
-        public static readonly Image Image = Image.FromFile("../../../Media/Images/TilePiedra.png", true);
+        public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.TilePiedraBmp);
 
         public TilePiedra(int q, int r, int value) : base(q, r, value)
         {
