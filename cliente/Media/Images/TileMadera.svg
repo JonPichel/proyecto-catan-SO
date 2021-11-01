@@ -9,6 +9,9 @@
    id="svg1522"
    inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
    sodipodi:docname="TileMadera.svg"
+   inkscape:export-filename="/home/jonathanpc/Documentos/Clase/3A/SO/proyecto-catan-SO/cliente/Media/Images/TileMadera.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -28,7 +31,7 @@
      width="4096px"
      height="4096px"
      inkscape:zoom="0.76373057"
-     inkscape:cx="150.57666"
+     inkscape:cx="144.68453"
      inkscape:cy="305.08141"
      inkscape:window-width="1366"
      inkscape:window-height="739"
@@ -201,7 +204,7 @@
          transform="translate(-0.60339778,2.3187086)">
         <path
            sodipodi:type="star"
-           style="fill:#2f5433;fill-opacity:0.806316;fill-rule:evenodd;stroke:none;stroke-width:8;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           style="fill:#4d7252;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:8;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            id="path277-1-5"
            inkscape:flatsided="true"
            sodipodi:sides="6"
@@ -217,7 +220,7 @@
            d="m 1335.6991,767.21652 c -12.8,22.17025 -196.1025,128.00001 -221.7025,128.00002 -25.6,0 -208.90249,-105.82972 -221.70249,-127.99997 -12.80001,-22.17025 -12.80003,-233.82974 -3e-5,-255.99999 12.8,-22.17025 196.10252,-128.00001 221.70252,-128.00001 25.6,0 208.9025,105.82972 221.7025,127.99997 12.8,22.17024 12.8,233.82973 0,255.99998 z" />
         <path
            sodipodi:type="star"
-           style="fill:#4c432a;fill-opacity:0.728421;fill-rule:evenodd;stroke:none;stroke-width:8;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           style="fill:#504b36;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:8;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            id="path277-1"
            inkscape:flatsided="true"
            sodipodi:sides="6"
