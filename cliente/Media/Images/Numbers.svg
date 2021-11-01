@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="443.405"
+   height="512"
+   viewBox="0 0 443.405 512.00001"
+   version="1.1"
+   id="svg1522"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="Numbers.svg"
+   inkscape:export-filename="/home/jonathanpc/Documentos/Clase/3A/SO/proyecto-catan-SO/cliente/Media/Images/12.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1524"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="true"
+     units="px"
+     width="4096px"
+     height="4096px"
+     inkscape:zoom="0.5"
+     inkscape:cx="187"
+     inkscape:cy="264"
+     inkscape:window-width="1366"
+     inkscape:window-height="739"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g441"
+     inkscape:snap-bbox="true"
+     inkscape:snap-intersection-paths="false"
+     inkscape:object-nodes="true"
+     inkscape:snap-smooth-nodes="false"
+     inkscape:object-paths="false"
+     inkscape:snap-midpoints="true"
+     showguides="false">
+    <inkscape:grid
+       type="axonomgrid"
+       id="grid36"
+       spacingy="256"
+       empspacing="2"
+       units="px"
+       originy="128" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1519">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3924">
+      <path
+         sodipodi:type="star"
+         style="fill:#ff482a;fill-opacity:0.704312;fill-rule:evenodd;stroke:#ec2727;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         id="path3926"
+         inkscape:flatsided="true"
+         sodipodi:sides="6"
+         sodipodi:cx="456.68387"
+         sodipodi:cy="488.34238"
+         sodipodi:r1="230.39999"
+         sodipodi:r2="199.53226"
+         sodipodi:arg1="0.52359878"
+         sodipodi:arg2="1.0471976"
+         inkscape:rounded="0.1"
+         inkscape:randomized="0" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3924-3">
+      <path
+         sodipodi:type="star"
+         style="fill:#ff482a;fill-opacity:0.704312;fill-rule:evenodd;stroke:#ec2727;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         id="path3926-6"
+         inkscape:flatsided="true"
+         sodipodi:sides="6"
+         sodipodi:cx="456.68387"
+         sodipodi:cy="488.34238"
+         sodipodi:r1="230.39999"
+         sodipodi:r2="199.53226"
+         sodipodi:arg1="0.52359878"
+         sodipodi:arg2="1.0471976"
+         inkscape:rounded="0.1"
+         inkscape:randomized="0" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath5817">
+      <path
+         id="path5819"
+         style="fill:#7fff2a;stroke:none;stroke-width:5.93201;stroke-linejoin:round"
+         d="m 2083.6424,1791.7302 c -18.9823,32.8787 -290.8203,189.8243 -328.7852,189.8243 -37.9648,0 -309.8027,-156.9458 -328.7851,-189.8243 -18.9825,-32.8786 -18.9825,-346.77 0,-379.6485 18.9824,-32.8786 290.8203,-189.8243 328.7851,-189.8243 37.9649,0 309.8029,156.9458 328.7852,189.8243 18.9826,32.8787 18.9826,346.77 0,379.6485 z" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath5817-7">
+      <path
+         id="path5819-5"
+         style="fill:#7fff2a;stroke:none;stroke-width:5.93201;stroke-linejoin:round"
+         d="m 2083.6424,1791.7302 c -18.9823,32.8787 -290.8203,189.8243 -328.7852,189.8243 -37.9648,0 -309.8027,-156.9458 -328.7851,-189.8243 -18.9825,-32.8786 -18.9825,-346.77 0,-379.6485 18.9824,-32.8786 290.8203,-189.8243 328.7851,-189.8243 37.9649,0 309.8029,156.9458 328.7852,189.8243 18.9826,32.8787 18.9826,346.77 0,379.6485 z" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath978">
+      <path
+         id="path980"
+         style="fill:#7fff2a;stroke:none;stroke-width:5.93201;stroke-linejoin:round"
+         d="m 2078.081,1770.1804 c -18.9823,32.8787 -290.8203,189.8244 -328.7852,189.8244 -37.9648,0 -309.8027,-156.9459 -328.7851,-189.8244 -18.9825,-32.8786 -18.9825,-346.77 0,-379.6485 18.9824,-32.8786 290.8203,-189.8243 328.7851,-189.8243 37.9649,0 309.8029,156.9458 328.7852,189.8243 18.9826,32.8788 18.9826,346.77 0,379.6485 z" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath1120">
+      <path
+         id="path1122"
+         style="fill:#cccccc;stroke:none;stroke-width:2.29183;stroke-linejoin:round"
+         d="m 3171.1954,1063.0178 c -7.3338,12.7026 -112.3584,73.3386 -127.0262,73.3386 -14.6677,0 -119.6923,-60.636 -127.0261,-73.3386 -7.3339,-12.7027 -7.3339,-133.97465 0,-146.67725 7.3338,-12.70267 112.3584,-73.33861 127.0261,-73.33861 14.6678,0 119.6924,60.636 127.0262,73.33861 7.3339,12.70267 7.3339,133.97465 0,146.67725 z" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath6120">
+      <path
+         sodipodi:type="star"
+         style="fill:#ffcc00;fill-opacity:0.647541;fill-rule:evenodd;stroke:#5d5d5d;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+         id="path6122"
+         inkscape:flatsided="true"
+         sodipodi:sides="6"
+         sodipodi:cx="335.8732"
+         sodipodi:cy="299.88458"
+         sodipodi:r1="230.39999"
+         sodipodi:r2="199.53226"
+         sodipodi:arg1="0.52359878"
+         sodipodi:arg2="1.0471976"
+         inkscape:rounded="0.1"
+         inkscape:randomized="0" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath6120-2">
+      <path
+         sodipodi:type="star"
+         style="fill:#ffcc00;fill-opacity:0.647541;fill-rule:evenodd;stroke:#5d5d5d;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+         id="path6122-9"
+         inkscape:flatsided="true"
+         sodipodi:sides="6"
+         sodipodi:cx="335.8732"
+         sodipodi:cy="299.88458"
+         sodipodi:r1="230.39999"
+         sodipodi:r2="199.53226"
+         sodipodi:arg1="0.52359878"
+         sodipodi:arg2="1.0471976"
+         inkscape:rounded="0.1"
+         inkscape:randomized="0" />
+    </clipPath>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       inkscape:label="Image"
+       id="g441"
+       transform="translate(-221.7025)">
+      <g
+         id="g2104" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:196px;line-height:1.25;font-family:'Noto Serif Display';-inkscape-font-specification:'Noto Serif Display';text-align:center;text-anchor:middle;fill:#ffffff"
+         x="444.09082"
+         y="326.952"
+         id="text1464"
+         inkscape:export-filename="/home/jonathanpc/Documentos/Clase/3A/SO/proyecto-catan-SO/cliente/Media/Images/9.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96"><tspan
+           sodipodi:role="line"
+           id="tspan1462"
+           x="444.09082"
+           y="326.952">12</tspan></text>
+    </g>
+  </g>
+</svg>
