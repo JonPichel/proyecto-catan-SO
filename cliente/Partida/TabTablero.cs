@@ -52,11 +52,21 @@ namespace cliente.Partida
                 new TileMar(0, 3)
             };
         }
+
+        public static List<FichaVertice> GetFichasVertices()
+        {
+            return new List<FichaVertice>()
+            {
+                new FichaPoblado(1, -1, FichaVertice.Vertice.Superior, ColorJugador.Rojo),
+                new FichaCiudad(-1, 1, FichaVertice.Vertice.Inferior, ColorJugador.Azul)
+            };
+        }
     }
 
     public partial class TabTablero : Tab
     {
         Tile[] tiles;
+        List<FichaVertice> fichasVertices;
 
         int zoomLevel;
 
@@ -87,6 +97,7 @@ namespace cliente.Partida
         private void TabTablero_Load(object sender, EventArgs e)
         {
             this.tiles = TableroPrueba.GetTiles();
+            this.fichasVertices = TableroPrueba.GetFichasVertices();
             this.zoomLevel = 8;
             this.basePoint = new Point(this.Width / 2, this.Height / 2);
 
@@ -140,7 +151,23 @@ namespace cliente.Partida
                 {
                     e.Graphics.DrawImage(numbers[(int)tile.valor - 1], rect);
                 }
-                
+            }
+            size = new Size(FichaVertice.BHALFSIDE * 2 / this.zoomLevel, FichaVertice.BHALFSIDE * 2 / this.zoomLevel);
+            foreach (FichaVertice ficha in fichasVertices)
+            {
+                switch (ficha)
+                {
+                    case FichaPoblado poblado:
+                        bmp = FichaPoblado.Bitmap;
+                        break;
+                    case FichaCiudad ciudad:
+                        bmp = FichaCiudad.Bitmap;
+                        break;
+                    default:
+                        bmp = FichaPoblado.Bitmap;
+                        break;
+                }
+                e.Graphics.DrawImage(bmp, new Rectangle(ficha.PixelCoords(this.basePoint, this.zoomLevel), size));
             }
         }
 
