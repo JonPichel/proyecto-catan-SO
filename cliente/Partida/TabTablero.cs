@@ -5,64 +5,10 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace cliente.Partida
 {
-    public static class TableroPrueba
-    {
-        public static Tile[] GetTiles()
-        {
-            return new Tile[] {
-                new TileMar(0, -3),
-                new TileMar(1, -3),
-                new TileMar(2, -3),
-                new TileMar(3, -3),
-                new TileMar(-1, -2),
-                new TileMadera(0, -2, 6),
-                new TileOveja(1, -2, 3),
-                new TileOveja(2, -2, 8),
-                new TileMar(3, -2),
-                new TileMar(-2, -1),
-                new TileTrigo(-1, -1, 2),
-                new TilePiedra(0, -1, 4),
-                new TileTrigo(1, -1, 5),
-                new TileMadera(2, -1, 10),
-                new TileMar(3, -1),
-                new TileMar(-3, 0),
-                new TileMadera(-2, 0, 5),
-                new TileLadrillo(-1, 0, 9),
-                new TileDesierto(0, 0),
-                new TilePiedra(1, 0, 6),
-                new TileTrigo(2, 0, 9),
-                new TileMar(3, 0),
-                new TileMar(-3, 1),
-                new TileTrigo(-2, 1, 10),
-                new TilePiedra(-1, 1, 11),
-                new TileMadera(0, 1, 3),
-                new TileOveja(1, 1, 12),
-                new TileMar(2, 1),
-                new TileMar(-3, 2),
-                new TileLadrillo(-2, 2, 8),
-                new TileOveja(-1, 2, 4),
-                new TileLadrillo(0, 2, 11),
-                new TileMar(1, 2),
-                new TileMar(-3, 3),
-                new TileMar(-2, 3),
-                new TileMar(-1, 3),
-                new TileMar(0, 3)
-            };
-        }
-
-        public static List<FichaVertice> GetFichasVertices()
-        {
-            return new List<FichaVertice>()
-            {
-                new FichaPoblado(1, -1, FichaVertice.Vertice.Superior, ColorJugador.Rojo),
-                new FichaCiudad(-1, 1, FichaVertice.Vertice.Inferior, ColorJugador.Azul)
-            };
-        }
-    }
-
     public partial class TabTablero : Tab
     {
         Tile[] tiles;
@@ -98,13 +44,15 @@ namespace cliente.Partida
         {
             this.tiles = TableroPrueba.GetTiles();
             this.fichasVertices = TableroPrueba.GetFichasVertices();
-            this.zoomLevel = 8;
+            this.zoomLevel = 5;
             this.basePoint = new Point(this.Width / 2, this.Height / 2);
 
             this.Paint += TabTablero_Paint;
             this.MouseWheel += TabTablero_MouseWheel;
             this.MouseDown += TabTablero_MouseDown;
             this.MouseMove += TabTablero_MouseMove;
+            this.MouseClick += TabTablero_Click;
+            this.KeyDown += TabTablero_KeyDown;
 
             // Para que sea más fluido el repintado
             this.DoubleBuffered = true;
@@ -145,11 +93,11 @@ namespace cliente.Partida
                         bmp = TileDesierto.Bitmap;
                         break;
                 }
-                Rectangle rect = new Rectangle(tile.PixelCoords(this.basePoint, this.zoomLevel), size);
+                Rectangle rect = new Rectangle(tile.HexToPixel(this.basePoint, this.zoomLevel), size);
                 e.Graphics.DrawImage(bmp, rect);
-                if (tile.valor != null)
+                if (tile.Valor != null)
                 {
-                    e.Graphics.DrawImage(numbers[(int)tile.valor - 1], rect);
+                    e.Graphics.DrawImage(numbers[(int)tile.Valor - 1], rect);
                 }
             }
             size = new Size(FichaVertice.BHALFSIDE * 2 / this.zoomLevel, FichaVertice.BHALFSIDE * 2 / this.zoomLevel);
@@ -167,7 +115,7 @@ namespace cliente.Partida
                         bmp = FichaPoblado.Bitmap;
                         break;
                 }
-                e.Graphics.DrawImage(bmp, new Rectangle(ficha.PixelCoords(this.basePoint, this.zoomLevel), size));
+                e.Graphics.DrawImage(bmp, new Rectangle(ficha.HexToPixel(this.basePoint, this.zoomLevel), size));
             }
         }
 
@@ -180,7 +128,7 @@ namespace cliente.Partida
 
             } else if (e.Delta < 0)
             {
-                this.zoomLevel = Math.Min(zoomLevel + 1, 12);
+                this.zoomLevel = Math.Min(zoomLevel + 1, 6);
             }
             int x = e.Location.X;
             int y = e.Location.Y;
@@ -214,6 +162,23 @@ namespace cliente.Partida
                 basePoint.Y += e.Location.Y - oldMouse.Y;
 
                 oldMouse = e.Location;
+                this.Refresh();
+            } else
+            {
+                VerticeCoords coords = VerticeCoords.PixelToVertice(e.Location, basePoint, zoomLevel);
+                fichasVertices.Last().Coords = coords;
+                this.Refresh();
+            }
+        }
+
+        private void TabTablero_Click(object sender, MouseEventArgs e)
+        {
+        }
+
+        private void TabTablero_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space)
+            {
                 this.Refresh();
             }
         }

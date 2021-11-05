@@ -1,5 +1,5 @@
 ﻿
-namespace cliente
+namespace cliente.Menu
 {
     partial class Tab
     {
@@ -31,12 +31,12 @@ namespace cliente
         {
             this.SuspendLayout();
             // 
-            // Tab
+            // TabMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Transparent;
-            this.Name = "Tab";
+            this.Name = "TabMenu";
             this.Size = new System.Drawing.Size(625, 440);
             this.ResumeLayout(false);
 

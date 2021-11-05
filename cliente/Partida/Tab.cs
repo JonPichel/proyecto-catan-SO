@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace cliente
+namespace cliente.Partida
 {
     public partial class Tab : UserControl
     {

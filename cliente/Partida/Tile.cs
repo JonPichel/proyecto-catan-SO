@@ -7,29 +7,76 @@ using System.IO;
 
 namespace cliente.Partida
 {
+    public struct HexCoords
+    {
+        public int Q;
+        public int R;
+
+        public HexCoords(int Q, int R)
+        {
+            this.Q = Q;
+            this.R = R;
+        }
+
+        public static HexCoords PixelToHex(Point pixelCoords, Point basePoint, int zoomLevel)
+        {
+            int x = pixelCoords.X - basePoint.X;
+            int y = pixelCoords.Y - basePoint.Y;
+            double q_frac = (Math.Sqrt(3) / 3 * x - 1.0 / 3 * y) / Tile.BRADIUS * zoomLevel;
+            double r_frac = (2.0 / 3 * y) / Tile.BRADIUS * zoomLevel;
+            double s_frac = -q_frac - r_frac;
+            // Round in cube coordinates
+            int q = (int)Math.Round(q_frac);
+            int r = (int)Math.Round(r_frac);
+            int s = (int)Math.Round(s_frac);
+            double q_diff = Math.Abs(q - q_frac);
+            double r_diff = Math.Abs(r - r_frac);
+            double s_diff = Math.Abs(s - s_frac);
+            if (q_diff > r_diff && r_diff > s_diff)
+            {
+                return new HexCoords(-r - s, r);
+            }
+            else if (r_diff > s_diff)
+            {
+                return new HexCoords(q, -q - s);
+            }
+            else
+            {
+                return new HexCoords(q, r);
+            }
+        }
+
+        public Point HexToPixel(Point basePoint, int zoomLevel)
+        {
+            basePoint.X += (int)(Tile.BRADIUS * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * (R - 1)) / zoomLevel);
+            basePoint.Y += (int)(Tile.BRADIUS * (1.5 * R - 1) / zoomLevel);
+            return basePoint;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("HexCoords({0}, {1})", Q, R);
+        }
+    }
+
     public class Tile
     {
         public const int BRADIUS = 256;
         public const int BWIDTH = 443;
         public const int BHEIGHT = 512;
 
-        public readonly int r, q;
-        public readonly int? valor;
-
-        public Point oldPos;
+        public readonly HexCoords Coords;
+        public readonly int? Valor;
 
         public Tile(int q, int r, int? valor)
         {
-            this.r = r;
-            this.q = q;
-            this.valor = valor;
+            this.Coords = new HexCoords(q, r);
+            this.Valor = valor;
         }
 
-        public Point PixelCoords(Point basePoint, int zoomLevel)
+        public Point HexToPixel(Point basePoint, int zoomLevel)
         {
-            basePoint.X += (int)(BRADIUS * (Math.Sqrt(3) * this.q + Math.Sqrt(3) / 2 * (this.r - 1)) / zoomLevel);
-            basePoint.Y += (int)(BRADIUS * (1.5 * (this.r) - 1) / zoomLevel);
-            return basePoint;
+            return Coords.HexToPixel(basePoint, zoomLevel);
         }
     }
 
@@ -55,7 +102,7 @@ namespace cliente.Partida
     {
         public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.TileMaderaBmp);
 
-        public TileMadera(int q, int r, int value) : base(q, r, value)
+        public TileMadera(int q, int r, int valor) : base(q, r, valor)
         {
         }
     }
@@ -64,7 +111,7 @@ namespace cliente.Partida
     {
         public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.TileLadrilloBmp);
 
-        public TileLadrillo(int q, int r, int value) : base(q, r, value)
+        public TileLadrillo(int q, int r, int valor) : base(q, r, valor)
         {
         }
     }
@@ -73,7 +120,7 @@ namespace cliente.Partida
     {
         public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.TileOvejaBmp);
 
-        public TileOveja(int q, int r, int value) : base(q, r, value)
+        public TileOveja(int q, int r, int valor) : base(q, r, valor)
         {
         }
     }
@@ -82,7 +129,7 @@ namespace cliente.Partida
     {
         public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.TileTrigoBmp);
 
-        public TileTrigo(int q, int r, int value) : base(q, r, value)
+        public TileTrigo(int q, int r, int valor) : base(q, r, valor)
         {
         }
     }
@@ -91,7 +138,7 @@ namespace cliente.Partida
     {
         public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.TilePiedraBmp);
 
-        public TilePiedra(int q, int r, int value) : base(q, r, value)
+        public TilePiedra(int q, int r, int valor) : base(q, r, valor)
         {
         }
     }
