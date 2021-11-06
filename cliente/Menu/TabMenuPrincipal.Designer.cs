@@ -40,7 +40,11 @@ namespace cliente.Menu
             this.btnDesconectar = new System.Windows.Forms.Button();
             this.btnMedia = new System.Windows.Forms.Button();
             this.btnPartidas = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnJugOnline = new System.Windows.Forms.Button();
+            this.dataGridJugadores = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridPartidas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridJugadores)).BeginInit();
             this.SuspendLayout();
             // 
             // label6
@@ -134,7 +138,7 @@ namespace cliente.Menu
             this.dataGridPartidas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridPartidas.Location = new System.Drawing.Point(218, 120);
             this.dataGridPartidas.Name = "dataGridPartidas";
-            this.dataGridPartidas.Size = new System.Drawing.Size(371, 150);
+            this.dataGridPartidas.Size = new System.Drawing.Size(250, 150);
             this.dataGridPartidas.TabIndex = 11;
             this.dataGridPartidas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridPartidas_CellClick);
             // 
@@ -146,7 +150,7 @@ namespace cliente.Menu
             this.btnDesconectar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDesconectar.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnDesconectar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnDesconectar.Location = new System.Drawing.Point(37, 228);
+            this.btnDesconectar.Location = new System.Drawing.Point(37, 219);
             this.btnDesconectar.Name = "btnDesconectar";
             this.btnDesconectar.Size = new System.Drawing.Size(150, 40);
             this.btnDesconectar.TabIndex = 10;
@@ -162,7 +166,7 @@ namespace cliente.Menu
             this.btnMedia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMedia.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnMedia.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnMedia.Location = new System.Drawing.Point(37, 174);
+            this.btnMedia.Location = new System.Drawing.Point(37, 169);
             this.btnMedia.Name = "btnMedia";
             this.btnMedia.Size = new System.Drawing.Size(150, 40);
             this.btnMedia.TabIndex = 9;
@@ -186,10 +190,51 @@ namespace cliente.Menu
             this.btnPartidas.UseVisualStyleBackColor = false;
             this.btnPartidas.Click += new System.EventHandler(this.btnPartidas_Click);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label7.Location = new System.Drawing.Point(473, 95);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 22);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "En línea";
+            // 
+            // btnJugOnline
+            // 
+            this.btnJugOnline.BackColor = System.Drawing.Color.Sienna;
+            this.btnJugOnline.FlatAppearance.BorderColor = System.Drawing.Color.DarkGoldenrod;
+            this.btnJugOnline.FlatAppearance.BorderSize = 2;
+            this.btnJugOnline.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnJugOnline.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnJugOnline.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnJugOnline.Location = new System.Drawing.Point(37, 269);
+            this.btnJugOnline.Name = "btnJugOnline";
+            this.btnJugOnline.Size = new System.Drawing.Size(150, 40);
+            this.btnJugOnline.TabIndex = 8;
+            this.btnJugOnline.Text = "Jugadores en línea";
+            this.btnJugOnline.UseVisualStyleBackColor = false;
+            this.btnJugOnline.Click += new System.EventHandler(this.btnJugOnline_Click);
+            // 
+            // dataGridJugadores
+            // 
+            this.dataGridJugadores.AllowUserToAddRows = false;
+            this.dataGridJugadores.AllowUserToDeleteRows = false;
+            this.dataGridJugadores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridJugadores.Location = new System.Drawing.Point(474, 120);
+            this.dataGridJugadores.Name = "dataGridJugadores";
+            this.dataGridJugadores.Size = new System.Drawing.Size(108, 150);
+            this.dataGridJugadores.TabIndex = 11;
+            this.dataGridJugadores.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridPartidas_CellClick);
+            // 
             // TabMenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.dataGridJugadores);
+            this.Controls.Add(this.btnJugOnline);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -204,6 +249,7 @@ namespace cliente.Menu
             this.Name = "TabMenuPrincipal";
             this.Load += new System.EventHandler(this.TabMenuPrincipal_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridPartidas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridJugadores)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -222,5 +268,8 @@ namespace cliente.Menu
         private System.Windows.Forms.Button btnDesconectar;
         private System.Windows.Forms.Button btnMedia;
         private System.Windows.Forms.Button btnPartidas;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnJugOnline;
+        private System.Windows.Forms.DataGridView dataGridJugadores;
     }
 }
