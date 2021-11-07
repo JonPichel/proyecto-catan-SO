@@ -57,5 +57,15 @@ namespace cliente.Partida
                 new FichaCiudad(-1, 1, Vertice.Inferior, ColorJugador.Azul)
             };
         }
+
+        public static List<Carretera> GetCarreteras()
+        {
+            return new List<Carretera>()
+            {
+                new Carretera(2, 0, Lado.Norte, ColorJugador.Amarillo),
+                new Carretera(-1, 1, Lado.Oeste, ColorJugador.Rojo),
+                new Carretera(1, -1, Lado.Sur, ColorJugador.Azul)
+            };
+        }
     }
 }

@@ -183,6 +183,36 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CarreteraNorteBmp {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraNorteBmp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraOesteBmp {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraOesteBmp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraSurBmp {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraSurBmp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CiudadBmp {
             get {
                 object obj = ResourceManager.GetObject("CiudadBmp", resourceCulture);

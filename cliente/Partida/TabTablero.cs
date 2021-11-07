@@ -13,8 +13,19 @@ namespace cliente.Partida
     {
         Tile[] tiles;
         List<FichaVertice> fichasVertices;
+        List<Carretera> carreteras;
 
         int zoomLevel;
+
+        enum Estado
+        {
+            Normal,
+            ColocarPoblado,
+            ColocarCarretera
+        };
+        Estado estado;
+        FichaVertice verticeColocar;
+        Carretera carreteraColocar;
 
         Point basePoint;
         Point oldMouse;
@@ -44,8 +55,10 @@ namespace cliente.Partida
         {
             this.tiles = TableroPrueba.GetTiles();
             this.fichasVertices = TableroPrueba.GetFichasVertices();
+            this.carreteras = TableroPrueba.GetCarreteras();
             this.zoomLevel = 5;
             this.basePoint = new Point(this.Width / 2, this.Height / 2);
+            this.estado = Estado.Normal;
 
             this.Paint += TabTablero_Paint;
             this.MouseWheel += TabTablero_MouseWheel;
@@ -100,6 +113,17 @@ namespace cliente.Partida
                     e.Graphics.DrawImage(numbers[(int)tile.Valor - 1], rect);
                 }
             }
+            // Dibujar Carreteras
+            size = new Size((Tile.BWIDTH + 2 * Carretera.DX) / zoomLevel, (Tile.BHEIGHT + 2 * Carretera.DY) / zoomLevel);
+            foreach (Carretera carretera in carreteras)
+            {
+                e.Graphics.DrawImage(carretera.Bitmap, new Rectangle(carretera.LadoToPixel(basePoint, zoomLevel), size));
+            }
+            if (estado == Estado.ColocarCarretera)
+            {
+                e.Graphics.DrawImage(carreteraColocar.Bitmap, new Rectangle(carreteraColocar.LadoToPixel(basePoint, zoomLevel), size));
+            }
+            // Dibujar poblados
             size = new Size(FichaVertice.BHALFSIDE * 2 / this.zoomLevel, FichaVertice.BHALFSIDE * 2 / this.zoomLevel);
             foreach (FichaVertice ficha in fichasVertices)
             {
@@ -115,7 +139,23 @@ namespace cliente.Partida
                         bmp = FichaPoblado.Bitmap;
                         break;
                 }
-                e.Graphics.DrawImage(bmp, new Rectangle(ficha.HexToPixel(this.basePoint, this.zoomLevel), size));
+                e.Graphics.DrawImage(bmp, new Rectangle(ficha.VerticeToPixel(basePoint, zoomLevel), size));
+            }
+            if (estado == Estado.ColocarPoblado)
+            {
+                switch (verticeColocar)
+                {
+                    case FichaPoblado poblado:
+                        bmp = FichaPoblado.Bitmap;
+                        break;
+                    case FichaCiudad ciudad:
+                        bmp = FichaCiudad.Bitmap;
+                        break;
+                    default:
+                        bmp = FichaPoblado.Bitmap;
+                        break;
+                }
+                e.Graphics.DrawImage(bmp, new Rectangle(verticeColocar.VerticeToPixel(basePoint, zoomLevel), size));
             }
         }
 
@@ -150,25 +190,45 @@ namespace cliente.Partida
         {
             if (e.Button == MouseButtons.Left)
             {
-                oldMouse = e.Location;
+                switch (estado)
+                {
+                    case Estado.Normal:
+                        oldMouse = e.Location;
+                        break;
+                    case Estado.ColocarCarretera:
+                        carreteras.Add(carreteraColocar);
+                        estado = Estado.Normal;
+                        break;
+                    case Estado.ColocarPoblado:
+                        fichasVertices.Add(verticeColocar);
+                        estado = Estado.Normal;
+                        break;
+                }
             }
         }
 
         private void TabTablero_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            switch (estado)
             {
-                basePoint.X += e.Location.X - oldMouse.X;
-                basePoint.Y += e.Location.Y - oldMouse.Y;
+                case Estado.Normal:
+                    // Panning
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        basePoint.X += e.Location.X - oldMouse.X;
+                        basePoint.Y += e.Location.Y - oldMouse.Y;
 
-                oldMouse = e.Location;
-                this.Refresh();
-            } else
-            {
-                VerticeCoords coords = VerticeCoords.PixelToVertice(e.Location, basePoint, zoomLevel);
-                fichasVertices.Last().Coords = coords;
-                this.Refresh();
+                        oldMouse = e.Location;
+                    }
+                    break;
+                case Estado.ColocarCarretera:
+                    carreteraColocar.Coords = LadoCoords.PixelToLado(e.Location, basePoint, zoomLevel);
+                    break;
+                case Estado.ColocarPoblado:
+                    verticeColocar.Coords = VerticeCoords.PixelToVertice(e.Location, basePoint, zoomLevel);
+                    break;
             }
+            this.Refresh();
         }
 
         private void TabTablero_Click(object sender, MouseEventArgs e)
@@ -181,6 +241,24 @@ namespace cliente.Partida
             {
                 this.Refresh();
             }
+        }
+
+        private void btnCarretera_Click(object sender, EventArgs e)
+        {
+            estado = Estado.ColocarCarretera;
+            carreteraColocar = new Carretera(0, 0, Lado.Oeste, ColorJugador.Rojo);
+        }
+
+        private void btnPoblado_Click(object sender, EventArgs e)
+        {
+            verticeColocar = new FichaPoblado(0, 0, Vertice.Superior, ColorJugador.Rojo);
+            estado = Estado.ColocarPoblado;
+        }
+
+        private void btnCiudad_Click(object sender, EventArgs e)
+        {
+            verticeColocar = new FichaCiudad(0, 0, Vertice.Superior, ColorJugador.Rojo);
+            estado = Estado.ColocarPoblado;
         }
     }
 }

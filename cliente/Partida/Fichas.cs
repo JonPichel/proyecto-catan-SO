@@ -14,11 +14,11 @@ namespace cliente.Partida
         Naranja,
         Morado
     };
-            public enum Vertice
-        {
-            Superior,
-            Inferior
-        };
+    public enum Vertice
+    {
+        Superior,
+        Inferior
+    };
 
     public struct VerticeCoords
     {
@@ -73,6 +73,22 @@ namespace cliente.Partida
             }
         }
 
+        public Point VerticeToPixel(Point basePoint, int zoomLevel)
+        {
+            switch (V)
+            {
+                case Vertice.Superior:
+                    basePoint.X += (int)((Tile.BRADIUS * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * R) - FichaVertice.BHALFSIDE) / zoomLevel);
+                    basePoint.Y += (int)((Tile.BRADIUS * (1.5 * R - 1) - FichaVertice.BHALFSIDE) / zoomLevel);
+                    break;
+                case Vertice.Inferior:
+                    basePoint.X += (int)((Tile.BRADIUS * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * R) - FichaVertice.BHALFSIDE) / zoomLevel);
+                    basePoint.Y += (int)((Tile.BRADIUS * (1.5 * R + 1) - FichaVertice.BHALFSIDE) / zoomLevel);
+                    break;
+            }
+            return basePoint;
+        }
+
         public override String ToString()
         {
             return String.Format("VerticeCoords({0}, {1}, {2})", Q, R, V);
@@ -93,20 +109,9 @@ namespace cliente.Partida
             this.Color = color;
         }
 
-        public Point HexToPixel(Point basePoint, int zoomLevel)
+        public Point VerticeToPixel(Point basePoint, int zoomLevel)
         {
-            switch (Coords.V)
-            {
-                case Vertice.Superior:
-                    basePoint.X += (int)((Tile.BRADIUS * (Math.Sqrt(3) * Coords.Q + Math.Sqrt(3) / 2 * Coords.R) - BHALFSIDE) / zoomLevel);
-                    basePoint.Y += (int)((Tile.BRADIUS * (1.5 * Coords.R - 1) - BHALFSIDE) / zoomLevel);
-                    break;
-                case Vertice.Inferior:
-                    basePoint.X += (int)((Tile.BRADIUS * (Math.Sqrt(3) * Coords.Q + Math.Sqrt(3) / 2 * Coords.R) - BHALFSIDE) / zoomLevel);
-                    basePoint.Y += (int)((Tile.BRADIUS * (1.5 * Coords.R + 1) - BHALFSIDE) / zoomLevel);
-                    break;
-            }
-            return basePoint;
+            return Coords.VerticeToPixel(basePoint, zoomLevel);
         }
     }
 
@@ -125,4 +130,115 @@ namespace cliente.Partida
         {
         }
     }
+
+    public enum Lado
+    {
+        Norte,
+        Oeste,
+        Sur
+    }
+    public struct LadoCoords
+    {
+        public HexCoords HexCoords;
+        public int Q
+        {
+            get => HexCoords.Q;
+        }
+        public int R
+        {
+            get => HexCoords.R;
+        }
+        public Lado L;
+
+        public LadoCoords(int q, int r, Lado l)
+        {
+            this.HexCoords = new HexCoords(q, r);
+            this.L = l;
+        }
+
+        public LadoCoords(HexCoords hexCoords, Lado l)
+        {
+            this.HexCoords = hexCoords;
+            this.L = l;
+        }
+
+        public static LadoCoords PixelToLado(Point pixelCoords, Point basePoint, int zoomLevel)
+        {
+            HexCoords tile = HexCoords.PixelToHex(pixelCoords, basePoint, zoomLevel);
+            Point tileCenter = tile.HexToPixel(basePoint, zoomLevel);
+            tileCenter.X += Tile.BWIDTH / 2 / zoomLevel;
+            tileCenter.Y += Tile.BHEIGHT / 2 / zoomLevel;
+            double angle = Math.Atan2(tileCenter.X - pixelCoords.X, tileCenter.Y - pixelCoords.Y);
+            if (angle <= -2.0/3 * Math.PI)
+            {
+                return new LadoCoords(tile.Q, tile.R + 1, Lado.Norte);
+            } else if (angle <= -Math.PI / 3)
+            {
+                return new LadoCoords(tile.Q + 1, tile.R, Lado.Oeste);
+            } else if (angle <= 0)
+            {
+                return new LadoCoords(tile.Q + 1, tile.R - 1, Lado.Sur);
+            } else if (angle <= Math.PI / 3)
+            {
+                return new LadoCoords(tile, Lado.Norte);
+            } else if (angle <= 2.0/3 * Math.PI)
+            {
+                return new LadoCoords(tile, Lado.Oeste);
+            } else
+            {
+                return new LadoCoords(tile, Lado.Sur);
+            }
+        }
+
+        public Point LadoToPixel(Point basePoint, int zoomLevel, int dx, int dy)
+        {
+            basePoint.X += (int)((Tile.BRADIUS * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * (R - 1)) - dx) / zoomLevel);
+            basePoint.Y += (int)((Tile.BRADIUS * (1.5 * R - 1) - dy) / zoomLevel);
+            return basePoint;
+        }
+
+        public override String ToString()
+        {
+            return String.Format("LadoCoords({0}, {1}, {2})", Q, R, L);
+        }
+    }
+
+    public class Carretera
+    {
+        public const int DX = 40;
+        public const int DY = 20;
+
+        public LadoCoords Coords;
+        public ColorJugador Color;
+        public Bitmap Bitmap
+        {
+            get
+            {
+                switch (Coords.L)
+                {
+                    case Lado.Norte:
+                        return cliente.Properties.Resources.CarreteraNorteBmp;
+                    case Lado.Oeste:
+                        return cliente.Properties.Resources.CarreteraOesteBmp;
+                    case Lado.Sur:
+                        return cliente.Properties.Resources.CarreteraSurBmp;
+                    default:
+                        return cliente.Properties.Resources.CarreteraOesteBmp;
+                }
+            }
+        }
+
+        public Carretera(int q, int r, Lado l, ColorJugador color)
+        {
+            this.Coords.HexCoords = new HexCoords(q, r);
+            this.Coords.L = l;
+            this.Color = color;
+        }
+
+        public Point LadoToPixel(Point basePoint, int zoomLevel)
+        {
+            return Coords.LadoToPixel(basePoint, zoomLevel, DX, DY);
+        }
+    }
+
 }
