@@ -32,6 +32,7 @@ namespace cliente.Partida
             this.btnPoblado = new System.Windows.Forms.Button();
             this.btnCarretera = new System.Windows.Forms.Button();
             this.btnCiudad = new System.Windows.Forms.Button();
+            this.btnCasilla = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnPoblado
@@ -64,10 +65,21 @@ namespace cliente.Partida
             this.btnCiudad.UseVisualStyleBackColor = true;
             this.btnCiudad.Click += new System.EventHandler(this.btnCiudad_Click);
             // 
+            // btnCasilla
+            // 
+            this.btnCasilla.Location = new System.Drawing.Point(479, 522);
+            this.btnCasilla.Name = "btnCasilla";
+            this.btnCasilla.Size = new System.Drawing.Size(75, 75);
+            this.btnCasilla.TabIndex = 3;
+            this.btnCasilla.Text = "Click Casilla";
+            this.btnCasilla.UseVisualStyleBackColor = true;
+            this.btnCasilla.Click += new System.EventHandler(this.btnCasilla_Click);
+            // 
             // TabTablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnCasilla);
             this.Controls.Add(this.btnCiudad);
             this.Controls.Add(this.btnCarretera);
             this.Controls.Add(this.btnPoblado);
@@ -82,5 +94,6 @@ namespace cliente.Partida
         private System.Windows.Forms.Button btnPoblado;
         private System.Windows.Forms.Button btnCarretera;
         private System.Windows.Forms.Button btnCiudad;
+        private System.Windows.Forms.Button btnCasilla;
     }
 }

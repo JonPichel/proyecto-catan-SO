@@ -20,6 +20,7 @@ namespace cliente.Partida
         enum Estado
         {
             Normal,
+            ClickCasilla,
             ColocarPoblado,
             ColocarCarretera
         };
@@ -195,6 +196,9 @@ namespace cliente.Partida
                     case Estado.Normal:
                         oldMouse = e.Location;
                         break;
+                    case Estado.ClickCasilla:
+                        MessageBox.Show(HexCoords.PixelToHex(e.Location, basePoint, zoomLevel).ToString());
+                        break;
                     case Estado.ColocarCarretera:
                         carreteras.Add(carreteraColocar);
                         estado = Estado.Normal;
@@ -227,6 +231,8 @@ namespace cliente.Partida
                 case Estado.ColocarPoblado:
                     verticeColocar.Coords = VerticeCoords.PixelToVertice(e.Location, basePoint, zoomLevel);
                     break;
+                default:
+                    return;
             }
             this.Refresh();
         }
@@ -259,6 +265,17 @@ namespace cliente.Partida
         {
             verticeColocar = new FichaCiudad(0, 0, Vertice.Superior, ColorJugador.Rojo);
             estado = Estado.ColocarPoblado;
+        }
+
+        private void btnCasilla_Click(object sender, EventArgs e)
+        {
+            if (estado == Estado.ClickCasilla)
+            {
+                estado = Estado.Normal;
+            } else if (estado == Estado.Normal)
+            {
+                estado = Estado.ClickCasilla;
+            }
         }
     }
 }
