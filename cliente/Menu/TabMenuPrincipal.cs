@@ -33,7 +33,6 @@ namespace cliente.Menu
             dataGridPartidas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
 
             dataGridJugadores.RowHeadersVisible = false;
-            dataGridJugadores.Columns.Add("ID", "ID");
             dataGridJugadores.Columns.Add("Nombre", "Nombre");
             dataGridJugadores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
         }
@@ -90,7 +89,15 @@ namespace cliente.Menu
 
         private void btnMedia_Click(object sender, EventArgs e)
         {
+            // Petición lista de jugadores online
+            string pet = "5/";
+            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+            conn.Send(pet_b);
 
+            byte[] res_b = new byte[512];
+            conn.Receive(res_b);
+            string res = Encoding.ASCII.GetString(res_b).Split('\0')[0];
+            lblMedia.Text = "Puntuación media: " + res;
         }
 
         private void btnDesconectar_Click(object sender, EventArgs e)
@@ -113,7 +120,6 @@ namespace cliente.Menu
 
         private void btnJugOnline_Click(object sender, EventArgs e)
         {
-            //RES: #jug/id1,nombre1,id2,nombre2,id3,nombre3.
             // Petición lista de jugadores online
             string pet = "6/";
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
@@ -128,7 +134,7 @@ namespace cliente.Menu
                 // Primero separamos el numero de juadores
                 // de los datos de cada jugador
                 string[] trozos = res.Split("/", 2);        // Tendremos 2 trozos
-                int nump = Convert.ToInt32(trozos[0]);      // Numero de partidas
+                int nump = Convert.ToInt32(trozos[0]);      // Numero de jugadores
 
                 if (nump == -1)
                 {
@@ -142,15 +148,14 @@ namespace cliente.Menu
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-                string[] datos = trozos[1].Split(',');          // Datos de las partidas
+                string[] datos = trozos[1].Split(',');          // Nombres de los jugadores
 
-                // Rellenamos la tabla con los datos de las partidas
+                // Rellenamos la tabla con los nombres de los jugadores
                 dataGridJugadores.Rows.Clear();
                 dataGridJugadores.Rows.Add(nump);
                 for (int i = 0; i < nump; i++)
                 {
-                    dataGridJugadores.Rows[i].Cells[0].Value = datos[2 * i + 0];     // Id Jugador
-                    dataGridJugadores.Rows[i].Cells[1].Value = datos[2 * i + 1];     // Nombre del jugador
+                    dataGridJugadores.Rows[i].Cells[0].Value = datos[i];     // Nombre del jugador
                 }
             }
             catch (Exception)

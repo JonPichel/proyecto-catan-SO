@@ -138,7 +138,7 @@ namespace cliente.Menu
             this.dataGridPartidas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridPartidas.Location = new System.Drawing.Point(218, 120);
             this.dataGridPartidas.Name = "dataGridPartidas";
-            this.dataGridPartidas.Size = new System.Drawing.Size(250, 150);
+            this.dataGridPartidas.Size = new System.Drawing.Size(277, 150);
             this.dataGridPartidas.TabIndex = 11;
             this.dataGridPartidas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridPartidas_CellClick);
             // 
@@ -195,7 +195,7 @@ namespace cliente.Menu
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label7.Location = new System.Drawing.Point(473, 95);
+            this.label7.Location = new System.Drawing.Point(501, 95);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(65, 22);
             this.label7.TabIndex = 14;
@@ -222,9 +222,9 @@ namespace cliente.Menu
             this.dataGridJugadores.AllowUserToAddRows = false;
             this.dataGridJugadores.AllowUserToDeleteRows = false;
             this.dataGridJugadores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridJugadores.Location = new System.Drawing.Point(474, 120);
+            this.dataGridJugadores.Location = new System.Drawing.Point(501, 120);
             this.dataGridJugadores.Name = "dataGridJugadores";
-            this.dataGridJugadores.Size = new System.Drawing.Size(108, 150);
+            this.dataGridJugadores.Size = new System.Drawing.Size(81, 150);
             this.dataGridJugadores.TabIndex = 11;
             this.dataGridJugadores.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridPartidas_CellClick);
             // 
