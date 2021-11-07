@@ -44,3 +44,7 @@ RES:
     media de puntos
  - ERR:
     -1
+
+# LISTA JUGADORES
+PET: 6/
+RES: #jug/nombre1,nombre2,nombre3...
