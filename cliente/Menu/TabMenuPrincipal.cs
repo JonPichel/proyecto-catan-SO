@@ -90,7 +90,7 @@ namespace cliente.Menu
         private void btnMedia_Click(object sender, EventArgs e)
         {
             // Petición lista de jugadores online
-            string pet = "5/";
+            string pet = "5/" + idJ.ToString();
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
 
