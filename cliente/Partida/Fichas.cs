@@ -73,6 +73,18 @@ namespace cliente.Partida
             }
         }
 
+        public LadoCoords[] LadosVecinos()
+        {
+            LadoCoords[] vecinos = new LadoCoords[3];
+            switch (V)
+            {
+                case Vertice.Superior:
+                    break;
+                case Vertice.Inferior:
+                    break;
+            }
+        }
+
         public Point VerticeToPixel(Point basePoint, int zoomLevel)
         {
             switch (V)
@@ -160,6 +172,20 @@ namespace cliente.Partida
         {
             this.HexCoords = hexCoords;
             this.L = l;
+        }
+
+        public VerticeCoords[] Vertices()
+        {
+            VerticeCoords[] extremos = new VerticeCoords[2];
+            switch (L)
+            {
+                case Lado.Norte:
+                    break;
+                case Lado.Oeste:
+                    break;
+                case Lado.Sur:
+                    break;
+            }
         }
 
         public static LadoCoords PixelToLado(Point pixelCoords, Point basePoint, int zoomLevel)
