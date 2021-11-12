@@ -16,6 +16,8 @@ namespace cliente.Partida
         List<Carretera> carreteras;
 
         int zoomLevel;
+        Point basePoint;
+        Point oldMouse;
 
         enum Estado
         {
@@ -27,9 +29,6 @@ namespace cliente.Partida
         Estado estado;
         FichaVertice verticeColocar;
         Carretera carreteraColocar;
-
-        Point basePoint;
-        Point oldMouse;
 
         Bitmap[] numbers = new Bitmap[]
         {

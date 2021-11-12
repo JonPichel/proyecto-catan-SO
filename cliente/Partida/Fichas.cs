@@ -97,7 +97,7 @@ namespace cliente.Partida
 
     public class FichaVertice
     {
-        public const int BHALFSIDE = 130 / 2;
+        public const int BHALFSIDE = 132 / 2;
 
         public VerticeCoords Coords;
         public ColorJugador Color;
