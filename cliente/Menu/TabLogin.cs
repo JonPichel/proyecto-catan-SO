@@ -37,8 +37,6 @@ namespace cliente.Menu
             string pet = "2/" + txtNombre.Text + "," + txtPass.Text;
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             this.conn.Send(pet_b);
-
-            
         }
 
         private void btnRegistro_Click(object sender, EventArgs e)
@@ -48,7 +46,6 @@ namespace cliente.Menu
         }
         public void ActualizarLogin(string res)
         {
-            
             this.idJ = Convert.ToInt32(res);
             if (this.idJ != -1)
             {

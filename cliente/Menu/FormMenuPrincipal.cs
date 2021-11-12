@@ -22,6 +22,7 @@ namespace cliente.Menu
         public FormMenuPrincipal()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
         }
 
         private void FormMenuPrincipal_Load(object sender, EventArgs e)
@@ -62,13 +63,27 @@ namespace cliente.Menu
             tabs[3].VisibleChanged += this.tabInfoPartidas_VisibleChanged;
 
             tabs[0].Show();
+            ThreadStart ts = delegate { AtenderServidor(); };
+            atender = new Thread(ts);
+            atender.Start();
+        }
+
+        private void FormMenuPrincipal_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (conn != null)
+            {
+                // Desconectar servidor
+                string pet = "0/";
+                byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                conn.Send(pet_b);
+                atender.Interrupt();
+                conn.Shutdown(SocketShutdown.Both);
+                conn.Close();
+            }
         }
 
         private void AtenderServidor()
         {
-          
-            
-
             while (true)
             {
                 //Recibimos mensaje del servidor
@@ -81,39 +96,26 @@ namespace cliente.Menu
 
                 switch (codigo)
                 {
-                    case 1: //respuesta a longitud
+                    case 1:
                         ((TabRegistro)tabs[1]).ActualizarRegistro(mensaje);
                         break;
-                    case 2: //respuesta mi nombre es bonito
+                    case 2:
                         ((TabLogin)tabs[0]).ActualizarLogin(mensaje);
                         break;
-                    case 3: //respuesta alto
+                    case 3:
                         ((TabMenuPrincipal)tabs[2]).ActualizarDataGrid(mensaje);
                         break;
-                    case 4: //notificacion
+                    case 4:
                         ((TabInfoPartida)tabs[3]).MostrarInfoPartida(mensaje);
                         break;
                     case 5:
                         ((TabMenuPrincipal)tabs[2]).ActualizarMedia(mensaje);
                         break;
                     case 6:
-                        ((TabMenuPrincipal)tabs[2]).ActualizarListaConectados(mensaje);
+                        //Thread.Sleep(5000);
+                        //((TabMenuPrincipal)tabs[2]).ActualizarListaConectados(mensaje);
                         break;
                 }
-            }
-        }
-
-        private void FormMenuPrincipal_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (conn != null)
-            {
-                // Desconectar servidor
-                string pet = "0/";
-                byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
-                conn.Send(pet_b);
-
-                conn.Shutdown(SocketShutdown.Both);
-                conn.Close();
             }
         }
 
@@ -162,8 +164,6 @@ namespace cliente.Menu
                         break;
                     case "INFO PARTIDA":
                         tabs[3].Show();
-      
-
                         string pet = "4/" + ((TabMenuPrincipal)tabs[2]).idP.ToString();
                         byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                         conn.Send(pet_b);
