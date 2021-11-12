@@ -10,17 +10,17 @@ RES: nada
 PET: 1/nombre,pass
 RES:
 - registro correcto:
-    YES
+    1/YES
 - ERR:
-    NO
+    1/NO
 
 # INICIAR SESION
 PET: 2/nombre,pass
 RES:
  - login correcto:
-    idJ
+    2/idJ
  - error en el login o login incorrecto:
-    -1
+    2/-1
 
 # MOSTRAR PARTIDAS (2)
 PET:
@@ -29,22 +29,22 @@ RES:
  - hay partidas:
     #partidas/idP,posicion,puntos,fechahora,duracion,...
  - no hay partidas:
-    0
+    3/0
  - ERR de bdd:
-    -1
+    3/-1
 
 # INFORMACION PARTIDA (1,2)
 PET: 4/idP
-RES: #jugadores/posicion,nombre,puntos,...
+RES: 4/#jugadores/posicion,nombre,puntos,...
 
 # MEDIA DE PUNTOS (3)
 PET: 5/idJ
 RES:
  - OK:
-    media de puntos
+    5/media de puntos
  - ERR:
-    -1
+    5/-1
 
 # LISTA JUGADORES
-PET: 6/
-RES: #jug/nombre1,nombre2,nombre3...
+#PET: 6/
+RES: 6/#jug/nombre1,nombre2,nombre3...
