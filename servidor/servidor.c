@@ -10,29 +10,13 @@
 
 #include "peticiones.h"
 #include "base_datos.h"
+#include "estructuras.h"
+#include "util.h"
 
-#define MAX_CONN    100
-
-/* Decidi usar ids de Jugador en vez de nombres */
-typedef struct {
-    char nombre[20];
-    int socket;
-} TJugador;
-
-typedef struct {
-    int num;
-    TJugador jugadores[MAX_CONN];
-} TListaJugador;
+listaconn_t conectados;
+pthread_mutex_t mutex_lock = PTHREAD_MUTEX_INITIALIZER;
 
 void *atender_cliente(void *socket);
-
-int add_jugador(TListaJugador *lista, char nombre[20], int socket);
-int del_jugador(TListaJugador *lista, int socket);
-int socket_jugador(TListaJugador *lista, char nombre[20]);
-void lista_jugadores(TListaJugador *lista, char *respuesta);
-
-TListaJugador conectados;
-pthread_mutex_t mutex_lock = PTHREAD_MUTEX_INITIALIZER;
 
 int main(int argc, char *argv[]) {
     int sock_listen, sock_conn;
@@ -50,13 +34,14 @@ int main(int argc, char *argv[]) {
             printf("Numero de puerto invalido: %s\n", argv[1]);
             return -1;
         } else {
-            printf("Se usara el #%d\n", puerto);
+            log_msg("MAIN", "Corriendo en el puerto #%d\n", puerto);
         }
     }
 
     if ((sock_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-		printf("Error creando el socket");
-        return -1; }
+        log_msg("MAIN", "Error creando el socket de escucha\n");
+        return -1;
+    }
 
 	memset(&host_addr, 0, sizeof(host_addr));
 
@@ -67,27 +52,27 @@ int main(int argc, char *argv[]) {
 
     // Hacemos bind al socket
 	if (bind(sock_listen, (struct sockaddr *)&host_addr, sizeof(host_addr)) < 0) {
-		printf("Error en el bind");
+        log_msg("MAIN", "Error en el bind\n");
         return -1;
     }
 
-	// Maximo 2 conexiones en la cola de espera
 	if (listen(sock_listen, MAX_CONN) < 0) {
-		printf("Error en el listen");
+        log_msg("MAIN", "Error en el listen\n");
         return -1;
     }
     
     int sockets[MAX_CONN];
     pthread_t threads[MAX_CONN];
     for (int i = 0; i < MAX_CONN; i++) {
-        printf("Escuchando...\n");
+        log_msg("MAIN", "Escuchando...\n");
 
         sock_conn = accept(sock_listen, NULL, NULL);
-        printf("Conexion establecida\n");
+        log_msg("MAIN", "Conexion establecida\n");
         
         sockets[i] = sock_conn;
-        pthread_create(&threads[i], NULL, atender_cliente, &sock_conn);
+        pthread_create(&threads[i], NULL, atender_cliente, &sockets[i]);
     }
+    log_msg("MAIN", "Nº maximo de conexiones alcanzado\n");
     for (int i = 0; i < MAX_CONN; i++) {
         pthread_join(threads[i], NULL);
     }
@@ -96,13 +81,17 @@ int main(int argc, char *argv[]) {
 void *atender_cliente(void *socket) {
     int sock_conn = *(int *)socket;
     char peticion[512], respuesta[512];
+    char tag[32]; 
     char *p;
     int nbytes, codigo;
+    int actualizar;
+
+    sprintf(tag, "THREAD %d", sock_conn);
     
     while (1) {
         nbytes = read(sock_conn, peticion, sizeof(peticion));
         peticion[nbytes] = '\0';
-        printf("Peticion: %s\n", peticion);
+        log_msg(tag, "Peticion recibida: %s\n", peticion);
         
         p = strtok(peticion, "/");
         codigo = atoi(p);
@@ -110,13 +99,18 @@ void *atender_cliente(void *socket) {
         if (codigo == 0) {
             /* CERRAR CONEXION */
             pthread_mutex_lock(&mutex_lock);
-            del_jugador(&conectados, sock_conn);
+            conn_delete_jugador(&conectados, sock_conn);
             pthread_mutex_unlock(&mutex_lock);
+            pet_lista_conectados(&conectados, respuesta);
+            for (int i = 0; i < conectados.num; i++) {
+                write(conectados[i].socket, respuesta, strlen(respuesta));
+            }
             break;
         }
         
         char nombre[20], pass[20];
         int idJ, idP;
+        actualizar = 0;
         switch (codigo) {
             case 1:
                 /* REGISTRO DE JUGADOR */
@@ -135,8 +129,9 @@ void *atender_cliente(void *socket) {
                 pet_iniciar_sesion(nombre, pass, respuesta);
                 if (strcmp(respuesta, "-1") != 0) {
                     pthread_mutex_lock(&mutex_lock);
-                    add_jugador(&conectados, nombre, sock_conn);
+                    conn_add_jugador(&conectados, nombre, sock_conn);
                     pthread_mutex_unlock(&mutex_lock);
+                    actualizar = 1;
                 }
                 break;
             case 3:
@@ -159,58 +154,24 @@ void *atender_cliente(void *socket) {
                 break;
             case 6:
                 /* LISTA DE CONECTADOS */
-                lista_jugadores(&conectados, respuesta);
+                pet_lista_conectados(&conectados, respuesta);
                 break;
             default:
-                printf("Peticion desconocida: %d\n", codigo);
+                log_msg(tag, "Peticion desconocida: %d\n", codigo);
                 close(sock_conn);
                 return NULL;
         }
-        printf("Respuesta: %s\n", respuesta);
+        log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
         write(sock_conn, respuesta, strlen(respuesta));
-    }
-        
-    printf("Cerrando conexion...\n\n\n");
-    close(sock_conn);
-}
-
-int add_jugador(TListaJugador *lista, char nombre[20], int socket) {
-    if (lista->num > MAX_CONN)
-        return -1;
-    strcpy(lista->jugadores[lista->num].nombre, nombre);
-    lista->jugadores[lista->num].socket = socket;
-    lista->num++;
-    return 0;
-}
-
-int del_jugador(TListaJugador *lista, int socket) {
-    for (int i = 0; i < lista->num; i++) {
-        if (lista->jugadores[i].socket == socket) {
-            for (int j = i+1; j < lista->num; j++) {
-                strcpy(lista->jugadores[j-1].nombre, lista->jugadores[j].nombre);
-                lista->jugadores[j-1].socket = lista->jugadores[j].socket;
+        if (actualizar) {
+            time.sleep(1);
+            pet_lista_conectados(&conectados, respuesta);
+            for (int i = 0; i < conectados.num; i++) {
+                write(conectados[i].socket, respuesta, strlen(respuesta));
             }
-            lista->num--;
-            return 0;
         }
     }
-    return -1;
-}
-
-int socket_jugador(TListaJugador *lista, char nombre[20]) {
-    for (int i = 0; i < lista->num; i++) {
-        if (strcmp(lista->jugadores[i].nombre, nombre) == 0)
-            return lista->jugadores[i].socket;
-    }
-    return -1;
-}
-
-void lista_jugadores(TListaJugador *lista, char *respuesta) {
-    sprintf(respuesta, "%d/", lista->num);
-    if (lista->num == 0)
-        return;
-    for (int i = 0; i < lista->num; i++) {
-        sprintf(respuesta, "%s%s,", respuesta, lista->jugadores[i].nombre);
-    }
-    respuesta[strlen(respuesta) - 1] = '\0';
+        
+    log_msg(tag, "Cerrando conexion...\n");
+    close(sock_conn);
 }

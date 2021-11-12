@@ -4,6 +4,7 @@
 
 #include "peticiones.h"
 #include "base_datos.h"
+#include "estructuras.h"
 
 void pet_registrar_jugador(char *nombre, char *pass, char *respuesta) {
     /*
@@ -20,13 +21,13 @@ void pet_registrar_jugador(char *nombre, char *pass, char *respuesta) {
 
     if (bdd_nombre_pass(nombre, NULL) == -1) {
         if (bdd_registrar_jugador(nombre, pass) == 0)
-            strcpy(respuesta, "YES");
+            strcpy(respuesta, "1/YES");
         else
-            strcpy(respuesta, "NO");
+            strcpy(respuesta, "1/NO");
     }
     else
         // Ya existe el usuario
-        strcpy(respuesta, "NO");
+        strcpy(respuesta, "1/NO");
 }
 
 void pet_iniciar_sesion(char *nombre, char *pass, char *respuesta) {
@@ -44,22 +45,29 @@ void pet_iniciar_sesion(char *nombre, char *pass, char *respuesta) {
     idJ = bdd_nombre_pass(nombre, pass_real);
     if (idJ != -1){
         if (strcmp(pass, pass_real) == 0)
-            sprintf(respuesta, "%d", idJ);
+            sprintf(respuesta, "2/%d", idJ);
         else
             // Contraseña incorrecta
-            strcpy(respuesta, "-1");
+            strcpy(respuesta, "2/-1");
         }
     else
         // No existe el usuario
-        strcpy(respuesta, "-1");
+        strcpy(respuesta, "2/-1");
 }
 
 void pet_informacion_partidas_jugador(int idJ, char *respuesta) {
+    /*
+    Descripcion:
+        Atiende la peticion de datos de partidas del jugador y genera la respuesta
+    Parametros:
+        idJ: id del Jugador
+        respuesta: mensaje de respuesta con los datos de las partidas
+    */
     char datos[512];
     int nump = bdd_info_partidas(idJ, datos);
     char *p;
     
-    sprintf(respuesta, "%d/", nump);
+    sprintf(respuesta, "3/%d/", nump);
     p = strtok(datos, "#");
         
     if (nump != -1){
@@ -89,7 +97,7 @@ void pet_informacion_partida(int idP, char *respuesta) {
 
     
     numj = bdd_info_participaciones(idP, &ids, info);
-    sprintf(respuesta, "%d/", numj);
+    sprintf(respuesta, "4/%d/", numj);
     p = strtok(info, ",");
     for (i = 0; i < numj; i++) {
         sprintf(respuesta, "%s%d,", respuesta, bdd_posicion(ids[i], idP));
@@ -110,9 +118,26 @@ void pet_puntuacion_media_jugador(int idJ, char *respuesta) {
         Atiende la peticion de puntuacion media y genera la respuesta
     Parametros:
         idJ: id del Jugador
-        respuesta: Mensaje de respuesta con la media 
+        respuesta: mensaje de respuesta con la media 
     */
 
-    sprintf(respuesta, "%.2f", bdd_puntuacion_media(idJ));
+    sprintf(respuesta, "5/%.2f", bdd_puntuacion_media(idJ));
 }
 
+void pet_lista_conectados(listaconn_t *lista, char *respuesta) {
+    /*
+    Descripcion:
+        Atiende la peticion de lista de conectados y genera la respuesta
+    Parametros:
+        lista: lista de usuarios conectados
+        respuesta: mensaje con la lista de nombres de usuarios
+    */
+
+    sprintf(respuesta, "6/%d/", lista->num);
+    if (lista->num == 0)
+        return;
+    for (int i = 0; i < lista->num; i++) {
+        sprintf(respuesta, "%s%s,", respuesta, lista->conectados[i].nombre);
+    }
+    respuesta[strlen(respuesta) - 1] = '\0';
+}
