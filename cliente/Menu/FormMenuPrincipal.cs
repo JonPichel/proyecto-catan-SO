@@ -19,10 +19,11 @@ namespace cliente.Menu
         List<Tab> tabs = new List<Tab>();
         int idJ;
 
+        delegate void DelegadoRespuestas(string res);
+
         public FormMenuPrincipal()
         {
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;
         }
 
         private void FormMenuPrincipal_Load(object sender, EventArgs e)
@@ -84,11 +85,14 @@ namespace cliente.Menu
 
         private void AtenderServidor()
         {
+            DelegadoRespuestas delegado;
             while (true)
             {
                 //Recibimos mensaje del servidor
                 byte[] res_b = new byte[512];
                 conn.Receive(res_b);
+                if (res_b[0] == 0)
+                    return;
 
                 string[] res = Encoding.ASCII.GetString(res_b).Split('/', 2);
                 int codigo = Convert.ToInt32(res[0]);
@@ -97,23 +101,28 @@ namespace cliente.Menu
                 switch (codigo)
                 {
                     case 1:
-                        ((TabRegistro)tabs[1]).ActualizarRegistro(mensaje);
+                        delegado = new DelegadoRespuestas(((TabRegistro)tabs[1]).ActualizarRegistro);
+                        tabs[1].Invoke(delegado, new object[] { mensaje });
                         break;
                     case 2:
-                        ((TabLogin)tabs[0]).ActualizarLogin(mensaje);
+                        delegado = new DelegadoRespuestas(((TabLogin)tabs[0]).ActualizarLogin);
+                        tabs[0].Invoke(delegado, new object[] { mensaje });
                         break;
                     case 3:
-                        ((TabMenuPrincipal)tabs[2]).ActualizarDataGrid(mensaje);
+                        delegado = new DelegadoRespuestas(((TabMenuPrincipal)tabs[2]).ActualizarDataGrid);
+                        tabs[2].Invoke(delegado, new object[] { mensaje });
                         break;
                     case 4:
-                        ((TabInfoPartida)tabs[3]).MostrarInfoPartida(mensaje);
+                        delegado = new DelegadoRespuestas(((TabInfoPartida)tabs[3]).MostrarInfoPartida);
+                        tabs[3].Invoke(delegado, new object[] { mensaje });
                         break;
                     case 5:
-                        ((TabMenuPrincipal)tabs[2]).ActualizarMedia(mensaje);
+                        delegado = new DelegadoRespuestas(((TabMenuPrincipal)tabs[2]).ActualizarMedia);
+                        tabs[2].Invoke(delegado, new object[] { mensaje });
                         break;
                     case 6:
-                        //Thread.Sleep(5000);
-                        //((TabMenuPrincipal)tabs[2]).ActualizarListaConectados(mensaje);
+                        delegado = new DelegadoRespuestas(((TabMenuPrincipal)tabs[2]).ActualizarListaConectados);
+                        tabs[2].Invoke(delegado, new object[] { mensaje });
                         break;
                 }
             }
