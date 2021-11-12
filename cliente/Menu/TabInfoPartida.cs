@@ -29,18 +29,9 @@ namespace cliente.Menu
             dataGridResultadoPartida.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
         }
 
-        public void MostrarInfoPartida(int idP)
+        public void MostrarInfoPartida(string res)
         {
-            lblIdPartida.Text = "Clasificación de la partida: " + idP.ToString();
-
-            string pet = "4/" + idP.ToString();
-            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
-            conn.Send(pet_b);
-
-            byte[] res_b = new byte[512];
-            conn.Receive(res_b);
-            string res = Encoding.ASCII.GetString(res_b).Split('\0')[0];
-
+           
             // Ahora primero separamos el numero de partidas juagadas
             // de los datos de cada partida
             string[] trozos = res.Split("/", 2);  // Tendremos 2 trozos

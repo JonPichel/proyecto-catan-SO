@@ -7,12 +7,15 @@ using System.Text;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace cliente.Menu
 {
     public partial class FormMenuPrincipal : Form
     {
         Socket conn;
+        Thread atender;
+
         List<Tab> tabs = new List<Tab>();
         int idJ;
 
@@ -59,6 +62,45 @@ namespace cliente.Menu
             tabs[3].VisibleChanged += this.tabInfoPartidas_VisibleChanged;
 
             tabs[0].Show();
+        }
+
+        private void AtenderServidor()
+        {
+          
+            
+
+            while (true)
+            {
+                //Recibimos mensaje del servidor
+                byte[] res_b = new byte[512];
+                conn.Receive(res_b);
+
+                string[] res = Encoding.ASCII.GetString(res_b).Split('/', 2);
+                int codigo = Convert.ToInt32(res[0]);
+                string mensaje = res[1].Split('\0')[0];
+
+                switch (codigo)
+                {
+                    case 1: //respuesta a longitud
+                        ((TabRegistro)tabs[1]).ActualizarRegistro(mensaje);
+                        break;
+                    case 2: //respuesta mi nombre es bonito
+                        ((TabLogin)tabs[0]).ActualizarLogin(mensaje);
+                        break;
+                    case 3: //respuesta alto
+                        ((TabMenuPrincipal)tabs[2]).ActualizarDataGrid(mensaje);
+                        break;
+                    case 4: //notificacion
+                        ((TabInfoPartida)tabs[3]).MostrarInfoPartida(mensaje);
+                        break;
+                    case 5:
+                        ((TabMenuPrincipal)tabs[2]).ActualizarMedia(mensaje);
+                        break;
+                    case 6:
+                        ((TabMenuPrincipal)tabs[2]).ActualizarListaConectados(mensaje);
+                        break;
+                }
+            }
         }
 
         private void FormMenuPrincipal_FormClosing(object sender, FormClosingEventArgs e)
@@ -120,7 +162,12 @@ namespace cliente.Menu
                         break;
                     case "INFO PARTIDA":
                         tabs[3].Show();
-                        ((TabInfoPartida)tabs[3]).MostrarInfoPartida(((TabMenuPrincipal)tabs[2]).idP);
+      
+
+                        string pet = "4/" + ((TabMenuPrincipal)tabs[2]).idP.ToString();
+                        byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                        conn.Send(pet_b);
+
                         break;
                 }
             }

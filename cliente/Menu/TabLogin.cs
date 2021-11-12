@@ -38,10 +38,17 @@ namespace cliente.Menu
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             this.conn.Send(pet_b);
 
-            byte[] res_b = new byte[20];
-            conn.Receive(res_b);
-            string res = Encoding.ASCII.GetString(res_b).Split('\0')[0];
+            
+        }
 
+        private void btnRegistro_Click(object sender, EventArgs e)
+        {
+            this.Tag = "REGISTRO";
+            this.Hide();
+        }
+        public void ActualizarLogin(string res)
+        {
+            
             this.idJ = Convert.ToInt32(res);
             if (this.idJ != -1)
             {
@@ -55,12 +62,6 @@ namespace cliente.Menu
                 lblError.Text = "Credenciales incorrectas";
                 lblError.Show();
             }
-        }
-
-        private void btnRegistro_Click(object sender, EventArgs e)
-        {
-            this.Tag = "REGISTRO";
-            this.Hide();
         }
     }
 }

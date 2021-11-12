@@ -8,11 +8,14 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 
+
+
 namespace cliente.Menu
 {
     public partial class TabMenuPrincipal : Tab
     {
         Socket conn;
+
         public int idJ { private get; set; }
         public int idP { get; private set; }
 
@@ -43,48 +46,6 @@ namespace cliente.Menu
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
 
-            byte[] res_b = new byte[512];
-            conn.Receive(res_b);
-            string res = Encoding.ASCII.GetString(res_b).Split('\0')[0];
-
-            try
-            {
-                // Ahora primero separamos el numero de partidas jugadas
-                // de los datos de cada partida
-                string[] trozos = res.Split("/", 2);  // Tendremos 2 trozos
-                int nump = Convert.ToInt32(trozos[0]);      // Numero de partidas
-
-                if (nump == -1)
-                {
-                    MessageBox.Show("Ha habido un error. Inténtelo de nuevo.", "Servidor",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-                else if (nump == 0)
-                {
-                    MessageBox.Show("No hay partidas para mostrar.", "Servidor",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-                string[] datos = trozos[1].Split(',');          // Datos de las partidas
-
-                // Rellenamos la tabla con los datos de las partidas
-                dataGridPartidas.Rows.Clear();
-                dataGridPartidas.Rows.Add(nump);
-                for (int i = 0; i < nump; i++)
-                {
-                    dataGridPartidas.Rows[i].Cells[0].Value = datos[5*i + 0];     // Id Partida
-                    dataGridPartidas.Rows[i].Cells[1].Value = datos[5*i + 1];     // Posicion del jugador
-                    dataGridPartidas.Rows[i].Cells[2].Value = datos[5*i + 2];     // Puntos del jugador
-                    dataGridPartidas.Rows[i].Cells[3].Value = datos[5*i + 3];     // Fecha y hora de la partida
-                    dataGridPartidas.Rows[i].Cells[4].Value = datos[5*i + 4];     // Duracion de la partida
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Se ha perdido la conexión con el servidor.", "Error de conexión",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void btnMedia_Click(object sender, EventArgs e)
@@ -94,10 +55,7 @@ namespace cliente.Menu
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
 
-            byte[] res_b = new byte[512];
-            conn.Receive(res_b);
-            string res = Encoding.ASCII.GetString(res_b).Split('\0')[0];
-            lblMedia.Text = "Puntuación media: " + res;
+           
         }
 
         private void btnDesconectar_Click(object sender, EventArgs e)
@@ -125,10 +83,55 @@ namespace cliente.Menu
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
 
-            byte[] res_b = new byte[512];
-            conn.Receive(res_b);
-            string res = Encoding.ASCII.GetString(res_b).Split('\0')[0];
+        }
+        public void ActualizarDataGrid(string res)
+        {
 
+            try
+            {
+                // Ahora primero separamos el numero de partidas jugadas
+                // de los datos de cada partida
+                string[] trozos = res.Split("/", 2);  // Tendremos 2 trozos
+                int nump = Convert.ToInt32(trozos[0]);      // Numero de partidas
+
+                if (nump == -1)
+                {
+                    MessageBox.Show("Ha habido un error. Inténtelo de nuevo.", "Servidor",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                else if (nump == 0)
+                {
+                    MessageBox.Show("No hay partidas para mostrar.", "Servidor",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                string[] datos = trozos[1].Split(',');          // Datos de las partidas
+
+                // Rellenamos la tabla con los datos de las partidas
+                dataGridPartidas.Rows.Clear();
+                dataGridPartidas.Rows.Add(nump);
+                for (int i = 0; i < nump; i++)
+                {
+                    dataGridPartidas.Rows[i].Cells[0].Value = datos[5 * i + 0];     // Id Partida
+                    dataGridPartidas.Rows[i].Cells[1].Value = datos[5 * i + 1];     // Posicion del jugador
+                    dataGridPartidas.Rows[i].Cells[2].Value = datos[5 * i + 2];     // Puntos del jugador
+                    dataGridPartidas.Rows[i].Cells[3].Value = datos[5 * i + 3];     // Fecha y hora de la partida
+                    dataGridPartidas.Rows[i].Cells[4].Value = datos[5 * i + 4];     // Duracion de la partida
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Se ha perdido la conexión con el servidor.", "Error de conexión",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public void ActualizarMedia(string res)
+        {
+            lblMedia.Text = "Puntuación media: " + res;
+        }
+        public void ActualizarListaConectados(string res)
+        {
             try
             {
                 // Primero separamos el numero de juadores

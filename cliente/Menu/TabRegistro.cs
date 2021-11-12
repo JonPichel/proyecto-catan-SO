@@ -40,22 +40,6 @@ namespace cliente.Menu
                 byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                 conn.Send(pet_b);
 
-                byte[] res_b = new byte[20];
-                conn.Receive(res_b);
-                string res = Encoding.ASCII.GetString(res_b).Split('\0')[0];
-
-                if (res == "YES")
-                {
-                    MessageBox.Show("Usuario creado correctamente.", "Registro de usuario",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Tag = "REGISTRO SI";
-                    this.Hide();
-                }
-                else
-                {
-                    MessageBox.Show("Usuario ya existente.", "Registro de usuario",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
             }
         }
 
@@ -63,6 +47,21 @@ namespace cliente.Menu
         {
             this.Tag = "ATRAS";
             this.Hide();
+        }
+        public void ActualizarRegistro(string res)
+        {
+            if (res == "YES")
+            {
+                MessageBox.Show("Usuario creado correctamente.", "Registro de usuario",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Tag = "REGISTRO SI";
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Usuario ya existente.", "Registro de usuario",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
