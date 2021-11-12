@@ -76,13 +76,28 @@ namespace cliente.Partida
         public LadoCoords[] LadosVecinos()
         {
             LadoCoords[] vecinos = new LadoCoords[3];
+
             switch (V)
             {
                 case Vertice.Superior:
+                    LadoCoords vecinoArriba = new LadoCoords(Q + 1, R - 1, Lado.Oeste);
+                    LadoCoords vecinoDerechaS = new LadoCoords(Q + 1, R - 1, Lado.Sur);
+                    LadoCoords vecinoIzquierdaS = new LadoCoords(Q, R, Lado.Norte);
+                    vecinos[0] = vecinoArriba;
+                    vecinos[1] = vecinoDerechaS;
+                    vecinos[2] = vecinoIzquierdaS;
                     break;
+
                 case Vertice.Inferior:
+                    LadoCoords vecinoAbajo = new LadoCoords(Q, R + 1, Lado.Oeste);
+                    LadoCoords vecinoDerechaI = new LadoCoords(Q, R + 1, Lado.Norte);
+                    LadoCoords vecinoIzquierdaI = new LadoCoords(Q, R, Lado.Sur);
+                    vecinos[0] = vecinoAbajo;
+                    vecinos[1] = vecinoDerechaI;
+                    vecinos[2] = vecinoIzquierdaI;
                     break;
             }
+            return vecinos;
         }
 
         public Point VerticeToPixel(Point basePoint, int zoomLevel)
