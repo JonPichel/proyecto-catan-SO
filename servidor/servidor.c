@@ -103,7 +103,7 @@ void *atender_cliente(void *socket) {
             pthread_mutex_unlock(&mutex_lock);
             pet_lista_conectados(&conectados, respuesta);
             for (int i = 0; i < conectados.num; i++) {
-                write(conectados[i].socket, respuesta, strlen(respuesta));
+                write(conectados.conectados[i].socket, respuesta, strlen(respuesta));
             }
             break;
         }
@@ -164,10 +164,12 @@ void *atender_cliente(void *socket) {
         log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
         write(sock_conn, respuesta, strlen(respuesta));
         if (actualizar) {
-            time.sleep(1);
+            sleep(1);
             pet_lista_conectados(&conectados, respuesta);
             for (int i = 0; i < conectados.num; i++) {
-                write(conectados[i].socket, respuesta, strlen(respuesta));
+                log_msg(tag, "Lista de conectados por el socket %d: %s\n",
+                        conectados.conectados[i].socket, respuesta);
+                write(conectados.conectados[i].socket, respuesta, strlen(respuesta));
             }
         }
     }
