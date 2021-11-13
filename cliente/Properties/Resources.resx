@@ -118,20 +118,95 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="CarreteraNorteBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Media\Images\CarreteraNorte.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CarreteraNorteAzul" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraNorteAzul.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CarreteraOesteBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Media\Images\CarreteraOeste.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CarreteraNorteGris" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraNorteGris.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CarreteraSurBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Media\Images\CarreteraSur.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CarreteraNorteMorado" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraNorteMorado.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CiudadBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Media\Images\Ciudad.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CarreteraNorteNaranja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraNorteNaranja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="PobladoBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Media\Images\Poblado.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CarreteraNorteRojo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraNorteRojo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CarreteraNorteVerde" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraNorteVerde.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CarreteraOesteAzul" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraOesteAzul.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CarreteraOesteGris" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraOesteGris.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CarreteraOesteMorado" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraOesteMorado.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CarreteraOesteNaranja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraOesteNaranja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CarreteraOesteRojo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraOesteRojo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CarreteraOesteVerde" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraOesteVerde.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CarreteraSurAzul" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraSurAzul.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CarreteraSurGris" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraSurGris.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CarreteraSurMorado" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraSurMorado.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CarreteraSurNaranja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraSurNaranja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CarreteraSurRojo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraSurRojo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CarreteraSurVerde" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CarreteraSurVerde.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CiudadAzul" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CiudadAzul.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CiudadGris" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CiudadGris.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CiudadMorado" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CiudadMorado.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CiudadNaranja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CiudadNaranja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CiudadRojo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CiudadRojo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CiudadVerde" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CiudadVerde.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PobladoAzul" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PobladoAzul.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PobladoGris" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PobladoGris.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PobladoMorado" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PobladoMorado.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PobladoNaranja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PobladoNaranja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PobladoRojo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PobladoRojo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PobladoVerde" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PobladoVerde.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TileDesiertoBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Media\Images\TileDesierto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

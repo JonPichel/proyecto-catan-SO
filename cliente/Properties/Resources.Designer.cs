@@ -183,9 +183,9 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CarreteraNorteBmp {
+        internal static System.Drawing.Bitmap CarreteraNorteAzul {
             get {
-                object obj = ResourceManager.GetObject("CarreteraNorteBmp", resourceCulture);
+                object obj = ResourceManager.GetObject("CarreteraNorteAzul", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,9 +193,9 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CarreteraOesteBmp {
+        internal static System.Drawing.Bitmap CarreteraNorteGris {
             get {
-                object obj = ResourceManager.GetObject("CarreteraOesteBmp", resourceCulture);
+                object obj = ResourceManager.GetObject("CarreteraNorteGris", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +203,9 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CarreteraSurBmp {
+        internal static System.Drawing.Bitmap CarreteraNorteMorado {
             get {
-                object obj = ResourceManager.GetObject("CarreteraSurBmp", resourceCulture);
+                object obj = ResourceManager.GetObject("CarreteraNorteMorado", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,9 +213,9 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CiudadBmp {
+        internal static System.Drawing.Bitmap CarreteraNorteNaranja {
             get {
-                object obj = ResourceManager.GetObject("CiudadBmp", resourceCulture);
+                object obj = ResourceManager.GetObject("CarreteraNorteNaranja", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,9 +223,259 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PobladoBmp {
+        internal static System.Drawing.Bitmap CarreteraNorteRojo {
             get {
-                object obj = ResourceManager.GetObject("PobladoBmp", resourceCulture);
+                object obj = ResourceManager.GetObject("CarreteraNorteRojo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraNorteVerde {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraNorteVerde", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraOesteAzul {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraOesteAzul", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraOesteGris {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraOesteGris", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraOesteMorado {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraOesteMorado", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraOesteNaranja {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraOesteNaranja", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraOesteRojo {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraOesteRojo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraOesteVerde {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraOesteVerde", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraSurAzul {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraSurAzul", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraSurGris {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraSurGris", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraSurMorado {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraSurMorado", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraSurNaranja {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraSurNaranja", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraSurRojo {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraSurRojo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraSurVerde {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraSurVerde", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CiudadAzul {
+            get {
+                object obj = ResourceManager.GetObject("CiudadAzul", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CiudadGris {
+            get {
+                object obj = ResourceManager.GetObject("CiudadGris", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CiudadMorado {
+            get {
+                object obj = ResourceManager.GetObject("CiudadMorado", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CiudadNaranja {
+            get {
+                object obj = ResourceManager.GetObject("CiudadNaranja", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CiudadRojo {
+            get {
+                object obj = ResourceManager.GetObject("CiudadRojo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CiudadVerde {
+            get {
+                object obj = ResourceManager.GetObject("CiudadVerde", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PobladoAzul {
+            get {
+                object obj = ResourceManager.GetObject("PobladoAzul", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PobladoGris {
+            get {
+                object obj = ResourceManager.GetObject("PobladoGris", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PobladoMorado {
+            get {
+                object obj = ResourceManager.GetObject("PobladoMorado", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PobladoNaranja {
+            get {
+                object obj = ResourceManager.GetObject("PobladoNaranja", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PobladoRojo {
+            get {
+                object obj = ResourceManager.GetObject("PobladoRojo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PobladoVerde {
+            get {
+                object obj = ResourceManager.GetObject("PobladoVerde", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -7,12 +7,12 @@ namespace cliente.Partida
 {
     public enum ColorJugador
     {
-        Rojo,
-        Verde,
         Azul,
-        Amarillo,
+        Rojo,
         Naranja,
-        Morado
+        Gris,
+        Morado,
+        Verde
     };
     public enum Vertice
     {
@@ -132,10 +132,11 @@ namespace cliente.Partida
 
     public class FichaVertice
     {
-        public const int BHALFSIDE = 132 / 2;
+        public const int BHALFSIDE = 162 / 2;
 
         public VerticeCoords Coords;
         public ColorJugador Color;
+        virtual public Bitmap Bitmap { get => cliente.Properties.Resources.PobladoAzul; }
 
         public FichaVertice(int q, int r, Vertice v, ColorJugador color)
         {
@@ -152,7 +153,29 @@ namespace cliente.Partida
 
     public sealed class FichaPoblado : FichaVertice
     {
-        public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.PobladoBmp);
+        override public Bitmap Bitmap
+        {
+            get
+            {
+                switch (Color)
+                {
+                    case ColorJugador.Azul:
+                        return cliente.Properties.Resources.PobladoAzul;
+                    case ColorJugador.Rojo:
+                        return cliente.Properties.Resources.PobladoRojo;
+                    case ColorJugador.Naranja:
+                        return cliente.Properties.Resources.PobladoNaranja;
+                    case ColorJugador.Gris:
+                        return cliente.Properties.Resources.PobladoGris;
+                    case ColorJugador.Morado:
+                        return cliente.Properties.Resources.PobladoMorado;
+                    case ColorJugador.Verde:
+                        return cliente.Properties.Resources.PobladoVerde;
+                    default:
+                        return cliente.Properties.Resources.PobladoAzul;
+                }
+            }
+        }
         public FichaPoblado(int q, int r, Vertice v, ColorJugador color) : base(q, r, v, color)
         {
         }
@@ -160,7 +183,30 @@ namespace cliente.Partida
 
     public sealed class FichaCiudad : FichaVertice
     {
-        public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.CiudadBmp);
+        override public Bitmap Bitmap
+        {
+            get
+            {
+                switch (Color)
+                {
+                    case ColorJugador.Azul:
+                        return cliente.Properties.Resources.CiudadAzul;
+                    case ColorJugador.Rojo:
+                        return cliente.Properties.Resources.CiudadRojo;
+                    case ColorJugador.Naranja:
+                        return cliente.Properties.Resources.CiudadNaranja;
+                    case ColorJugador.Gris:
+                        return cliente.Properties.Resources.CiudadGris;
+                    case ColorJugador.Morado:
+                        return cliente.Properties.Resources.CiudadMorado;
+                    case ColorJugador.Verde:
+                        return cliente.Properties.Resources.CiudadVerde;
+                    default:
+                        return cliente.Properties.Resources.CiudadAzul;
+                }
+            }
+        }
+
         public FichaCiudad(int q, int r, Vertice v, ColorJugador color) : base(q, r, v, color)
         {
         }
@@ -301,14 +347,44 @@ namespace cliente.Partida
             {
                 switch (Coords.L)
                 {
-                    case Lado.Norte:
-                        return cliente.Properties.Resources.CarreteraNorteBmp;
-                    case Lado.Oeste:
-                        return cliente.Properties.Resources.CarreteraOesteBmp;
-                    case Lado.Sur:
-                        return cliente.Properties.Resources.CarreteraSurBmp;
+                    case Lado.Norte when Color == ColorJugador.Azul:
+                        return cliente.Properties.Resources.CarreteraNorteAzul;
+                    case Lado.Norte when Color == ColorJugador.Rojo:
+                        return cliente.Properties.Resources.CarreteraNorteRojo;
+                    case Lado.Norte when Color == ColorJugador.Naranja:
+                        return cliente.Properties.Resources.CarreteraNorteNaranja;
+                    case Lado.Norte when Color == ColorJugador.Gris:
+                        return cliente.Properties.Resources.CarreteraNorteGris;
+                    case Lado.Norte when Color == ColorJugador.Morado:
+                        return cliente.Properties.Resources.CarreteraNorteMorado;
+                    case Lado.Norte when Color == ColorJugador.Verde:
+                        return cliente.Properties.Resources.CarreteraNorteVerde;
+                    case Lado.Oeste when Color == ColorJugador.Azul:
+                        return cliente.Properties.Resources.CarreteraOesteAzul;
+                    case Lado.Oeste when Color == ColorJugador.Rojo:
+                        return cliente.Properties.Resources.CarreteraOesteRojo;
+                    case Lado.Oeste when Color == ColorJugador.Naranja:
+                        return cliente.Properties.Resources.CarreteraOesteNaranja;
+                    case Lado.Oeste when Color == ColorJugador.Gris:
+                        return cliente.Properties.Resources.CarreteraOesteGris;
+                    case Lado.Oeste when Color == ColorJugador.Morado:
+                        return cliente.Properties.Resources.CarreteraOesteMorado;
+                    case Lado.Oeste when Color == ColorJugador.Verde:
+                        return cliente.Properties.Resources.CarreteraOesteVerde;
+                    case Lado.Sur when Color == ColorJugador.Azul:
+                        return cliente.Properties.Resources.CarreteraSurAzul;
+                    case Lado.Sur when Color == ColorJugador.Rojo:
+                        return cliente.Properties.Resources.CarreteraSurRojo;
+                    case Lado.Sur when Color == ColorJugador.Naranja:
+                        return cliente.Properties.Resources.CarreteraSurNaranja;
+                    case Lado.Sur when Color == ColorJugador.Gris:
+                        return cliente.Properties.Resources.CarreteraSurGris;
+                    case Lado.Sur when Color == ColorJugador.Morado:
+                        return cliente.Properties.Resources.CarreteraSurMorado;
+                    case Lado.Sur when Color == ColorJugador.Verde:
+                        return cliente.Properties.Resources.CarreteraSurVerde;
                     default:
-                        return cliente.Properties.Resources.CarreteraOesteBmp;
+                        return cliente.Properties.Resources.CarreteraNorteAzul;
                 }
             }
         }

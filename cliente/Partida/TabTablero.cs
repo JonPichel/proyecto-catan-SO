@@ -127,35 +127,11 @@ namespace cliente.Partida
             size = new Size(FichaVertice.BHALFSIDE * 2 / this.zoomLevel, FichaVertice.BHALFSIDE * 2 / this.zoomLevel);
             foreach (FichaVertice ficha in fichasVertices)
             {
-                switch (ficha)
-                {
-                    case FichaPoblado poblado:
-                        bmp = FichaPoblado.Bitmap;
-                        break;
-                    case FichaCiudad ciudad:
-                        bmp = FichaCiudad.Bitmap;
-                        break;
-                    default:
-                        bmp = FichaPoblado.Bitmap;
-                        break;
-                }
-                e.Graphics.DrawImage(bmp, new Rectangle(ficha.VerticeToPixel(basePoint, zoomLevel), size));
+                e.Graphics.DrawImage(ficha.Bitmap, new Rectangle(ficha.VerticeToPixel(basePoint, zoomLevel), size));
             }
             if (estado == Estado.ColocarPoblado)
             {
-                switch (verticeColocar)
-                {
-                    case FichaPoblado poblado:
-                        bmp = FichaPoblado.Bitmap;
-                        break;
-                    case FichaCiudad ciudad:
-                        bmp = FichaCiudad.Bitmap;
-                        break;
-                    default:
-                        bmp = FichaPoblado.Bitmap;
-                        break;
-                }
-                e.Graphics.DrawImage(bmp, new Rectangle(verticeColocar.VerticeToPixel(basePoint, zoomLevel), size));
+                e.Graphics.DrawImage(verticeColocar.Bitmap, new Rectangle(verticeColocar.VerticeToPixel(basePoint, zoomLevel), size));
             }
         }
 
