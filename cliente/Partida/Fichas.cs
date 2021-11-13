@@ -93,6 +93,21 @@ namespace cliente.Partida
             return vecinos;
         }
 
+        public VerticeCoords[] VerticesHex()
+        {
+            VerticeCoords[] vertices = new VerticeCoords[6];
+
+            // Empezamos a contar desde el vértice superior hacia la derecha
+            vertices[0] = new VerticeCoords(Q, R, Vertice.Superior);            // N
+            vertices[1] = new VerticeCoords(Q + 1, R - 1, Vertice.Inferior);    // NE
+            vertices[2] = new VerticeCoords(Q, R + 1, Vertice.Superior);        // SE
+            vertices[3] = new VerticeCoords(Q, R, Vertice.Inferior);            // S
+            vertices[4] = new VerticeCoords(Q - 1, R + 1, Vertice.Superior);    // SO
+            vertices[5] = new VerticeCoords(Q, R - 1, Vertice.Inferior);        // NO
+
+            return vertices;
+        }
+
         public Point VerticeToPixel(Point basePoint, int zoomLevel)
         {
             switch (V)
