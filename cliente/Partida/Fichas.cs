@@ -80,21 +80,14 @@ namespace cliente.Partida
             switch (V)
             {
                 case Vertice.Superior:
-                    LadoCoords vecinoArriba = new LadoCoords(Q + 1, R - 1, Lado.Oeste);
-                    LadoCoords vecinoDerechaS = new LadoCoords(Q + 1, R - 1, Lado.Sur);
-                    LadoCoords vecinoIzquierdaS = new LadoCoords(Q, R, Lado.Norte);
-                    vecinos[0] = vecinoArriba;
-                    vecinos[1] = vecinoDerechaS;
-                    vecinos[2] = vecinoIzquierdaS;
+                    vecinos[0] = new LadoCoords(Q + 1, R - 1, Lado.Oeste);  // Arriba
+                    vecinos[1] = new LadoCoords(Q + 1, R - 1, Lado.Sur);    // Derecha
+                    vecinos[2] = new LadoCoords(Q, R, Lado.Norte);          // Izquierda
                     break;
-
                 case Vertice.Inferior:
-                    LadoCoords vecinoAbajo = new LadoCoords(Q, R + 1, Lado.Oeste);
-                    LadoCoords vecinoDerechaI = new LadoCoords(Q, R + 1, Lado.Norte);
-                    LadoCoords vecinoIzquierdaI = new LadoCoords(Q, R, Lado.Sur);
-                    vecinos[0] = vecinoAbajo;
-                    vecinos[1] = vecinoDerechaI;
-                    vecinos[2] = vecinoIzquierdaI;
+                    vecinos[0] = new LadoCoords(Q, R + 1, Lado.Oeste);      // Abajo
+                    vecinos[1] = new LadoCoords(Q, R + 1, Lado.Norte);      // Derecha
+                    vecinos[2] = new LadoCoords(Q, R, Lado.Sur);            // Izquierda
                     break;
             }
             return vecinos;
@@ -201,6 +194,33 @@ namespace cliente.Partida
                 case Lado.Sur:
                     break;
             }
+        }
+
+        public LadoCoords[] LadosVecinos()
+        {
+            LadoCoords[] vecinos = new LadoCoords[4];
+            switch (L)
+            {
+                case Lado.Norte:
+                    vecinos[0] = new LadoCoords(Q + 1, R - 1, Lado.Oeste);  // Derecha arriba
+                    vecinos[1] = new LadoCoords(Q + 1, R - 1, Lado.Sur);    // Derecha abajo
+                    vecinos[2] = new LadoCoords(Q, R - 1, Lado.Sur);        // Izquierda arriba
+                    vecinos[3] = new LadoCoords(Q, R, Lado.Oeste);          // Izquierda abajo
+                    break;
+                case Lado.Oeste:
+                    vecinos[0] = new LadoCoords(Q, R, Lado.Norte);            // Derecha arriba
+                    vecinos[1] = new LadoCoords(Q, R, Lado.Sur);              // Derecha abajo
+                    vecinos[2] = new LadoCoords(Q - 1, R, Lado.Norte);        // Izquierda arriba
+                    vecinos[3] = new LadoCoords(Q - 1, R, Lado.Sur);          // Izquierda abajo
+                    break;
+                case Lado.Sur:
+                    vecinos[0] = new LadoCoords(Q, R + 1, Lado.Norte);        // Derecha arriba
+                    vecinos[1] = new LadoCoords(Q, R + 1, Lado.Oeste);        // Derecha abajo
+                    vecinos[2] = new LadoCoords(Q, R, Lado.Oeste);            // Izquierda arriba
+                    vecinos[3] = new LadoCoords(Q - 1, R + 1, Lado.Norte);    // Izquierda abajo
+                    break;
+            }
+            return vecinos;
         }
 
         public static LadoCoords PixelToLado(Point pixelCoords, Point basePoint, int zoomLevel)
