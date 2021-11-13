@@ -92,6 +92,25 @@ namespace cliente.Partida
             }
             return vecinos;
         }
+        public VerticeCoords[] VerticesVecinos()
+        {
+            VerticeCoords[] vecinos = new VerticeCoords[3];
+
+            switch (V)
+            {
+                case Vertice.Superior:
+                    vecinos[0] = new VerticeCoords(Q + 1, R - 2, Vertice.Inferior);
+                    vecinos[1] = new VerticeCoords(Q, R - 1, Vertice.Inferior);
+                    vecinos[2] = new VerticeCoords(Q + 1, R - 1, Vertice.Inferior);
+                    break;
+                case Vertice.Inferior:
+                    vecinos[0] = new VerticeCoords(Q - 1, R + 2, Vertice.Superior);
+                    vecinos[1] = new VerticeCoords(Q - 1, R + 1, Vertice.Superior);
+                    vecinos[2] = new VerticeCoords(Q, R + 1, Vertice.Superior);
+                    break;
+            }
+            return vecinos;
+        }
 
         public VerticeCoords[] VerticesHex()
         {
