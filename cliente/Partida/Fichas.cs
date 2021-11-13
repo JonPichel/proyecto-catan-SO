@@ -182,18 +182,27 @@ namespace cliente.Partida
             this.L = l;
         }
 
-        public VerticeCoords[] Vertices()
+        public VerticeCoords[] VerticesExtremos()
         {
             VerticeCoords[] extremos = new VerticeCoords[2];
+
             switch (L)
             {
                 case Lado.Norte:
+                    extremos[0] = new VerticeCoords(Q, R, Vertice.Superior);
+                    extremos[1] = new VerticeCoords(Q, R - 1, Vertice.Inferior);
                     break;
                 case Lado.Oeste:
+                    extremos[0] = new VerticeCoords(Q, R - 1, Vertice.Inferior);
+                    extremos[1] = new VerticeCoords(Q - 1, R + 1, Vertice.Superior);
                     break;
                 case Lado.Sur:
+                    extremos[0] = new VerticeCoords(Q - 1, R + 1, Vertice.Superior);
+                    extremos[1] = new VerticeCoords(Q, R, Vertice.Inferior);
                     break;
             }
+
+            return extremos;
         }
 
         public LadoCoords[] LadosVecinos()

@@ -200,6 +200,7 @@ namespace cliente.Partida
                         break;
                     case Estado.ColocarCarretera:
                         carreteras.Add(carreteraColocar);
+                        MessageBox.Show(LadoCoords.PixelToLado(e.Location, basePoint, zoomLevel).VerticesExtremos()[0].ToString() + LadoCoords.PixelToLado(e.Location, basePoint, zoomLevel).VerticesExtremos()[1].ToString());
                         estado = Estado.Normal;
                         break;
                     case Estado.ColocarPoblado:
