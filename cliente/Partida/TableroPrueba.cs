@@ -54,7 +54,7 @@ namespace cliente.Partida
             return new List<FichaVertice>()
             {
                 //new FichaPoblado(1, -1, Vertice.Superior, ColorJugador.Rojo),
-               // new FichaCiudad(-1, 1, Vertice.Inferior, ColorJugador.Azul)
+                //new FichaCiudad(-1, 1, Vertice.Inferior, ColorJugador.Azul)
             };
         }
 

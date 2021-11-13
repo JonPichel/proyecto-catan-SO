@@ -14,10 +14,13 @@ namespace cliente.Partida
         Tile[] tiles;
         List<FichaVertice> fichasVertices;
         List<Carretera> carreteras;
-        List<Carretera> posiblesCarreteras;
-        List<FichaVertice> posiblesFichasVertices;
+        LadoCoords[] ladosTablero;
+        VerticeCoords[] verticesTablero;
+        LadoCoords[] ladosPosibles;
+        VerticeCoords[] verticesPosibles;
 
-        int rondas = 0;
+        int Ronda;
+        ColorJugador colorJugador;
 
         int zoomLevel;
         Point basePoint;
@@ -30,7 +33,6 @@ namespace cliente.Partida
             ColocarPoblado,
             ColocarCarretera
         };
-    
 
         Estado estado;
         FichaVertice verticeColocar;
@@ -62,8 +64,27 @@ namespace cliente.Partida
             this.tiles = TableroPrueba.GetTiles();
             this.fichasVertices = TableroPrueba.GetFichasVertices();
             this.carreteras = TableroPrueba.GetCarreteras();
+            // Calcular las posiciones posibles de carreteras y poblados
+            List<VerticeCoords> vertices = new List<VerticeCoords>();
+            List<LadoCoords> lados = new List<LadoCoords>();
+            foreach (Tile tile in this.tiles)
+            {
+                if (tile is TileMar)
+                    continue;
+                lados.AddRange(tile.Coords.Lados());
+                vertices.AddRange(tile.Coords.Vertices());
+            }
+            ladosTablero = lados.Distinct().ToArray();
+            verticesTablero = vertices.Distinct().ToArray();
+            RecalcularLadosPosibles();
+            RecalcularVerticesPosibles();
+
+            // Inicializar camara
             this.zoomLevel = 5;
             this.basePoint = new Point(this.Width / 2, this.Height / 2);
+
+            // Estado partida
+            this.colorJugador = ColorJugador.Morado;
             this.estado = Estado.Normal;
 
             this.Paint += TabTablero_Paint;
@@ -172,19 +193,6 @@ namespace cliente.Partida
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (rondas > 1)
-                {
-                    DondeTirar();
-
-                    int exists = 0;
-                    foreach (Carretera posibles in posiblesCarreteras)
-                    {
-                        if (posibles.CompararCarreteras(carreteraColocar) == true)
-                            exists = 1;
-                    }
-                    if (exists == 0)
-                        estado = Estado.Normal;
-                }
                 switch (estado)
                 {
                     case Estado.Normal:
@@ -194,17 +202,22 @@ namespace cliente.Partida
                         MessageBox.Show(HexCoords.PixelToHex(e.Location, basePoint, zoomLevel).ToString());
                         break;
                     case Estado.ColocarCarretera:
-                        carreteras.Add(carreteraColocar);
-                        estado = Estado.Normal;
-                        rondas = rondas + 1;
-                        if (rondas == 1)
+                        if (ComprobarCarretera(carreteraColocar.Coords))
                         {
-                            this.posiblesCarreteras = new List<Carretera>();
+                            carreteras.Add(carreteraColocar);
+                            RecalcularLadosPosibles();
+                            RecalcularVerticesPosibles();
+                            estado = Estado.Normal;
                         }
                         break;
                     case Estado.ColocarPoblado:
-                        fichasVertices.Add(verticeColocar);
-                        estado = Estado.Normal;
+                        if (ComprobarFichaVertice(verticeColocar.Coords))
+                        {
+                            fichasVertices.Add(verticeColocar);
+                            RecalcularLadosPosibles();
+                            RecalcularVerticesPosibles();
+                            estado = Estado.Normal;
+                        }
                         break;
                 }
                
@@ -252,19 +265,18 @@ namespace cliente.Partida
         private void btnCarretera_Click(object sender, EventArgs e)
         {
             estado = Estado.ColocarCarretera;
-            carreteraColocar = new Carretera(0, 0, Lado.Oeste, ColorJugador.Morado);
-            
+            carreteraColocar = new Carretera(0, 0, Lado.Oeste, this.colorJugador);
         }
 
         private void btnPoblado_Click(object sender, EventArgs e)
         {
-            verticeColocar = new FichaPoblado(0, 0, Vertice.Superior, ColorJugador.Morado);
+            verticeColocar = new FichaPoblado(0, 0, Vertice.Superior, this.colorJugador);
             estado = Estado.ColocarPoblado;
         }
 
         private void btnCiudad_Click(object sender, EventArgs e)
         {
-            verticeColocar = new FichaCiudad(0, 0, Vertice.Superior, ColorJugador.Morado);
+            verticeColocar = new FichaCiudad(0, 0, Vertice.Superior, this.colorJugador);
             estado = Estado.ColocarPoblado;
         }
 
@@ -278,27 +290,111 @@ namespace cliente.Partida
                 estado = Estado.ClickCasilla;
             }
         }
-        public void DondeTirar()
+        public bool ComprobarCarretera(LadoCoords coords)
         {
-            foreach (Carretera construida in carreteras)
+            foreach (LadoCoords posible in ladosPosibles)
             {
-                LadoCoords[] posibles = construida.Coords.LadosVecinos();
-                int i = 0;
-                while (i < posibles.Length)
-                {
-                    Carretera carretera = new Carretera(posibles[i].Q,posibles[i].R,posibles[i].L, ColorJugador.Morado);
-                    int exists = 0;
-                    foreach(Carretera posibles2 in posiblesCarreteras)
-                    {
-                        if (posibles2.CompararCarreteras(carretera) == true)
-                            exists = 1;
-                    }
-                    if (exists == 0)
-                        this.posiblesCarreteras.Add(carretera);
-                    i = i + 1;
-                }
+                if (posible == coords)
+                    return true;
             }
+            return false;
+        }
+        public bool ComprobarFichaVertice(VerticeCoords coords)
+        {
+            foreach (VerticeCoords posible in verticesPosibles)
+            {
+                if (posible == coords)
+                    return true;
+            }
+            return false;
         }
 
+        public void RecalcularLadosPosibles()
+        {
+            List<LadoCoords> lados = new List<LadoCoords>();
+            foreach (Carretera carretera in carreteras)
+            {
+                if (carretera.Color != this.colorJugador)
+                    continue;
+                foreach (LadoCoords lado in carretera.Coords.LadosVecinos())
+                {
+                    // Comprobar que sea una posición "construible"
+                    foreach (LadoCoords posible in this.ladosTablero)
+                    {
+                        if (lado == posible)
+                        {
+                            lados.Add(lado);
+                            break;
+                        }
+                    }
+                }
+            }
+            foreach (FichaVertice ficha in fichasVertices)
+            {
+                if (ficha.Color != this.colorJugador)
+                    continue;
+                foreach (LadoCoords lado in ficha.Coords.LadosVecinos())
+                {
+                    // Comprobar que sea una posición "construible"
+                    foreach (LadoCoords posible in this.ladosTablero)
+                    {
+                        if (lado == posible)
+                        {
+                            lados.Add(lado);
+                            break;
+                        }
+                    }
+                }
+            }
+            lados = lados.Distinct().ToList();
+            foreach (Carretera carretera in carreteras)
+            {
+                lados.Remove(carretera.Coords);
+            }
+            this.ladosPosibles = lados.ToArray();
+        }
+
+        public void RecalcularVerticesPosibles()
+        {
+            List<VerticeCoords> vertices = new List<VerticeCoords>();
+            int count = 0;
+            foreach (FichaVertice vertice in fichasVertices)
+            {
+                if (vertice.Color == this.colorJugador)
+                    count++;
+            }
+            if (count >= 2)
+            {
+                foreach (Carretera carretera in this.carreteras)
+                {
+                    if (carretera.Color != this.colorJugador)
+                        continue;
+                    foreach (VerticeCoords vertice in carretera.Coords.VerticesExtremos())
+                    {
+                        foreach (VerticeCoords posible in this.verticesTablero)
+                        {
+                            if (vertice == posible)
+                            {
+                                vertices.Add(vertice);
+                                break;
+                            }
+                        }
+                    }
+                }
+                vertices = vertices.Distinct().ToList();
+            } else
+            {
+                vertices.AddRange(verticesTablero);
+            }
+            foreach (FichaVertice ficha in this.fichasVertices)
+            {
+                vertices.Remove(ficha.Coords);
+                foreach (VerticeCoords vecino in ficha.Coords.VerticesVecinos())
+                {
+                    vertices.Remove(vecino);
+                }
+            }
+            verticesPosibles = vertices.ToArray();
+        }
     }
 }
