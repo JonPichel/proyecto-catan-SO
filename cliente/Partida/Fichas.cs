@@ -414,6 +414,15 @@ namespace cliente.Partida
             this.Coords.L = l;
             this.Color = color;
         }
+        public bool CompararCarreteras(Carretera segunda)
+        {
+            if ((this.Coords.Q == segunda.Coords.Q) && (this.Coords.R == segunda.Coords.R) && (this.Coords.L == segunda.Coords.L) && (this.Color == segunda.Color))
+            {
+                return true;
+            }
+            else
+                return false;
+        }
 
         public Point LadoToPixel(Point basePoint, int zoomLevel)
         {

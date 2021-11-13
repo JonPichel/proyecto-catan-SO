@@ -14,11 +14,15 @@ namespace cliente.Partida
         Tile[] tiles;
         List<FichaVertice> fichasVertices;
         List<Carretera> carreteras;
+        List<Carretera> posiblesCarreteras;
+        List<FichaVertice> posiblesFichasVertices;
+
+        int rondas = 0;
 
         int zoomLevel;
         Point basePoint;
         Point oldMouse;
-
+        
         enum Estado
         {
             Normal,
@@ -26,6 +30,8 @@ namespace cliente.Partida
             ColocarPoblado,
             ColocarCarretera
         };
+    
+
         Estado estado;
         FichaVertice verticeColocar;
         Carretera carreteraColocar;
@@ -166,6 +172,19 @@ namespace cliente.Partida
         {
             if (e.Button == MouseButtons.Left)
             {
+                if (rondas > 1)
+                {
+                    DondeTirar();
+
+                    int exists = 0;
+                    foreach (Carretera posibles in posiblesCarreteras)
+                    {
+                        if (posibles.CompararCarreteras(carreteraColocar) == true)
+                            exists = 1;
+                    }
+                    if (exists == 0)
+                        estado = Estado.Normal;
+                }
                 switch (estado)
                 {
                     case Estado.Normal:
@@ -176,14 +195,19 @@ namespace cliente.Partida
                         break;
                     case Estado.ColocarCarretera:
                         carreteras.Add(carreteraColocar);
-                        MessageBox.Show(LadoCoords.PixelToLado(e.Location, basePoint, zoomLevel).VerticesExtremos()[0].ToString() + LadoCoords.PixelToLado(e.Location, basePoint, zoomLevel).VerticesExtremos()[1].ToString());
                         estado = Estado.Normal;
+                        rondas = rondas + 1;
+                        if (rondas == 1)
+                        {
+                            this.posiblesCarreteras = new List<Carretera>();
+                        }
                         break;
                     case Estado.ColocarPoblado:
                         fichasVertices.Add(verticeColocar);
                         estado = Estado.Normal;
                         break;
                 }
+               
             }
         }
 
@@ -228,18 +252,19 @@ namespace cliente.Partida
         private void btnCarretera_Click(object sender, EventArgs e)
         {
             estado = Estado.ColocarCarretera;
-            carreteraColocar = new Carretera(0, 0, Lado.Oeste, ColorJugador.Rojo);
+            carreteraColocar = new Carretera(0, 0, Lado.Oeste, ColorJugador.Morado);
+            
         }
 
         private void btnPoblado_Click(object sender, EventArgs e)
         {
-            verticeColocar = new FichaPoblado(0, 0, Vertice.Superior, ColorJugador.Rojo);
+            verticeColocar = new FichaPoblado(0, 0, Vertice.Superior, ColorJugador.Morado);
             estado = Estado.ColocarPoblado;
         }
 
         private void btnCiudad_Click(object sender, EventArgs e)
         {
-            verticeColocar = new FichaCiudad(0, 0, Vertice.Superior, ColorJugador.Rojo);
+            verticeColocar = new FichaCiudad(0, 0, Vertice.Superior, ColorJugador.Morado);
             estado = Estado.ColocarPoblado;
         }
 
@@ -253,5 +278,27 @@ namespace cliente.Partida
                 estado = Estado.ClickCasilla;
             }
         }
+        public void DondeTirar()
+        {
+            foreach (Carretera construida in carreteras)
+            {
+                LadoCoords[] posibles = construida.Coords.LadosVecinos();
+                int i = 0;
+                while (i < posibles.Length)
+                {
+                    Carretera carretera = new Carretera(posibles[i].Q,posibles[i].R,posibles[i].L, ColorJugador.Morado);
+                    int exists = 0;
+                    foreach(Carretera posibles2 in posiblesCarreteras)
+                    {
+                        if (posibles2.CompararCarreteras(carretera) == true)
+                            exists = 1;
+                    }
+                    if (exists == 0)
+                        this.posiblesCarreteras.Add(carretera);
+                    i = i + 1;
+                }
+            }
+        }
+
     }
 }
