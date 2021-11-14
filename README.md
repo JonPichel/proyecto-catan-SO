@@ -25,3 +25,4 @@ URL del video interfaz gráfica: https://drive.google.com/file/d/13-0HaSdZlf_DUN
 
 Lista de conectados como notificación
  * **Generada** por Raúl
+ * **Verificada** por Alba
