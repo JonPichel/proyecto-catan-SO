@@ -1,7 +1,3 @@
-(1)(alba) dado un id de partida dame los nombres de los jugadores
-(2)(jony) la posicion en la que quedo un jugador en una partida concreta
-(3)(raul) calcular la media de puntos de todas tus partidas
-
 # CERRAR CONEXION
 PET: 0/
 RES: nada
@@ -22,7 +18,7 @@ RES:
  - error en el login o login incorrecto:
     2/-1
 
-# MOSTRAR PARTIDAS (2)
+# MOSTRAR PARTIDAS
 PET:
     3/idJ
 RES:
@@ -33,11 +29,11 @@ RES:
  - ERR de bdd:
     3/-1
 
-# INFORMACION PARTIDA (1,2)
+# INFORMACION PARTIDA
 PET: 4/idP
 RES: 4/#jugadores/posicion,nombre,puntos,...
 
-# MEDIA DE PUNTOS (3)
+# MEDIA DE PUNTOS
 PET: 5/idJ
 RES:
  - OK:

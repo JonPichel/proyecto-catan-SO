@@ -5,7 +5,6 @@
 #include <sys/types.h> 
 #include <sys/socket.h> 
 #include <netinet/in.h> 
-#include <mysql.h>
 #include <pthread.h>
 
 #include "peticiones.h"
@@ -14,7 +13,7 @@
 #include "util.h"
 
 listaconn_t conectados;
-pthread_mutex_t mutex_lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_estructuras = PTHREAD_MUTEX_INITIALIZER;
 
 void *atender_cliente(void *socket);
 
@@ -25,8 +24,8 @@ int main(int argc, char *argv[]) {
 
     conectados.num = 0;
 
-    if (argc < 2) {
-        printf("Uso: %s <PORT>\n", argv[0]);
+    if (argc < 3) {
+        printf("Uso: %s <PORT> <MODO>\n", argv[0]);
         return -1;
     } else {
         puerto = atoi(argv[1]);
@@ -35,6 +34,16 @@ int main(int argc, char *argv[]) {
             return -1;
         } else {
             log_msg("MAIN", "Corriendo en el puerto #%d\n", puerto);
+        }
+        if (strcmp(argv[2], "DESARROLLO") == 0) {
+            if (bdd_inicializar("localhost") != 0)
+                return -1;
+        } else if (strcmp(argv[2], "PRODUCCION") == 0) {
+            if (bdd_inicializar("shiva2.upc.es") != 0)
+                return -1;
+        } else {
+            printf("Modos disponibles: DESARROLLO, PRODUCCION\n");
+            return -1;
         }
     }
 
@@ -76,6 +85,7 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < MAX_CONN; i++) {
         pthread_join(threads[i], NULL);
     }
+    bdd_terminar();
 }
 
 void *atender_cliente(void *socket) {
@@ -98,9 +108,9 @@ void *atender_cliente(void *socket) {
         
         if (codigo == 0) {
             /* CERRAR CONEXION */
-            pthread_mutex_lock(&mutex_lock);
+            pthread_mutex_lock(&mutex_estructuras);
             conn_delete_jugador(&conectados, sock_conn);
-            pthread_mutex_unlock(&mutex_lock);
+            pthread_mutex_unlock(&mutex_estructuras);
             pet_lista_conectados(&conectados, respuesta);
             for (int i = 0; i < conectados.num; i++) {
                 write(conectados.conectados[i].socket, respuesta, strlen(respuesta));
@@ -128,9 +138,9 @@ void *atender_cliente(void *socket) {
                 strncpy(pass, p, sizeof(pass));
                 pet_iniciar_sesion(nombre, pass, respuesta);
                 if (strcmp(respuesta, "-1") != 0) {
-                    pthread_mutex_lock(&mutex_lock);
+                    pthread_mutex_lock(&mutex_estructuras);
                     conn_add_jugador(&conectados, nombre, sock_conn);
-                    pthread_mutex_unlock(&mutex_lock);
+                    pthread_mutex_unlock(&mutex_estructuras);
                     actualizar = 1;
                 }
                 break;

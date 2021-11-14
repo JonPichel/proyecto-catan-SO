@@ -2,8 +2,31 @@
 #include <stdio.h>
 #include <string.h>
 #include <mysql.h>
+#include <pthread.h>
 
 #include "base_datos.h"
+#include "util.h"
+
+MYSQL *conn;
+pthread_mutex_t mutex_bdd = PTHREAD_MUTEX_INITIALIZER;
+
+int bdd_inicializar(char *maquina) {
+    if ((conn = mysql_init(NULL)) == NULL) {
+        log_msg("BDD", "Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
+    }
+
+    conn = mysql_real_connect(conn, maquina, "root", "mysql", "T8_Catan", 0, NULL, 0);
+    if (conn == NULL) {
+        log_msg("BDD", "Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
+    }
+    return 0;
+}
+
+void bdd_terminar() {
+    mysql_close(conn);
+}
 
 int bdd_nombre_pass(char *nombre, char *pass) {
     /*
@@ -16,32 +39,21 @@ int bdd_nombre_pass(char *nombre, char *pass) {
         idJ si OK, -1 si no lo ha encontrado o ERR
     */
 
-    MYSQL *conn;
     MYSQL_RES *tabla;
     MYSQL_ROW fila;
     char consulta[160];
 
-    if ((conn = mysql_init(NULL)) == NULL) {
-        printf("Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
-
-    conn = mysql_real_connect(conn, "localhost", "root", "mysql", "catan", 0, NULL, 0);
-    if (conn == NULL) {
-        printf("Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
-
     sprintf(consulta, "SELECT Jugador.id, Jugador.pass FROM Jugador WHERE Jugador.nombre = \'%s\';", nombre);
 
+    pthread_mutex_lock(&mutex_bdd);
     if (mysql_query(conn, consulta) != 0) {
         printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
         return -1;
     }
 
     tabla = mysql_store_result(conn);
+    pthread_mutex_unlock(&mutex_bdd);
     fila = mysql_fetch_row (tabla);
-    mysql_close(conn);
 
     if (fila != NULL) {
             if (pass != NULL)
@@ -62,34 +74,22 @@ float bdd_puntuacion_media(int idJ) {
         Promedio de puntos, -1 si ERR
     */
 
-    MYSQL *conn;
     MYSQL_RES *tabla;
     MYSQL_ROW fila;
     char consulta[160];
     float media;
 
-    if ((conn = mysql_init(NULL)) == NULL) {
-        printf("Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
-
-    conn = mysql_real_connect(conn, "localhost", "root", "mysql", "catan", 0, NULL, 0);
-    if (conn == NULL) {
-        printf("Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
-
     sprintf(consulta, "SELECT AVG(Participacion.puntos) FROM (Participacion) WHERE Participacion.idJ = %d;", idJ);
 
+    pthread_mutex_lock(&mutex_bdd);
     if (mysql_query(conn, consulta) != 0) {
         printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        mysql_close(conn);
         return -1;
     }
 
     tabla = mysql_store_result(conn);
+    pthread_mutex_unlock(&mutex_bdd);
     fila = mysql_fetch_row(tabla);
-    mysql_close(conn);
 
     // No hay partidas para el jugador
     if (fila == NULL)
@@ -112,34 +112,23 @@ int bdd_posicion(int idJ, int idP) {
     Retorno:
         Posicion del jugador en la partida desde 1, -1 si no participa o ha habido un error.
     */
-    MYSQL *conn;
     MYSQL_RES *tabla;
     MYSQL_ROW fila;
     char consulta[160];
     int numj, puntuacion, *puntos;
     int i, j, aux;
 
-    if ((conn = mysql_init(NULL)) == NULL) {
-        printf("Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
-
-    conn = mysql_real_connect(conn, "localhost", "root", "mysql", "catan", 0, NULL, 0);
-    if (conn == NULL) {
-        printf("Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
-
     sprintf(consulta, "SELECT Jugador.id, Participacion.puntos FROM (Jugador, Participacion)"
             "WHERE Participacion.IdP = %d AND Jugador.id = Participacion.idJ;", idP);
 
+    pthread_mutex_lock(&mutex_bdd);
     if (mysql_query(conn, consulta) != 0) {
         printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        mysql_close(conn);
         return -1;
     }
 
     tabla = mysql_store_result(conn);
+    pthread_mutex_unlock(&mutex_bdd);
     numj = mysql_num_rows(tabla);
 
     // Reservamos la memoria del array de puntos dinamicamente
@@ -154,10 +143,6 @@ int bdd_posicion(int idJ, int idP) {
         // Guardamos todas las puntuaciones en un vector
         puntos[i++] = atoi(fila[1]);
     }
-
-
-    // Cerrar la conexion y liberar la memoria
-    mysql_close(conn);
 
     // El jugador no participo en la partida
     if (puntuacion == -1)
@@ -194,30 +179,17 @@ int bdd_registrar_jugador(char *nombre, char *pass) {
     Retorno:
         0 si OK, -1 si ERR
     */
-    MYSQL *conn;
+
     MYSQL_RES *tabla;
     MYSQL_ROW fila;
     char consulta[160];
-
-    if ((conn = mysql_init(NULL)) == NULL) {
-        printf("Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
-
-    conn = mysql_real_connect(conn, "localhost", "root", "mysql", "catan", 0, NULL, 0);
-    if (conn == NULL) {
-        printf("Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
 
     sprintf(consulta, "INSERT INTO Jugador VALUES (0, '%s', '%s')", nombre, pass);
 
     if (mysql_query(conn, consulta) != 0) {
         printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        mysql_close(conn);
         return -1;
     } else {
-        mysql_close(conn);
         return 0;
     }
 }
@@ -233,37 +205,25 @@ int bdd_info_partidas(int idJ, char *datos){
     num. de Partidas si OK, -1 si ERR
     */   
     
-    MYSQL *conn;
     MYSQL_RES *tabla;
     MYSQL_ROW fila;
     char consulta[200];
     int nump;
     
-    if ((conn = mysql_init(NULL)) == NULL) {
-        printf("Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
-    
-    conn = mysql_real_connect(conn, "localhost", "root", "mysql", "catan", 0, NULL, 0);
-    if (conn == NULL) {
-        printf("Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
-    
     sprintf(consulta, "SELECT Partida.id,Participacion.puntos,Partida.fechahora,Partida.duracion "
             "FROM (Partida,Participacion) "
             "WHERE Participacion.idJ = %d AND Partida.id = Participacion.idP ORDER BY Partida.id DESC;", idJ);
     
+    pthread_mutex_lock(&mutex_bdd);
     if (mysql_query(conn, consulta) != 0) {
         printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        mysql_close(conn);
         return -1;
     }
     
     tabla = mysql_store_result(conn);
+    pthread_mutex_unlock(&mutex_bdd);
     nump = mysql_num_rows(tabla);
     if (nump == 0) {
-        mysql_close(conn);
         return 0;
     }
     
@@ -276,7 +236,6 @@ int bdd_info_partidas(int idJ, char *datos){
     // Borrar barra
     datos[strlen(datos)-1]='\0';
     
-    mysql_close(conn);
     return nump;
 }
 
@@ -291,36 +250,24 @@ int bdd_info_participaciones(int idP, int **ids, char *info) {
     Retorno:
         num. de Jugadores si OK, -1 si ERR
     */
-    MYSQL *conn;
     MYSQL_RES *tabla;
     MYSQL_ROW fila;
     char consulta[200];
     int numj;
 
-    if ((conn = mysql_init(NULL)) == NULL) {
-        printf("Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
-
-    conn = mysql_real_connect(conn, "localhost", "root", "mysql", "catan", 0, NULL, 0);
-    if (conn == NULL) {
-        printf("Error al conectar con MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        return -1;
-    }
-
     sprintf(consulta, "SELECT Jugador.id, Jugador.nombre, Participacion.puntos FROM (Jugador, Participacion)"
             "WHERE Participacion.IdP = %d AND Jugador.id = Participacion.idJ ORDER BY Participacion.puntos DESC;", idP);
 
+    pthread_mutex_lock(&mutex_bdd);
     if (mysql_query(conn, consulta) != 0) {
         printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
-        mysql_close(conn);
         return -1;
     }
 
     tabla = mysql_store_result(conn);
+    pthread_mutex_unlock(&mutex_bdd);
     numj = mysql_num_rows(tabla);
     if (numj == 0) {
-        mysql_close(conn);
         return 0;
     }
 
@@ -335,7 +282,6 @@ int bdd_info_participaciones(int idP, int **ids, char *info) {
     }
     // Borrar coma
     info[strlen(info)-1]='\0';
-    mysql_close(conn);
     return numj;
 }
 

@@ -1,6 +1,9 @@
 #ifndef __BASE_DATOS_H__
 #define __BASE_DATOS_H__
 
+int bdd_inicializar(char *maquina);
+void bdd_terminar();
+
 int bdd_nombre_pass(char *nombre, char *pass);
 float bdd_puntuacion_media(int idJ);
 int bdd_posicion(int idJ, int idP);
