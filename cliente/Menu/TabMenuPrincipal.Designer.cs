@@ -41,7 +41,6 @@ namespace cliente.Menu
             this.btnMedia = new System.Windows.Forms.Button();
             this.btnPartidas = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
-            this.btnJugOnline = new System.Windows.Forms.Button();
             this.dataGridJugadores = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridPartidas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridJugadores)).BeginInit();
@@ -201,22 +200,6 @@ namespace cliente.Menu
             this.label7.TabIndex = 14;
             this.label7.Text = "En línea";
             // 
-            // btnJugOnline
-            // 
-            this.btnJugOnline.BackColor = System.Drawing.Color.Sienna;
-            this.btnJugOnline.FlatAppearance.BorderColor = System.Drawing.Color.DarkGoldenrod;
-            this.btnJugOnline.FlatAppearance.BorderSize = 2;
-            this.btnJugOnline.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnJugOnline.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnJugOnline.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnJugOnline.Location = new System.Drawing.Point(37, 269);
-            this.btnJugOnline.Name = "btnJugOnline";
-            this.btnJugOnline.Size = new System.Drawing.Size(150, 40);
-            this.btnJugOnline.TabIndex = 8;
-            this.btnJugOnline.Text = "Jugadores en línea";
-            this.btnJugOnline.UseVisualStyleBackColor = false;
-            this.btnJugOnline.Click += new System.EventHandler(this.btnJugOnline_Click);
-            // 
             // dataGridJugadores
             // 
             this.dataGridJugadores.AllowUserToAddRows = false;
@@ -233,7 +216,6 @@ namespace cliente.Menu
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridJugadores);
-            this.Controls.Add(this.btnJugOnline);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -269,7 +251,6 @@ namespace cliente.Menu
         private System.Windows.Forms.Button btnMedia;
         private System.Windows.Forms.Button btnPartidas;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button btnJugOnline;
         private System.Windows.Forms.DataGridView dataGridJugadores;
     }
 }
