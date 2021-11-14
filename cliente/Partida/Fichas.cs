@@ -7,12 +7,12 @@ namespace cliente.Partida
 {
     public enum ColorJugador
     {
-        Rojo,
-        Verde,
         Azul,
-        Amarillo,
+        Rojo,
         Naranja,
-        Morado
+        Gris,
+        Morado,
+        Verde
     };
     public enum Vertice
     {
@@ -43,6 +43,22 @@ namespace cliente.Partida
         {
             this.HexCoords = hexCoords;
             this.V = v;
+        }
+
+        public Point VerticeToPixel(Point basePoint, int zoomLevel)
+        {
+            switch (V)
+            {
+                case Vertice.Superior:
+                    basePoint.X += (int)((Tile.BRADIUS * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * R) - FichaVertice.BHALFSIDE) / zoomLevel);
+                    basePoint.Y += (int)((Tile.BRADIUS * (1.5 * R - 1) - FichaVertice.BHALFSIDE) / zoomLevel);
+                    break;
+                case Vertice.Inferior:
+                    basePoint.X += (int)((Tile.BRADIUS * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * R) - FichaVertice.BHALFSIDE) / zoomLevel);
+                    basePoint.Y += (int)((Tile.BRADIUS * (1.5 * R + 1) - FichaVertice.BHALFSIDE) / zoomLevel);
+                    break;
+            }
+            return basePoint;
         }
 
         public static VerticeCoords PixelToVertice(Point pixelCoords, Point basePoint, int zoomLevel)
@@ -92,36 +108,46 @@ namespace cliente.Partida
             }
             return vecinos;
         }
-
-        public VerticeCoords[] VerticesHex()
+        public VerticeCoords[] VerticesVecinos()
         {
-            VerticeCoords[] vertices = new VerticeCoords[6];
+            VerticeCoords[] vecinos = new VerticeCoords[3];
 
-            // Empezamos a contar desde el vértice superior hacia la derecha
-            vertices[0] = new VerticeCoords(Q, R, Vertice.Superior);            // N
-            vertices[1] = new VerticeCoords(Q + 1, R - 1, Vertice.Inferior);    // NE
-            vertices[2] = new VerticeCoords(Q, R + 1, Vertice.Superior);        // SE
-            vertices[3] = new VerticeCoords(Q, R, Vertice.Inferior);            // S
-            vertices[4] = new VerticeCoords(Q - 1, R + 1, Vertice.Superior);    // SO
-            vertices[5] = new VerticeCoords(Q, R - 1, Vertice.Inferior);        // NO
-
-            return vertices;
-        }
-
-        public Point VerticeToPixel(Point basePoint, int zoomLevel)
-        {
             switch (V)
             {
                 case Vertice.Superior:
-                    basePoint.X += (int)((Tile.BRADIUS * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * R) - FichaVertice.BHALFSIDE) / zoomLevel);
-                    basePoint.Y += (int)((Tile.BRADIUS * (1.5 * R - 1) - FichaVertice.BHALFSIDE) / zoomLevel);
+                    vecinos[0] = new VerticeCoords(Q + 1, R - 2, Vertice.Inferior);
+                    vecinos[1] = new VerticeCoords(Q, R - 1, Vertice.Inferior);
+                    vecinos[2] = new VerticeCoords(Q + 1, R - 1, Vertice.Inferior);
                     break;
                 case Vertice.Inferior:
-                    basePoint.X += (int)((Tile.BRADIUS * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * R) - FichaVertice.BHALFSIDE) / zoomLevel);
-                    basePoint.Y += (int)((Tile.BRADIUS * (1.5 * R + 1) - FichaVertice.BHALFSIDE) / zoomLevel);
+                    vecinos[0] = new VerticeCoords(Q - 1, R + 2, Vertice.Superior);
+                    vecinos[1] = new VerticeCoords(Q - 1, R + 1, Vertice.Superior);
+                    vecinos[2] = new VerticeCoords(Q, R + 1, Vertice.Superior);
                     break;
             }
-            return basePoint;
+            return vecinos;
+        }
+
+        public static bool operator ==(VerticeCoords vertice1, VerticeCoords vertice2)
+        {
+            return vertice1.Equals(vertice2);
+        }
+        public static bool operator !=(VerticeCoords vertice1, VerticeCoords vertice2)
+        {
+            return !vertice1.Equals(vertice2);
+        }
+        override public bool Equals(object? obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+                return false;
+            VerticeCoords other = (VerticeCoords)obj;
+            return this.R == other.R && this.Q == other.Q && this.V == other.V;
+        }
+
+        public override int GetHashCode()
+        {
+
+            return (Q << 16) + (R << 8) + (int)V;
         }
 
         public override String ToString()
@@ -132,10 +158,11 @@ namespace cliente.Partida
 
     public class FichaVertice
     {
-        public const int BHALFSIDE = 132 / 2;
+        public const int BHALFSIDE = 162 / 2;
 
         public VerticeCoords Coords;
         public ColorJugador Color;
+        virtual public Bitmap Bitmap { get => cliente.Properties.Resources.PobladoAzul; }
 
         public FichaVertice(int q, int r, Vertice v, ColorJugador color)
         {
@@ -152,7 +179,29 @@ namespace cliente.Partida
 
     public sealed class FichaPoblado : FichaVertice
     {
-        public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.PobladoBmp);
+        override public Bitmap Bitmap
+        {
+            get
+            {
+                switch (Color)
+                {
+                    case ColorJugador.Azul:
+                        return cliente.Properties.Resources.PobladoAzul;
+                    case ColorJugador.Rojo:
+                        return cliente.Properties.Resources.PobladoRojo;
+                    case ColorJugador.Naranja:
+                        return cliente.Properties.Resources.PobladoNaranja;
+                    case ColorJugador.Gris:
+                        return cliente.Properties.Resources.PobladoGris;
+                    case ColorJugador.Morado:
+                        return cliente.Properties.Resources.PobladoMorado;
+                    case ColorJugador.Verde:
+                        return cliente.Properties.Resources.PobladoVerde;
+                    default:
+                        return cliente.Properties.Resources.PobladoAzul;
+                }
+            }
+        }
         public FichaPoblado(int q, int r, Vertice v, ColorJugador color) : base(q, r, v, color)
         {
         }
@@ -160,7 +209,30 @@ namespace cliente.Partida
 
     public sealed class FichaCiudad : FichaVertice
     {
-        public static readonly Bitmap Bitmap = new Bitmap(cliente.Properties.Resources.CiudadBmp);
+        override public Bitmap Bitmap
+        {
+            get
+            {
+                switch (Color)
+                {
+                    case ColorJugador.Azul:
+                        return cliente.Properties.Resources.CiudadAzul;
+                    case ColorJugador.Rojo:
+                        return cliente.Properties.Resources.CiudadRojo;
+                    case ColorJugador.Naranja:
+                        return cliente.Properties.Resources.CiudadNaranja;
+                    case ColorJugador.Gris:
+                        return cliente.Properties.Resources.CiudadGris;
+                    case ColorJugador.Morado:
+                        return cliente.Properties.Resources.CiudadMorado;
+                    case ColorJugador.Verde:
+                        return cliente.Properties.Resources.CiudadVerde;
+                    default:
+                        return cliente.Properties.Resources.CiudadAzul;
+                }
+            }
+        }
+
         public FichaCiudad(int q, int r, Vertice v, ColorJugador color) : base(q, r, v, color)
         {
         }
@@ -195,6 +267,46 @@ namespace cliente.Partida
         {
             this.HexCoords = hexCoords;
             this.L = l;
+        }
+
+        public static LadoCoords PixelToLado(Point pixelCoords, Point basePoint, int zoomLevel)
+        {
+            HexCoords tile = HexCoords.PixelToHex(pixelCoords, basePoint, zoomLevel);
+            Point tileCenter = tile.HexToPixel(basePoint, zoomLevel);
+            tileCenter.X += Tile.BWIDTH / 2 / zoomLevel;
+            tileCenter.Y += Tile.BHEIGHT / 2 / zoomLevel;
+            double angle = Math.Atan2(tileCenter.X - pixelCoords.X, tileCenter.Y - pixelCoords.Y);
+            if (angle <= -2.0 / 3 * Math.PI)
+            {
+                return new LadoCoords(tile.Q, tile.R + 1, Lado.Norte);
+            }
+            else if (angle <= -Math.PI / 3)
+            {
+                return new LadoCoords(tile.Q + 1, tile.R, Lado.Oeste);
+            }
+            else if (angle <= 0)
+            {
+                return new LadoCoords(tile.Q + 1, tile.R - 1, Lado.Sur);
+            }
+            else if (angle <= Math.PI / 3)
+            {
+                return new LadoCoords(tile, Lado.Norte);
+            }
+            else if (angle <= 2.0 / 3 * Math.PI)
+            {
+                return new LadoCoords(tile, Lado.Oeste);
+            }
+            else
+            {
+                return new LadoCoords(tile, Lado.Sur);
+            }
+        }
+
+        public Point LadoToPixel(Point basePoint, int zoomLevel, int dx, int dy)
+        {
+            basePoint.X += (int)((Tile.BRADIUS * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * (R - 1)) - dx) / zoomLevel);
+            basePoint.Y += (int)((Tile.BRADIUS * (1.5 * R - 1) - dy) / zoomLevel);
+            return basePoint;
         }
 
         public VerticeCoords[] VerticesExtremos()
@@ -234,8 +346,8 @@ namespace cliente.Partida
                 case Lado.Oeste:
                     vecinos[0] = new LadoCoords(Q, R, Lado.Norte);            // Derecha arriba
                     vecinos[1] = new LadoCoords(Q, R, Lado.Sur);              // Derecha abajo
-                    vecinos[2] = new LadoCoords(Q - 1, R, Lado.Norte);        // Izquierda arriba
-                    vecinos[3] = new LadoCoords(Q - 1, R, Lado.Sur);          // Izquierda abajo
+                    vecinos[2] = new LadoCoords(Q , R - 1, Lado.Sur);         // Izquierda arriba
+                    vecinos[3] = new LadoCoords(Q - 1, R + 1, Lado.Norte);    // Izquierda abajo
                     break;
                 case Lado.Sur:
                     vecinos[0] = new LadoCoords(Q, R + 1, Lado.Norte);        // Derecha arriba
@@ -247,39 +359,26 @@ namespace cliente.Partida
             return vecinos;
         }
 
-        public static LadoCoords PixelToLado(Point pixelCoords, Point basePoint, int zoomLevel)
+        public static bool operator ==(LadoCoords lado1, LadoCoords lado2)
         {
-            HexCoords tile = HexCoords.PixelToHex(pixelCoords, basePoint, zoomLevel);
-            Point tileCenter = tile.HexToPixel(basePoint, zoomLevel);
-            tileCenter.X += Tile.BWIDTH / 2 / zoomLevel;
-            tileCenter.Y += Tile.BHEIGHT / 2 / zoomLevel;
-            double angle = Math.Atan2(tileCenter.X - pixelCoords.X, tileCenter.Y - pixelCoords.Y);
-            if (angle <= -2.0/3 * Math.PI)
-            {
-                return new LadoCoords(tile.Q, tile.R + 1, Lado.Norte);
-            } else if (angle <= -Math.PI / 3)
-            {
-                return new LadoCoords(tile.Q + 1, tile.R, Lado.Oeste);
-            } else if (angle <= 0)
-            {
-                return new LadoCoords(tile.Q + 1, tile.R - 1, Lado.Sur);
-            } else if (angle <= Math.PI / 3)
-            {
-                return new LadoCoords(tile, Lado.Norte);
-            } else if (angle <= 2.0/3 * Math.PI)
-            {
-                return new LadoCoords(tile, Lado.Oeste);
-            } else
-            {
-                return new LadoCoords(tile, Lado.Sur);
-            }
+            return lado1.Equals(lado2);
+        }
+        public static bool operator !=(LadoCoords lado1, LadoCoords lado2)
+        {
+            return !lado1.Equals(lado2);
+        }
+        override public bool Equals(object? obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+                return false;
+            LadoCoords other = (LadoCoords)obj;
+            return this.R == other.R && this.Q == other.Q && this.L == other.L;
         }
 
-        public Point LadoToPixel(Point basePoint, int zoomLevel, int dx, int dy)
+        public override int GetHashCode()
         {
-            basePoint.X += (int)((Tile.BRADIUS * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * (R - 1)) - dx) / zoomLevel);
-            basePoint.Y += (int)((Tile.BRADIUS * (1.5 * R - 1) - dy) / zoomLevel);
-            return basePoint;
+
+            return (Q << 16) + (R << 8) + (int)L;
         }
 
         public override String ToString()
@@ -301,14 +400,44 @@ namespace cliente.Partida
             {
                 switch (Coords.L)
                 {
-                    case Lado.Norte:
-                        return cliente.Properties.Resources.CarreteraNorteBmp;
-                    case Lado.Oeste:
-                        return cliente.Properties.Resources.CarreteraOesteBmp;
-                    case Lado.Sur:
-                        return cliente.Properties.Resources.CarreteraSurBmp;
+                    case Lado.Norte when Color == ColorJugador.Azul:
+                        return cliente.Properties.Resources.CarreteraNorteAzul;
+                    case Lado.Norte when Color == ColorJugador.Rojo:
+                        return cliente.Properties.Resources.CarreteraNorteRojo;
+                    case Lado.Norte when Color == ColorJugador.Naranja:
+                        return cliente.Properties.Resources.CarreteraNorteNaranja;
+                    case Lado.Norte when Color == ColorJugador.Gris:
+                        return cliente.Properties.Resources.CarreteraNorteGris;
+                    case Lado.Norte when Color == ColorJugador.Morado:
+                        return cliente.Properties.Resources.CarreteraNorteMorado;
+                    case Lado.Norte when Color == ColorJugador.Verde:
+                        return cliente.Properties.Resources.CarreteraNorteVerde;
+                    case Lado.Oeste when Color == ColorJugador.Azul:
+                        return cliente.Properties.Resources.CarreteraOesteAzul;
+                    case Lado.Oeste when Color == ColorJugador.Rojo:
+                        return cliente.Properties.Resources.CarreteraOesteRojo;
+                    case Lado.Oeste when Color == ColorJugador.Naranja:
+                        return cliente.Properties.Resources.CarreteraOesteNaranja;
+                    case Lado.Oeste when Color == ColorJugador.Gris:
+                        return cliente.Properties.Resources.CarreteraOesteGris;
+                    case Lado.Oeste when Color == ColorJugador.Morado:
+                        return cliente.Properties.Resources.CarreteraOesteMorado;
+                    case Lado.Oeste when Color == ColorJugador.Verde:
+                        return cliente.Properties.Resources.CarreteraOesteVerde;
+                    case Lado.Sur when Color == ColorJugador.Azul:
+                        return cliente.Properties.Resources.CarreteraSurAzul;
+                    case Lado.Sur when Color == ColorJugador.Rojo:
+                        return cliente.Properties.Resources.CarreteraSurRojo;
+                    case Lado.Sur when Color == ColorJugador.Naranja:
+                        return cliente.Properties.Resources.CarreteraSurNaranja;
+                    case Lado.Sur when Color == ColorJugador.Gris:
+                        return cliente.Properties.Resources.CarreteraSurGris;
+                    case Lado.Sur when Color == ColorJugador.Morado:
+                        return cliente.Properties.Resources.CarreteraSurMorado;
+                    case Lado.Sur when Color == ColorJugador.Verde:
+                        return cliente.Properties.Resources.CarreteraSurVerde;
                     default:
-                        return cliente.Properties.Resources.CarreteraOesteBmp;
+                        return cliente.Properties.Resources.CarreteraNorteAzul;
                 }
             }
         }
@@ -325,5 +454,4 @@ namespace cliente.Partida
             return Coords.LadoToPixel(basePoint, zoomLevel, DX, DY);
         }
     }
-
 }

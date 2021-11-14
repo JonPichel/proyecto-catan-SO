@@ -53,8 +53,8 @@ namespace cliente.Partida
         {
             return new List<FichaVertice>()
             {
-                new FichaPoblado(1, -1, Vertice.Superior, ColorJugador.Rojo),
-                new FichaCiudad(-1, 1, Vertice.Inferior, ColorJugador.Azul)
+                //new FichaPoblado(1, -1, Vertice.Superior, ColorJugador.Rojo),
+                //new FichaCiudad(-1, 1, Vertice.Inferior, ColorJugador.Azul)
             };
         }
 
@@ -62,9 +62,9 @@ namespace cliente.Partida
         {
             return new List<Carretera>()
             {
-                new Carretera(2, 0, Lado.Norte, ColorJugador.Amarillo),
-                new Carretera(-1, 1, Lado.Oeste, ColorJugador.Rojo),
-                new Carretera(1, -1, Lado.Sur, ColorJugador.Azul)
+               // new Carretera(2, 0, Lado.Norte, ColorJugador.Rojo),
+               // new Carretera(-1, 1, Lado.Oeste, ColorJugador.Rojo),
+               // new Carretera(1, -1, Lado.Sur, ColorJugador.Azul)
             };
         }
     }

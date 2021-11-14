@@ -37,9 +37,10 @@ namespace cliente.Partida
             // 
             // btnPoblado
             // 
-            this.btnPoblado.Location = new System.Drawing.Point(560, 522);
+            this.btnPoblado.Location = new System.Drawing.Point(800, 870);
+            this.btnPoblado.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnPoblado.Name = "btnPoblado";
-            this.btnPoblado.Size = new System.Drawing.Size(75, 75);
+            this.btnPoblado.Size = new System.Drawing.Size(107, 125);
             this.btnPoblado.TabIndex = 0;
             this.btnPoblado.Text = "Colocar Poblado";
             this.btnPoblado.UseVisualStyleBackColor = true;
@@ -47,9 +48,10 @@ namespace cliente.Partida
             // 
             // btnCarretera
             // 
-            this.btnCarretera.Location = new System.Drawing.Point(722, 522);
+            this.btnCarretera.Location = new System.Drawing.Point(1031, 870);
+            this.btnCarretera.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCarretera.Name = "btnCarretera";
-            this.btnCarretera.Size = new System.Drawing.Size(75, 75);
+            this.btnCarretera.Size = new System.Drawing.Size(107, 125);
             this.btnCarretera.TabIndex = 1;
             this.btnCarretera.Text = "Colocar Carretera";
             this.btnCarretera.UseVisualStyleBackColor = true;
@@ -57,9 +59,10 @@ namespace cliente.Partida
             // 
             // btnCiudad
             // 
-            this.btnCiudad.Location = new System.Drawing.Point(641, 522);
+            this.btnCiudad.Location = new System.Drawing.Point(916, 870);
+            this.btnCiudad.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCiudad.Name = "btnCiudad";
-            this.btnCiudad.Size = new System.Drawing.Size(75, 75);
+            this.btnCiudad.Size = new System.Drawing.Size(107, 125);
             this.btnCiudad.TabIndex = 2;
             this.btnCiudad.Text = "Colocar Ciudad";
             this.btnCiudad.UseVisualStyleBackColor = true;
@@ -67,9 +70,10 @@ namespace cliente.Partida
             // 
             // btnCasilla
             // 
-            this.btnCasilla.Location = new System.Drawing.Point(479, 522);
+            this.btnCasilla.Location = new System.Drawing.Point(684, 870);
+            this.btnCasilla.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCasilla.Name = "btnCasilla";
-            this.btnCasilla.Size = new System.Drawing.Size(75, 75);
+            this.btnCasilla.Size = new System.Drawing.Size(107, 125);
             this.btnCasilla.TabIndex = 3;
             this.btnCasilla.Text = "Click Casilla";
             this.btnCasilla.UseVisualStyleBackColor = true;
@@ -77,7 +81,7 @@ namespace cliente.Partida
             // 
             // TabTablero
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btnCasilla);
             this.Controls.Add(this.btnCiudad);
