@@ -30,8 +30,8 @@ namespace cliente.Menu
         private void FormMenuPrincipal_Load(object sender, EventArgs e)
         {
             // Conectar al servidor
-            IPAddress addrServer = IPAddress.Parse("10.0.2.2");
-            IPEndPoint ipep = new IPEndPoint(addrServer, 4444);
+            IPAddress addrServer = IPAddress.Parse("147.83.117.22");
+            IPEndPoint ipep = new IPEndPoint(addrServer, 50074);
 
             conn = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
@@ -78,9 +78,9 @@ namespace cliente.Menu
                 string pet = "0/";
                 byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                 conn.Send(pet_b);
-                atender.Interrupt();
                 conn.Shutdown(SocketShutdown.Both);
                 conn.Close();
+                atender.Interrupt();
             }
         }
 

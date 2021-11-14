@@ -76,14 +76,6 @@ namespace cliente.Menu
             this.Hide();
         }
 
-        private void btnJugOnline_Click(object sender, EventArgs e)
-        {
-            // Petición lista de jugadores online
-            string pet = "6/";
-            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
-            conn.Send(pet_b);
-
-        }
         public void ActualizarDataGrid(string res)
         {
 
