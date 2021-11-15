@@ -113,6 +113,8 @@ void *atender_cliente(void *socket) {
             pthread_mutex_unlock(&mutex_estructuras);
             pet_lista_conectados(&conectados, respuesta);
             for (int i = 0; i < conectados.num; i++) {
+                log_msg(tag, "Lista de conectados por el socket %d: %s\n",
+                        conectados.conectados[i].socket, respuesta);
                 write(conectados.conectados[i].socket, respuesta, strlen(respuesta));
             }
             break;
