@@ -26,3 +26,6 @@ URL del video interfaz gráfica: https://drive.google.com/file/d/13-0HaSdZlf_DUN
 Lista de conectados como notificación
  * **Generada** por Raúl
  * **Verificada** por Alba
+ * **Comunicada** por Jonathan
+
+URL del video (incluye demostración de la interfaz gráfica): https://drive.google.com/file/d/1KOjPGBo6xBZXraA8FyrIhyfj7B4TPqUw/view?usp=sharing
