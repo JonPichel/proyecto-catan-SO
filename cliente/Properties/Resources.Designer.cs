@@ -193,6 +193,16 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CarreteraNorteContorno {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraNorteContorno", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CarreteraNorteGris {
             get {
                 object obj = ResourceManager.GetObject("CarreteraNorteGris", resourceCulture);
@@ -253,6 +263,16 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CarreteraOesteContorno {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraOesteContorno", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CarreteraOesteGris {
             get {
                 object obj = ResourceManager.GetObject("CarreteraOesteGris", resourceCulture);
@@ -306,6 +326,16 @@ namespace cliente.Properties {
         internal static System.Drawing.Bitmap CarreteraSurAzul {
             get {
                 object obj = ResourceManager.GetObject("CarreteraSurAzul", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CarreteraSurContorno {
+            get {
+                object obj = ResourceManager.GetObject("CarreteraSurContorno", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -546,6 +576,16 @@ namespace cliente.Properties {
         internal static System.Drawing.Bitmap TileTrigoBmp {
             get {
                 object obj = ResourceManager.GetObject("TileTrigoBmp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap VerticeContorno {
+            get {
+                object obj = ResourceManager.GetObject("VerticeContorno", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

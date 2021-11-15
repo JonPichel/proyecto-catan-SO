@@ -137,6 +137,7 @@ namespace cliente.Menu
             this.dataGridPartidas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridPartidas.Location = new System.Drawing.Point(218, 120);
             this.dataGridPartidas.Name = "dataGridPartidas";
+            this.dataGridPartidas.ReadOnly = true;
             this.dataGridPartidas.Size = new System.Drawing.Size(277, 150);
             this.dataGridPartidas.TabIndex = 11;
             this.dataGridPartidas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridPartidas_CellClick);
@@ -207,9 +208,9 @@ namespace cliente.Menu
             this.dataGridJugadores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridJugadores.Location = new System.Drawing.Point(501, 120);
             this.dataGridJugadores.Name = "dataGridJugadores";
+            this.dataGridJugadores.ReadOnly = true;
             this.dataGridJugadores.Size = new System.Drawing.Size(81, 150);
             this.dataGridJugadores.TabIndex = 11;
-            this.dataGridJugadores.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridPartidas_CellClick);
             // 
             // TabMenuPrincipal
             // 

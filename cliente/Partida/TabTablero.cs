@@ -148,6 +148,24 @@ namespace cliente.Partida
             }
             if (estado == Estado.ColocarCarretera)
             {
+                foreach (LadoCoords lado in ladosPosibles)
+                {
+                    switch (lado.L)
+                    {
+                        case Lado.Norte:
+                            e.Graphics.DrawImage(cliente.Properties.Resources.CarreteraNorteContorno,
+                                new Rectangle(lado.LadoToPixel(basePoint, zoomLevel, Carretera.DX, Carretera.DY), size));
+                            break;
+                        case Lado.Oeste:
+                            e.Graphics.DrawImage(cliente.Properties.Resources.CarreteraOesteContorno,
+                                new Rectangle(lado.LadoToPixel(basePoint, zoomLevel, Carretera.DX, Carretera.DY), size));
+                            break;
+                        case Lado.Sur:
+                            e.Graphics.DrawImage(cliente.Properties.Resources.CarreteraSurContorno,
+                                new Rectangle(lado.LadoToPixel(basePoint, zoomLevel, Carretera.DX, Carretera.DY), size));
+                            break;
+                    }
+                }
                 e.Graphics.DrawImage(carreteraColocar.Bitmap, new Rectangle(carreteraColocar.LadoToPixel(basePoint, zoomLevel), size));
             }
             // Dibujar poblados
@@ -158,6 +176,10 @@ namespace cliente.Partida
             }
             if (estado == Estado.ColocarPoblado)
             {
+                foreach(VerticeCoords vertice in verticesPosibles)
+                {
+                    e.Graphics.DrawImage(cliente.Properties.Resources.VerticeContorno, new Rectangle(vertice.VerticeToPixel(basePoint, zoomLevel), size));
+                }
                 e.Graphics.DrawImage(verticeColocar.Bitmap, new Rectangle(verticeColocar.VerticeToPixel(basePoint, zoomLevel), size));
             }
         }
