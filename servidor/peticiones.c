@@ -187,8 +187,16 @@ void not_lista_jugadores(int idP, char *tag) {
         tag: tag del thread que activa la notificacion
     */
     // Generar mensaje
-    for (int i = 0; i < partidas[idP].num; i++) {
-        ...
+    char respuesta[512];
+	sprintf(respuesta, "11/%d/", idP);
+    for (int i = 0; i < partidas[idP].numj; i++) {
+        sprintf(respuesta, "%s%s,%d,", respuesta, partidas[idP].jugadores[i].nombre, partidas[idP].jugadores[i].color);
     }
+	respuesta[strlen(respuesta) - 1] = '\0';
     // Enviar lista
+	for (int i = 0; i < partidas[idP].numj; i++) {
+		log_msg(tag, "Lista de jugadores por el socket %d: %s\n",
+				partidas[idP].jugadores[i].socket, respuesta);
+		write( partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
+	}
 }
