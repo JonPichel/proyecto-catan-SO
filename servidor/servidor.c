@@ -105,6 +105,7 @@ void *atender_cliente(void *sock_ptr) {
         int nbytes, codigo;
         char pass[20];
         int nuevo_conectado = 0;
+        int idP;
         nbytes = read(socket, peticion, sizeof(peticion));
         peticion[nbytes] = '\0';
         log_msg(tag, "Peticion recibida: %s\n", peticion);
@@ -185,6 +186,15 @@ void *atender_cliente(void *sock_ptr) {
                 break;
             case 12:
                 /* SELECCIONAR COLOR */
+                idP = atoi(strtok(NULL, "/"));
+                strtok(NULL, ",");
+                int color = atoi(strtok(NULL, " "));
+                pet_cambio_color(idP, nombre, color, respuesta);
+                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
+                write(socket, respuesta, strlen(respuesta));
+                /* NOTIFICACION LISTA DE JUGADORES */
+                sleep(1);
+                not_lista_jugadores(idP, tag);
                 break;
             default:
                 log_msg(tag, "Peticion desconocida: %d\n", codigo);

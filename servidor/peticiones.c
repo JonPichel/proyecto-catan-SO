@@ -154,6 +154,21 @@ int pet_crear_lobby(char *nombre, int socket, char *respuesta) {
     return -1;
 }
 
+void pet_cambio_color(int idP, char *nombre, int color, char *respuesta) {
+    /*
+    Descripcion:
+    Realiza el cambio de color de un jugador si este esta disponible
+    Parametros:
+    idP: identificador de la partida
+    nombre, color deseado, respuesta
+    */
+    int a = part_cambio_color(&partidas[idP], nombre, color);
+    if (a == 0)
+        sprintf(respuesta,"12/OK");
+    else
+        sprintf(respuesta,"12/ERR");
+}
+
 void not_lista_conectados(char *tag) {
     /*
     Descripcion:

@@ -51,5 +51,6 @@ int conn_socket_jugador(listaconn_t *lista, char nombre[20]);
 void inicializar_partidas(partida_t partidas[MAX_PART]);
 int part_add_jugador(partida_t *partida, char nombre[20], int socket);
 int part_delete_jugador(partida_t *partida, char nombre[20]);
+int part_cambio_color(partida_t *partida, char nombre[20], int color);
 
 #endif /* __ESTRUCTURAS_H__ */

@@ -49,9 +49,7 @@ int part_add_jugador(partida_t *partida, char nombre[20], int socket){
         // Asignar color disponible
         enum COLOR colores[6] = {AZUL, ROJO, NARANJA, GRIS, MORADO, VERDE};
         for (int i = 0; i < partida->numj; i++) {
-            for (int j = 0; j < 6; j++) {
-                colores[partida->jugadores[i].color] = -1;
-            }
+            colores[partida->jugadores[i].color] = -1;
         }
         for (int i = 0; i < 6; i++) {
             if (colores[i] != -1) {
@@ -78,4 +76,21 @@ int part_delete_jugador(partida_t *partida, char nombre[20]){
         }
     }
     return -1;
+}
+
+int part_cambio_color(partida_t *partida, char nombre[20], int color){
+    int num;
+    enum COLOR colores[6] = {AZUL, ROJO, NARANJA, GRIS, MORADO, VERDE};
+    for (int i = 0; i < partida->numj; i++) {
+        if((strcmp(partida->jugadores[i].nombre,nombre) == 0))
+            num = i;
+        else
+            colores[partida->jugadores[i].color] = -1;
+    }
+    if (colores[color] == -1)
+        return -1;
+    else{
+        partida->jugadores[num].color = color;
+        return 0;
+    }
 }
