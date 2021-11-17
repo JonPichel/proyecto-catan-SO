@@ -5,10 +5,13 @@
 
 /* Funciones peticiones */
 void pet_registrar_jugador(char *nombre, char *pass, char *respuesta);
-void pet_iniciar_sesion(char *nombre, char *pass, char *respuesta);
+int pet_iniciar_sesion(char *nombre, char *pass, char *respuesta);
 void pet_informacion_partidas_jugador(int idJ, char *respuesta);
 void pet_informacion_partida(int idP, char *respuesta);
 void pet_puntuacion_media_jugador(int idJ, char *respuesta);
-void pet_lista_conectados(listaconn_t *lista, char *respuesta);
+int pet_crear_lobby(char *nombre, int socket, char *respuesta); 
+
+void not_lista_conectados(char *tag);
+void not_lista_jugadores(int idP, char *tag);
 
 #endif /* __PETICIONES_H__ */

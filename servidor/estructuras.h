@@ -3,6 +3,7 @@
 
 /* Macros */
 #define MAX_CONN 100
+#define MAX_PART 100
 
 /* Estructuras */
 typedef struct {
@@ -15,9 +16,40 @@ typedef struct {
     conectado_t conectados[MAX_CONN];
 } listaconn_t;
 
+enum COLOR {
+    AZUL,
+    ROJO,
+    NARANJA,
+    GRIS,
+    MORADO,
+    VERDE
+};
+
+typedef struct {
+    char nombre[20];
+    int socket;
+    enum COLOR color;
+} jugador_t;
+
+enum ESTADO {
+    LOBBY,
+    JUGANDO,
+    VACIA
+};
+
+typedef struct {
+    int numj;
+    jugador_t jugadores[4];
+    enum ESTADO estado;
+} partida_t;
+
 /* Funciones */
 int conn_add_jugador(listaconn_t *lista, char nombre[20], int socket);
 int conn_delete_jugador(listaconn_t *lista, int socket);
 int conn_socket_jugador(listaconn_t *lista, char nombre[20]);
+
+void inicializar_partidas(partida_t partidas[MAX_PART]);
+int part_add_jugador(partida_t *partida, char nombre[20], int socket);
+int part_delete_jugador(partida_t *partida, char nombre[20]);
 
 #endif /* __ESTRUCTURAS_H__ */

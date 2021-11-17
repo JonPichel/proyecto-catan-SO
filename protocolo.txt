@@ -1,27 +1,27 @@
 # CERRAR CONEXION
-PET: 0/
-RES: nada
+CLIENTE: 0/
+SERVIDOR: nada
 
 # REGISTRARSE
-PET: 1/nombre,pass
-RES:
+CLIENTE: 1/nombre,pass
+SERVIDOR:
 - registro correcto:
     1/YES
 - ERR:
     1/NO
 
 # INICIAR SESION
-PET: 2/nombre,pass
-RES:
+CLIENTE: 2/nombre,pass
+SERVIDOR:
  - login correcto:
     2/idJ
  - error en el login o login incorrecto:
     2/-1
 
 # MOSTRAR PARTIDAS
-PET:
+CLIENTE:
     3/idJ
-RES:
+SERVIDOR:
  - hay partidas:
     #partidas/idP,posicion,puntos,fechahora,duracion,...
  - no hay partidas:
@@ -30,17 +30,50 @@ RES:
     3/-1
 
 # INFORMACION PARTIDA
-PET: 4/idP
-RES: 4/#jugadores/posicion,nombre,puntos,...
+CLIENTE: 4/idP
+SERVIDOR: 4/#jugadores/posicion,nombre,puntos,...
 
 # MEDIA DE PUNTOS
-PET: 5/idJ
-RES:
+CLIENTE: 5/idJ
+SERVIDOR:
  - OK:
     5/media de puntos
  - ERR:
     5/-1
 
+# LISTA CONECTADOS
+CLIENTE: NADA
+SERVIDOR: 6/#jug/nombre1,nombre2,nombre3...
+
+
+/* NUEVAS */
+
+
+# CREAR LOBBY (DONE)
+CLIENTE: 7/miNombre
+SERVIDOR: 7/idPartida
+
+# INVITAR LOBBY 
+CLIENTE: 8/idPartida/guest
+SERVIDOR: 8/idPartida/guest/SI o NO
+
+# TE INVITAN
+SERVIDOR: 9/idPartida/host
+CLIENTE: 9/idPartida/SI o NO
+
+# ABANDONAR LOBBY (Jon)
+CLIENTE: 10/nombre
+SERVIDOR: mira en la lista si se va el host o un invitado:
+host -> notificacion cerrar lobby (10/idPartida)
+invitado -> notificar lista jugadores (11/)
+
 # LISTA JUGADORES
-#PET: 6/
-RES: 6/#jug/nombre1,nombre2,nombre3...
+# hacer funcion pet_lista_jugadores(partida_t *partida, char *respuesta)
+CLIENTE: NADA
+SERVIDOR: 11/idPartida/host,color,guest1,color,guest2,color,guest3,color...
+
+# SELECCION COLOR (Alba)
+CLIENTE: 12/idPartida/nombre,color
+SERVIDOR: notifica a los demás
+
+

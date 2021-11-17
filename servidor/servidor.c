@@ -12,7 +12,9 @@
 #include "estructuras.h"
 #include "util.h"
 
+/* Variables globales */
 listaconn_t conectados;
+partida_t partidas[MAX_PART];
 pthread_mutex_t mutex_estructuras = PTHREAD_MUTEX_INITIALIZER;
 
 void *atender_cliente(void *socket);
@@ -21,8 +23,6 @@ int main(int argc, char *argv[]) {
     int sock_listen, sock_conn;
     struct sockaddr_in host_addr;
     int puerto;
-
-    conectados.num = 0;
 
     if (argc < 3) {
         printf("Uso: %s <PORT> <MODO>\n", argv[0]);
@@ -69,10 +69,14 @@ int main(int argc, char *argv[]) {
         log_msg("MAIN", "Error en el listen\n");
         return -1;
     }
+
+    conectados.num = 0;
+    inicializar_partidas(partidas);
     
     int sockets[MAX_CONN];
     pthread_t threads[MAX_CONN];
-    for (int i = 0; i < MAX_CONN; i++) {
+    int i = 0;
+    for (;;) {
         log_msg("MAIN", "Escuchando...\n");
 
         sock_conn = accept(sock_listen, NULL, NULL);
@@ -80,26 +84,28 @@ int main(int argc, char *argv[]) {
         
         sockets[i] = sock_conn;
         pthread_create(&threads[i], NULL, atender_cliente, &sockets[i]);
-    }
-    log_msg("MAIN", "Nº maximo de conexiones alcanzado\n");
-    for (int i = 0; i < MAX_CONN; i++) {
-        pthread_join(threads[i], NULL);
+        i++;
+        if (i == MAX_CONN) {
+            i = 0;
+        }
     }
     bdd_terminar();
 }
 
-void *atender_cliente(void *socket) {
-    int sock_conn = *(int *)socket;
+void *atender_cliente(void *sock_ptr) {
+    int socket = *(int *)sock_ptr;
+    char nombre[20];
     char peticion[512], respuesta[512];
     char tag[32]; 
     char *p;
-    int nbytes, codigo;
-    int actualizar;
 
-    sprintf(tag, "THREAD %d", sock_conn);
+    sprintf(tag, "THREAD %d", socket);
     
     while (1) {
-        nbytes = read(sock_conn, peticion, sizeof(peticion));
+        int nbytes, codigo;
+        char pass[20];
+        int nuevo_conectado = 0;
+        nbytes = read(socket, peticion, sizeof(peticion));
         peticion[nbytes] = '\0';
         log_msg(tag, "Peticion recibida: %s\n", peticion);
         
@@ -109,83 +115,85 @@ void *atender_cliente(void *socket) {
         if (codigo == 0) {
             /* CERRAR CONEXION */
             pthread_mutex_lock(&mutex_estructuras);
-            conn_delete_jugador(&conectados, sock_conn);
+            conn_delete_jugador(&conectados, socket);
             pthread_mutex_unlock(&mutex_estructuras);
-            pet_lista_conectados(&conectados, respuesta);
-            for (int i = 0; i < conectados.num; i++) {
-                log_msg(tag, "Lista de conectados por el socket %d: %s\n",
-                        conectados.conectados[i].socket, respuesta);
-                write(conectados.conectados[i].socket, respuesta, strlen(respuesta));
-            }
+            /* NOTIFICACION LISTA DE CONECTADOS */
+            not_lista_conectados(tag);
             break;
         }
         
-        char nombre[20], pass[20];
-        int idJ, idP;
-        actualizar = 0;
         switch (codigo) {
             case 1:
                 /* REGISTRO DE JUGADOR */
-                p = strtok(NULL, ",");
-                strncpy(nombre, p, sizeof(nombre));
-                p = strtok(NULL, ",");
-                strncpy(pass, p, sizeof(pass));
+                strncpy(nombre, strtok(NULL, ","), sizeof(nombre));
+                strncpy(pass, strtok(NULL, ","), sizeof(pass));
                 pet_registrar_jugador(nombre, pass, respuesta);
+                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
+                write(socket, respuesta, strlen(respuesta));
                 break;
             case 2:
                 /* INICIO SESION DE JUGADOR */
-                p = strtok(NULL, ",");
-                strncpy(nombre, p, sizeof(nombre));
-                p = strtok(NULL, ",");
-                strncpy(pass, p, sizeof(pass));
+                strncpy(nombre, strtok(NULL, ","), sizeof(nombre));
+                strncpy(pass, strtok(NULL, ","), sizeof(pass));
                 pet_iniciar_sesion(nombre, pass, respuesta);
-                if (strcmp(respuesta, "-1") != 0) {
+                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
+                write(socket, respuesta, strlen(respuesta));
+                if (pet_iniciar_sesion(nombre, pass, respuesta) != -1) {
                     pthread_mutex_lock(&mutex_estructuras);
-                    conn_add_jugador(&conectados, nombre, sock_conn);
+                    conn_add_jugador(&conectados, nombre, socket);
                     pthread_mutex_unlock(&mutex_estructuras);
-                    actualizar = 1;
+                    /* NOTIFICACION LISTA DE CONECTADOS */
+                    sleep(1);
+                    not_lista_conectados(tag);
                 }
                 break;
             case 3:
                 /* PARTIDAS DE JUGADOR */
-                p = strtok(NULL, ",");
-                idJ = atoi(p);
-                pet_informacion_partidas_jugador(idJ, respuesta);
+                pet_informacion_partidas_jugador(atoi(strtok(NULL, ",")), respuesta);
+                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
+                write(socket, respuesta, strlen(respuesta));
                 break;
             case 4:
                 /* INFORMACION DE PARTIDA */
-                p = strtok(NULL, ",");
-                idP = atoi(p);
-                pet_informacion_partida(idP, respuesta);
+                pet_informacion_partida(atoi(strtok(NULL, ",")), respuesta);
+                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
+                write(socket, respuesta, strlen(respuesta));
                 break;
             case 5:
                 /* PUNTUACION MEDIA DE JUGADOR */
-                p = strtok(NULL, ",");
-                idJ = atoi(p);
-                pet_puntuacion_media_jugador(idJ, respuesta);
+                pet_puntuacion_media_jugador(atoi(strtok(NULL, ",")), respuesta);
+                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
+                write(socket, respuesta, strlen(respuesta));
                 break;
-            case 6:
-                /* LISTA DE CONECTADOS */
-                pet_lista_conectados(&conectados, respuesta);
+            case 7:
+                /* CREAR LOBBY */
+                pet_crear_lobby(nombre, socket, respuesta);
+                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
+                write(socket, respuesta, strlen(respuesta));
+                break;
+            case 8:
+                /* ENVIAR INVITACION LOBBY */
+                // Nota: write al guest
+                break;
+            case 9:
+                /* RESPONDER INVITACION LOBBY */
+                // Nota: si la respuesta es SI, usar part_add_jugador para añadir al jugador
+                // luego write al host (buscas en partidas)
+                break;
+            case 10:
+                /* ABANDONAR LOBBY */
+                break;
+            case 12:
+                /* SELECCIONAR COLOR */
                 break;
             default:
                 log_msg(tag, "Peticion desconocida: %d\n", codigo);
-                close(sock_conn);
+                close(socket);
                 return NULL;
         }
-        log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
-        write(sock_conn, respuesta, strlen(respuesta));
-        if (actualizar) {
-            sleep(1);
-            pet_lista_conectados(&conectados, respuesta);
-            for (int i = 0; i < conectados.num; i++) {
-                log_msg(tag, "Lista de conectados por el socket %d: %s\n",
-                        conectados.conectados[i].socket, respuesta);
-                write(conectados.conectados[i].socket, respuesta, strlen(respuesta));
-            }
-        }
+
     }
         
     log_msg(tag, "Cerrando conexion...\n");
-    close(sock_conn);
+    close(socket);
 }

@@ -1,10 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
+#include <pthread.h>
 
 #include "peticiones.h"
 #include "base_datos.h"
 #include "estructuras.h"
+#include "util.h"
+
+/* Variables globales externas */
+extern listaconn_t conectados;
+extern partida_t partidas[MAX_PART];
+extern pthread_mutex_t mutex_estructuras;
 
 void pet_registrar_jugador(char *nombre, char *pass, char *respuesta) {
     /*
@@ -30,7 +38,7 @@ void pet_registrar_jugador(char *nombre, char *pass, char *respuesta) {
         strcpy(respuesta, "1/NO");
 }
 
-void pet_iniciar_sesion(char *nombre, char *pass, char *respuesta) {
+int pet_iniciar_sesion(char *nombre, char *pass, char *respuesta) {
     /*
     Descripcion:
         Atiende la peticion de iniciar sesion y genera la respuesta
@@ -38,21 +46,27 @@ void pet_iniciar_sesion(char *nombre, char *pass, char *respuesta) {
         nombre: nombre Jugador
         pass: contraseña introducida
         respuesta: mensaje de respuesta con el id del Jugador
+    Devuelve:
+        idJ si OK, -1 si ERR
     */
     char pass_real[20];
     int idJ;
 
     idJ = bdd_nombre_pass(nombre, pass_real);
-    if (idJ != -1){
-        if (strcmp(pass, pass_real) == 0)
+    if (idJ != -1) {
+        if (strcmp(pass, pass_real) == 0) {
             sprintf(respuesta, "2/%d", idJ);
-        else
+            return idJ;
+        } else {
             // Contraseña incorrecta
             strcpy(respuesta, "2/-1");
+            return -1;
         }
-    else
+    } else {
         // No existe el usuario
         strcpy(respuesta, "2/-1");
+        return -1;
+    }
 }
 
 void pet_informacion_partidas_jugador(int idJ, char *respuesta) {
@@ -70,7 +84,7 @@ void pet_informacion_partidas_jugador(int idJ, char *respuesta) {
     sprintf(respuesta, "3/%d/", nump);
     p = strtok(datos, "#");
         
-    if (nump != -1){
+    if (nump != -1) {
         for (int j = 0; j < nump; j++) {
             sprintf(respuesta,"%s%s,%d,", respuesta, p, bdd_posicion(idJ, atoi(p)));
             p = strtok(NULL,"#");
@@ -124,20 +138,57 @@ void pet_puntuacion_media_jugador(int idJ, char *respuesta) {
     sprintf(respuesta, "5/%.2f", bdd_puntuacion_media(idJ));
 }
 
-void pet_lista_conectados(listaconn_t *lista, char *respuesta) {
+
+int pet_crear_lobby(char *nombre, int socket, char *respuesta) {
+    for (int i = 0; i < MAX_PART; i++) {
+        if (partidas[i].estado == VACIA) {
+            partidas[i].estado = LOBBY;
+            pthread_mutex_lock(&mutex_estructuras);
+            part_add_jugador(&partidas[i], nombre, socket);
+            pthread_mutex_unlock(&mutex_estructuras);
+            sprintf(respuesta, "7/%d", i);
+            return i;
+        }
+    }
+    strcpy(respuesta, "7/-1");
+    return -1;
+}
+
+void not_lista_conectados(char *tag) {
     /*
     Descripcion:
-        Atiende la peticion de lista de conectados y genera la respuesta
+        Notifica a todos los conectados de un cambio en la lista de conectados
     Parametros:
-        lista: lista de usuarios conectados
-        respuesta: mensaje con la lista de nombres de usuarios
+        tag: tag del thread que activa la notificacion
     */
-
-    sprintf(respuesta, "6/%d/", lista->num);
-    if (lista->num == 0)
-        return;
-    for (int i = 0; i < lista->num; i++) {
-        sprintf(respuesta, "%s%s,", respuesta, lista->conectados[i].nombre);
+    // Generar mensaje
+    char respuesta[512];
+    sprintf(respuesta, "6/%d/", conectados.num);
+    if (conectados.num != 0) {
+        for (int i = 0; i < conectados.num; i++) {
+            sprintf(respuesta, "%s%s,", respuesta, conectados.conectados[i].nombre);
+        }
+        respuesta[strlen(respuesta) - 1] = '\0';
     }
-    respuesta[strlen(respuesta) - 1] = '\0';
+    // Enviar lista
+    for (int i = 0; i < conectados.num; i++) {
+        log_msg(tag, "Lista de conectados por el socket %d: %s\n",
+                conectados.conectados[i].socket, respuesta);
+        write(conectados.conectados[i].socket, respuesta, strlen(respuesta));
+    }
+}
+
+void not_lista_jugadores(int idP, char *tag) {
+    /*
+    Descripcion:
+        Genera el mensaje de notificacion de lista de jugadores
+    Parametros:
+        idP: id de la partida en la tabla de partidas
+        tag: tag del thread que activa la notificacion
+    */
+    // Generar mensaje
+    for (int i = 0; i < partidas[idP].num; i++) {
+        ...
+    }
+    // Enviar lista
 }

@@ -4,4 +4,4 @@ TODO:
  * Cambiar conexión MySQL
 
 PARA COMPILAR:
-gcc -o servidorCatan util.c estructuras.c base_datos.c peticiones.c servidor.c -pthread `mysql_config --cflags --libs`
+gcc -g -o servidorCatan util.c estructuras.c base_datos.c peticiones.c servidor.c -pthread `mysql_config --cflags --libs`

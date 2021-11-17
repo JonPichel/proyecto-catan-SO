@@ -27,10 +27,55 @@ int conn_delete_jugador(listaconn_t *lista, int socket) {
     return -1;
 }
 
-int conn_socket_jugador(listaconn_t *lista, char nombre[20]) {
+int conn_socket_jugador(listaconn_t *lista, char *nombre) {
     for (int i = 0; i < lista->num; i++) {
         if (strcmp(lista->conectados[i].nombre, nombre) == 0)
             return lista->conectados[i].socket;
+    }
+    return -1;
+}
+
+void inicializar_partidas(partida_t partidas[MAX_PART]) {
+    for (int i = 0; i < MAX_PART; i++) {
+        partidas[i].estado = VACIA;
+        partidas[i].numj = 0;
+    }
+}
+
+int part_add_jugador(partida_t *partida, char nombre[20], int socket){
+    if (partida->numj < 4) {
+        strcpy(partida->jugadores[partida->numj].nombre, nombre);
+        partida->jugadores[partida->numj].socket = socket;
+        // Asignar color disponible
+        enum COLOR colores[6] = {AZUL, ROJO, NARANJA, GRIS, MORADO, VERDE};
+        for (int i = 0; i < partida->numj; i++) {
+            for (int j = 0; j < 6; j++) {
+                colores[partida->jugadores[i].color] = -1;
+            }
+        }
+        for (int i = 0; i < 6; i++) {
+            if (colores[i] != -1) {
+                partida->jugadores[partida->numj].color = colores[i];
+                break;
+            }
+        }
+        partida->numj++;
+        return 0;
+    }
+    return -1;
+}
+
+int part_delete_jugador(partida_t *partida, char nombre[20]){
+    for (int i = 0; i < partida->numj; i++) {
+        if (strcmp(partida->jugadores[i].nombre, nombre) == 0) {
+            for (int j = i+1; j < partida->numj; j++) {
+                strcpy(partida->jugadores[j-1].nombre, partida->jugadores[j].nombre);
+                partida->jugadores[j-1].socket = partida->jugadores[j].socket;
+                partida->jugadores[j-1].color = partida->jugadores[j].color;
+            } 
+            partida->numj--;
+            return i;
+        }
     }
     return -1;
 }
