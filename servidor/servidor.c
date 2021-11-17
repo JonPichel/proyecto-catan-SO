@@ -175,11 +175,29 @@ void *atender_cliente(void *sock_ptr) {
             case 8:
                 /* ENVIAR INVITACION LOBBY */
                 // Nota: write al guest
+                idP = atoi(strtok(NULL, "/"));
+				char guest[20];
+				strcpy(guest, strtok(NULL, "/"));
+				int socket_guest = conn_socket_jugador(&conectados, guest);
+				sprintf(respuesta, "%d/%d/%s", 9, idP, nombre);
+				log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);				
+				write(socket_guest, respuesta, strlen(respuesta));
                 break;
             case 9:
                 /* RESPONDER INVITACION LOBBY */
                 // Nota: si la respuesta es SI, usar part_add_jugador para añadir al jugador
                 // luego write al host (buscas en partidas)
+                idP = atoi(strtok(NULL, "/"));
+				char decision[2];
+				strcpy(decision, strtok(NULL, "/"));
+				if (strcmp(decision, "SI") == 0){
+					pthread_mutex_lock(&mutex_estructuras);
+					part_add_jugador(&partidas[idP], nombre, socket);
+					pthread_mutex_unlock(&mutex_estructuras);
+				}
+				sprintf(respuesta, "%d/%d/%s/%s", 8, idP, nombre, decision);
+				log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);				
+				write(partidas[idP].jugadores[0].socket, respuesta, strlen(respuesta));
                 break;
             case 10:
                 /* ABANDONAR LOBBY */
