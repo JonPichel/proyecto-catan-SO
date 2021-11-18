@@ -95,131 +95,64 @@ int main(int argc, char *argv[]) {
 void *atender_cliente(void *sock_ptr) {
     int socket = *(int *)sock_ptr;
     char nombre[20];
-    char peticion[512], respuesta[512];
-    char tag[32]; 
-    char *p;
+    char peticion[512], tag[32];
+    int nbytes, codigo = 1;
+    char *resto;
 
     sprintf(tag, "THREAD %d", socket);
     
-    while (1) {
-        int nbytes, codigo;
-        char pass[20];
-        int nuevo_conectado = 0;
-        int idP;
+    while (codigo != 0) {
         nbytes = read(socket, peticion, sizeof(peticion));
         peticion[nbytes] = '\0';
         log_msg(tag, "Peticion recibida: %s\n", peticion);
         
-        p = strtok(peticion, "/");
-        codigo = atoi(p);
-        
-        if (codigo == 0) {
-            /* CERRAR CONEXION */
-            pthread_mutex_lock(&mutex_estructuras);
-            conn_delete_jugador(&conectados, socket);
-            pthread_mutex_unlock(&mutex_estructuras);
-            /* NOTIFICACION LISTA DE CONECTADOS */
-            not_lista_conectados(tag);
-            break;
-        }
+        codigo = atoi(strtok_r(peticion, "/", &resto));
         
         switch (codigo) {
+            case 0:
+                /* DESCONEXION */
+                pet_desconectar(socket);
+                break;
             case 1:
                 /* REGISTRO DE JUGADOR */
-                strncpy(nombre, strtok(NULL, ","), sizeof(nombre));
-                strncpy(pass, strtok(NULL, ","), sizeof(pass));
-                pet_registrar_jugador(nombre, pass, respuesta);
-                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
-                write(socket, respuesta, strlen(respuesta));
+                pet_registrar_jugador(resto, socket);
                 break;
             case 2:
                 /* INICIO SESION DE JUGADOR */
-                strncpy(nombre, strtok(NULL, ","), sizeof(nombre));
-                strncpy(pass, strtok(NULL, ","), sizeof(pass));
-                pet_iniciar_sesion(nombre, pass, respuesta);
-                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
-                write(socket, respuesta, strlen(respuesta));
-                if (pet_iniciar_sesion(nombre, pass, respuesta) != -1) {
-                    pthread_mutex_lock(&mutex_estructuras);
-                    conn_add_jugador(&conectados, nombre, socket);
-                    pthread_mutex_unlock(&mutex_estructuras);
-                    /* NOTIFICACION LISTA DE CONECTADOS */
-                    sleep(1);
-                    not_lista_conectados(tag);
-                }
+                strncpy(nombre, strtok_r(resto, ",", &resto), sizeof(nombre));
+                pet_iniciar_sesion(nombre, resto, socket);
                 break;
             case 3:
                 /* PARTIDAS DE JUGADOR */
-                pet_informacion_partidas_jugador(atoi(strtok(NULL, ",")), respuesta);
-                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
-                write(socket, respuesta, strlen(respuesta));
+                pet_informacion_partidas_jugador(resto, socket);
                 break;
             case 4:
                 /* INFORMACION DE PARTIDA */
-                pet_informacion_partida(atoi(strtok(NULL, ",")), respuesta);
-                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
-                write(socket, respuesta, strlen(respuesta));
+                pet_informacion_partida(resto, socket);
                 break;
             case 5:
                 /* PUNTUACION MEDIA DE JUGADOR */
-                pet_puntuacion_media_jugador(atoi(strtok(NULL, ",")), respuesta);
-                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
-                write(socket, respuesta, strlen(respuesta));
+                pet_puntuacion_media_jugador(resto, socket);
                 break;
             case 7:
                 /* CREAR LOBBY */
-                pet_crear_lobby(nombre, socket, respuesta);
-                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
-                write(socket, respuesta, strlen(respuesta));
+                pet_crear_lobby(nombre, socket);
                 break;
             case 8:
                 /* ENVIAR INVITACION LOBBY */
-                // Nota: write al guest
-                idP = atoi(strtok(NULL, "/"));
-				char guest[20];
-				strcpy(guest, strtok(NULL, "/"));
-				int socket_guest = conn_socket_jugador(&conectados, guest);
-                if(socket_guest == -1){
-                    sprintf(respuesta, "%d/%d/%s/%s", 8, idP, nombre, "NO");
-                    log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);				
-				    write(socket, respuesta, strlen(respuesta));
-                }
-                else{
-                    sprintf(respuesta, "%d/%d/%s", 9, idP, nombre);
-                    log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);				
-				    write(socket_guest, respuesta, strlen(respuesta));
-                }			
+                pet_invitar_lobby(resto, nombre, socket);
                 break;
             case 9:
                 /* RESPONDER INVITACION LOBBY */
-                // Nota: si la respuesta es SI, usar part_add_jugador para añadir al jugador
-                // luego write al host (buscas en partidas)
-                idP = atoi(strtok(NULL, "/"));
-				char decision[2];
-				strcpy(decision, strtok(NULL, "/"));
-				if (strcmp(decision, "SI") == 0){
-					pthread_mutex_lock(&mutex_estructuras);
-					part_add_jugador(&partidas[idP], nombre, socket);
-					pthread_mutex_unlock(&mutex_estructuras);
-                    not_lista_jugadores(idP, tag);
-				}
-				sprintf(respuesta, "%d/%d/%s/%s", 8, idP, nombre, decision);
-				log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);				
-				write(partidas[idP].jugadores[0].socket, respuesta, strlen(respuesta));
+                pet_responder_invitacion(resto, nombre, socket);
                 break;
             case 10:
                 /* ABANDONAR LOBBY */
+                pet_abandonar_lobby(resto, nombre, socket);
                 break;
             case 12:
                 /* SELECCIONAR COLOR */
-                idP = atoi(strtok(NULL, "/"));
-                int color = atoi(strtok(NULL, "/"));
-                pet_cambio_color(idP, nombre, color, respuesta);
-                log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
-                write(socket, respuesta, strlen(respuesta));
-                /* NOTIFICACION LISTA DE JUGADORES */
-                sleep(1);
-                not_lista_jugadores(idP, tag);
+                pet_cambio_color(resto, nombre, socket);
                 break;
             default:
                 log_msg(tag, "Peticion desconocida: %d\n", codigo);
@@ -228,7 +161,6 @@ void *atender_cliente(void *sock_ptr) {
         }
 
     }
-        
     log_msg(tag, "Cerrando conexion...\n");
     close(socket);
 }

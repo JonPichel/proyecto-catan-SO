@@ -62,7 +62,7 @@ SERVIDOR: 9/idPartida/host
 CLIENTE: 9/idPartida/SI o NO
 
 # ABANDONAR LOBBY (Jon)
-CLIENTE: 10/
+CLIENTE: 10/idPartida
 SERVIDOR: mira en la lista si se va el host o un invitado:
 host -> notificacion cerrar lobby (10/idPartida)
 invitado -> notificar lista jugadores (11/)
@@ -74,6 +74,6 @@ SERVIDOR: 11/idPartida/host,color,guest1,color,guest2,color,guest3,color...
 
 # SELECCION COLOR (Alba)
 CLIENTE: 12/idPartida/(int)color
-SERVIDOR: notifica a los demás
+SERVIDOR: 12/OK o ERR (y notifica a los demás con 11/)
 
 
