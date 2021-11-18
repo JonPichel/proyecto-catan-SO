@@ -179,9 +179,16 @@ void *atender_cliente(void *sock_ptr) {
 				char guest[20];
 				strcpy(guest, strtok(NULL, "/"));
 				int socket_guest = conn_socket_jugador(&conectados, guest);
-				sprintf(respuesta, "%d/%d/%s", 9, idP, nombre);
-				log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);				
-				write(socket_guest, respuesta, strlen(respuesta));
+                if(socket_guest == -1){
+                    sprintf(respuesta, "%d/%d/%s/%s", 8, idP, nombre, "NO");
+                    log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);				
+				    write(socket, respuesta, strlen(respuesta));
+                }
+                else{
+                    sprintf(respuesta, "%d/%d/%s", 9, idP, nombre);
+                    log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);				
+				    write(socket_guest, respuesta, strlen(respuesta));
+                }			
                 break;
             case 9:
                 /* RESPONDER INVITACION LOBBY */
@@ -194,6 +201,7 @@ void *atender_cliente(void *sock_ptr) {
 					pthread_mutex_lock(&mutex_estructuras);
 					part_add_jugador(&partidas[idP], nombre, socket);
 					pthread_mutex_unlock(&mutex_estructuras);
+                    not_lista_jugadores(idP, tag);
 				}
 				sprintf(respuesta, "%d/%d/%s/%s", 8, idP, nombre, decision);
 				log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);				
@@ -205,8 +213,7 @@ void *atender_cliente(void *sock_ptr) {
             case 12:
                 /* SELECCIONAR COLOR */
                 idP = atoi(strtok(NULL, "/"));
-                strtok(NULL, ",");
-                int color = atoi(strtok(NULL, " "));
+                int color = atoi(strtok(NULL, "/"));
                 pet_cambio_color(idP, nombre, color, respuesta);
                 log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
                 write(socket, respuesta, strlen(respuesta));

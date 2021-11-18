@@ -50,7 +50,7 @@ SERVIDOR: 6/#jug/nombre1,nombre2,nombre3...
 
 
 # CREAR LOBBY (DONE)
-CLIENTE: 7/miNombre
+CLIENTE: 7/
 SERVIDOR: 7/idPartida
 
 # INVITAR LOBBY 
@@ -62,7 +62,7 @@ SERVIDOR: 9/idPartida/host
 CLIENTE: 9/idPartida/SI o NO
 
 # ABANDONAR LOBBY (Jon)
-CLIENTE: 10/nombre
+CLIENTE: 10/
 SERVIDOR: mira en la lista si se va el host o un invitado:
 host -> notificacion cerrar lobby (10/idPartida)
 invitado -> notificar lista jugadores (11/)
@@ -73,7 +73,7 @@ CLIENTE: NADA
 SERVIDOR: 11/idPartida/host,color,guest1,color,guest2,color,guest3,color...
 
 # SELECCION COLOR (Alba)
-CLIENTE: 12/idPartida/nombre,color
+CLIENTE: 12/idPartida/(int)color
 SERVIDOR: notifica a los demás
 
 
