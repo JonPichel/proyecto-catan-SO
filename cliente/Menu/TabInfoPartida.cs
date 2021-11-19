@@ -43,6 +43,7 @@ namespace cliente.Menu
             // Rellenamos la tabla con los datos de las partidas
             dataGridResultadoPartida.Rows.Clear();
             dataGridResultadoPartida.Rows.Add(numj);
+            dataGridResultadoPartida.BackgroundColor = Color.FromArgb(213, 79, 10);
             for (int i = 0; i < numj; i++)
             {
                 dataGridResultadoPartida.Rows[i].Cells[0].Value = datos[3*i + 0];     // Posición del jugador

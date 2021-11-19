@@ -20,7 +20,7 @@ namespace cliente.Partida
         VerticeCoords[] verticesPosibles;
 
         int Ronda;
-        ColorJugador colorJugador;
+        public ColorJugador colorJugador;
 
         int zoomLevel;
         Point basePoint;
@@ -84,7 +84,6 @@ namespace cliente.Partida
             this.basePoint = new Point(this.Width / 2, this.Height / 2);
 
             // Estado partida
-            this.colorJugador = ColorJugador.Morado;
             this.estado = Estado.Normal;
 
             this.Paint += TabTablero_Paint;

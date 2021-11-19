@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
+using cliente.Partida;
 
 
 
@@ -27,6 +28,7 @@ namespace cliente.Menu
 
         private void TabMenuPrincipal_Load(object sender, EventArgs e)
         {
+            dataGridPartidas.BackgroundColor = Color.FromArgb(213, 79, 10);
             dataGridPartidas.RowHeadersVisible = false;
             dataGridPartidas.Columns.Add("ID", "ID");
             dataGridPartidas.Columns.Add("Posición", "Posición");
@@ -54,6 +56,8 @@ namespace cliente.Menu
             string pet = "5/" + idJ.ToString();
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
+            FormPartida Partida = new FormPartida();
+            Partida.ShowDialog();
 
            
         }

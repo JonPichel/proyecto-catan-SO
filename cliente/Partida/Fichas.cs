@@ -20,6 +20,8 @@ namespace cliente.Partida
         Inferior
     };
 
+
+
     public struct VerticeCoords
     {
         public HexCoords HexCoords;
