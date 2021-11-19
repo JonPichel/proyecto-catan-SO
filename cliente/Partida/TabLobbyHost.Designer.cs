@@ -66,13 +66,14 @@
             // 
             // btnEmpezar
             // 
+            this.btnEmpezar.BackColor = System.Drawing.Color.White;
             this.btnEmpezar.Location = new System.Drawing.Point(146, 520);
             this.btnEmpezar.Margin = new System.Windows.Forms.Padding(2);
             this.btnEmpezar.Name = "btnEmpezar";
             this.btnEmpezar.Size = new System.Drawing.Size(186, 31);
             this.btnEmpezar.TabIndex = 1;
             this.btnEmpezar.Text = "EMPEZAR LA PARTIDA";
-            this.btnEmpezar.UseVisualStyleBackColor = true;
+            this.btnEmpezar.UseVisualStyleBackColor = false;
             this.btnEmpezar.Click += new System.EventHandler(this.button1_Click);
             // 
             // panelChat
@@ -97,10 +98,11 @@
             this.dataGridJugadores.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridJugadores.Name = "dataGridJugadores";
             this.dataGridJugadores.ReadOnly = true;
+            this.dataGridJugadores.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dataGridJugadores.RowHeadersWidth = 62;
             this.dataGridJugadores.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridJugadores.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dataGridJugadores.Size = new System.Drawing.Size(190, 208);
+            this.dataGridJugadores.Size = new System.Drawing.Size(190, 204);
             this.dataGridJugadores.TabIndex = 3;
             this.dataGridJugadores.Text = "dataGridView1";
             // 
@@ -109,14 +111,15 @@
             this.panelJugadores.Controls.Add(this.panelColor);
             this.panelJugadores.Controls.Add(this.label1);
             this.panelJugadores.Controls.Add(this.dataGridJugadores);
-            this.panelJugadores.Location = new System.Drawing.Point(89, 183);
+            this.panelJugadores.Location = new System.Drawing.Point(89, 169);
             this.panelJugadores.Margin = new System.Windows.Forms.Padding(2);
             this.panelJugadores.Name = "panelJugadores";
-            this.panelJugadores.Size = new System.Drawing.Size(298, 322);
+            this.panelJugadores.Size = new System.Drawing.Size(298, 336);
             this.panelJugadores.TabIndex = 2;
             // 
             // panelColor
             // 
+            this.panelColor.BackColor = System.Drawing.Color.AntiqueWhite;
             this.panelColor.Controls.Add(this.btnC5);
             this.panelColor.Controls.Add(this.btnC6);
             this.panelColor.Controls.Add(this.btnC4);
@@ -125,15 +128,15 @@
             this.panelColor.Controls.Add(this.btnC1);
             this.panelColor.Controls.Add(this.btnCambioColor);
             this.panelColor.Controls.Add(this.label2);
-            this.panelColor.Location = new System.Drawing.Point(17, 262);
+            this.panelColor.Location = new System.Drawing.Point(17, 258);
             this.panelColor.Margin = new System.Windows.Forms.Padding(2);
             this.panelColor.Name = "panelColor";
-            this.panelColor.Size = new System.Drawing.Size(266, 46);
+            this.panelColor.Size = new System.Drawing.Size(266, 62);
             this.panelColor.TabIndex = 2;
             // 
             // btnC5
             // 
-            this.btnC5.Location = new System.Drawing.Point(23, 25);
+            this.btnC5.Location = new System.Drawing.Point(21, 32);
             this.btnC5.Margin = new System.Windows.Forms.Padding(2);
             this.btnC5.Name = "btnC5";
             this.btnC5.Size = new System.Drawing.Size(33, 17);
@@ -142,7 +145,7 @@
             // 
             // btnC6
             // 
-            this.btnC6.Location = new System.Drawing.Point(209, 25);
+            this.btnC6.Location = new System.Drawing.Point(207, 32);
             this.btnC6.Margin = new System.Windows.Forms.Padding(2);
             this.btnC6.Name = "btnC6";
             this.btnC6.Size = new System.Drawing.Size(33, 17);
@@ -151,7 +154,7 @@
             // 
             // btnC4
             // 
-            this.btnC4.Location = new System.Drawing.Point(172, 25);
+            this.btnC4.Location = new System.Drawing.Point(170, 32);
             this.btnC4.Margin = new System.Windows.Forms.Padding(2);
             this.btnC4.Name = "btnC4";
             this.btnC4.Size = new System.Drawing.Size(33, 17);
@@ -160,7 +163,7 @@
             // 
             // btnC3
             // 
-            this.btnC3.Location = new System.Drawing.Point(60, 25);
+            this.btnC3.Location = new System.Drawing.Point(58, 32);
             this.btnC3.Margin = new System.Windows.Forms.Padding(2);
             this.btnC3.Name = "btnC3";
             this.btnC3.Size = new System.Drawing.Size(33, 17);
@@ -169,7 +172,7 @@
             // 
             // btnC2
             // 
-            this.btnC2.Location = new System.Drawing.Point(134, 25);
+            this.btnC2.Location = new System.Drawing.Point(132, 32);
             this.btnC2.Margin = new System.Windows.Forms.Padding(2);
             this.btnC2.Name = "btnC2";
             this.btnC2.Size = new System.Drawing.Size(33, 17);
@@ -178,7 +181,7 @@
             // 
             // btnC1
             // 
-            this.btnC1.Location = new System.Drawing.Point(97, 25);
+            this.btnC1.Location = new System.Drawing.Point(95, 32);
             this.btnC1.Margin = new System.Windows.Forms.Padding(2);
             this.btnC1.Name = "btnC1";
             this.btnC1.Size = new System.Drawing.Size(33, 17);
@@ -187,13 +190,14 @@
             // 
             // btnCambioColor
             // 
-            this.btnCambioColor.Location = new System.Drawing.Point(79, 1);
+            this.btnCambioColor.BackColor = System.Drawing.Color.White;
+            this.btnCambioColor.Location = new System.Drawing.Point(78, 1);
             this.btnCambioColor.Margin = new System.Windows.Forms.Padding(2);
             this.btnCambioColor.Name = "btnCambioColor";
-            this.btnCambioColor.Size = new System.Drawing.Size(99, 20);
+            this.btnCambioColor.Size = new System.Drawing.Size(99, 27);
             this.btnCambioColor.TabIndex = 1;
             this.btnCambioColor.Text = "Cambiar color";
-            this.btnCambioColor.UseVisualStyleBackColor = true;
+            this.btnCambioColor.UseVisualStyleBackColor = false;
             this.btnCambioColor.Click += new System.EventHandler(this.btnCambioColor_Click);
             // 
             // label2
@@ -226,6 +230,7 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.AntiqueWhite;
             this.panel1.Controls.Add(this.btnInvitar);
             this.panel1.Location = new System.Drawing.Point(25, 251);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
@@ -235,14 +240,15 @@
             // 
             // btnInvitar
             // 
+            this.btnInvitar.BackColor = System.Drawing.Color.White;
             this.btnInvitar.Location = new System.Drawing.Point(74, 10);
             this.btnInvitar.Margin = new System.Windows.Forms.Padding(2);
             this.btnInvitar.Name = "btnInvitar";
             this.btnInvitar.Size = new System.Drawing.Size(99, 24);
             this.btnInvitar.TabIndex = 1;
             this.btnInvitar.Text = "Invitar";
-            this.btnInvitar.UseVisualStyleBackColor = true;
-            this.btnInvitar.Click += new System.EventHandler(this.btnCambioColor_Click);
+            this.btnInvitar.UseVisualStyleBackColor = false;
+            this.btnInvitar.Click += new System.EventHandler(this.btnInvitar_Click);
             // 
             // button1
             // 
@@ -341,12 +347,14 @@
             this.dataGridConectados.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridConectados.Name = "dataGridConectados";
             this.dataGridConectados.ReadOnly = true;
+            this.dataGridConectados.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dataGridConectados.RowHeadersWidth = 62;
             this.dataGridConectados.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridConectados.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dataGridConectados.Size = new System.Drawing.Size(259, 178);
             this.dataGridConectados.TabIndex = 3;
             this.dataGridConectados.Text = "dataGridView1";
+            this.dataGridConectados.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridConectados_CellContentClick);
             // 
             // panelConectados
             // 

@@ -35,7 +35,7 @@ namespace cliente.Partida
 
 
             // Preparar pantallas
-            tabs.Add(new TabLobbyHost());
+            tabs.Add(new TabLobbyHost(conn));
             tabs.Add(new TabTablero());
 
             foreach (Tab tab in this.tabs)

@@ -15,13 +15,15 @@ namespace cliente.Partida
     public partial class TabLobbyHost : Tab
     {
         int numFormP;
-        Socket server;
+        Socket conn;
         List<ColorJugador> coloresDisponibles = new List<ColorJugador>(6);
         public ColorJugador miColor;
+        int invitadoSeleccionado = 0;       //nos indica la fila en la que se encuentra el nombre del invitado, 0 si no se ha seleccionado ninguno
 
-        public TabLobbyHost()
+        public TabLobbyHost(Socket conn)
         {
             InitializeComponent();
+            this.conn = conn;
             //FALTA passar socket, numformpartida etc
         }
 
@@ -97,8 +99,6 @@ namespace cliente.Partida
             this.BackColor = Color.FromArgb(195, 96, 63);
             panelJugadores.BackColor = Color.White;
             panelConectados.BackColor = Color.White;
-            panelColor.BackColor = Color.FromArgb(195, 96, 63);
-            btnCambioColor.BackColor = Color.White;
             btnInvitar.BackColor = Color.White;
             dataGridJugadores.BackgroundColor = Color.White;
             dataGridConectados.BackgroundColor = Color.White;
@@ -116,16 +116,12 @@ namespace cliente.Partida
             dataGridJugadores.RowsDefaultCellStyle.SelectionForeColor = Color.Black;
             dataGridJugadores.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridJugadores.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridJugadores.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            dataGridJugadores.CellBorderStyle = DataGridViewCellBorderStyle.Single;
 
             dataGridConectados.RowHeadersVisible = false;
             dataGridConectados.Columns.Add("Nombres", "Nombres");
             dataGridConectados.Columns[0].Width = dataGridJugadores.Width;
             dataGridConectados.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
-          
-            dataGridConectados.Rows.Add(4);
-            dataGridConectados.RowsDefaultCellStyle.SelectionBackColor = Color.Transparent;
+            dataGridConectados.RowsDefaultCellStyle.SelectionBackColor = Color.White;
             dataGridConectados.RowsDefaultCellStyle.SelectionForeColor = Color.Black;
             dataGridConectados.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridConectados.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -156,6 +152,8 @@ namespace cliente.Partida
             coloresDisponibles.Add(ColorJugador.Naranja);
             coloresDisponibles.Add(ColorJugador.Verde);
 
+            string res = "4/Alba,Jonathan,Raul,Maria";
+            this.ActualizarListaConectados(res);
             //------------------------------------------------------------------------------------------//
         }
 
@@ -165,7 +163,6 @@ namespace cliente.Partida
             this.Tag = "EMPEZAR";
             this.Hide();
         }
-
 
         private void btnCambioColor_Click(object sender, EventArgs e)
         {
@@ -177,11 +174,27 @@ namespace cliente.Partida
                 btns[i].Click += new System.EventHandler(this.CambioColorRealizado);
             }
         }
+        private void btnInvitar_Click(object sender, EventArgs e)
+        {
+            if (invitadoSeleccionado != 0)
+            {
+                string pet = "8/" + numFormP.ToString() + "/" + dataGridConectados.Rows[invitadoSeleccionado].Cells[0].Value.ToString();
+                MessageBox.Show(pet);
+                //byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                //conn.Send(pet_b);
+            }
+            else
+                MessageBox.Show("Debes seleccionar un Jugador de la lista de conectados");
+        }
     
         private void CambioColorRealizado(object sender, EventArgs e)
         {
             Button[] btns = { btnC1, btnC2, btnC3, btnC4, btnC5, btnC6 };
             Button btn = (Button)sender;
+            string pet = "12/" + numFormP.ToString() + "/" + DameColorJugador(btn.BackColor).ToString();
+            MessageBox.Show(pet);
+            //byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+            //conn.Send(pet_b);
             this.miColor = DameColorJugador(btn.BackColor);
             dataGridJugadores.Rows[0].Cells[1].Style.BackColor = btn.BackColor;
             for (int i = 0; i < 6; i++)
@@ -214,11 +227,41 @@ namespace cliente.Partida
                 string[] datos = trozos[1].Split(',');          // Nombres de los jugadores
 
                 // Rellenamos la tabla con los nombres de los jugadores
-                dataGridJugadores.Rows.Clear();
-                dataGridJugadores.Rows.Add(nump);
+                dataGridConectados.Rows.Clear();
+                dataGridConectados.Rows.Add(nump);
                 for (int i = 0; i < nump; i++)
                 {
-                    dataGridJugadores.Rows[i].Cells[0].Value = datos[i];     // Nombre del jugador
+                    dataGridConectados.Rows[i].Cells[0].Value = datos[i];     // Nombre del jugador
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Se ha perdido la conexión con el servidor.", "Error de conexión",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public void ActualizarListaJugadores(string res)
+        {
+            try
+            {
+                string[] datos = res.Split(',');          // Nombres y colores de los jugadores
+
+                // Rellenamos la tabla con los nombres de los jugadores
+                dataGridJugadores.Rows.Clear();
+                dataGridJugadores.Rows.Add(4);
+                dataGridJugadores.Rows[0].Height = dataGridJugadores.Height / 5;
+                dataGridJugadores.Rows[1].Height = dataGridJugadores.Height / 5;
+                dataGridJugadores.Rows[2].Height = dataGridJugadores.Height / 5;
+                dataGridJugadores.Rows[3].Height = dataGridJugadores.Height / 5;
+                int i = 0;
+                int count = 0;
+                while(i < datos.Length/2)
+                {
+                    dataGridJugadores.Rows[i].Cells[0].Value = datos[count];     // Nombre del jugador
+                    //dataGridJugadores.Rows[i].Cells[1].Style.BackColor = DameColor(Convert.ToInt32(datos[count + 1]));     // Nombre del jugador
+                    //listadisponibles
+                    i = i + 1;
+                    count = count + 2;
                 }
             }
             catch (Exception)
@@ -228,7 +271,21 @@ namespace cliente.Partida
             }
         }
 
-       
+        private void dataGridConectados_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (invitadoSeleccionado == e.RowIndex && dataGridConectados.RowsDefaultCellStyle.SelectionBackColor == Color.AntiqueWhite)
+            {
+                dataGridConectados.RowsDefaultCellStyle.SelectionBackColor = Color.White;
+                invitadoSeleccionado = 0;
+            }
+            else
+            {
+                invitadoSeleccionado = e.RowIndex;
+                dataGridConectados.RowsDefaultCellStyle.SelectionBackColor = Color.AntiqueWhite;
+            }
+                
+        }
+
     }
    
 }
