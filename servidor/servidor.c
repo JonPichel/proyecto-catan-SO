@@ -154,10 +154,10 @@ void *atender_cliente(void *sock_ptr) {
                 /* SELECCIONAR COLOR */
                 pet_cambio_color(resto, nombre, socket);
                 break;
-	    case 13:
-		/* ENVIAR CHAT */
-		pet_enviar_chat(resto, socket);
-		break;
+            case 13:
+                /* ENVIAR CHAT */
+                pet_enviar_chat(resto, socket);
+                break;
             default:
                 log_msg(tag, "Peticion desconocida: %d\n", codigo);
                 close(socket);

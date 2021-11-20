@@ -237,9 +237,9 @@ void pet_invitar_lobby(char *resto, char *nombre, int socket) {
         sprintf(respuesta, "9/%d/%s", idP, nombre);
         log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
         write(socket_guest, respuesta, strlen(respuesta));
-	char mensaje[100];
-	sprintf(mensaje, "Se ha invitado a %s", nombre_guest);
-	not_mensaje_chat(idP, mensaje, tag);
+        char mensaje[100];
+        sprintf(mensaje, "Se ha invitado a %s", nombre_guest);
+        not_mensaje_chat(idP, mensaje, tag);
     }
 }
 
@@ -261,9 +261,14 @@ void pet_responder_invitacion(char *resto, char *nombre, int socket) {
         part_add_jugador(&partidas[idP], nombre, socket);
         pthread_mutex_unlock(&mutex_estructuras);
         not_lista_jugadores(idP, tag);
-	char mensaje[100];
-	sprintf(mensaje, "%s se ha unido a la partida", nombre);
-	not_mensaje_chat(idP, mensaje, tag);
+        char mensaje[100];
+        sprintf(mensaje, "%s se ha unido a la partida", nombre);
+        not_mensaje_chat(idP, mensaje, tag);
+    }
+    else{
+        char mensaje[100];
+        sprintf(mensaje, "%s se ha unido a la partida", nombre);
+        not_mensaje_chat(idP, mensaje, tag);
     }
 }
 
@@ -281,9 +286,9 @@ void pet_abandonar_lobby(char *resto, char *nombre, int socket) {
         // Abandona un invitado
         part_delete_jugador(&partidas[idP], nombre);
         not_lista_jugadores(idP, tag);
-	char mensaje[100];
-	sprintf(mensaje, "%s ha abandonado la partida", nombre);
-	not_mensaje_chat(idP, mensaje, tag);
+        char mensaje[100];
+        sprintf(mensaje, "%s ha abandonado la partida", nombre);
+        not_mensaje_chat(idP, mensaje, tag);
     }
 }
 
