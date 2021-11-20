@@ -193,13 +193,14 @@ void pet_crear_lobby(char *nombre, int socket) {
 
     char respuesta[10];
     int lleno = 1;
-    for (int i = 0; i < MAX_PART; i++) {
-        if (partidas[i].estado == VACIA) {
-            partidas[i].estado = LOBBY;
+    int idP;
+    for (idP = 0; idP < MAX_PART; idP++) {
+        if (partidas[idP].estado == VACIA) {
+            partidas[idP].estado = LOBBY;
             pthread_mutex_lock(&mutex_estructuras);
-            part_add_jugador(&partidas[i], nombre, socket);
+            part_add_jugador(&partidas[idP], nombre, socket);
             pthread_mutex_unlock(&mutex_estructuras);
-            sprintf(respuesta, "7/%d", i);
+            sprintf(respuesta, "7/%d", idP);
             lleno = 0;
             break;
         }
@@ -210,6 +211,11 @@ void pet_crear_lobby(char *nombre, int socket) {
     // Enviar
     log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
     write(socket, respuesta, strlen(respuesta));
+
+    sleep(1);
+    not_lista_jugadores(idP, tag);
+    sleep(1);
+    not_lista_conectados(tag);
 }
 
 void pet_invitar_lobby(char *resto, char *nombre, int socket) {
@@ -242,6 +248,10 @@ void pet_responder_invitacion(char *resto, char *nombre, int socket) {
     char decision[2];
     strcpy(decision, strtok_r(resto, "/", &resto));
     char respuesta[80];
+    sprintf(respuesta, "8/%d/%s/%s", idP, nombre, decision);
+    log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);				
+    write(partidas[idP].jugadores[0].socket, respuesta, strlen(respuesta));
+    sleep(1);
     if (strcmp(decision, "SI") == 0) {
         // Add el jugador a la partida y notificar
         pthread_mutex_lock(&mutex_estructuras);
@@ -249,10 +259,6 @@ void pet_responder_invitacion(char *resto, char *nombre, int socket) {
         pthread_mutex_unlock(&mutex_estructuras);
         not_lista_jugadores(idP, tag);
     }
-    // Responder al host
-    sprintf(respuesta, "8/%d/%s/%s", idP, nombre, decision);
-    log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);				
-    write(partidas[idP].jugadores[0].socket, respuesta, strlen(respuesta));
 }
 
 void pet_abandonar_lobby(char *resto, char *nombre, int socket) {
@@ -264,6 +270,7 @@ void pet_abandonar_lobby(char *resto, char *nombre, int socket) {
         // Abandona el host
         partidas[idP].estado = VACIA;
         not_terminar_partida(idP, tag);
+        partidas[idP].numj = 0;
     } else {
         // Abandona un invitado
         part_delete_jugador(&partidas[idP], nombre);
@@ -287,16 +294,7 @@ void pet_cambio_color(char *resto, char *nombre, int socket) {
     int ret = part_cambio_color(&partidas[idP], nombre, color);
     char respuesta[7];
     if (ret == 0) {
-        sprintf(respuesta,"12/OK");
-        log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
-        sleep(1);
-        write(socket, respuesta, strlen(respuesta));
         not_lista_jugadores(idP, tag);
-    }
-    else {
-        sprintf(respuesta,"12/ERR");
-        log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
-        write(socket, respuesta, strlen(respuesta));
     }
 }
 
@@ -343,7 +341,7 @@ void not_lista_jugadores(int idP, char *tag) {
 	for (int i = 0; i < partidas[idP].numj; i++) {
 		log_msg(tag, "Lista de jugadores por el socket %d: %s\n",
 				partidas[idP].jugadores[i].socket, respuesta);
-		write( partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
+		write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
 	}
 }
 

@@ -1,3 +1,5 @@
+/* MENU */
+
 # CERRAR CONEXION
 CLIENTE: 0/
 SERVIDOR: nada
@@ -45,13 +47,11 @@ SERVIDOR:
 CLIENTE: NADA
 SERVIDOR: 6/#jug/nombre1,nombre2,nombre3...
 
-
-/* NUEVAS */
-
-
 # CREAR LOBBY (DONE)
 CLIENTE: 7/
 SERVIDOR: 7/idPartida
+
+/* PARTIDA */
 
 # INVITAR LOBBY 
 CLIENTE: 8/idPartida/guest
@@ -74,6 +74,18 @@ SERVIDOR: 11/idPartida/host,color,guest1,color,guest2,color,guest3,color...
 
 # SELECCION COLOR (Alba)
 CLIENTE: 12/idPartida/(int)color
-SERVIDOR: 12/OK o ERR (y notifica a los demás con 11/)
+SERVIDOR: notifica a los demás con 11/ si OK
 
+# ENVIAR CHAT
+CLIENTE: 13/idPartida/mensaje
+SERVIDOR: 13/idPartida/mensaje (añadir Nombre: en las que haga falta)
+
+
+/* NOTAS */
+Pendiente: añadir una cola de mensaje para cuando se monten entre ellos
+[END]
+
+13/0/Antonio:hola18/[END]0/Ana/SI
+
+split
 
