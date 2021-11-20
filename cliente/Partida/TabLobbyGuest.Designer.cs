@@ -1,6 +1,6 @@
 ﻿namespace cliente.Partida
 {
-    partial class TabLobbyHost
+    partial class TabLobbyGuest
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnEmpezar = new System.Windows.Forms.Button();
             this.panelChat = new System.Windows.Forms.Panel();
             this.btnEnviar = new System.Windows.Forms.Button();
             this.txtChat = new System.Windows.Forms.TextBox();
@@ -45,9 +44,6 @@
             this.btnCambioColor = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.panelPendientes = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btnInvitar = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -56,30 +52,13 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.dataGridConectados = new System.Windows.Forms.DataGridView();
-            this.panelConectados = new System.Windows.Forms.Panel();
+            this.panelPendientes = new System.Windows.Forms.Panel();
             this.btnDesconectar = new System.Windows.Forms.Button();
             this.panelChat.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridJugadores)).BeginInit();
             this.panelJugadores.SuspendLayout();
             this.panelColor.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridConectados)).BeginInit();
-            this.panelConectados.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnEmpezar
-            // 
-            this.btnEmpezar.BackColor = System.Drawing.Color.White;
-            this.btnEmpezar.Location = new System.Drawing.Point(131, 511);
-            this.btnEmpezar.Margin = new System.Windows.Forms.Padding(2);
-            this.btnEmpezar.Name = "btnEmpezar";
-            this.btnEmpezar.Size = new System.Drawing.Size(163, 31);
-            this.btnEmpezar.TabIndex = 1;
-            this.btnEmpezar.Text = "EMPEZAR LA PARTIDA";
-            this.btnEmpezar.UseVisualStyleBackColor = false;
-            this.btnEmpezar.Click += new System.EventHandler(this.btnEmpezar_Click);
             // 
             // panelChat
             // 
@@ -87,15 +66,15 @@
             this.panelChat.Controls.Add(this.btnEnviar);
             this.panelChat.Controls.Add(this.txtChat);
             this.panelChat.Controls.Add(this.txtMsg);
-            this.panelChat.Location = new System.Drawing.Point(432, 265);
+            this.panelChat.Location = new System.Drawing.Point(410, 2);
             this.panelChat.Margin = new System.Windows.Forms.Padding(2);
             this.panelChat.Name = "panelChat";
-            this.panelChat.Size = new System.Drawing.Size(423, 335);
+            this.panelChat.Size = new System.Drawing.Size(445, 626);
             this.panelChat.TabIndex = 2;
             // 
             // btnEnviar
             // 
-            this.btnEnviar.Location = new System.Drawing.Point(302, 280);
+            this.btnEnviar.Location = new System.Drawing.Point(326, 562);
             this.btnEnviar.Name = "btnEnviar";
             this.btnEnviar.Size = new System.Drawing.Size(60, 23);
             this.btnEnviar.TabIndex = 2;
@@ -109,15 +88,14 @@
             this.txtChat.Multiline = true;
             this.txtChat.Name = "txtChat";
             this.txtChat.ReadOnly = true;
-            this.txtChat.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtChat.Size = new System.Drawing.Size(359, 274);
+            this.txtChat.Size = new System.Drawing.Size(383, 553);
             this.txtChat.TabIndex = 1;
             // 
             // txtMsg
             // 
-            this.txtMsg.Location = new System.Drawing.Point(3, 281);
+            this.txtMsg.Location = new System.Drawing.Point(3, 562);
             this.txtMsg.Name = "txtMsg";
-            this.txtMsg.Size = new System.Drawing.Size(293, 23);
+            this.txtMsg.Size = new System.Drawing.Size(317, 23);
             this.txtMsg.TabIndex = 0;
             // 
             // dataGridJugadores
@@ -148,7 +126,7 @@
             this.panelJugadores.Controls.Add(this.panelColor);
             this.panelJugadores.Controls.Add(this.label1);
             this.panelJugadores.Controls.Add(this.dataGridJugadores);
-            this.panelJugadores.Location = new System.Drawing.Point(64, 171);
+            this.panelJugadores.Location = new System.Drawing.Point(54, 182);
             this.panelJugadores.Margin = new System.Windows.Forms.Padding(2);
             this.panelJugadores.Name = "panelJugadores";
             this.panelJugadores.Size = new System.Drawing.Size(298, 336);
@@ -257,36 +235,6 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Jugadores";
             // 
-            // panelPendientes
-            // 
-            this.panelPendientes.Location = new System.Drawing.Point(0, 1);
-            this.panelPendientes.Margin = new System.Windows.Forms.Padding(2);
-            this.panelPendientes.Name = "panelPendientes";
-            this.panelPendientes.Size = new System.Drawing.Size(428, 152);
-            this.panelPendientes.TabIndex = 2;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.panel1.Controls.Add(this.btnInvitar);
-            this.panel1.Location = new System.Drawing.Point(16, 203);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(337, 46);
-            this.panel1.TabIndex = 2;
-            // 
-            // btnInvitar
-            // 
-            this.btnInvitar.BackColor = System.Drawing.Color.White;
-            this.btnInvitar.Location = new System.Drawing.Point(126, 11);
-            this.btnInvitar.Margin = new System.Windows.Forms.Padding(2);
-            this.btnInvitar.Name = "btnInvitar";
-            this.btnInvitar.Size = new System.Drawing.Size(99, 24);
-            this.btnInvitar.TabIndex = 1;
-            this.btnInvitar.Text = "Invitar";
-            this.btnInvitar.UseVisualStyleBackColor = false;
-            this.btnInvitar.Click += new System.EventHandler(this.btnInvitar_Click);
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(23, 25);
@@ -360,77 +308,37 @@
             this.label3.Size = new System.Drawing.Size(0, 15);
             this.label3.TabIndex = 0;
             // 
-            // label4
+            // panelPendientes
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label4.Location = new System.Drawing.Point(106, 14);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(163, 21);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Jugadores conectados";
-            // 
-            // dataGridConectados
-            // 
-            this.dataGridConectados.AllowUserToAddRows = false;
-            this.dataGridConectados.AllowUserToDeleteRows = false;
-            this.dataGridConectados.AllowUserToResizeColumns = false;
-            this.dataGridConectados.AllowUserToResizeRows = false;
-            this.dataGridConectados.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridConectados.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridConectados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridConectados.GridColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dataGridConectados.Location = new System.Drawing.Point(25, 40);
-            this.dataGridConectados.Margin = new System.Windows.Forms.Padding(2);
-            this.dataGridConectados.Name = "dataGridConectados";
-            this.dataGridConectados.ReadOnly = true;
-            this.dataGridConectados.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dataGridConectados.RowHeadersWidth = 62;
-            this.dataGridConectados.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dataGridConectados.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dataGridConectados.Size = new System.Drawing.Size(337, 150);
-            this.dataGridConectados.TabIndex = 3;
-            this.dataGridConectados.Text = "dataGridView1";
-            this.dataGridConectados.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridConectados_CellClick);
-            // 
-            // panelConectados
-            // 
-            this.panelConectados.BackColor = System.Drawing.Color.White;
-            this.panelConectados.Controls.Add(this.panel1);
-            this.panelConectados.Controls.Add(this.label4);
-            this.panelConectados.Controls.Add(this.dataGridConectados);
-            this.panelConectados.Location = new System.Drawing.Point(432, 1);
-            this.panelConectados.Margin = new System.Windows.Forms.Padding(2);
-            this.panelConectados.Name = "panelConectados";
-            this.panelConectados.Size = new System.Drawing.Size(368, 260);
-            this.panelConectados.TabIndex = 2;
+            this.panelPendientes.Location = new System.Drawing.Point(0, 1);
+            this.panelPendientes.Margin = new System.Windows.Forms.Padding(2);
+            this.panelPendientes.Name = "panelPendientes";
+            this.panelPendientes.Size = new System.Drawing.Size(406, 152);
+            this.panelPendientes.TabIndex = 2;
             // 
             // btnDesconectar
             // 
             this.btnDesconectar.BackColor = System.Drawing.Color.White;
-            this.btnDesconectar.Location = new System.Drawing.Point(131, 546);
+            this.btnDesconectar.Location = new System.Drawing.Point(125, 522);
             this.btnDesconectar.Margin = new System.Windows.Forms.Padding(2);
             this.btnDesconectar.Name = "btnDesconectar";
             this.btnDesconectar.Size = new System.Drawing.Size(163, 31);
-            this.btnDesconectar.TabIndex = 3;
+            this.btnDesconectar.TabIndex = 4;
             this.btnDesconectar.Text = "Desconectar";
             this.btnDesconectar.UseVisualStyleBackColor = false;
             this.btnDesconectar.Click += new System.EventHandler(this.btnDesconectar_Click);
             // 
-            // TabLobbyHost
+            // TabLobbyGuest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(96)))), ((int)(((byte)(63)))));
             this.Controls.Add(this.btnDesconectar);
-            this.Controls.Add(this.panelConectados);
             this.Controls.Add(this.panelPendientes);
             this.Controls.Add(this.panelJugadores);
             this.Controls.Add(this.panelChat);
-            this.Controls.Add(this.btnEmpezar);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "TabLobbyHost";
+            this.Name = "TabLobbyGuest";
             this.Load += new System.EventHandler(this.TabLobbyHost_Load);
             this.panelChat.ResumeLayout(false);
             this.panelChat.PerformLayout();
@@ -439,16 +347,11 @@
             this.panelJugadores.PerformLayout();
             this.panelColor.ResumeLayout(false);
             this.panelColor.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridConectados)).EndInit();
-            this.panelConectados.ResumeLayout(false);
-            this.panelConectados.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.Button btnEmpezar;
         private System.Windows.Forms.Panel panelChat;
         private System.Windows.Forms.Panel panelJugadores;
         private System.Windows.Forms.DataGridView dataGridJugadores;
@@ -462,8 +365,6 @@
         private System.Windows.Forms.Button btnC3;
         private System.Windows.Forms.Button btnC2;
         private System.Windows.Forms.Button btnC1;
-        private System.Windows.Forms.Panel panelPendientes;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
@@ -472,14 +373,11 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DataGridView dataGridConectados;
-        private System.Windows.Forms.Panel panelConectados;
         private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button btnInvitar;
         private System.Windows.Forms.Button btnEnviar;
         private System.Windows.Forms.TextBox txtChat;
         private System.Windows.Forms.TextBox txtMsg;
+        private System.Windows.Forms.Panel panelPendientes;
         private System.Windows.Forms.Button btnDesconectar;
     }
 }

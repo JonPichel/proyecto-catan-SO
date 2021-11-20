@@ -10,9 +10,10 @@ using System.Net.Sockets;
 
 namespace cliente.Menu
 {
-    public partial class TabLogin : Tab
+    public partial class TabLogin : TabMenu
     {
         Socket conn;
+        public string nombre;
         public int idJ { get; private set; }
 
         public TabLogin(Socket conn)
@@ -34,6 +35,7 @@ namespace cliente.Menu
                 lblError.Show();
                 return;
             }
+            this.nombre = txtNombre.Text;
             string pet = "2/" + txtNombre.Text + "," + txtPass.Text;
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             this.conn.Send(pet_b);

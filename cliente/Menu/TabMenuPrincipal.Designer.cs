@@ -42,6 +42,7 @@ namespace cliente.Menu
             this.btnPartidas = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.dataGridJugadores = new System.Windows.Forms.DataGridView();
+            this.btnCrearLobby = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridPartidas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridJugadores)).BeginInit();
             this.SuspendLayout();
@@ -150,7 +151,7 @@ namespace cliente.Menu
             this.btnDesconectar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDesconectar.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnDesconectar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnDesconectar.Location = new System.Drawing.Point(37, 219);
+            this.btnDesconectar.Location = new System.Drawing.Point(37, 261);
             this.btnDesconectar.Name = "btnDesconectar";
             this.btnDesconectar.Size = new System.Drawing.Size(150, 40);
             this.btnDesconectar.TabIndex = 10;
@@ -212,10 +213,27 @@ namespace cliente.Menu
             this.dataGridJugadores.Size = new System.Drawing.Size(81, 150);
             this.dataGridJugadores.TabIndex = 11;
             // 
+            // btnCrearLobby
+            // 
+            this.btnCrearLobby.BackColor = System.Drawing.Color.Sienna;
+            this.btnCrearLobby.FlatAppearance.BorderColor = System.Drawing.Color.DarkGoldenrod;
+            this.btnCrearLobby.FlatAppearance.BorderSize = 2;
+            this.btnCrearLobby.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCrearLobby.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnCrearLobby.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnCrearLobby.Location = new System.Drawing.Point(37, 215);
+            this.btnCrearLobby.Name = "btnCrearLobby";
+            this.btnCrearLobby.Size = new System.Drawing.Size(150, 40);
+            this.btnCrearLobby.TabIndex = 19;
+            this.btnCrearLobby.Text = "Crear Lobby";
+            this.btnCrearLobby.UseVisualStyleBackColor = false;
+            this.btnCrearLobby.Click += new System.EventHandler(this.btnCrearLobby_Click);
+            // 
             // TabMenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnCrearLobby);
             this.Controls.Add(this.dataGridJugadores);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -253,5 +271,6 @@ namespace cliente.Menu
         private System.Windows.Forms.Button btnPartidas;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridView dataGridJugadores;
+        private System.Windows.Forms.Button btnCrearLobby;
     }
 }

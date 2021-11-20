@@ -13,7 +13,7 @@ using cliente.Partida;
 
 namespace cliente.Menu
 {
-    public partial class TabMenuPrincipal : Tab
+    public partial class TabMenuPrincipal : TabMenu
     {
         Socket conn;
 
@@ -47,7 +47,6 @@ namespace cliente.Menu
             string pet = "3/" + idJ.ToString();
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
-
         }
 
         private void btnMedia_Click(object sender, EventArgs e)
@@ -56,10 +55,13 @@ namespace cliente.Menu
             string pet = "5/" + idJ.ToString();
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
-            FormPartida Partida = new FormPartida();
-            Partida.ShowDialog();
+        }
 
-           
+        private void btnCrearLobby_Click(object sender, EventArgs e)
+        {
+            string pet = "7/";
+            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+            conn.Send(pet_b);
         }
 
         private void btnDesconectar_Click(object sender, EventArgs e)

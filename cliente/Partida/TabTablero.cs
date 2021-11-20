@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace cliente.Partida
 {
-    public partial class TabTablero : Tab
+    public partial class TabTablero : TabPartida
     {
         Tile[] tiles;
         List<FichaVertice> fichasVertices;

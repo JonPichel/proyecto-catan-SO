@@ -1,7 +1,7 @@
 ﻿
-namespace cliente.Partida
+namespace cliente.Menu
 {
-    partial class Tab
+    partial class TabMenu
     {
         /// <summary> 
         /// Required designer variable.
@@ -31,13 +31,13 @@ namespace cliente.Partida
         {
             this.SuspendLayout();
             // 
-            // TabPartida
+            // TabMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Transparent;
-            this.Name = "TabPartida";
-            this.Size = new System.Drawing.Size(800, 600);
+            this.Name = "TabMenu";
+            this.Size = new System.Drawing.Size(625, 440);
             this.ResumeLayout(false);
 
         }

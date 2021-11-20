@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using cliente.Partida;
 
 namespace cliente.Menu
 {
@@ -16,8 +17,11 @@ namespace cliente.Menu
         Socket conn;
         Thread atender;
 
-        List<Tab> tabs = new List<Tab>();
+        List<TabMenu> tabs = new List<TabMenu>();
+        Dictionary<int, FormPartida> partidas = new Dictionary<int, FormPartida>();
+
         int idJ;
+        string nombre;
 
         delegate void DelegadoRespuestas(string res);
 
@@ -30,8 +34,8 @@ namespace cliente.Menu
         private void FormMenuPrincipal_Load(object sender, EventArgs e)
         {
             // Conectar al servidor
-            IPAddress addrServer = IPAddress.Parse("147.83.117.22");
-            IPEndPoint ipep = new IPEndPoint(addrServer, 50074);
+            IPAddress addrServer = IPAddress.Parse("10.0.2.2");
+            IPEndPoint ipep = new IPEndPoint(addrServer, 4444);
 
             conn = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
@@ -53,7 +57,7 @@ namespace cliente.Menu
             tabs.Add(new TabMenuPrincipal(this.conn));
             tabs.Add(new TabInfoPartida(this.conn));
 
-            foreach (Tab tab in this.tabs)
+            foreach (TabMenu tab in this.tabs)
             {
                 tab.Hide();
                 tab.Location = new Point(0, 0);
@@ -86,6 +90,9 @@ namespace cliente.Menu
 
         private void AtenderServidor()
         {
+            ThreadStart ts;
+            Thread thread;
+            int idP;
             while (true)
             {
                 DelegadoRespuestas delegado;
@@ -124,7 +131,42 @@ namespace cliente.Menu
                     case 6:
                         delegado = new DelegadoRespuestas(((TabMenuPrincipal)tabs[2]).ActualizarListaConectados);
                         tabs[2].Invoke(delegado, new object[] { mensaje });
+                        foreach (FormPartida form in partidas.Values)
+                        {
+                            if (form.host)
+                            {
+                                delegado = new DelegadoRespuestas(form.ActualizarListaConectados);
+                                form.Invoke(delegado, new object[] { mensaje });
+                            }
+                        }
                         break;
+                    case 7:
+                        idP = Convert.ToInt32(mensaje);
+                        ts = delegate { AbrirPartidaHost(idP); };
+                        thread = new Thread(ts);
+                        thread.Start();
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        ts = delegate { Invitacion(mensaje); };
+                        thread = new Thread(ts);
+                        thread.Start();
+                        break;
+                    case 10:
+                        idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                        if (partidas.ContainsKey(idP))
+                            partidas[idP].Close();
+                        break;
+                    case 11:
+                        idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                        if (partidas.ContainsKey(idP))
+                        {
+                            delegado = new DelegadoRespuestas(partidas[idP].AtenderListaJugadores);
+                            partidas[idP].Invoke(delegado, new object[] { mensaje });
+                        }
+                        break;
+
                 }
             }
         }
@@ -141,6 +183,7 @@ namespace cliente.Menu
                         break;
                     case "LOGIN":
                         this.idJ = ((TabLogin)tabs[0]).idJ;
+                        this.nombre = ((TabLogin)tabs[0]).nombre;
                         ((TabMenuPrincipal)tabs[2]).idJ = this.idJ;
                         tabs[2].Show();
                         break;
@@ -174,10 +217,6 @@ namespace cliente.Menu
                         break;
                     case "INFO PARTIDA":
                         tabs[3].Show();
-                        string pet = "4/" + ((TabMenuPrincipal)tabs[2]).idP.ToString();
-                        byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
-                        conn.Send(pet_b);
-
                         break;
                 }
             }
@@ -189,6 +228,49 @@ namespace cliente.Menu
             {
                 tabs[2].Show();
             }
+        }
+
+        private void AbrirPartidaHost(int idP)
+        {
+            FormPartida form = new FormPartida(this.conn, idP, this.nombre, true);
+            partidas.Add(idP, form);
+            form.FormClosed += EliminarEntradaForm;
+            form.ShowDialog();
+        }
+
+        private void Invitacion(string mensaje)
+        {
+            string[] trozos = mensaje.Split("/");
+            string pet;
+            int idP = Convert.ToInt32(trozos[0]);
+            FormEscoger form = new FormEscoger(
+                "Has sido invitado por " + trozos[1],
+                "Aceptar", "Rechazar"
+            );
+            DialogResult result = form.ShowDialog();
+            if (result == DialogResult.Yes)
+            {
+                // Aceptar
+                FormPartida formP = new FormPartida(this.conn, idP, this.nombre, false);
+                partidas.Add(idP, formP);
+                formP.FormClosed += EliminarEntradaForm;
+                formP.ShowDialog();
+            } else
+            {
+                // Rechazar
+                pet = "9/" + trozos[0] + "/NO";
+                byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                conn.Send(pet_b);
+            }
+        }
+
+        private void EliminarEntradaForm(object sender, EventArgs e)
+        {
+            FormPartida form = (FormPartida)sender;
+            string pet = "10/" + form.idP.ToString();
+            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+            conn.Send(pet_b);
+            partidas.Remove(form.idP);
         }
     }
 }

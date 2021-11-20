@@ -6,11 +6,11 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace cliente.Partida
+namespace cliente.Menu
 {
-    public partial class Tab : UserControl
+    public partial class TabMenu : UserControl
     {
-        public Tab()
+        public TabMenu()
         {
             InitializeComponent();
         }

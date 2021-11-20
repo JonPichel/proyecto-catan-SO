@@ -10,7 +10,7 @@ using System.Net.Sockets;
 
 namespace cliente.Menu
 {
-    public partial class TabInfoPartida : Tab
+    public partial class TabInfoPartida : TabMenu
     {
         Socket conn;
 

@@ -13,32 +13,33 @@ namespace cliente.Partida
     public partial class FormPartida : Form
     {
         Socket conn;
-        Thread atender;
-        int idJ;
-        ColorJugador miColor;
+        public int idP;
+        string nombre;
+        public bool host;
 
-        List<Tab> tabs = new List<Tab>();
+        List<TabPartida> tabs = new List<TabPartida>();
 
         delegate void DelegadoRespuestas(ColorJugador res);
 
-        public FormPartida()
+        public FormPartida(Socket conn, int idP, string nombre, bool host)
         {
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;
+            this.conn = conn;
+            this.idP = idP;
+            this.nombre = nombre;
+            this.host = host;
         }
 
 
 
         private void FormPartida_Load(object sender, EventArgs e)
         {
-            // Conectar al servidor (FALTA!!)
-
-
             // Preparar pantallas
-            tabs.Add(new TabLobbyHost(conn));
+            tabs.Add(new TabLobbyHost(conn, idP, nombre));
+            tabs.Add(new TabLobbyGuest(conn, idP, nombre));
             tabs.Add(new TabTablero());
 
-            foreach (Tab tab in this.tabs)
+            foreach (TabPartida tab in this.tabs)
             {
                 tab.Hide();
                 tab.Location = new Point(0, 0);
@@ -46,24 +47,51 @@ namespace cliente.Partida
             }
 
             tabs[0].VisibleChanged += this.tabLobby_VisibleChanged;
-            tabs[0].Show();
+            tabs[1].VisibleChanged += this.tabLobby_VisibleChanged;
+            if (host)
+            {
+                tabs[0].Show();
+            } else
+            {
+                tabs[1].Show();
+            }
+
         }
 
         private void tabLobby_VisibleChanged(object sender, EventArgs e)
         {
-
+            TabPartida tab = (TabPartida)sender;
             // Solo nos importa cuando se oculta
-            if (!tabs[0].Visible)
+            if (!tab.Visible)
             {
-                switch (tabs[0].Tag)
+                switch (tab.Tag)
                 {
                     case "EMPEZAR":
-                        this.miColor = ((TabLobbyHost)tabs[0]).miColor;
-                        ((TabTablero)tabs[1]).colorJugador = this.miColor;
-                        tabs[1].Show();
+                        ((TabTablero)tabs[2]).colorJugador = ((TabLobbyHost)tabs[0]).miColor;
+                        tabs[2].Show();
+                        break;
+                    case "DESCONECTAR":
+                        this.Close();
                         break;
                 }
             }
+        }
+
+        public void AtenderListaJugadores(string mensaje)
+        {
+            mensaje = mensaje.Split("/", 2)[1];
+            if (host)
+            {
+                ((TabLobbyHost)tabs[0]).ActualizarListaJugadores(mensaje);
+            } else
+            {
+                ((TabLobbyGuest)tabs[1]).ActualizarListaJugadores(mensaje);
+            }
+        }
+
+        public void ActualizarListaConectados(string mensaje)
+        {
+            ((TabLobbyHost)tabs[0]).ActualizarListaConectados(mensaje);
         }
     }
 }
