@@ -269,8 +269,26 @@ namespace cliente.Partida
 
         public void ActualizarChat(string res)
         {
-            txtChat.AppendText(res);
+            if (res.IndexOf(":") == -1)
+            {
+                txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Italic);
+                txtChat.SelectionColor = Color.SkyBlue;
+            }
+            else
+            {
+                txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Regular);
+                txtChat.ForeColor = Color.Black;              
+            }
+            txtChat.SelectedText = res;
             txtChat.AppendText(Environment.NewLine);
+        }
+
+        public void RespuestaInvitacion(string res) {
+            string[] trozos = res.Split("/");
+            if (trozos[2] == "NO")
+            {
+                MessageBox.Show(trozos[1] + " ha rechazado tu invitación");
+            }
         }
 
         public void EnviarMensaje()
@@ -293,6 +311,7 @@ namespace cliente.Partida
             if (e.KeyChar == (char)Keys.Return)
                 EnviarMensaje();
         }
+
     }
 
 }

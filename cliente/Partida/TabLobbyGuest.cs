@@ -199,7 +199,17 @@ namespace cliente.Partida
 
         public void ActualizarChat(string res)
         {
-            txtChat.AppendText(res);
+            if (res.IndexOf(":") == -1)
+            {
+                txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Italic);
+                txtChat.SelectionColor = Color.SkyBlue;
+            }
+            else
+            {
+                txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Regular);
+                txtChat.ForeColor = Color.Black;
+            }
+            txtChat.SelectedText = res;
             txtChat.AppendText(Environment.NewLine);
         }
 

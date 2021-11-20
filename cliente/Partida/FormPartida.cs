@@ -79,7 +79,7 @@ namespace cliente.Partida
 
         public void AtenderListaJugadores(string mensaje)
         {
-            mensaje = mensaje.Split("/")[2];
+            mensaje = mensaje.Split("/",2)[1];
             if (host)
             {
                 ((TabLobbyHost)tabs[0]).ActualizarListaJugadores(mensaje);
@@ -96,7 +96,7 @@ namespace cliente.Partida
 
         public void ActualizarChat(string mensaje)
         {
-            mensaje = mensaje.Split("/")[2];
+            mensaje = mensaje.Split("/")[1];
             if (host)
             {
                 ((TabLobbyHost)tabs[0]).ActualizarChat(mensaje);
@@ -105,6 +105,11 @@ namespace cliente.Partida
             {
                 ((TabLobbyGuest)tabs[1]).ActualizarChat(mensaje);
             }
+        }
+        
+        public void RespuestaInvitacion(string mensaje)
+        {
+            ((TabLobbyHost)tabs[0]).RespuestaInvitacion(mensaje);
         }
     }
 }
