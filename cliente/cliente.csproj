@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="Partida\TabLobbyGuest.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Partida\TabLobbyGuest.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

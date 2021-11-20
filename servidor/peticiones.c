@@ -237,6 +237,9 @@ void pet_invitar_lobby(char *resto, char *nombre, int socket) {
         sprintf(respuesta, "9/%d/%s", idP, nombre);
         log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
         write(socket_guest, respuesta, strlen(respuesta));
+	char mensaje[100];
+	sprintf(mensaje, "Se ha invitado a %s", nombre_guest);
+	not_mensaje_chat(idP, mensaje, tag);
     }
 }
 
@@ -258,6 +261,9 @@ void pet_responder_invitacion(char *resto, char *nombre, int socket) {
         part_add_jugador(&partidas[idP], nombre, socket);
         pthread_mutex_unlock(&mutex_estructuras);
         not_lista_jugadores(idP, tag);
+	char mensaje[100];
+	sprintf(mensaje, "%s se ha unido a la partida", nombre);
+	not_mensaje_chat(idP, mensaje, tag);
     }
 }
 
@@ -275,6 +281,9 @@ void pet_abandonar_lobby(char *resto, char *nombre, int socket) {
         // Abandona un invitado
         part_delete_jugador(&partidas[idP], nombre);
         not_lista_jugadores(idP, tag);
+	char mensaje[100];
+	sprintf(mensaje, "%s ha abandonado la partida", nombre);
+	not_mensaje_chat(idP, mensaje, tag);
     }
 }
 
@@ -296,6 +305,16 @@ void pet_cambio_color(char *resto, char *nombre, int socket) {
     if (ret == 0) {
         not_lista_jugadores(idP, tag);
     }
+}
+
+void pet_enviar_chat(char *resto, int socket) {
+	char tag[32];
+	sprintf(tag, "THREAD %d", socket);
+	
+	int idP = atoi(strtok_r(resto, "/", &resto));
+	char mensaje[512];
+	strcpy(mensaje, strtok_r(resto, "/", &resto));
+	not_mensaje_chat(idP, mensaje, tag);
 }
 
 void not_lista_conectados(char *tag) {
@@ -351,6 +370,17 @@ void not_terminar_partida(int idP, char *tag) {
     sprintf(respuesta, "10/%d", idP);
 	for (int i = 0; i < partidas[idP].numj; i++) {
 		log_msg(tag, "Notificando terminar partida por el socket %d: %s\n",
+				partidas[idP].jugadores[i].socket, respuesta);
+		write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
+	}
+}
+
+void not_mensaje_chat(int idP, char *mensaje, char *tag) {
+	char respuesta[512];
+	sprintf(respuesta, "13/%d/%s", idP, mensaje); 
+	// Enviar lista
+	for (int i = 0; i < partidas[idP].numj; i++) {
+		log_msg(tag, "Notificando mensaje de chat por el socket %d: %s\n",
 				partidas[idP].jugadores[i].socket, respuesta);
 		write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
 	}

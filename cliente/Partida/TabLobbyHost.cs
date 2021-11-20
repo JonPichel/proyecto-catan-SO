@@ -266,6 +266,33 @@ namespace cliente.Partida
             this.Tag = "DESCONECTAR";
             this.Hide();
         }
+
+        public void ActualizarChat(string res)
+        {
+            txtChat.AppendText(res);
+            txtChat.AppendText(Environment.NewLine);
+        }
+
+        public void EnviarMensaje()
+        {
+            if (txtMsg.Text != "")
+            {
+                string pet = "13/" + idP.ToString() + "/" + nombre + ": " + txtMsg.Text;
+                byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                conn.Send(pet_b);
+                txtMsg.Clear();
+            }
+        }
+        private void btnEnviar_Click(object sender, EventArgs e)
+        {
+            EnviarMensaje();
+        }
+
+        private void txtMsg_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+                EnviarMensaje();
+        }
     }
-   
+
 }
