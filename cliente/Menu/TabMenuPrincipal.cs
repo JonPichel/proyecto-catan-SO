@@ -78,6 +78,9 @@ namespace cliente.Menu
             if (row == -1) return;
 
             this.idP = Convert.ToInt32(dataGridPartidas.Rows[row].Cells[0].Value);
+            string pet = "4/" + this.idP.ToString();
+            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+            conn.Send(pet_b);
             this.Tag = "INFO PARTIDA";
             this.Hide();
         }
