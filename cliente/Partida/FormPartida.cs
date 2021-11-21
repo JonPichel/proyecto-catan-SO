@@ -111,5 +111,24 @@ namespace cliente.Partida
         {
             ((TabLobbyHost)tabs[0]).RespuestaInvitacion(mensaje);
         }
+        public void PartidaCancelada(string mensaje)
+        {
+            MessageBox.Show("La partida ha sido cancelada por el anfitrión","Partida cancelada",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            this.Close();
+        }
+        public void PartidaEmpezada(string mensaje)
+        {
+            MessageBox.Show("La partida ha empezado", "Partida empezada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (host)
+            {
+                ((TabLobbyHost)tabs[0]).Tag = "EMPEZAR";
+                ((TabLobbyHost)tabs[0]).Hide();
+            }
+            else
+            {
+                ((TabLobbyGuest)tabs[1]).Tag = "EMPEZAR";
+                ((TabLobbyGuest)tabs[1]).Hide();
+            }
+        }
     }
 }

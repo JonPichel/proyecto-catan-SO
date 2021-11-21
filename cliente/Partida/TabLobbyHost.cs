@@ -92,7 +92,9 @@ namespace cliente.Partida
         {
             this.Tag = "EMPEZAR";
             this.miColor = colores[0];
-            this.Hide();
+            string pet = "14/" + idP.ToString();
+            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+            conn.Send(pet_b);
         }
 
         private void btnCambioColor_Click(object sender, EventArgs e)
