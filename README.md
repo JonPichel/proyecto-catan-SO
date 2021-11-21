@@ -29,3 +29,8 @@ Lista de conectados como notificación
  * **Comunicada** por Jonathan
 
 URL del video (incluye demostración de la interfaz gráfica): https://drive.google.com/file/d/1KOjPGBo6xBZXraA8FyrIhyfj7B4TPqUw/view?usp=sharing
+
+## Versión 4
+
+Tabla de partidas: Invitaciones
+ * **Generada** por Jonathan
