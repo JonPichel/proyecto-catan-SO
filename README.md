@@ -34,3 +34,4 @@ URL del video (incluye demostración de la interfaz gráfica): https://drive.goo
 
 Tabla de partidas: Invitaciones
  * **Generada** por Jonathan
+ * **Verificada** por Raúl
