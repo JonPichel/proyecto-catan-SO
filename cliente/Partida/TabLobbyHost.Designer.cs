@@ -30,8 +30,8 @@
         {
             this.btnEmpezar = new System.Windows.Forms.Button();
             this.panelChat = new System.Windows.Forms.Panel();
+            this.txtChat = new System.Windows.Forms.RichTextBox();
             this.btnEnviar = new System.Windows.Forms.Button();
-            this.txtChat = new System.Windows.Forms.TextBox();
             this.txtMsg = new System.Windows.Forms.TextBox();
             this.dataGridJugadores = new System.Windows.Forms.DataGridView();
             this.panelJugadores = new System.Windows.Forms.Panel();
@@ -45,7 +45,6 @@
             this.btnCambioColor = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.panelPendientes = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnInvitar = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -72,7 +71,7 @@
             // btnEmpezar
             // 
             this.btnEmpezar.BackColor = System.Drawing.Color.White;
-            this.btnEmpezar.Location = new System.Drawing.Point(131, 511);
+            this.btnEmpezar.Location = new System.Drawing.Point(126, 454);
             this.btnEmpezar.Margin = new System.Windows.Forms.Padding(2);
             this.btnEmpezar.Name = "btnEmpezar";
             this.btnEmpezar.Size = new System.Drawing.Size(163, 31);
@@ -84,14 +83,25 @@
             // panelChat
             // 
             this.panelChat.BackColor = System.Drawing.Color.White;
-            this.panelChat.Controls.Add(this.btnEnviar);
             this.panelChat.Controls.Add(this.txtChat);
+            this.panelChat.Controls.Add(this.btnEnviar);
             this.panelChat.Controls.Add(this.txtMsg);
             this.panelChat.Location = new System.Drawing.Point(432, 265);
             this.panelChat.Margin = new System.Windows.Forms.Padding(2);
             this.panelChat.Name = "panelChat";
             this.panelChat.Size = new System.Drawing.Size(423, 335);
             this.panelChat.TabIndex = 2;
+            // 
+            // txtChat
+            // 
+            this.txtChat.BackColor = System.Drawing.Color.White;
+            this.txtChat.Location = new System.Drawing.Point(3, 3);
+            this.txtChat.Name = "txtChat";
+            this.txtChat.ReadOnly = true;
+            this.txtChat.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.txtChat.Size = new System.Drawing.Size(359, 274);
+            this.txtChat.TabIndex = 4;
+            this.txtChat.Text = "";
             // 
             // btnEnviar
             // 
@@ -102,17 +112,6 @@
             this.btnEnviar.Text = "Enviar";
             this.btnEnviar.UseVisualStyleBackColor = true;
             this.btnEnviar.Click += new System.EventHandler(this.btnEnviar_Click);
-            // 
-            // txtChat
-            // 
-            this.txtChat.BackColor = System.Drawing.Color.White;
-            this.txtChat.Location = new System.Drawing.Point(3, 3);
-            this.txtChat.Multiline = true;
-            this.txtChat.Name = "txtChat";
-            this.txtChat.ReadOnly = true;
-            this.txtChat.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtChat.Size = new System.Drawing.Size(359, 274);
-            this.txtChat.TabIndex = 1;
             // 
             // txtMsg
             // 
@@ -150,7 +149,7 @@
             this.panelJugadores.Controls.Add(this.panelColor);
             this.panelJugadores.Controls.Add(this.label1);
             this.panelJugadores.Controls.Add(this.dataGridJugadores);
-            this.panelJugadores.Location = new System.Drawing.Point(64, 171);
+            this.panelJugadores.Location = new System.Drawing.Point(69, 105);
             this.panelJugadores.Margin = new System.Windows.Forms.Padding(2);
             this.panelJugadores.Name = "panelJugadores";
             this.panelJugadores.Size = new System.Drawing.Size(298, 336);
@@ -258,14 +257,6 @@
             this.label1.Size = new System.Drawing.Size(122, 32);
             this.label1.TabIndex = 4;
             this.label1.Text = "Jugadores";
-            // 
-            // panelPendientes
-            // 
-            this.panelPendientes.Location = new System.Drawing.Point(0, 1);
-            this.panelPendientes.Margin = new System.Windows.Forms.Padding(2);
-            this.panelPendientes.Name = "panelPendientes";
-            this.panelPendientes.Size = new System.Drawing.Size(428, 152);
-            this.panelPendientes.TabIndex = 2;
             // 
             // panel1
             // 
@@ -411,7 +402,7 @@
             // btnDesconectar
             // 
             this.btnDesconectar.BackColor = System.Drawing.Color.White;
-            this.btnDesconectar.Location = new System.Drawing.Point(131, 546);
+            this.btnDesconectar.Location = new System.Drawing.Point(126, 489);
             this.btnDesconectar.Margin = new System.Windows.Forms.Padding(2);
             this.btnDesconectar.Name = "btnDesconectar";
             this.btnDesconectar.Size = new System.Drawing.Size(163, 31);
@@ -427,7 +418,6 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(96)))), ((int)(((byte)(63)))));
             this.Controls.Add(this.btnDesconectar);
             this.Controls.Add(this.panelConectados);
-            this.Controls.Add(this.panelPendientes);
             this.Controls.Add(this.panelJugadores);
             this.Controls.Add(this.panelChat);
             this.Controls.Add(this.btnEmpezar);
@@ -464,7 +454,6 @@
         private System.Windows.Forms.Button btnC3;
         private System.Windows.Forms.Button btnC2;
         private System.Windows.Forms.Button btnC1;
-        private System.Windows.Forms.Panel panelPendientes;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
@@ -480,8 +469,8 @@
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button btnInvitar;
         private System.Windows.Forms.Button btnEnviar;
-        private System.Windows.Forms.TextBox txtChat;
         private System.Windows.Forms.TextBox txtMsg;
         private System.Windows.Forms.Button btnDesconectar;
+        private System.Windows.Forms.RichTextBox txtChat;
     }
 }

@@ -59,6 +59,7 @@ namespace cliente.Partida
             dataGridJugadores.RowsDefaultCellStyle.SelectionForeColor = Color.Black;
             dataGridJugadores.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridJugadores.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridJugadores.CellPainting += new DataGridViewCellPaintingEventHandler(this.dataGrid_CellPainting);
             dataGridJugadores.ClearSelection();
 
             dataGridJugadores.Rows[0].Height = dataGridJugadores.Height / 5;
@@ -269,8 +270,26 @@ namespace cliente.Partida
 
         public void ActualizarChat(string res)
         {
-            txtChat.AppendText(res);
+            if (res.IndexOf(":") == -1)
+            {
+                txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Italic);
+                txtChat.SelectionColor = Color.SkyBlue;
+            }
+            else
+            {
+                txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Regular);
+                txtChat.ForeColor = Color.Black;              
+            }
+            txtChat.SelectedText = res;
             txtChat.AppendText(Environment.NewLine);
+        }
+
+        public void RespuestaInvitacion(string res) {
+            string[] trozos = res.Split("/");
+            if (trozos[2] == "NO")
+            {
+                MessageBox.Show(trozos[1] + " ha rechazado tu invitación");
+            }
         }
 
         public void EnviarMensaje()
@@ -293,6 +312,33 @@ namespace cliente.Partida
             if (e.KeyChar == (char)Keys.Return)
                 EnviarMensaje();
         }
-    }
 
+        private void dataGrid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.ColumnIndex == 0 & e.RowIndex == 0)
+            {
+                //Pen for left and top borders
+                using (var backGroundPen = new Pen(e.CellStyle.BackColor, 1))
+                //Pen for bottom and right borders
+                using (var gridlinePen = new Pen(dataGridJugadores.GridColor, 1))
+                //Pen for selected cell borders
+                using (var selectedPen = new Pen(Color.FromArgb(195, 96, 63), 1))
+                {
+                    var topLeftPoint = new Point(e.CellBounds.Left, e.CellBounds.Top);
+                    var topRightPoint = new Point(e.CellBounds.Right - 1, e.CellBounds.Top);
+                    var bottomRightPoint = new Point(e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
+                    var bottomleftPoint = new Point(e.CellBounds.Left, e.CellBounds.Bottom - 1);
+                    //Paint all parts except borders.
+                    e.Paint(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.Border);
+
+                    //Draw selected cells border here
+                    e.Graphics.DrawRectangle(selectedPen, new Rectangle(e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Width - 1, e.CellBounds.Height - 1));
+
+                    //Handled painting for this cell, Stop default rendering.
+                    e.Handled = true;
+                }
+            }
+        }
+    }
 }
+

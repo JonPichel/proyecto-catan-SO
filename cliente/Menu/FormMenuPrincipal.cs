@@ -34,8 +34,8 @@ namespace cliente.Menu
         private void FormMenuPrincipal_Load(object sender, EventArgs e)
         {
             // Conectar al servidor
-            IPAddress addrServer = IPAddress.Parse("192.168.56.101");
-            IPEndPoint ipep = new IPEndPoint(addrServer, 4449);
+            IPAddress addrServer = IPAddress.Parse("192.168.1.90");
+            IPEndPoint ipep = new IPEndPoint(addrServer, 4445);
 
             conn = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
@@ -147,6 +147,12 @@ namespace cliente.Menu
                         thread.Start();
                         break;
                     case 8:
+                        idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                        if (partidas.ContainsKey(idP))
+                        {
+                            delegado = new DelegadoRespuestas(partidas[idP].RespuestaInvitacion);
+                            partidas[idP].Invoke(delegado, new object[] { mensaje });
+                        }
                         break;
                     case 9:
                         ts = delegate { Invitacion(mensaje); };
