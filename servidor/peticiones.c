@@ -267,7 +267,7 @@ void pet_responder_invitacion(char *resto, char *nombre, int socket) {
     }
     else{
         char mensaje[100];
-        sprintf(mensaje, "%s se ha unido a la partida", nombre);
+        sprintf(mensaje, "%s ha rechazado la invitacion", nombre);
         not_mensaje_chat(idP, mensaje, tag);
     }
 }
@@ -280,7 +280,7 @@ void pet_abandonar_lobby(char *resto, char *nombre, int socket) {
     if (strcmp(partidas[idP].jugadores[0].nombre, nombre) == 0) {
         // Abandona el host
         partidas[idP].estado = VACIA;
-        not_terminar_partida(idP, tag);
+        not_partida_cancelada(idP, tag);
         partidas[idP].numj = 0;
     } else {
         // Abandona un invitado
@@ -320,6 +320,14 @@ void pet_enviar_chat(char *resto, int socket) {
 	char mensaje[512];
 	strcpy(mensaje, strtok_r(resto, "/", &resto));
 	not_mensaje_chat(idP, mensaje, tag);
+}
+
+void pet_empezar_partida(char *resto, int socket){
+    char tag[32];
+    sprintf(tag, "THREAD %d", socket);
+    
+    int idP = atoi(strtok_r(resto, "/", &resto));
+    not_partida_empezada(idP, tag);
 }
 
 void not_lista_conectados(char *tag) {
@@ -369,7 +377,7 @@ void not_lista_jugadores(int idP, char *tag) {
 	}
 }
 
-void not_terminar_partida(int idP, char *tag) {
+void not_partida_cancelada(int idP, char *tag) {
     // Enviar lista
     char respuesta[32];
     sprintf(respuesta, "10/%d", idP);
@@ -386,7 +394,18 @@ void not_mensaje_chat(int idP, char *mensaje, char *tag) {
 	// Enviar lista
 	for (int i = 0; i < partidas[idP].numj; i++) {
 		log_msg(tag, "Notificando mensaje de chat por el socket %d: %s\n",
-				partidas[idP].jugadores[i].socket, respuesta);
+                partidas[idP].jugadores[i].socket, respuesta);
 		write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
 	}
 }
+void not_partida_empezada(int idP, char *tag){
+    char respuesta[512];
+    sprintf(respuesta, "14/%d", idP);
+    for (int i = 0; i < partidas[idP].numj; i++) {
+        log_msg(tag, "Notificando partida empezada por el socket %d: %s\n",
+                partidas[idP].jugadores[i].socket, respuesta);
+        write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
+    }
+}
+
+
