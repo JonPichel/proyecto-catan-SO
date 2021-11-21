@@ -16,10 +16,12 @@ void pet_responder_invitacion(char *resto, char *nombre, int socket);
 void pet_abandonar_lobby(char *resto, char *nombre, int socket);
 void pet_cambio_color(char *resto, char *nombre, int socket);
 void pet_enviar_chat(char *resto, int socket);
+void pet_empezar_partida(char *resto, int socket);
 
 void not_lista_conectados(char *tag);
 void not_lista_jugadores(int idP, char *tag);
-void not_terminar_partida(int idP, char *tag);
+void not_partida_cancelada(int idP, char *tag);
 void not_mensaje_chat(int idP, char *mensaje, char *tag);
+void not_partida_empezada(int idP, char *tag);
 
 #endif /* __PETICIONES_H__ */

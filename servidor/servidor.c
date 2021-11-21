@@ -158,6 +158,10 @@ void *atender_cliente(void *sock_ptr) {
                 /* ENVIAR CHAT */
                 pet_enviar_chat(resto, socket);
                 break;
+            case 14:
+                pet_empezar_partida(resto, socket);
+                break;
+            
             default:
                 log_msg(tag, "Peticion desconocida: %d\n", codigo);
                 close(socket);
