@@ -37,7 +37,7 @@ void pet_registrar_jugador(char *resto, int socket) {
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
     char nombre[20], pass[20];
-    char respuesta[6];
+    char respuesta[13];
 
     strncpy(nombre, strtok_r(resto, ",", &resto), sizeof(nombre));
     strncpy(pass, strtok_r(resto, ",", &resto), sizeof(pass));
@@ -51,6 +51,7 @@ void pet_registrar_jugador(char *resto, int socket) {
         // Ya existe el usuario
         strcpy(respuesta, "1/NO");
     }
+    strcat(respuesta, "~~END~~");
     // Enviar
     log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
     write(socket, respuesta, strlen(respuesta));
@@ -89,6 +90,7 @@ void pet_iniciar_sesion(char *nombre, char *resto, int socket) {
         // No existe el usuario
         strcpy(respuesta, "2/-1");
     }
+    strcat(respuesta, "~~END~~");
     log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
     write(socket, respuesta, strlen(respuesta));
     if (conectado) {
@@ -96,7 +98,6 @@ void pet_iniciar_sesion(char *nombre, char *resto, int socket) {
         conn_add_jugador(&conectados, nombre, socket);
         pthread_mutex_unlock(&mutex_estructuras);
         /* NOTIFICACION LISTA DE CONECTADOS */
-        sleep(1);
         not_lista_conectados(tag);
     }
 }
@@ -128,6 +129,7 @@ void pet_informacion_partidas_jugador(char *resto, int socket) {
         }
     }
     respuesta[strlen(respuesta) - 1]='\0';
+    strcat(respuesta, "~~END~~");
 
     // Enviar
     log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
@@ -162,6 +164,7 @@ void pet_informacion_partida(char *resto, int socket) {
         strcat(respuesta, ",");
     }
     respuesta[strlen(respuesta) - 1] = '\0';
+    strcat(respuesta, "~~END~~");
 
     // Enviar
     log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
@@ -179,8 +182,9 @@ void pet_puntuacion_media_jugador(char *resto, int socket) {
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
-    char respuesta[20];
+    char respuesta[32];
     sprintf(respuesta, "5/%.2f", bdd_puntuacion_media(atoi(strtok_r(resto, ",", &resto))));
+    strcat(respuesta, "~~END~~");
 
     log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
     write(socket, respuesta, strlen(respuesta));
@@ -191,7 +195,7 @@ void pet_crear_lobby(char *nombre, int socket) {
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
-    char respuesta[10];
+    char respuesta[20];
     int lleno = 1;
     int idP;
     for (idP = 0; idP < MAX_PART; idP++) {
@@ -207,14 +211,14 @@ void pet_crear_lobby(char *nombre, int socket) {
     }
     if (lleno)
         strcpy(respuesta, "7/-1");
+    
+    strcat(respuesta, "~~END~~");
 
     // Enviar
     log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
     write(socket, respuesta, strlen(respuesta));
 
-    sleep(1);
     not_lista_jugadores(idP, tag);
-    sleep(1);
     not_lista_conectados(tag);
 }
 
@@ -226,15 +230,15 @@ void pet_invitar_lobby(char *resto, char *nombre, int socket) {
     char nombre_guest[20];
     strcpy(nombre_guest, strtok_r(resto, "/", &resto));
     int socket_guest = conn_socket_jugador(&conectados, nombre_guest);
-    char respuesta[80];
+    char respuesta[64];
     if (socket_guest == -1) {
         // Se ha desconectado: rechazar la peticion directamente
-        sprintf(respuesta, "8/%d/%s/NO", idP, nombre_guest);
+        sprintf(respuesta, "8/%d/%s/NO~~END~~", idP, nombre_guest);
         log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
         write(socket, respuesta, strlen(respuesta));
     } else {
         // Enviar peticion por el socket del invitado
-        sprintf(respuesta, "9/%d/%s", idP, nombre);
+        sprintf(respuesta, "9/%d/%s~~END~~", idP, nombre);
         log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
         write(socket_guest, respuesta, strlen(respuesta));
         char mensaje[100];
@@ -250,11 +254,10 @@ void pet_responder_invitacion(char *resto, char *nombre, int socket) {
     int idP = atoi(strtok_r(resto, "/", &resto));
     char decision[2];
     strcpy(decision, strtok_r(resto, "/", &resto));
-    char respuesta[80];
-    sprintf(respuesta, "8/%d/%s/%s", idP, nombre, decision);
+    char respuesta[64];
+    sprintf(respuesta, "8/%d/%s/%s~~END~~", idP, nombre, decision);
     log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);				
     write(partidas[idP].jugadores[0].socket, respuesta, strlen(respuesta));
-    sleep(1);
     if (strcmp(decision, "SI") == 0) {
         // Add el jugador a la partida y notificar
         pthread_mutex_lock(&mutex_estructuras);
@@ -345,6 +348,7 @@ void not_lista_conectados(char *tag) {
             sprintf(respuesta, "%s%s,", respuesta, conectados.conectados[i].nombre);
         }
         respuesta[strlen(respuesta) - 1] = '\0';
+        strcat(respuesta, "~~END~~");
     }
     // Enviar lista
     for (int i = 0; i < conectados.num; i++) {
@@ -369,6 +373,7 @@ void not_lista_jugadores(int idP, char *tag) {
         sprintf(respuesta, "%s%s,%d,", respuesta, partidas[idP].jugadores[i].nombre, partidas[idP].jugadores[i].color);
     }
 	respuesta[strlen(respuesta) - 1] = '\0';
+    strcat(respuesta, "~~END~~");
     // Enviar lista
 	for (int i = 0; i < partidas[idP].numj; i++) {
 		log_msg(tag, "Lista de jugadores por el socket %d: %s\n",
@@ -380,7 +385,7 @@ void not_lista_jugadores(int idP, char *tag) {
 void not_partida_cancelada(int idP, char *tag) {
     // Enviar lista
     char respuesta[32];
-    sprintf(respuesta, "10/%d", idP);
+    sprintf(respuesta, "10/%d~~END~~", idP);
 	for (int i = 0; i < partidas[idP].numj; i++) {
 		log_msg(tag, "Notificando terminar partida por el socket %d: %s\n",
 				partidas[idP].jugadores[i].socket, respuesta);
@@ -390,7 +395,7 @@ void not_partida_cancelada(int idP, char *tag) {
 
 void not_mensaje_chat(int idP, char *mensaje, char *tag) {
 	char respuesta[512];
-	sprintf(respuesta, "13/%d/%s", idP, mensaje); 
+	sprintf(respuesta, "13/%d/%s~~END~~", idP, mensaje); 
 	// Enviar lista
 	for (int i = 0; i < partidas[idP].numj; i++) {
 		log_msg(tag, "Notificando mensaje de chat por el socket %d: %s\n",
@@ -400,12 +405,11 @@ void not_mensaje_chat(int idP, char *mensaje, char *tag) {
 }
 void not_partida_empezada(int idP, char *tag){
     char respuesta[512];
-    sprintf(respuesta, "14/%d", idP);
+    sprintf(respuesta, "14/%d~~END~~", idP);
     for (int i = 0; i < partidas[idP].numj; i++) {
         log_msg(tag, "Notificando partida empezada por el socket %d: %s\n",
                 partidas[idP].jugadores[i].socket, respuesta);
         write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
     }
 }
-
 

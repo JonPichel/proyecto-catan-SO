@@ -85,7 +85,7 @@ SERVIDOR: 13/idPartida/mensaje (añadir Nombre: en las que haga falta)
 Pendiente: añadir una cola de mensaje para cuando se monten entre ellos
 [END]
 
-13/0/Antonio:hola18/[END]0/Ana/SI
+13/0/Antonio:hola18/~~END~~0/Ana/SI[END]
 
 split
 
