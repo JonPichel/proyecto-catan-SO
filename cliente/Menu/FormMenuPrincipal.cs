@@ -101,97 +101,106 @@ namespace cliente.Menu
                 conn.Receive(res_b);
                 if (res_b[0] == 0)
                     continue;
+                
+                string entrada = Encoding.ASCII.GetString(res_b).Split('\0')[0];
+                string[] trozos = entrada.Split("~~END~~");
 
-                string[] res = Encoding.ASCII.GetString(res_b).Split('/', 2);
-                int codigo = Convert.ToInt32(res[0]);
-                string mensaje = res[1].Split('\0')[0];
-
-                switch (codigo)
+                for (int i = 0; i < trozos.Length; i++)
                 {
-                    case 1:
-                        delegado = new DelegadoRespuestas(((TabRegistro)tabs[1]).ActualizarRegistro);
-                        tabs[1].Invoke(delegado, new object[] { mensaje });
-                        break;
-                    case 2:
-                        delegado = new DelegadoRespuestas(((TabLogin)tabs[0]).ActualizarLogin);
-                        tabs[0].Invoke(delegado, new object[] { mensaje });
-                        break;
-                    case 3:
-                        delegado = new DelegadoRespuestas(((TabMenuPrincipal)tabs[2]).ActualizarDataGrid);
-                        tabs[2].Invoke(delegado, new object[] { mensaje });
-                        break;
-                    case 4:
-                        delegado = new DelegadoRespuestas(((TabInfoPartida)tabs[3]).MostrarInfoPartida);
-                        tabs[3].Invoke(delegado, new object[] { mensaje });
-                        break;
-                    case 5:
-                        delegado = new DelegadoRespuestas(((TabMenuPrincipal)tabs[2]).ActualizarMedia);
-                        tabs[2].Invoke(delegado, new object[] { mensaje });
-                        break;
-                    case 6:
-                        delegado = new DelegadoRespuestas(((TabMenuPrincipal)tabs[2]).ActualizarListaConectados);
-                        tabs[2].Invoke(delegado, new object[] { mensaje });
-                        foreach (FormPartida form in partidas.Values)
-                        {
-                            if (form.host)
+                    if (trozos[i] == "")
+                        continue;
+                    string[] res = trozos[i].Split('/', 2);
+                    
+                    int codigo = Convert.ToInt32(res[0]);
+                    string mensaje = res[1];
+
+                    switch (codigo)
+                    {
+                        case 1:
+                            delegado = new DelegadoRespuestas(((TabRegistro)tabs[1]).ActualizarRegistro);
+                            tabs[1].Invoke(delegado, new object[] { mensaje });
+                            break;
+                        case 2:
+                            delegado = new DelegadoRespuestas(((TabLogin)tabs[0]).ActualizarLogin);
+                            tabs[0].Invoke(delegado, new object[] { mensaje });
+                            break;
+                        case 3:
+                            delegado = new DelegadoRespuestas(((TabMenuPrincipal)tabs[2]).ActualizarDataGrid);
+                            tabs[2].Invoke(delegado, new object[] { mensaje });
+                            break;
+                        case 4:
+                            delegado = new DelegadoRespuestas(((TabInfoPartida)tabs[3]).MostrarInfoPartida);
+                            tabs[3].Invoke(delegado, new object[] { mensaje });
+                            break;
+                        case 5:
+                            delegado = new DelegadoRespuestas(((TabMenuPrincipal)tabs[2]).ActualizarMedia);
+                            tabs[2].Invoke(delegado, new object[] { mensaje });
+                            break;
+                        case 6:
+                            delegado = new DelegadoRespuestas(((TabMenuPrincipal)tabs[2]).ActualizarListaConectados);
+                            tabs[2].Invoke(delegado, new object[] { mensaje });
+                            foreach (FormPartida form in partidas.Values)
                             {
-                                delegado = new DelegadoRespuestas(form.ActualizarListaConectados);
-                                form.Invoke(delegado, new object[] { mensaje });
+                                if (form.host)
+                                {
+                                    delegado = new DelegadoRespuestas(form.ActualizarListaConectados);
+                                    form.Invoke(delegado, new object[] { mensaje });
+                                }
                             }
-                        }
-                        break;
-                    case 7:
-                        idP = Convert.ToInt32(mensaje);
-                        ts = delegate { AbrirPartidaHost(idP); };
-                        thread = new Thread(ts);
-                        thread.Start();
-                        break;
-                    case 8:
-                        idP = Convert.ToInt32(mensaje.Split("/")[0]);
-                        if (partidas.ContainsKey(idP))
-                        {
-                            delegado = new DelegadoRespuestas(partidas[idP].RespuestaInvitacion);
-                            partidas[idP].Invoke(delegado, new object[] { mensaje });
-                        }
-                        break;
-                    case 9:
-                        ts = delegate { Invitacion(mensaje); };
-                        thread = new Thread(ts);
-                        thread.Start();
-                        break;
-                    case 10:
-                        idP = Convert.ToInt32(mensaje.Split("/")[0]);
-                        if (partidas.ContainsKey(idP))
-                        {
-                            delegado = new DelegadoRespuestas(partidas[idP].PartidaCancelada);
-                            partidas[idP].Invoke(delegado, new object[] { mensaje });
-                            partidas[idP].Close();
-                        }
-                        break;
-                    case 11:
-                        idP = Convert.ToInt32(mensaje.Split("/")[0]);
-                        if (partidas.ContainsKey(idP))
-                        {
-                            delegado = new DelegadoRespuestas(partidas[idP].AtenderListaJugadores);
-                            partidas[idP].Invoke(delegado, new object[] { mensaje });
-                        }
-                        break;
-                    case 13:
-                        idP = Convert.ToInt32(mensaje.Split("/")[0]);
-                        if (partidas.ContainsKey(idP))
-                        {
-                            delegado = new DelegadoRespuestas(partidas[idP].ActualizarChat);
-                            partidas[idP].Invoke(delegado, new object[] { mensaje });
-                        }
-                        break;
-                    case 14:
-                        idP = Convert.ToInt32(mensaje.Split("/")[0]);
-                        if (partidas.ContainsKey(idP))
-                        {
-                            delegado = new DelegadoRespuestas(partidas[idP].PartidaEmpezada);
-                            partidas[idP].Invoke(delegado, new object[] { mensaje });
-                        }
-                        break;
+                            break;
+                        case 7:
+                            idP = Convert.ToInt32(mensaje);
+                            ts = delegate { AbrirPartidaHost(idP); };
+                            thread = new Thread(ts);
+                            thread.Start();
+                            break;
+                        case 8:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].RespuestaInvitacion);
+                                partidas[idP].Invoke(delegado, new object[] { mensaje });
+                            }
+                            break;
+                        case 9:
+                            ts = delegate { Invitacion(mensaje); };
+                            thread = new Thread(ts);
+                            thread.Start();
+                            break;
+                        case 10:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].PartidaCancelada);
+                                partidas[idP].Invoke(delegado, new object[] { mensaje });
+                                partidas[idP].Close();
+                            }
+                            break;
+                        case 11:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].AtenderListaJugadores);
+                                partidas[idP].Invoke(delegado, new object[] { mensaje });
+                            }
+                            break;
+                        case 13:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].ActualizarChat);
+                                partidas[idP].Invoke(delegado, new object[] { mensaje });
+                            }
+                            break;
+                        case 14:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].PartidaEmpezada);
+                                partidas[idP].Invoke(delegado, new object[] { mensaje });
+                            }
+                            break;
+                    }
                 }
             }
         }

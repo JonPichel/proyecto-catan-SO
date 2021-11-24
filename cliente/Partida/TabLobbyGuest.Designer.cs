@@ -96,6 +96,7 @@
             // txtMsg
             // 
             this.txtMsg.Location = new System.Drawing.Point(3, 562);
+            this.txtMsg.MaxLength = 400;
             this.txtMsg.Name = "txtMsg";
             this.txtMsg.Size = new System.Drawing.Size(317, 23);
             this.txtMsg.TabIndex = 0;
@@ -122,6 +123,7 @@
             this.dataGridJugadores.Size = new System.Drawing.Size(190, 204);
             this.dataGridJugadores.TabIndex = 3;
             this.dataGridJugadores.Text = "dataGridView1";
+            this.dataGridJugadores.SelectionChanged += new System.EventHandler(this.dataGridJugadores_SelectionChanged);
             // 
             // panelJugadores
             // 

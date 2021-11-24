@@ -267,6 +267,11 @@ namespace cliente.Partida
                 }
             }
         }
+
+        private void dataGridJugadores_SelectionChanged(object sender, EventArgs e)
+        {
+            dataGridJugadores.ClearSelection();
+        }
     }
 
 }
