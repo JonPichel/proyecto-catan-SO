@@ -4,12 +4,10 @@
 
 #include "estructuras.h"
 
-extern pthread_mutex_t mutex_estructuras;
-
 int tipos_casillas[19] = {0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5};
 
 int tipos_puertos[9] = {0, 0, 0, 0, 1, 2, 3, 4, 5};
-int saltos_puertos[9] = {2, 2, 2, 2, 2, 2, 3, 3, 3};
+int saltos_puertos[9] = {3, 3, 3, 3, 3, 3, 4, 4, 4};
 
 int conn_add_jugador(listaconn_t *lista, char nombre[20], int socket) {
     if (lista->num > MAX_CONN)
@@ -114,48 +112,59 @@ void barajar(int *a, int size) {
 }
 
 void barajar_casillas(char *asignacion) {
-    pthread_mutex_lock(&mutex_estructuras);
-    // string con MADERA,PAJA,DESIERTO,...
     barajar(tipos_casillas, 19);
-    asignacion[0] = '\0';
-    
-    for (int i = 0; i < 19; i++){
-        
-        switch (tipos_casillas[i]){
-        case 0:
-            sprintf(asignacion, "%sDESIERTO,", asignacion);
-            break;
-        case 1:
-            sprintf(asignacion, "%MADERA,", asignacion);
-            break;
-        case 2:
-            sprintf(asignacion, "%sOVEJA,", asignacion);
-            break;
-        case 3:
-            sprintf(asignacion, "%sPAJA,", asignacion);
-            break;
-        case 4:
-            sprintf(asignacion, "%sPIEDRA,", asignacion);
-            break;
-        case 5:
-            sprintf(asignacion, "%sLADRILLO,", asignacion);
-            break;
+
+    for (int i = 0; i < 19; i++) {
+        switch (tipos_casillas[i]) {
+            case 0:
+                sprintf(asignacion, "%sDESIERTO,", asignacion);
+                break;
+            case 1:
+                sprintf(asignacion, "%sMADERA,", asignacion);
+                break;
+            case 2:
+                sprintf(asignacion, "%sLADRILLO,", asignacion);
+                break;
+            case 3:
+                sprintf(asignacion, "%sOVEJA,", asignacion);
+                break;
+            case 4:
+                sprintf(asignacion, "%sTRIGO,", asignacion);
+                break;
+            case 5: sprintf(asignacion, "%sPIEDRA,", asignacion);
+                break;
         }
     }
-    asignacion[strlen(asignacion) - 1] = '\0';
-    pthread_mutex_unlock(&mutex_estructuras);
+    asignacion[strlen(asignacion) - 1] = '/';
 }
 
 void barajar_puertos(char *asignacion) {
-    pthread_mutex_lock(&mutex_estructuras);
-    barajar(tipos_puerto, 9);
-    barajar(saltos_puerto, 9);
-    asignacion[0] = '\0';
+    barajar(tipos_puertos, 9);
+    barajar(saltos_puertos, 9);
 
-    for (int i = 0; i < 9; i++){
-        sprintf(asignacion, "%s%d,%d,", asignacion, tipos_puerto[i], saltos_puerto[i]);
+    int pos = rand() % 30;
+    for (int i = 0; i < 9; i++) {
+        pos = (pos + saltos_puertos[i]) % 30;
+        switch (tipos_puertos[i]) {
+            case 0:
+                sprintf(asignacion, "%sGENERAL,%d,", asignacion, pos);
+                break;
+            case 1:
+                sprintf(asignacion, "%sMADERA,%d,", asignacion, pos);
+                break;
+            case 2:
+                sprintf(asignacion, "%sLADRILLO,%d,", asignacion, pos);
+                break;
+            case 3:
+                sprintf(asignacion, "%sOVEJA,%d,", asignacion, pos);
+                break;
+            case 4:
+                sprintf(asignacion, "%sTRIGO,%d,", asignacion, pos);
+                break;
+            case 5:
+                sprintf(asignacion, "%sPIEDRA,%d,", asignacion, pos);
+                break;
+        }
     }
-
     asignacion[strlen(asignacion) - 1] = '\0';
-    pthread_mutex_unlock(&mutex_estructuras);
 }

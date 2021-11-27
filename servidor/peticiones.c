@@ -331,6 +331,7 @@ void pet_empezar_partida(char *resto, int socket){
     sprintf(tag, "THREAD %d", socket);
     
     int idP = atoi(strtok_r(resto, "/", &resto));
+    partidas[idP].estado = JUGANDO;
     not_partida_empezada(idP, tag);
 }
 
@@ -406,7 +407,9 @@ void not_mensaje_chat(int idP, char *mensaje, char *tag) {
 }
 void not_partida_empezada(int idP, char *tag){
     char respuesta[512];
-    sprintf(respuesta, "14/%d~~END~~", idP);
+    sprintf(respuesta, "14/%d/", idP);
+    barajar_casillas(respuesta);
+    barajar_puertos(respuesta);
     for (int i = 0; i < partidas[idP].numj; i++) {
         log_msg(tag, "Notificando partida empezada por el socket %d: %s\n",
                 partidas[idP].jugadores[i].socket, respuesta);
