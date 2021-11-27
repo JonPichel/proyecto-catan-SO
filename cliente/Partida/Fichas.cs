@@ -460,8 +460,8 @@ namespace cliente.Partida
     }
     public class Puerto
     {
-        public const int DX = 119;
-        public const int DY = 136;
+        public const int DX = 138;
+        public const int DY = 94;
 
         public LadoCoords Coords;
         public string Tipo;
