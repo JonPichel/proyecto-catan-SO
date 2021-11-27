@@ -50,10 +50,10 @@ namespace cliente.Partida
             tabs[1].VisibleChanged += this.tabLobby_VisibleChanged;
             if (host)
             {
-                tabs[2].Show();
+                tabs[0].Show();
             } else
             {
-                tabs[2].Show();
+                tabs[1].Show();
             }
 
         }
@@ -119,6 +119,8 @@ namespace cliente.Partida
         public void PartidaEmpezada(string mensaje)
         {
             MessageBox.Show("La partida ha empezado", "Partida empezada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string[] trozos = mensaje.Split("/")[1..];
+            ((TabTablero)tabs[2]).CargarTablero(trozos);
             if (host)
             {
                 ((TabLobbyHost)tabs[0]).Tag = "EMPEZAR";

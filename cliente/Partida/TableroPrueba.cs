@@ -71,9 +71,12 @@ namespace cliente.Partida
         {
             return new List<Puerto>()
             {
-                new Puerto(2, -2, Lado.Norte, "madera"),
-                new Puerto(-1, -1, Lado.Oeste, "oveja"),
-                new Puerto(-1, 2, Lado.Sur, "ladrillo")
+                new PuertoGeneral(0, -2, Lado.Norte),
+                new PuertoMadera(2, -2, Lado.Norte),
+                new PuertoLadrillo(3, 0, Lado.Oeste),
+                new PuertoOveja(0, 2, Lado.Sur),
+                new PuertoTrigo(-2, 2, Lado.Sur),
+                new PuertoPiedra(-2, 0, Lado.Oeste)
             };
         }
     }

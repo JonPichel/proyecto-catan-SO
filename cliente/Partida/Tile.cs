@@ -12,6 +12,56 @@ namespace cliente.Partida
         public int Q;
         public int R;
 
+        public VerticeCoords[] Vertices
+        {
+            get
+            {
+                return new VerticeCoords[]
+                {
+                    // Empezamos a contar desde el vértice superior hacia la derecha
+                    new VerticeCoords(Q, R, Vertice.Superior),            // N
+                    new VerticeCoords(Q + 1, R - 1, Vertice.Inferior),    // NE
+                    new VerticeCoords(Q, R + 1, Vertice.Superior),        // SE
+                    new VerticeCoords(Q, R, Vertice.Inferior),            // S
+                    new VerticeCoords(Q - 1, R + 1, Vertice.Superior),    // SO
+                    new VerticeCoords(Q, R - 1, Vertice.Inferior)         // NO
+                };
+            }
+        }
+
+        public LadoCoords[] Lados
+        {
+            get
+            {
+
+                return new LadoCoords[]
+                {
+                    new LadoCoords(Q, R, Lado.Norte),
+                    new LadoCoords(Q + 1, R - 1, Lado.Sur),
+                    new LadoCoords(Q + 1, R, Lado.Oeste),
+                    new LadoCoords(Q, R + 1, Lado.Norte),
+                    new LadoCoords(Q, R, Lado.Sur),
+                    new LadoCoords(Q, R, Lado.Oeste)
+                };
+            }
+        }
+
+        public HexCoords[] Vecinos
+        {
+            get
+            {
+                return new HexCoords[]
+                {
+                    new HexCoords(this.Q + 1, this.R),
+                    new HexCoords(this.Q + 1, this.R - 1),
+                    new HexCoords(this.Q, this.R - 1),
+                    new HexCoords(this.Q - 1, this.R),
+                    new HexCoords(this.Q - 1, this.R + 1),
+                    new HexCoords(this.Q, this.R + 1)
+                };
+            }
+        }
+
         public HexCoords(int Q, int R)
         {
             this.Q = Q;
@@ -51,35 +101,6 @@ namespace cliente.Partida
             basePoint.X += (int)(Tile.BRADIUS * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * (R - 1)) / zoomLevel);
             basePoint.Y += (int)(Tile.BRADIUS * (1.5 * R - 1) / zoomLevel);
             return basePoint;
-        }
-
-        public VerticeCoords[] Vertices()
-        {
-            VerticeCoords[] vertices = new VerticeCoords[6];
-
-            // Empezamos a contar desde el vértice superior hacia la derecha
-            vertices[0] = new VerticeCoords(Q, R, Vertice.Superior);            // N
-            vertices[1] = new VerticeCoords(Q + 1, R - 1, Vertice.Inferior);    // NE
-            vertices[2] = new VerticeCoords(Q, R + 1, Vertice.Superior);        // SE
-            vertices[3] = new VerticeCoords(Q, R, Vertice.Inferior);            // S
-            vertices[4] = new VerticeCoords(Q - 1, R + 1, Vertice.Superior);    // SO
-            vertices[5] = new VerticeCoords(Q, R - 1, Vertice.Inferior);        // NO
-
-            return vertices;
-        }
-
-        public LadoCoords[] Lados()
-        {
-            LadoCoords[] lados = new LadoCoords[6];
-
-            lados[0] = new LadoCoords(Q, R, Lado.Norte);
-            lados[1] = new LadoCoords(Q + 1, R - 1, Lado.Sur);
-            lados[2] = new LadoCoords(Q + 1, R, Lado.Oeste);
-            lados[3] = new LadoCoords(Q, R + 1, Lado.Norte);
-            lados[4] = new LadoCoords(Q, R, Lado.Sur);
-            lados[5] = new LadoCoords(Q, R, Lado.Oeste);
-
-            return lados;
         }
 
         public override string ToString()

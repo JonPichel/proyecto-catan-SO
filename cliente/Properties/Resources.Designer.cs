@@ -553,9 +553,9 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PuertoNortePaja {
+        internal static System.Drawing.Bitmap PuertoNortePiedra {
             get {
-                object obj = ResourceManager.GetObject("PuertoNortePaja", resourceCulture);
+                object obj = ResourceManager.GetObject("PuertoNortePiedra", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -563,9 +563,9 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PuertoNortePiedra {
+        internal static System.Drawing.Bitmap PuertoNorteTrigo {
             get {
-                object obj = ResourceManager.GetObject("PuertoNortePiedra", resourceCulture);
+                object obj = ResourceManager.GetObject("PuertoNorteTrigo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -613,9 +613,9 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PuertoOestePaja {
+        internal static System.Drawing.Bitmap PuertoOestePiedra {
             get {
-                object obj = ResourceManager.GetObject("PuertoOestePaja", resourceCulture);
+                object obj = ResourceManager.GetObject("PuertoOestePiedra", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -623,9 +623,9 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PuertoOestePiedra {
+        internal static System.Drawing.Bitmap PuertoOesteTrigo {
             get {
-                object obj = ResourceManager.GetObject("PuertoOestePiedra", resourceCulture);
+                object obj = ResourceManager.GetObject("PuertoOesteTrigo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -673,9 +673,9 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PuertoSurPaja {
+        internal static System.Drawing.Bitmap PuertoSurPiedra {
             get {
-                object obj = ResourceManager.GetObject("PuertoSurPaja", resourceCulture);
+                object obj = ResourceManager.GetObject("PuertoSurPiedra", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -683,9 +683,9 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PuertoSurPiedra {
+        internal static System.Drawing.Bitmap PuertoSurTrigo {
             get {
-                object obj = ResourceManager.GetObject("PuertoSurPiedra", resourceCulture);
+                object obj = ResourceManager.GetObject("PuertoSurTrigo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

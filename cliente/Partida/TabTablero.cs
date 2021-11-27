@@ -13,7 +13,7 @@ namespace cliente.Partida
     {
         Tile[] tiles;
         List<FichaVertice> fichasVertices;
-        List<Puerto> puertos;
+        Puerto[] puertos;
         List<Carretera> carreteras;
         LadoCoords[] ladosTablero;
         VerticeCoords[] verticesTablero;
@@ -60,12 +60,160 @@ namespace cliente.Partida
             InitializeComponent();
         }
 
+        public void CargarTablero(string[] trozos)
+        {
+            string[] casillas = trozos[0].Split(",");
+            string[] datosPuertos = trozos[1].Split(",");
+
+            // Poblar casillas
+            List<Tile> tiles = new List<Tile>()
+            {
+                new TileMar(0, -3),
+                new TileMar(1, -3),
+                new TileMar(2, -3),
+                new TileMar(3, -3),
+                new TileMar(-1, -2),
+                new TileMar(3, -2),
+                new TileMar(-2, -1),
+                new TileMar(3, -1),
+                new TileMar(-3, 0),
+                new TileMar(3, 0),
+                new TileMar(-3, 1),
+                new TileMar(2, 1),
+                new TileMar(-3, 2),
+                new TileMar(1, 2),
+                new TileMar(-3, 3),
+                new TileMar(-2, 3),
+                new TileMar(-1, 3),
+                new TileMar(0, 3)
+            };
+            
+            Queue<int> valores = new Queue<int>(new int[] { 5, 2, 6, 3, 8, 10, 9, 12, 11, 4, 8, 10, 9, 4, 5, 6, 3, 11 });
+            HexCoords coords;
+            int i = 0;
+            for (int radius = 2; radius > 0; radius--)
+            {
+                coords = new HexCoords(-radius, radius);
+                for (int j = 0; j < 6; j++)
+                {
+                    for (int k = 0; k < radius; k++)
+                    {
+                        switch (casillas[i++])
+                        {
+                            case "DESIERTO":
+                                tiles.Add(new TileDesierto(coords.Q, coords.R));
+                                break;
+                            case "MADERA":
+                                tiles.Add(new TileMadera(coords.Q, coords.R, valores.Dequeue()));
+                                break;
+                            case "LADRILLO":
+                                tiles.Add(new TileLadrillo(coords.Q, coords.R, valores.Dequeue()));
+                                break;
+                            case "OVEJA":
+                                tiles.Add(new TileOveja(coords.Q, coords.R, valores.Dequeue()));
+                                break;
+                            case "TRIGO":
+                                tiles.Add(new TileTrigo(coords.Q, coords.R, valores.Dequeue()));
+                                break;
+                            case "PIEDRA":
+                                tiles.Add(new TilePiedra(coords.Q, coords.R, valores.Dequeue()));
+                                break;
+                        }
+                        coords = coords.Vecinos[j];
+                    }
+                }
+            }
+            switch (casillas[i])
+            {
+                case "DESIERTO":
+                    tiles.Add(new TileDesierto(0, 0));
+                    break;
+                case "MADERA":
+                    tiles.Add(new TileMadera(0, 0, valores.Dequeue()));
+                    break;
+                case "LADRILLO":
+                    tiles.Add(new TileLadrillo(0, 0, valores.Dequeue()));
+                    break;
+                case "OVEJA":
+                    tiles.Add(new TileOveja(0, 0, valores.Dequeue()));
+                    break;
+                case "TRIGO":
+                    tiles.Add(new TileTrigo(0, 0, valores.Dequeue()));
+                    break;
+                case "PIEDRA":
+                    tiles.Add(new TilePiedra(0, 0, valores.Dequeue()));
+                    break;
+            }
+
+            // Poblar puertos
+            List<Puerto> puertos = new List<Puerto>();
+            LadoCoords[] costa = new LadoCoords[30]
+            {
+                new LadoCoords(1, 2, Lado.Oeste),
+                new LadoCoords(1, 2, Lado.Norte),
+                new LadoCoords(2, 1, Lado.Oeste),
+                new LadoCoords(2, 1, Lado.Norte),
+                new LadoCoords(3, 0, Lado.Oeste),
+                new LadoCoords(3, -1, Lado.Sur),
+                new LadoCoords(3, -1, Lado.Oeste),
+                new LadoCoords(3, -2, Lado.Sur),
+                new LadoCoords(3, -2, Lado.Oeste),
+                new LadoCoords(3, -3, Lado.Sur),
+                new LadoCoords(2, -2, Lado.Norte),
+                new LadoCoords(2, -3, Lado.Sur),
+                new LadoCoords(1, -2, Lado.Norte),
+                new LadoCoords(1, -3, Lado.Sur),
+                new LadoCoords(0, -2, Lado.Norte),
+                new LadoCoords(0, -2, Lado.Oeste),
+                new LadoCoords(-1, -1, Lado.Norte),
+                new LadoCoords(-1, -1, Lado.Oeste),
+                new LadoCoords(-2, 0, Lado.Norte),
+                new LadoCoords(-2, 0, Lado.Oeste),
+                new LadoCoords(-2, 0, Lado.Sur),
+                new LadoCoords(-2, 1, Lado.Oeste),
+                new LadoCoords(-2, 1, Lado.Sur),
+                new LadoCoords(-2, 2, Lado.Oeste),
+                new LadoCoords(-2, 2, Lado.Sur),
+                new LadoCoords(-2, 3, Lado.Norte),
+                new LadoCoords(-1, 2, Lado.Sur),
+                new LadoCoords(-1, 3, Lado.Norte),
+                new LadoCoords(0, 2, Lado.Sur),
+                new LadoCoords(0, 3, Lado.Norte)
+            };
+            for (i = 0; i < 9; i++)
+            {
+                int pos = Convert.ToInt32(datosPuertos[2 * i + 1]);
+                switch (datosPuertos[2*i])
+                {
+                    case "GENERAL":
+                        puertos.Add(new PuertoGeneral(costa[pos].Q, costa[pos].R, costa[pos].L));
+                        break;
+                    case "MADERA":
+                        puertos.Add(new PuertoMadera(costa[pos].Q, costa[pos].R, costa[pos].L));
+                        break;
+                    case "LADRILLO":
+                        puertos.Add(new PuertoLadrillo(costa[pos].Q, costa[pos].R, costa[pos].L));
+                        break;
+                    case "OVEJA":
+                        puertos.Add(new PuertoOveja(costa[pos].Q, costa[pos].R, costa[pos].L));
+                        break;
+                    case "TRIGO":
+                        puertos.Add(new PuertoTrigo(costa[pos].Q, costa[pos].R, costa[pos].L));
+                        break;
+                    case "PIEDRA":
+                        puertos.Add(new PuertoPiedra(costa[pos].Q, costa[pos].R, costa[pos].L));
+                        break;
+                }
+            }
+
+            this.tiles = tiles.ToArray();
+            this.puertos = puertos.ToArray();
+            this.carreteras = new List<Carretera>();
+            this.fichasVertices = new List<FichaVertice>();
+        }
+
         private void TabTablero_Load(object sender, EventArgs e)
         {
-            this.tiles = TableroPrueba.GetTiles();
-            this.fichasVertices = TableroPrueba.GetFichasVertices();
-            this.carreteras = TableroPrueba.GetCarreteras();
-            this.puertos = TableroPrueba.GetPuertos();
             // Calcular las posiciones posibles de carreteras y poblados
             List<VerticeCoords> vertices = new List<VerticeCoords>();
             List<LadoCoords> lados = new List<LadoCoords>();
@@ -73,8 +221,8 @@ namespace cliente.Partida
             {
                 if (tile is TileMar)
                     continue;
-                lados.AddRange(tile.Coords.Lados());
-                vertices.AddRange(tile.Coords.Vertices());
+                lados.AddRange(tile.Coords.Lados);
+                vertices.AddRange(tile.Coords.Vertices);
             }
             ladosTablero = lados.Distinct().ToArray();
             verticesTablero = vertices.Distinct().ToArray();
@@ -109,12 +257,36 @@ namespace cliente.Partida
             {
                 switch (tile)
                 {
+                    case TileMar mar:
+                        bmp = TileMar.Bitmap;
+                        break;
+                    default:
+                        continue;
+                }
+                Rectangle rect = new Rectangle(tile.HexToPixel(this.basePoint, this.zoomLevel), size);
+                e.Graphics.DrawImage(bmp, rect);
+                if (tile.Valor != null)
+                {
+                    e.Graphics.DrawImage(numbers[(int)tile.Valor - 1], rect);
+                }
+            }
+            // Dibujar Puertos
+            size = new Size((Tile.BWIDTH + 2 * Puerto.DX) / zoomLevel, (Tile.BHEIGHT + 2 * Puerto.DY) / zoomLevel);
+            foreach (Puerto puerto in puertos)
+            {
+                e.Graphics.DrawImage(puerto.Bitmap, new Rectangle(puerto.LadoToPixel(basePoint, zoomLevel), size));
+            }
+            // Dibujar casillas de tierra
+            size = new Size(Tile.BWIDTH / this.zoomLevel, Tile.BHEIGHT / this.zoomLevel);
+            foreach (Tile tile in this.tiles)
+            {
+                switch (tile)
+                {
                     case TileDesierto desierto:
                         bmp = TileDesierto.Bitmap;
                         break;
                     case TileMar mar:
-                        bmp = TileMar.Bitmap;
-                        break;
+                        continue;
                     case TileMadera madera:
                         bmp = TileMadera.Bitmap;
                         break;
@@ -182,12 +354,6 @@ namespace cliente.Partida
                     e.Graphics.DrawImage(cliente.Properties.Resources.VerticeContorno, new Rectangle(vertice.VerticeToPixel(basePoint, zoomLevel), size));
                 }
                 e.Graphics.DrawImage(verticeColocar.Bitmap, new Rectangle(verticeColocar.VerticeToPixel(basePoint, zoomLevel), size));
-            }
-            // Dibujar Puertos
-            size = new Size((Tile.BWIDTH + 2 * Puerto.DX) / zoomLevel, (Tile.BHEIGHT + 2 * Puerto.DY) / zoomLevel);
-            foreach (Puerto puerto in puertos)
-            {
-                e.Graphics.DrawImage(puerto.Bitmap, new Rectangle(puerto.LadoToPixel(basePoint, zoomLevel), size));
             }
         }
 
