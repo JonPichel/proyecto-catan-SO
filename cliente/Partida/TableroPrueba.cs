@@ -67,5 +67,14 @@ namespace cliente.Partida
                // new Carretera(1, -1, Lado.Sur, ColorJugador.Azul)
             };
         }
+        public static List<Puerto> GetPuertos()
+        {
+            return new List<Puerto>()
+            {
+                new Puerto(2, -2, Lado.Norte, "madera"),
+                new Puerto(-1, -1, Lado.Oeste, "oveja"),
+                new Puerto(-1, 2, Lado.Sur, "ladrillo")
+            };
+        }
     }
 }

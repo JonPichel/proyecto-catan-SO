@@ -13,6 +13,7 @@ namespace cliente.Partida
     {
         Tile[] tiles;
         List<FichaVertice> fichasVertices;
+        List<Puerto> puertos;
         List<Carretera> carreteras;
         LadoCoords[] ladosTablero;
         VerticeCoords[] verticesTablero;
@@ -64,6 +65,7 @@ namespace cliente.Partida
             this.tiles = TableroPrueba.GetTiles();
             this.fichasVertices = TableroPrueba.GetFichasVertices();
             this.carreteras = TableroPrueba.GetCarreteras();
+            this.puertos = TableroPrueba.GetPuertos();
             // Calcular las posiciones posibles de carreteras y poblados
             List<VerticeCoords> vertices = new List<VerticeCoords>();
             List<LadoCoords> lados = new List<LadoCoords>();
@@ -180,6 +182,12 @@ namespace cliente.Partida
                     e.Graphics.DrawImage(cliente.Properties.Resources.VerticeContorno, new Rectangle(vertice.VerticeToPixel(basePoint, zoomLevel), size));
                 }
                 e.Graphics.DrawImage(verticeColocar.Bitmap, new Rectangle(verticeColocar.VerticeToPixel(basePoint, zoomLevel), size));
+            }
+            // Dibujar Puertos
+            size = new Size((Tile.BWIDTH + 2 * Puerto.DX) / zoomLevel, (Tile.BHEIGHT + 2 * Puerto.DY) / zoomLevel);
+            foreach (Puerto puerto in puertos)
+            {
+                e.Graphics.DrawImage(puerto.Bitmap, new Rectangle(puerto.LadoToPixel(basePoint, zoomLevel), size));
             }
         }
 

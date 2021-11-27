@@ -50,10 +50,10 @@ namespace cliente.Partida
             tabs[1].VisibleChanged += this.tabLobby_VisibleChanged;
             if (host)
             {
-                tabs[0].Show();
+                tabs[2].Show();
             } else
             {
-                tabs[1].Show();
+                tabs[2].Show();
             }
 
         }

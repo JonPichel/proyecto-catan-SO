@@ -458,4 +458,72 @@ namespace cliente.Partida
             return Coords.LadoToPixel(basePoint, zoomLevel, DX, DY);
         }
     }
+    public class Puerto
+    {
+        public const int DX = 119;
+        public const int DY = 136;
+
+        public LadoCoords Coords;
+        public string Tipo;
+
+        public Bitmap Bitmap
+        {
+            get
+            {
+                switch (Coords.L)
+                {
+                    case Lado.Norte when Tipo == "general":
+                        return cliente.Properties.Resources.PuertoNorteGeneral;
+                    case Lado.Norte when Tipo == "ladrillo":
+                        return cliente.Properties.Resources.PuertoNorteLadrillo;
+                    case Lado.Norte when Tipo == "madera":
+                        return cliente.Properties.Resources.PuertoNorteMadera;
+                    case Lado.Norte when Tipo == "oveja":
+                        return cliente.Properties.Resources.PuertoNorteOveja;
+                    case Lado.Norte when Tipo == "paja":
+                        return cliente.Properties.Resources.PuertoNortePaja;
+                    case Lado.Norte when Tipo == "piedra":
+                        return cliente.Properties.Resources.PuertoNortePiedra;
+                    case Lado.Oeste when Tipo == "general":
+                        return cliente.Properties.Resources.PuertoOesteGeneral;
+                    case Lado.Oeste when Tipo == "ladrillo":
+                        return cliente.Properties.Resources.PuertoOesteLadrillo;
+                    case Lado.Oeste when Tipo == "madera":
+                        return cliente.Properties.Resources.PuertoOesteMadera;
+                    case Lado.Oeste when Tipo == "oveja":
+                        return cliente.Properties.Resources.PuertoOesteOveja;
+                    case Lado.Oeste when Tipo == "paja":
+                        return cliente.Properties.Resources.PuertoOestePaja;
+                    case Lado.Oeste when Tipo == "piedra":
+                        return cliente.Properties.Resources.PuertoOestePiedra;
+                    case Lado.Sur when Tipo == "general":
+                        return cliente.Properties.Resources.PuertoSurGeneral;
+                    case Lado.Sur when Tipo == "ladrillo":
+                        return cliente.Properties.Resources.PuertoSurLadrillo;
+                    case Lado.Sur when Tipo == "madera":
+                        return cliente.Properties.Resources.PuertoSurMadera;
+                    case Lado.Sur when Tipo == "oveja":
+                        return cliente.Properties.Resources.PuertoSurOveja;
+                    case Lado.Sur when Tipo == "paja":
+                        return cliente.Properties.Resources.PuertoSurPaja;
+                    case Lado.Sur when Tipo == "piedra":
+                        return cliente.Properties.Resources.PuertoSurPiedra;
+                    default:
+                        return cliente.Properties.Resources.PuertoOestePiedra;
+                }
+            }
+        }
+
+        public Puerto(int q, int r, Lado l, string tipo)
+        {
+            this.Coords.HexCoords = new HexCoords(q, r);
+            this.Coords.L = l;
+            this.Tipo = tipo;
+        }
+
+        public Point LadoToPixel(Point basePoint, int zoomLevel)
+        {
+            return Coords.LadoToPixel(basePoint, zoomLevel, DX, DY);
+        }
+    }
 }

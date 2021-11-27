@@ -217,6 +217,60 @@
   <data name="PobladoVerde" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Media\Images\PobladoVerde.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="PuertoNorteGeneral" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoNorteGeneral.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoNorteLadrillo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoNorteLadrillo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoNorteMadera" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoNorteMadera.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoNorteOveja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoNorteOveja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoNortePaja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoNortePaja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoNortePiedra" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoNortePiedra.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoOesteGeneral" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoOesteGeneral.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoOesteLadrillo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoOesteLadrillo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoOesteMadera" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoOesteMadera.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoOesteOveja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoOesteOveja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoOestePaja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoOestePaja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoOestePiedra" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoOestePiedra.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoSurGeneral" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoSurGeneral.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoSurLadrillo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoSurLadrillo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoSurMadera" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoSurMadera.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoSurOveja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoSurOveja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoSurPaja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoSurPaja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PuertoSurPiedra" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\PuertoSurPiedra.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="TileDesiertoBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Media\Images\TileDesierto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
