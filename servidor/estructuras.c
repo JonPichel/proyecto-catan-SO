@@ -116,6 +116,33 @@ void barajar(int *a, int size) {
 void barajar_casillas(char *asignacion) {
     pthread_mutex_lock(&mutex_estructuras);
     // string con MADERA,PAJA,DESIERTO,...
+    barajar(tipos_casillas, 19);
+    asignacion[0] = '\0';
+    
+    for (int i = 0; i < 19; i++){
+        
+        switch (tipos_casillas[i]){
+        case 0:
+            sprintf(asignacion, "%sDESIERTO,", asignacion);
+            break;
+        case 1:
+            sprintf(asignacion, "%MADERA,", asignacion);
+            break;
+        case 2:
+            sprintf(asignacion, "%sOVEJA,", asignacion);
+            break;
+        case 3:
+            sprintf(asignacion, "%sPAJA,", asignacion);
+            break;
+        case 4:
+            sprintf(asignacion, "%sPIEDRA,", asignacion);
+            break;
+        case 5:
+            sprintf(asignacion, "%sLADRILLO,", asignacion);
+            break;
+        }
+    }
+    asignacion[strlen(asignacion) - 1] = '\0';
     pthread_mutex_unlock(&mutex_estructuras);
 }
 
