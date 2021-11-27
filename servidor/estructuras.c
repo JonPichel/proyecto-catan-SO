@@ -121,6 +121,14 @@ void barajar_casillas(char *asignacion) {
 
 void barajar_puertos(char *asignacion) {
     pthread_mutex_lock(&mutex_estructuras);
-    // string con MADERA,2, PAJA, 5, 3:1, 8,...
+    barajar(tipos_puerto, 9);
+    barajar(saltos_puerto, 9);
+    asignacion[0] = '\0';
+
+    for (int i = 0; i < 9; i++){
+        sprintf(asignacion, "%s%d,%d,", asignacion, tipos_puerto[i], saltos_puerto[i]);
+    }
+
+    asignacion[strlen(asignacion) - 1] = '\0';
     pthread_mutex_unlock(&mutex_estructuras);
 }
