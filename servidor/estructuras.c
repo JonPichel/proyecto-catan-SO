@@ -4,6 +4,13 @@
 
 #include "estructuras.h"
 
+extern pthread_mutex_t mutex_estructuras;
+
+int tipos_casillas[19] = {0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5};
+
+int tipos_puertos[9] = {0, 0, 0, 0, 1, 2, 3, 4, 5};
+int saltos_puertos[9] = {2, 2, 2, 2, 2, 2, 3, 3, 3};
+
 int conn_add_jugador(listaconn_t *lista, char nombre[20], int socket) {
     if (lista->num > MAX_CONN)
         return -1;
@@ -93,4 +100,27 @@ int part_cambio_color(partida_t *partida, char nombre[20], int color){
         partida->jugadores[num].color = color;
         return 0;
     }
+}
+
+void barajar(int *a, int size) {
+    // Durstenfeld's version of Fisher-Yates algorithm
+    int i, j, aux;
+    for (i = size-1; i >= 0; i--) {
+        j = rand() % (i + 1);
+        aux = a[i];
+        a[i] = a[j];
+        a[j] = aux;
+    }
+}
+
+void barajar_casillas(char *asignacion) {
+    pthread_mutex_lock(&mutex_estructuras);
+    // string con MADERA,PAJA,DESIERTO,...
+    pthread_mutex_unlock(&mutex_estructuras);
+}
+
+void barajar_puertos(char *asignacion) {
+    pthread_mutex_lock(&mutex_estructuras);
+    // string con MADERA,2, PAJA, 5, 3:1, 8,...
+    pthread_mutex_unlock(&mutex_estructuras);
 }

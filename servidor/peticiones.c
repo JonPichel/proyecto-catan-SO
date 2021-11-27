@@ -218,6 +218,7 @@ void pet_crear_lobby(char *nombre, int socket) {
     log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
     write(socket, respuesta, strlen(respuesta));
 
+    sleep(1);
     not_lista_jugadores(idP, tag);
     not_lista_conectados(tag);
 }

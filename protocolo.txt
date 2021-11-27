@@ -80,12 +80,6 @@ SERVIDOR: notifica a los demás con 11/ si OK
 CLIENTE: 13/idPartida/mensaje
 SERVIDOR: 13/idPartida/mensaje (añadir Nombre: en las que haga falta)
 
-
-/* NOTAS */
-Pendiente: añadir una cola de mensaje para cuando se monten entre ellos
-[END]
-
-13/0/Antonio:hola18/~~END~~0/Ana/SI[END]
-
-split
-
+# EMPEZAR PARTIDA
+CLIENTE: 14/idPartida
+SERVIDOR: 14/idPartida/tipoHex1,tipoHex2,...,tipoHex19/tipoPuerto1,indice1,tipoPuerto2,indice2,...,tipoPuerto9,indice9
