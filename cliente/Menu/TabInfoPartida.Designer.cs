@@ -39,6 +39,7 @@ namespace cliente.Menu
             // 
             this.dataGridResultadoPartida.AllowUserToAddRows = false;
             this.dataGridResultadoPartida.AllowUserToDeleteRows = false;
+            this.dataGridResultadoPartida.BackgroundColor = System.Drawing.Color.White;
             this.dataGridResultadoPartida.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridResultadoPartida.Location = new System.Drawing.Point(45, 107);
             this.dataGridResultadoPartida.Name = "dataGridResultadoPartida";

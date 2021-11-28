@@ -89,7 +89,7 @@
             this.panelChat.Location = new System.Drawing.Point(432, 265);
             this.panelChat.Margin = new System.Windows.Forms.Padding(2);
             this.panelChat.Name = "panelChat";
-            this.panelChat.Size = new System.Drawing.Size(423, 335);
+            this.panelChat.Size = new System.Drawing.Size(368, 335);
             this.panelChat.TabIndex = 2;
             // 
             // txtChat

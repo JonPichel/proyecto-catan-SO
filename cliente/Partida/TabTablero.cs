@@ -6,11 +6,20 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Linq;
+using System.Net.Sockets;
 
 namespace cliente.Partida
 {
     public partial class TabTablero : TabPartida
     {
+        Socket conn;
+        int idP;
+        string nombre;
+        public string[] nombres;
+        public ColorJugador[] colores;
+        int numMonopolios = 2;
+        int numInventos = 3;
+
         Tile[] tiles;
         List<FichaVertice> fichasVertices;
         Puerto[] puertos;
@@ -55,9 +64,15 @@ namespace cliente.Partida
             cliente.Properties.Resources._12,
         };
 
-        public TabTablero()
+        public TabTablero(Socket conn, int idP, string nombre)
         {
             InitializeComponent();
+            this.conn = conn;
+            this.idP = idP;
+            this.nombre = nombre;
+
+            nombres = new string[4];
+            colores = new ColorJugador[4] { (ColorJugador)(-1), (ColorJugador)(-1), (ColorJugador)(-1), (ColorJugador)(-1) };
         }
 
         public void CargarTablero(string[] trozos)
@@ -214,6 +229,27 @@ namespace cliente.Partida
 
         private void TabTablero_Load(object sender, EventArgs e)
         {
+            // Formato dataGridJugadores
+            dataGridJugadores.RowHeadersVisible = false;
+            dataGridJugadores.Columns.Add("Nombres", "Nombres");
+            dataGridJugadores.Columns[0].Width = dataGridJugadores.Width / 2;
+            dataGridJugadores.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dataGridJugadores.Columns.Add("Colores", "Colores");
+            dataGridJugadores.Columns[1].Width = dataGridJugadores.Width / 2;
+            dataGridJugadores.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dataGridJugadores.Rows.Add(4);
+            dataGridJugadores.RowsDefaultCellStyle.SelectionBackColor = Color.Transparent;
+            dataGridJugadores.RowsDefaultCellStyle.SelectionForeColor = Color.Black;
+            dataGridJugadores.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridJugadores.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            ListaJugadores();
+            dataGridJugadores.ClearSelection();
+
+            dataGridJugadores.Rows[0].Height = dataGridJugadores.Height / 5;
+            dataGridJugadores.Rows[1].Height = dataGridJugadores.Height / 5;
+            dataGridJugadores.Rows[2].Height = dataGridJugadores.Height / 5;
+            dataGridJugadores.Rows[3].Height = dataGridJugadores.Height / 5;
+
             // Calcular las posiciones posibles de carreteras y poblados
             List<VerticeCoords> vertices = new List<VerticeCoords>();
             List<LadoCoords> lados = new List<LadoCoords>();
@@ -249,7 +285,7 @@ namespace cliente.Partida
 
         private void TabTablero_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.Clear(Color.Gray);
+            e.Graphics.Clear(Color.Gainsboro);
 
             Bitmap bmp;
             Size size = new Size(Tile.BWIDTH / this.zoomLevel, Tile.BHEIGHT / this.zoomLevel);
@@ -591,5 +627,155 @@ namespace cliente.Partida
             }
             verticesPosibles = vertices.ToArray();
         }
+        public void ListaJugadores()
+        {
+            int i;
+            for (i = 0; i < 4; i++)
+            {
+                if (nombres[i] != "")
+                {
+                    dataGridJugadores.Rows[i].Cells[0].Value = nombres[i];
+                    dataGridJugadores.Rows[i].Cells[1].Style.BackColor = DameColor(colores[i]);
+                }
+                else
+                    dataGridJugadores.Rows[i].Cells[1].Style.BackColor = Color.White;
+
+                dataGridJugadores.CellPainting += new DataGridViewCellPaintingEventHandler(this.dataGrid_CellPainting);
+            }
+        }
+
+        public void ActualizarChat(string res)
+        {
+            if (res.IndexOf(":") == -1)
+            {
+                txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Italic);
+                txtChat.SelectionColor = Color.SkyBlue;
+            }
+            else
+            {
+                txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Regular);
+                txtChat.ForeColor = Color.Black;
+            }
+            txtChat.SelectedText = res;
+            txtChat.AppendText(Environment.NewLine);
+        }
+
+        public void EnviarMensaje()
+        {
+            if (txtMsg.Text != "")
+            {
+                string pet = "13/" + idP.ToString() + "/" + nombre + ": " + txtMsg.Text;
+                byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                conn.Send(pet_b);
+                txtMsg.Clear();
+            }
+        }
+
+        private void btnEnviar_Click(object sender, EventArgs e)
+        {
+            EnviarMensaje();
+        }
+
+        private void txtMsg_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+                EnviarMensaje();
+        }
+
+        private void dataGrid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            int index = 0;
+            for (int i = 0; i < nombres.Length; i++)
+            {
+                if (nombres[i] == nombre)
+                    index = i;
+            }
+            if (e.ColumnIndex == 0 & e.RowIndex == index)
+            {
+                //Pen for left and top borders
+                using (var backGroundPen = new Pen(e.CellStyle.BackColor, 1))
+                //Pen for bottom and right borders
+                using (var gridlinePen = new Pen(dataGridJugadores.GridColor, 1))
+                //Pen for selected cell borders
+                using (var selectedPen = new Pen(Color.FromArgb(195, 96, 63), 1))
+                {
+                    var topLeftPoint = new Point(e.CellBounds.Left, e.CellBounds.Top);
+                    var topRightPoint = new Point(e.CellBounds.Right - 1, e.CellBounds.Top);
+                    var bottomRightPoint = new Point(e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
+                    var bottomleftPoint = new Point(e.CellBounds.Left, e.CellBounds.Bottom - 1);
+                    //Paint all parts except borders.
+                    e.Paint(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.Border);
+
+                    //Draw selected cells border here
+                    e.Graphics.DrawRectangle(selectedPen, new Rectangle(e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Width - 1, e.CellBounds.Height - 1));
+
+                    //Handled painting for this cell, Stop default rendering.
+                    e.Handled = true;
+                }
+            }
+        }
+        private Color DameColor(ColorJugador color)
+        {
+            switch (color)
+            {
+                case ColorJugador.Azul:
+                    return Color.FromArgb(95, 171, 200);
+                case ColorJugador.Rojo:
+                    return Color.FromArgb(160, 44, 44);
+                case ColorJugador.Naranja:
+                    return Color.FromArgb(225, 132, 13);
+                case ColorJugador.Gris:
+                    return Color.FromArgb(200, 190, 183);
+                case ColorJugador.Morado:
+                    return Color.FromArgb(178, 95, 211);
+                case ColorJugador.Verde:
+                    return Color.FromArgb(111, 145, 111);
+                default:
+                    return Color.FromArgb(95, 171, 200);
+            }
+        }
+        private void dataGridJugadores_SelectionChanged(object sender, EventArgs e)
+        {
+            dataGridJugadores.ClearSelection();
+        }
+
+        private void panel4_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.Clear(Color.White);
+            Bitmap bmp;
+            Size size = new Size(116, 25);
+            bmp = Properties.Resources.Monopolio;
+            bmp = new Bitmap(bmp, size);
+            Point punto = new Point(0, 0);
+
+            int i = 0;
+            while (i < numMonopolios)
+            {
+                if (i > 0)
+                    punto = new Point(punto.X + 10, punto.Y);
+                e.Graphics.DrawImage(bmp, punto);
+                i++;
+            }
+        }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.Clear(Color.White);
+            Bitmap bmp;
+            Size size = new Size(116, 25);
+            bmp = Properties.Resources.Invento;
+            bmp = new Bitmap(bmp, size);
+            Point punto = new Point(0, 0);
+
+            int i = 0;
+            while (i < numInventos)
+            {
+                if (i > 0)
+                    punto = new Point(punto.X + 10, punto.Y);
+                e.Graphics.DrawImage(bmp, punto);
+                i++;
+            }
+        }
     }
 }
+

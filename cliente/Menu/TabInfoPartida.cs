@@ -26,7 +26,17 @@ namespace cliente.Menu
             dataGridResultadoPartida.Columns.Add("Posición", "Posición");
             dataGridResultadoPartida.Columns.Add("Jugador", "Jugador");
             dataGridResultadoPartida.Columns.Add("Puntos", "Puntos");
+            dataGridResultadoPartida.Columns[0].Width = dataGridResultadoPartida.Width / 3;
+            dataGridResultadoPartida.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dataGridResultadoPartida.Columns[1].Width = dataGridResultadoPartida.Width / 3;
+            dataGridResultadoPartida.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dataGridResultadoPartida.Columns[2].Width = dataGridResultadoPartida.Width / 3;
+            dataGridResultadoPartida.Columns[2].SortMode = DataGridViewColumnSortMode.NotSortable;
             dataGridResultadoPartida.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dataGridResultadoPartida.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridResultadoPartida.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridResultadoPartida.ClearSelection();
+
         }
 
         public void MostrarInfoPartida(string res)
@@ -41,7 +51,7 @@ namespace cliente.Menu
 
 
             // Rellenamos la tabla con los datos de las partidas
-            dataGridResultadoPartida.Rows.Clear();
+            //dataGridResultadoPartida.Rows.Clear();
             dataGridResultadoPartida.Rows.Add(numj);
             dataGridResultadoPartida.BackgroundColor = Color.FromArgb(213, 79, 10);
             for (int i = 0; i < numj; i++)
@@ -55,6 +65,10 @@ namespace cliente.Menu
         private void btnAtras_Click(object sender, EventArgs e)
         {
             this.Hide();
+        }
+        private void dataGridJugadores_SelectionChanged(object sender, EventArgs e)
+        {
+            dataGridResultadoPartida.ClearSelection();
         }
     }
 }

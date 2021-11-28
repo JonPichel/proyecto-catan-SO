@@ -453,6 +453,26 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Invento {
+            get {
+                object obj = ResourceManager.GetObject("Invento", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Monopolio {
+            get {
+                object obj = ResourceManager.GetObject("Monopolio", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap PobladoAzul {
             get {
                 object obj = ResourceManager.GetObject("PobladoAzul", resourceCulture);

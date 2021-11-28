@@ -21,8 +21,8 @@ namespace cliente.Partida
 
         public ColorJugador miColor;
 
-        string[] nombres;
-        ColorJugador[] colores;
+        public string[] nombres;
+        public ColorJugador[] colores;
 
         Button[] btns;
 
