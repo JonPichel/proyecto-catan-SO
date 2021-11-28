@@ -43,3 +43,4 @@ URL del video: https://drive.google.com/file/d/11it9XNc5UUyBCKj4tPi2dkdG0mHwCMcd
 
 Protección Cross-Threading y Múltiples Formularios
  * **Generada** por Alba
+ * **Verificada** por Jonathan
