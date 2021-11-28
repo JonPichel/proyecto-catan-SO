@@ -18,8 +18,6 @@ namespace cliente.Partida
         int idP;
         string nombre;
 
-        public ColorJugador miColor;
-
         public string[] nombres;
         public ColorJugador[] colores;
 
@@ -69,14 +67,6 @@ namespace cliente.Partida
             string pet = "9/" + idP.ToString() + "/SI";
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
-        }
-
-
-        private void btnEmpezar_Click(object sender, EventArgs e)
-        {
-            this.Tag = "EMPEZAR";
-            this.miColor = colores[0];
-            this.Hide();
         }
 
         private void btnCambioColor_Click(object sender, EventArgs e)

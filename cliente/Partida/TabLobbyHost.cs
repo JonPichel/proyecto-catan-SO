@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
-using System.Windows.Forms;
-using System.Net;
-using System.Net.Sockets;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading;
+using System.Windows.Forms;
 
 
 namespace cliente.Partida
@@ -18,8 +13,6 @@ namespace cliente.Partida
         Socket conn;
         int idP;
         string nombre;
-
-        public ColorJugador miColor;
 
         public string[] nombres;
         public ColorJugador[] colores;
@@ -91,7 +84,6 @@ namespace cliente.Partida
         private void btnEmpezar_Click(object sender, EventArgs e)
         {
             this.Tag = "EMPEZAR";
-            this.miColor = colores[0];
             string pet = "14/" + idP.ToString();
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);

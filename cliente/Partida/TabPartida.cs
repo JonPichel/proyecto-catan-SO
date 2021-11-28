@@ -10,6 +10,9 @@ namespace cliente.Partida
 {
     public partial class TabPartida : UserControl
     {
+
+        public virtual ColorJugador colorJugador { get; set; }
+
         public TabPartida()
         {
             InitializeComponent();

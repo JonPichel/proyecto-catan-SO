@@ -26,7 +26,7 @@ namespace cliente.Partida
         VerticeCoords[] verticesPosibles;
 
         int Ronda;
-        public ColorJugador colorJugador;
+        public override ColorJugador colorJugador { get; set; }
 
         int zoomLevel;
         Point basePoint;

@@ -19,8 +19,6 @@ namespace cliente.Partida
 
         List<TabPartida> tabs = new List<TabPartida>();
 
-        delegate void DelegadoRespuestas(ColorJugador res);
-
         public FormPartida(Socket conn, int idP, string nombre, bool host)
         {
             InitializeComponent();
@@ -67,7 +65,6 @@ namespace cliente.Partida
                 switch (tab.Tag)
                 {
                     case "EMPEZAR":
-                        ((TabTablero)tabs[2]).colorJugador = ((TabLobbyHost)tabs[0]).miColor;
                         tabs[2].Show();
                         break;
                     case "DESCONECTAR":
@@ -125,13 +122,25 @@ namespace cliente.Partida
             ((TabTablero)tabs[2]).CargarTablero(trozos);
             if (host)
             {
-                ((TabLobbyHost)tabs[0]).Tag = "EMPEZAR";
-                ((TabLobbyHost)tabs[0]).Hide();
+                TabLobbyHost tab = ((TabLobbyHost)tabs[0]);
+                tab.Tag = "EMPEZAR";
+                for (int i = 0; i < 4; i++)
+                {
+                    if (this.nombre == tab.nombres[i])
+                        tabs[2].colorJugador = tab.colores[i];
+                }
+                tab.Hide();
             }
             else
             {
-                ((TabLobbyGuest)tabs[1]).Tag = "EMPEZAR";
-                ((TabLobbyGuest)tabs[1]).Hide();
+                TabLobbyGuest tab = ((TabLobbyGuest)tabs[1]);
+                tab.Tag = "EMPEZAR";
+                for (int i = 0; i < 4; i++)
+                {
+                    if (this.nombre == tab.nombres[i])
+                        tabs[2].colorJugador = tab.colores[i];
+                }
+                tab.Hide();
             }
         }
     }
