@@ -126,15 +126,11 @@ namespace cliente.Partida
             if (host)
             {
                 ((TabLobbyHost)tabs[0]).Tag = "EMPEZAR";
-                ((TabTablero)tabs[2]).nombres = ((TabLobbyHost)tabs[0]).nombres;
-                ((TabTablero)tabs[2]).colores = ((TabLobbyHost)tabs[0]).colores;
                 ((TabLobbyHost)tabs[0]).Hide();
             }
             else
             {
                 ((TabLobbyGuest)tabs[1]).Tag = "EMPEZAR";
-                ((TabTablero)tabs[2]).nombres = ((TabLobbyGuest)tabs[1]).nombres;
-                ((TabTablero)tabs[2]).colores = ((TabLobbyGuest)tabs[1]).colores;
                 ((TabLobbyGuest)tabs[1]).Hide();
             }
         }

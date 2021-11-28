@@ -15,10 +15,6 @@ namespace cliente.Partida
         Socket conn;
         int idP;
         string nombre;
-        public string[] nombres;
-        public ColorJugador[] colores;
-        int numMonopolios = 2;
-        int numInventos = 3;
 
         Tile[] tiles;
         List<FichaVertice> fichasVertices;
@@ -41,14 +37,15 @@ namespace cliente.Partida
             Normal,
             ClickCasilla,
             ColocarPoblado,
-            ColocarCarretera
+            ColocarCarretera,
+            Comerciar
         };
 
         Estado estado;
         FichaVertice verticeColocar;
         Carretera carreteraColocar;
 
-        Bitmap[] numbers = new Bitmap[]
+        static Bitmap[] numbers = new Bitmap[]
         {
             cliente.Properties.Resources._1,
             cliente.Properties.Resources._2,
@@ -70,9 +67,6 @@ namespace cliente.Partida
             this.conn = conn;
             this.idP = idP;
             this.nombre = nombre;
-
-            nombres = new string[4];
-            colores = new ColorJugador[4] { (ColorJugador)(-1), (ColorJugador)(-1), (ColorJugador)(-1), (ColorJugador)(-1) };
         }
 
         public void CargarTablero(string[] trozos)
@@ -229,34 +223,11 @@ namespace cliente.Partida
 
         private void TabTablero_Load(object sender, EventArgs e)
         {
-            // Formato dataGridJugadores
-            dataGridJugadores.RowHeadersVisible = false;
-            dataGridJugadores.Columns.Add("Nombres", "Nombres");
-            dataGridJugadores.Columns[0].Width = dataGridJugadores.Width / 2;
-            dataGridJugadores.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridJugadores.Columns.Add("Colores", "Colores");
-            dataGridJugadores.Columns[1].Width = dataGridJugadores.Width / 2;
-            dataGridJugadores.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
-            dataGridJugadores.Rows.Add(4);
-            dataGridJugadores.RowsDefaultCellStyle.SelectionBackColor = Color.Transparent;
-            dataGridJugadores.RowsDefaultCellStyle.SelectionForeColor = Color.Black;
-            dataGridJugadores.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridJugadores.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            ListaJugadores();
-            dataGridJugadores.ClearSelection();
-
-            dataGridJugadores.Rows[0].Height = dataGridJugadores.Height / 5;
-            dataGridJugadores.Rows[1].Height = dataGridJugadores.Height / 5;
-            dataGridJugadores.Rows[2].Height = dataGridJugadores.Height / 5;
-            dataGridJugadores.Rows[3].Height = dataGridJugadores.Height / 5;
-
             // Calcular las posiciones posibles de carreteras y poblados
             List<VerticeCoords> vertices = new List<VerticeCoords>();
             List<LadoCoords> lados = new List<LadoCoords>();
-            foreach (Tile tile in this.tiles)
+            foreach (Tile tile in this.tiles[18..])
             {
-                if (tile is TileMar)
-                    continue;
                 lados.AddRange(tile.Coords.Lados);
                 vertices.AddRange(tile.Coords.Vertices);
             }
@@ -272,15 +243,10 @@ namespace cliente.Partida
             // Estado partida
             this.estado = Estado.Normal;
 
-            this.Paint += TabTablero_Paint;
-            this.MouseWheel += TabTablero_MouseWheel;
-            this.MouseDown += TabTablero_MouseDown;
-            this.MouseMove += TabTablero_MouseMove;
-            this.MouseClick += TabTablero_Click;
-            this.KeyDown += TabTablero_KeyDown;
-
-            // Para que sea más fluido el repintado
-            this.DoubleBuffered = true;
+            pnlTablero.Paint += TabTablero_Paint;
+            pnlTablero.MouseWheel += TabTablero_MouseWheel;
+            pnlTablero.MouseDown += TabTablero_MouseDown;
+            pnlTablero.MouseMove += TabTablero_MouseMove;
         }
 
         private void TabTablero_Paint(object sender, PaintEventArgs e)
@@ -288,68 +254,36 @@ namespace cliente.Partida
             e.Graphics.Clear(Color.Gainsboro);
 
             Bitmap bmp;
-            Size size = new Size(Tile.BWIDTH / this.zoomLevel, Tile.BHEIGHT / this.zoomLevel);
-            foreach (Tile tile in this.tiles)
+            Size size;
+            
+            /* Dibujar mar */
+            size = new Size(Tile.BWIDTH / this.zoomLevel, Tile.BHEIGHT / this.zoomLevel);
+            foreach (Tile tile in this.tiles[0..18])
             {
-                switch (tile)
-                {
-                    case TileMar mar:
-                        bmp = TileMar.Bitmap;
-                        break;
-                    default:
-                        continue;
-                }
                 Rectangle rect = new Rectangle(tile.HexToPixel(this.basePoint, this.zoomLevel), size);
-                e.Graphics.DrawImage(bmp, rect);
-                if (tile.Valor != null)
-                {
-                    e.Graphics.DrawImage(numbers[(int)tile.Valor - 1], rect);
-                }
+                e.Graphics.DrawImage(tile.Bitmap, rect);
             }
-            // Dibujar Puertos
+
+            /* Dibujar puertos */
             size = new Size((Tile.BWIDTH + 2 * Puerto.DX) / zoomLevel, (Tile.BHEIGHT + 2 * Puerto.DY) / zoomLevel);
             foreach (Puerto puerto in puertos)
             {
                 e.Graphics.DrawImage(puerto.Bitmap, new Rectangle(puerto.LadoToPixel(basePoint, zoomLevel), size));
             }
-            // Dibujar casillas de tierra
+
+            /* Dibujar tierra */
             size = new Size(Tile.BWIDTH / this.zoomLevel, Tile.BHEIGHT / this.zoomLevel);
-            foreach (Tile tile in this.tiles)
+            foreach (Tile tile in this.tiles[18..])
             {
-                switch (tile)
-                {
-                    case TileDesierto desierto:
-                        bmp = TileDesierto.Bitmap;
-                        break;
-                    case TileMar mar:
-                        continue;
-                    case TileMadera madera:
-                        bmp = TileMadera.Bitmap;
-                        break;
-                    case TileLadrillo ladrillo:
-                        bmp = TileLadrillo.Bitmap;
-                        break;
-                    case TileOveja oveja:
-                        bmp = TileOveja.Bitmap;
-                        break;
-                    case TileTrigo trigo:
-                        bmp = TileTrigo.Bitmap;
-                        break;
-                    case TilePiedra piedra:
-                        bmp = TilePiedra.Bitmap;
-                        break;
-                    default:
-                        bmp = TileDesierto.Bitmap;
-                        break;
-                }
                 Rectangle rect = new Rectangle(tile.HexToPixel(this.basePoint, this.zoomLevel), size);
-                e.Graphics.DrawImage(bmp, rect);
+                e.Graphics.DrawImage(tile.Bitmap, rect);
                 if (tile.Valor != null)
                 {
                     e.Graphics.DrawImage(numbers[(int)tile.Valor - 1], rect);
                 }
             }
-            // Dibujar Carreteras
+
+            /* Dibujar carreteras */
             size = new Size((Tile.BWIDTH + 2 * Carretera.DX) / zoomLevel, (Tile.BHEIGHT + 2 * Carretera.DY) / zoomLevel);
             foreach (Carretera carretera in carreteras)
             {
@@ -377,7 +311,8 @@ namespace cliente.Partida
                 }
                 e.Graphics.DrawImage(carreteraColocar.Bitmap, new Rectangle(carreteraColocar.LadoToPixel(basePoint, zoomLevel), size));
             }
-            // Dibujar poblados
+
+            /* Dibujar poblados */
             size = new Size(FichaVertice.BHALFSIDE * 2 / this.zoomLevel, FichaVertice.BHALFSIDE * 2 / this.zoomLevel);
             foreach (FichaVertice ficha in fichasVertices)
             {
@@ -418,8 +353,9 @@ namespace cliente.Partida
             basePoint.X += newImgX - oldImgX;
             basePoint.Y += newImgY - oldImgY;
 
-            this.Refresh();
+            pnlTablero.Refresh();
         }
+
         private void TabTablero_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -467,29 +403,19 @@ namespace cliente.Partida
                         basePoint.Y += e.Location.Y - oldMouse.Y;
 
                         oldMouse = e.Location;
+                        pnlTablero.Refresh();
                     }
                     break;
                 case Estado.ColocarCarretera:
                     carreteraColocar.Coords = LadoCoords.PixelToLado(e.Location, basePoint, zoomLevel);
+                    pnlTablero.Refresh();
                     break;
                 case Estado.ColocarPoblado:
                     verticeColocar.Coords = VerticeCoords.PixelToVertice(e.Location, basePoint, zoomLevel);
+                    pnlTablero.Refresh();
                     break;
                 default:
                     return;
-            }
-            this.Refresh();
-        }
-
-        private void TabTablero_Click(object sender, MouseEventArgs e)
-        {
-        }
-
-        private void TabTablero_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Space)
-            {
-                this.Refresh();
             }
         }
 
@@ -511,16 +437,6 @@ namespace cliente.Partida
             estado = Estado.ColocarPoblado;
         }
 
-        private void btnCasilla_Click(object sender, EventArgs e)
-        {
-            if (estado == Estado.ClickCasilla)
-            {
-                estado = Estado.Normal;
-            } else if (estado == Estado.Normal)
-            {
-                estado = Estado.ClickCasilla;
-            }
-        }
         public bool ComprobarCarretera(LadoCoords coords)
         {
             foreach (LadoCoords posible in ladosPosibles)
@@ -627,22 +543,6 @@ namespace cliente.Partida
             }
             verticesPosibles = vertices.ToArray();
         }
-        public void ListaJugadores()
-        {
-            int i;
-            for (i = 0; i < 4; i++)
-            {
-                if (nombres[i] != "")
-                {
-                    dataGridJugadores.Rows[i].Cells[0].Value = nombres[i];
-                    dataGridJugadores.Rows[i].Cells[1].Style.BackColor = DameColor(colores[i]);
-                }
-                else
-                    dataGridJugadores.Rows[i].Cells[1].Style.BackColor = Color.White;
-
-                dataGridJugadores.CellPainting += new DataGridViewCellPaintingEventHandler(this.dataGrid_CellPainting);
-            }
-        }
 
         public void ActualizarChat(string res)
         {
@@ -680,101 +580,6 @@ namespace cliente.Partida
         {
             if (e.KeyChar == (char)Keys.Return)
                 EnviarMensaje();
-        }
-
-        private void dataGrid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            int index = 0;
-            for (int i = 0; i < nombres.Length; i++)
-            {
-                if (nombres[i] == nombre)
-                    index = i;
-            }
-            if (e.ColumnIndex == 0 & e.RowIndex == index)
-            {
-                //Pen for left and top borders
-                using (var backGroundPen = new Pen(e.CellStyle.BackColor, 1))
-                //Pen for bottom and right borders
-                using (var gridlinePen = new Pen(dataGridJugadores.GridColor, 1))
-                //Pen for selected cell borders
-                using (var selectedPen = new Pen(Color.FromArgb(195, 96, 63), 1))
-                {
-                    var topLeftPoint = new Point(e.CellBounds.Left, e.CellBounds.Top);
-                    var topRightPoint = new Point(e.CellBounds.Right - 1, e.CellBounds.Top);
-                    var bottomRightPoint = new Point(e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
-                    var bottomleftPoint = new Point(e.CellBounds.Left, e.CellBounds.Bottom - 1);
-                    //Paint all parts except borders.
-                    e.Paint(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.Border);
-
-                    //Draw selected cells border here
-                    e.Graphics.DrawRectangle(selectedPen, new Rectangle(e.CellBounds.Left, e.CellBounds.Top, e.CellBounds.Width - 1, e.CellBounds.Height - 1));
-
-                    //Handled painting for this cell, Stop default rendering.
-                    e.Handled = true;
-                }
-            }
-        }
-        private Color DameColor(ColorJugador color)
-        {
-            switch (color)
-            {
-                case ColorJugador.Azul:
-                    return Color.FromArgb(95, 171, 200);
-                case ColorJugador.Rojo:
-                    return Color.FromArgb(160, 44, 44);
-                case ColorJugador.Naranja:
-                    return Color.FromArgb(225, 132, 13);
-                case ColorJugador.Gris:
-                    return Color.FromArgb(200, 190, 183);
-                case ColorJugador.Morado:
-                    return Color.FromArgb(178, 95, 211);
-                case ColorJugador.Verde:
-                    return Color.FromArgb(111, 145, 111);
-                default:
-                    return Color.FromArgb(95, 171, 200);
-            }
-        }
-        private void dataGridJugadores_SelectionChanged(object sender, EventArgs e)
-        {
-            dataGridJugadores.ClearSelection();
-        }
-
-        private void panel4_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.Clear(Color.White);
-            Bitmap bmp;
-            Size size = new Size(116, 25);
-            bmp = Properties.Resources.Monopolio;
-            bmp = new Bitmap(bmp, size);
-            Point punto = new Point(0, 0);
-
-            int i = 0;
-            while (i < numMonopolios)
-            {
-                if (i > 0)
-                    punto = new Point(punto.X + 10, punto.Y);
-                e.Graphics.DrawImage(bmp, punto);
-                i++;
-            }
-        }
-
-        private void panel5_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.Clear(Color.White);
-            Bitmap bmp;
-            Size size = new Size(116, 25);
-            bmp = Properties.Resources.Invento;
-            bmp = new Bitmap(bmp, size);
-            Point punto = new Point(0, 0);
-
-            int i = 0;
-            while (i < numInventos)
-            {
-                if (i > 0)
-                    punto = new Point(punto.X + 10, punto.Y);
-                e.Graphics.DrawImage(bmp, punto);
-                i++;
-            }
         }
     }
 }
