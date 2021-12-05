@@ -15,6 +15,7 @@ namespace cliente.Partida
         Socket conn;
         int idP;
         string nombre;
+        string turno;
 
         Tile[] tiles;
         List<FichaVertice> fichasVertices;
@@ -247,6 +248,12 @@ namespace cliente.Partida
             pnlTablero.MouseWheel += TabTablero_MouseWheel;
             pnlTablero.MouseDown += TabTablero_MouseDown;
             pnlTablero.MouseMove += TabTablero_MouseMove;
+
+            btnCarretera.Enabled = false;
+            btnPoblado.Enabled = false;
+            btnCiudad.Enabled = false;
+            btnComercio.Enabled = false;
+            btnTurno.Enabled = false;
         }
 
         private void TabTablero_Paint(object sender, PaintEventArgs e)
@@ -571,6 +578,30 @@ namespace cliente.Partida
             }
         }
 
+        public void CambiarTurno(string nombre)
+        {
+            lblTurno.Text = "Turno: " + nombre;
+            this.turno = nombre;
+            if (turno == this.nombre)
+            {
+                btnCarretera.Enabled = true;
+                btnPoblado.Enabled = true;
+                btnCiudad.Enabled = true;
+                btnComercio.Enabled = true;
+                btnTurno.Enabled = true;
+            }
+            btnTurno.Text = "Tirar dados";
+            btnTurno.Tag = "DADOS";
+        }
+        public void TirarDados(string dados)
+        {
+            string[] valores = dados.Split(",");
+            int dado1 = Convert.ToInt32(valores[0]);
+            int dado2 = Convert.ToInt32(valores[1]);
+            //Animación dados y repartir recursos
+            MessageBox.Show(dados);
+        }
+
         private void btnEnviar_Click(object sender, EventArgs e)
         {
             EnviarMensaje();
@@ -580,6 +611,19 @@ namespace cliente.Partida
         {
             if (e.KeyChar == (char)Keys.Return)
                 EnviarMensaje();
+        }
+
+        private void btnTurno_Click(object sender, EventArgs e)
+        {
+            switch (btnTurno.Tag)
+            {
+                case "DADOS":
+                    string pet = "16/" + idP.ToString();
+                    byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                    conn.Send(pet_b);
+                    break;
+            }
+
         }
     }
 }

@@ -143,5 +143,15 @@ namespace cliente.Partida
                 tab.Hide();
             }
         }
+        public void PartidaTurno(string mensaje)
+        {
+            mensaje = mensaje.Split("/")[1];
+            ((TabTablero)tabs[2]).CambiarTurno(mensaje);
+        }
+        public void TirarDados(string mensaje)
+        {
+            mensaje = mensaje.Split("/")[1];
+            ((TabTablero)tabs[2]).TirarDados(mensaje);
+        }
     }
 }
