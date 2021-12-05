@@ -588,18 +588,24 @@ namespace cliente.Partida
                 btnPoblado.Enabled = true;
                 btnCiudad.Enabled = true;
                 btnComercio.Enabled = true;
+                btnTurno.Text = "Tirar dados";
+                btnTurno.Tag = "DADOS";
                 btnTurno.Enabled = true;
             }
-            btnTurno.Text = "Tirar dados";
-            btnTurno.Tag = "DADOS";
         }
         public void TirarDados(string dados)
         {
             string[] valores = dados.Split(",");
             int dado1 = Convert.ToInt32(valores[0]);
             int dado2 = Convert.ToInt32(valores[1]);
+            if (this.turno == this.nombre)
+            {
+                btnTurno.Text = "Acabar turno";
+                btnTurno.Tag = "ACABAR";
+                btnTurno.Enabled = true;
+            }
             //Animación dados y repartir recursos
-            MessageBox.Show(dados);
+            MessageBox.Show(turno + ": " + dados);
         }
 
         private void btnEnviar_Click(object sender, EventArgs e)
@@ -615,12 +621,29 @@ namespace cliente.Partida
 
         private void btnTurno_Click(object sender, EventArgs e)
         {
+            string pet;
+            byte[] pet_b;
             switch (btnTurno.Tag)
             {
                 case "DADOS":
-                    string pet = "16/" + idP.ToString();
-                    byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                    pet = "16/" + idP.ToString();
+                    pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                     conn.Send(pet_b);
+                    btnTurno.Enabled = false;
+                    btnTurno.Tag = "";
+                    btnTurno.Text = "";
+                    break;
+                case "ACABAR":
+                    pet = "15/" + idP.ToString();
+                    pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                    conn.Send(pet_b);
+                    btnTurno.Enabled = false;
+                    btnTurno.Tag = "";
+                    btnTurno.Text = "";
+                    btnCarretera.Enabled = false;
+                    btnPoblado.Enabled = false;
+                    btnCiudad.Enabled = false;
+                    btnComercio.Enabled = false;
                     break;
             }
 
