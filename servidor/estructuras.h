@@ -40,6 +40,8 @@ enum ESTADO {
 typedef struct {
     int numj;
     jugador_t jugadores[4];
+    int numturnos;          // numero de turnos
+    int turno;              // a quien le toca
     enum ESTADO estado;
 } partida_t;
 

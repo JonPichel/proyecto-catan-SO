@@ -14,6 +14,106 @@ extern listaconn_t conectados;
 extern partida_t partidas[MAX_PART];
 extern pthread_mutex_t mutex_estructuras;
 
+/* Notificaciones */
+
+void not_lista_conectados(char *tag) {
+    /*
+    Descripcion:
+        Notifica a todos los conectados de un cambio en la lista de conectados
+    Parametros:
+        tag: tag del thread que activa la notificacion
+    */
+    // Generar mensaje
+    char respuesta[512];
+    sprintf(respuesta, "6/%d/", conectados.num);
+    if (conectados.num != 0) {
+        for (int i = 0; i < conectados.num; i++) {
+            sprintf(respuesta, "%s%s,", respuesta, conectados.conectados[i].nombre);
+        }
+        respuesta[strlen(respuesta) - 1] = '\0';
+        strcat(respuesta, "~~END~~");
+    }
+    // Enviar lista
+    for (int i = 0; i < conectados.num; i++) {
+        log_msg(tag, "Lista de conectados por el socket %d: %s\n",
+                conectados.conectados[i].socket, respuesta);
+        write(conectados.conectados[i].socket, respuesta, strlen(respuesta));
+    }
+}
+
+void not_lista_jugadores(int idP, char *tag) {
+    /*
+    Descripcion:
+        Genera el mensaje de notificacion de lista de jugadores
+    Parametros:
+        idP: id de la partida en la tabla de partidas
+        tag: tag del thread que activa la notificacion
+    */
+    // Generar mensaje
+    char respuesta[256];
+	sprintf(respuesta, "11/%d/", idP);
+    for (int i = 0; i < partidas[idP].numj; i++) {
+        sprintf(respuesta, "%s%s,%d,", respuesta, partidas[idP].jugadores[i].nombre, partidas[idP].jugadores[i].color);
+    }
+	respuesta[strlen(respuesta) - 1] = '\0';
+    strcat(respuesta, "~~END~~");
+    // Enviar lista
+	for (int i = 0; i < partidas[idP].numj; i++) {
+		log_msg(tag, "Lista de jugadores por el socket %d: %s\n",
+				partidas[idP].jugadores[i].socket, respuesta);
+		write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
+	}
+}
+
+void not_partida_cancelada(int idP, char *tag) {
+    // Enviar lista
+    char respuesta[32];
+    sprintf(respuesta, "10/%d~~END~~", idP);
+	for (int i = 0; i < partidas[idP].numj; i++) {
+		log_msg(tag, "Notificando terminar partida por el socket %d: %s\n",
+				partidas[idP].jugadores[i].socket, respuesta);
+		write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
+	}
+}
+
+void not_mensaje_chat(int idP, char *mensaje, char *tag) {
+	char respuesta[512];
+	sprintf(respuesta, "13/%d/%s~~END~~", idP, mensaje); 
+	// Enviar lista
+	for (int i = 0; i < partidas[idP].numj; i++) {
+		log_msg(tag, "Notificando mensaje de chat por el socket %d: %s\n",
+                partidas[idP].jugadores[i].socket, respuesta);
+		write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
+	}
+}
+void not_partida_empezada(int idP, char *tag){
+    char respuesta[512];
+    sprintf(respuesta, "14/%d/", idP);
+    barajar_casillas(respuesta);
+    barajar_puertos(respuesta);
+    // Notificar turno
+    pthread_mutex_lock(&mutex_estructuras);
+    partidas[idP].turno = 0;
+    int turno = 0;
+    pthread_mutex_unlock(&mutex_estructuras);
+    sprintf(respuesta, "%s~~END~~15/%d/%s~~END~~", respuesta, idP, partidas[idP].jugadores[turno].nombre);
+    for (int i = 0; i < partidas[idP].numj; i++) {
+        log_msg(tag, "Notificando partida empezada por el socket %d: %s\n",
+                partidas[idP].jugadores[i].socket, respuesta);
+        write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
+    }
+}
+
+void not_movimiento(int idP, char *respuesta, char *tag) {
+	for (int i = 0; i < partidas[idP].numj; i++) {
+		log_msg(tag, "Notificando movimiento por el socket %d: %s\n",
+                partidas[idP].jugadores[i].socket, respuesta);
+		write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
+	}
+}
+
+/* Peticiones */
+
 void pet_desconectar(int socket) {
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
@@ -335,85 +435,29 @@ void pet_empezar_partida(char *resto, int socket){
     not_partida_empezada(idP, tag);
 }
 
-void not_lista_conectados(char *tag) {
-    /*
-    Descripcion:
-        Notifica a todos los conectados de un cambio en la lista de conectados
-    Parametros:
-        tag: tag del thread que activa la notificacion
-    */
-    // Generar mensaje
-    char respuesta[512];
-    sprintf(respuesta, "6/%d/", conectados.num);
-    if (conectados.num != 0) {
-        for (int i = 0; i < conectados.num; i++) {
-            sprintf(respuesta, "%s%s,", respuesta, conectados.conectados[i].nombre);
-        }
-        respuesta[strlen(respuesta) - 1] = '\0';
-        strcat(respuesta, "~~END~~");
-    }
-    // Enviar lista
-    for (int i = 0; i < conectados.num; i++) {
-        log_msg(tag, "Lista de conectados por el socket %d: %s\n",
-                conectados.conectados[i].socket, respuesta);
-        write(conectados.conectados[i].socket, respuesta, strlen(respuesta));
-    }
+void pet_acabar_turno(char *resto, int socket) {
+    char tag[32];
+    sprintf(tag, "THREAD %d", socket);
+
+    int idP = atoi(strtok_r(resto, "/", &resto));
+    pthread_mutex_lock(&mutex_estructuras);
+    partidas[idP].turno = (partidas[idP].turno + 1) % partidas[idP].numj;
+    int turno = partidas[idP].turno;
+    pthread_mutex_unlock(&mutex_estructuras);
+
+    char respuesta[64];
+    sprintf(respuesta, "15/%d/%s~~END~~", idP, partidas[idP].jugadores[turno].nombre);
+    not_movimiento(idP, respuesta, tag);
 }
 
-void not_lista_jugadores(int idP, char *tag) {
-    /*
-    Descripcion:
-        Genera el mensaje de notificacion de lista de jugadores
-    Parametros:
-        idP: id de la partida en la tabla de partidas
-        tag: tag del thread que activa la notificacion
-    */
-    // Generar mensaje
-    char respuesta[256];
-	sprintf(respuesta, "11/%d/", idP);
-    for (int i = 0; i < partidas[idP].numj; i++) {
-        sprintf(respuesta, "%s%s,%d,", respuesta, partidas[idP].jugadores[i].nombre, partidas[idP].jugadores[i].color);
-    }
-	respuesta[strlen(respuesta) - 1] = '\0';
-    strcat(respuesta, "~~END~~");
-    // Enviar lista
-	for (int i = 0; i < partidas[idP].numj; i++) {
-		log_msg(tag, "Lista de jugadores por el socket %d: %s\n",
-				partidas[idP].jugadores[i].socket, respuesta);
-		write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
-	}
-}
+void pet_tirar_dados(char *resto, int socket) {
+    char tag[32];
+    sprintf(tag, "THREAD %d", socket);
 
-void not_partida_cancelada(int idP, char *tag) {
-    // Enviar lista
+    int idP = atoi(strtok_r(resto, "/", &resto));
+
     char respuesta[32];
-    sprintf(respuesta, "10/%d~~END~~", idP);
-	for (int i = 0; i < partidas[idP].numj; i++) {
-		log_msg(tag, "Notificando terminar partida por el socket %d: %s\n",
-				partidas[idP].jugadores[i].socket, respuesta);
-		write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
-	}
-}
-
-void not_mensaje_chat(int idP, char *mensaje, char *tag) {
-	char respuesta[512];
-	sprintf(respuesta, "13/%d/%s~~END~~", idP, mensaje); 
-	// Enviar lista
-	for (int i = 0; i < partidas[idP].numj; i++) {
-		log_msg(tag, "Notificando mensaje de chat por el socket %d: %s\n",
-                partidas[idP].jugadores[i].socket, respuesta);
-		write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
-	}
-}
-void not_partida_empezada(int idP, char *tag){
-    char respuesta[512];
-    sprintf(respuesta, "14/%d/", idP);
-    barajar_casillas(respuesta);
-    barajar_puertos(respuesta);
-    for (int i = 0; i < partidas[idP].numj; i++) {
-        log_msg(tag, "Notificando partida empezada por el socket %d: %s\n",
-                partidas[idP].jugadores[i].socket, respuesta);
-        write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
-    }
+    sprintf(respuesta, "16/%d/%d,%d~~END~~", idP, (rand() % 6) + 1, (rand() % 6) + 1);
+    not_movimiento(idP, respuesta, tag);
 }
 

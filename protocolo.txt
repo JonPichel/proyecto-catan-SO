@@ -83,3 +83,54 @@ SERVIDOR: 13/idPartida/mensaje (añadir Nombre: en las que haga falta)
 # EMPEZAR PARTIDA
 CLIENTE: 14/idPartida
 SERVIDOR: 14/idPartida/tipoHex1,tipoHex2,...,tipoHex19/tipoPuerto1,indice1,tipoPuerto2,indice2,...,tipoPuerto9,indice9
+
+/* PARTIDA */
+
+# TURNO
+SERVIDOR: 15/idPartida/nombre [todos]
+CLIENTE: 15/idPartida
+
+# TIRAR DADOS
+CLIENTE: 16/idPartida/
+SERVIDOR: 16/idPartida/dado1,dado2 [todos]
+
+# COLOCAR LADRÓN
+CLIENTE: 17/idPartida/R,Q,V
+SERVIDOR: 17/idPartida/R,Q [todos]
+
+# COLOCAR POBLADO
+CLIENTE: 18/idPartida/R,Q,V
+SERVIDOR: 18/idPartida/R,Q,V [todos]
+
+# COLOCAR CIUDAD
+CLIENTE: 19/idPartida/R,Q,V
+SERVIDOR: 19/idPartida/R,Q,V [todos]
+
+# COLOCAR CARRETERA
+CLIENTE: 20/idPartida/R,Q,L
+SERVIDOR: 20/idPartida/R,Q,L [todos]
+
+# COMPRAR CARTA
+CLIENTE: 21/idPartida
+SERVIDOR: 21/idPartida/tipoCarta(0..4) [todos]
+
+# JUGAR CARTA CABALLERO
+CLIENTE: 22/idPartida
+SERVIDOR: 22/idPartida [todos]
+
+# JUGAR CARTA CARRETERAS
+CLIENTE: 23/idPartida
+SERVIDOR: 23/idPartida [todos]
+
+# JUGAR CARTA INVENTO
+CLIENTE: 24/idPartida
+SERVIDOR: 24/idPartida [todos]
+
+# JUGAR CARTA MONOPOLIO
+CLIENTE: 25/idPartida/recurso
+SERVIDOR: 25/idPartida/recurso [todos]
+
+# ENTREGAR RECURSOS MONOPOLIO
+CLIENTE: 26/idPartida/nombreEntrega,recurso,cantidad
+SERVIDOR: 26/idPartida/nombreEntrega,recurso,cantidad [todos]
+

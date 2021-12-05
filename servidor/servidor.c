@@ -161,7 +161,12 @@ void *atender_cliente(void *sock_ptr) {
             case 14:
                 pet_empezar_partida(resto, socket);
                 break;
-            
+            case 15:
+                pet_acabar_turno(resto, socket);
+                break;
+            case 16:
+                pet_tirar_dados(resto, socket);
+                break;
             default:
                 log_msg(tag, "Peticion desconocida: %d\n", codigo);
                 close(socket);
