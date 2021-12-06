@@ -96,7 +96,7 @@ namespace cliente.Partida
             {
                 if (!colores.Contains(color))
                 {
-                    btns[i].BackColor = DameColor(color);
+                    btns[i].BackColor = Colores.DameColor(color);
                     btns[i].Show();
                     i++;
                 }
@@ -122,7 +122,7 @@ namespace cliente.Partida
         private void btnColor_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            string pet = "12/" + idP.ToString() + "/" + ((int)DameColorJugador(btn.BackColor)).ToString();
+            string pet = "12/" + idP.ToString() + "/" + ((int)Colores.DameColorJugador(btn.BackColor)).ToString();
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
 
@@ -175,7 +175,7 @@ namespace cliente.Partida
                         colores[i] = color;
 
                         dataGridJugadores.Rows[i].Cells[0].Value = datos[2 * i];
-                        dataGridJugadores.Rows[i].Cells[1].Style.BackColor = DameColor(color);
+                        dataGridJugadores.Rows[i].Cells[1].Style.BackColor = Colores.DameColor(color);
                     }
                     else
                     {
@@ -203,57 +203,6 @@ namespace cliente.Partida
             {
                 btnInvitar.Enabled = false;
             }
-        }
-
-        private Color DameColor(ColorJugador color)
-        {
-            switch (color)
-            {
-                case ColorJugador.Azul:
-                    return Color.FromArgb(95, 171, 200);
-                case ColorJugador.Rojo:
-                    return Color.FromArgb(160, 44, 44);
-                case ColorJugador.Naranja:
-                    return Color.FromArgb(225, 132, 13);
-                case ColorJugador.Gris:
-                    return Color.FromArgb(200, 190, 183);
-                case ColorJugador.Morado:
-                    return Color.FromArgb(178, 95, 211);
-                case ColorJugador.Verde:
-                    return Color.FromArgb(111, 145, 111);
-                default:
-                    return Color.FromArgb(95, 171, 200);
-            }
-        }
-        private ColorJugador DameColorJugador(Color color)
-        {
-            if (color == Color.FromArgb(111, 145, 111))
-            {
-                return ColorJugador.Verde;
-            }
-            else if (color == Color.FromArgb(178, 95, 211))
-            {
-                return ColorJugador.Morado;
-            }
-            else if (color == Color.FromArgb(200, 190, 183))
-            {
-                return ColorJugador.Gris;
-            }
-            else if (color == Color.FromArgb(225, 132, 13))
-            {
-                return ColorJugador.Naranja;
-            }
-            else if (color == Color.FromArgb(160, 44, 44))
-            {
-                return ColorJugador.Rojo;
-            }
-            else if (color == Color.FromArgb(95, 171, 200))
-            {
-                return ColorJugador.Azul;
-            }
-            else
-                return ColorJugador.Gris;
-
         }
 
         private void btnDesconectar_Click(object sender, EventArgs e)

@@ -124,21 +124,49 @@ namespace cliente.Partida
             {
                 TabLobbyHost tab = ((TabLobbyHost)tabs[0]);
                 tab.Tag = "EMPEZAR";
-                for (int i = 0; i < 4; i++)
+                int i;
+                for (i = 0; i < 4; i++)
                 {
-                    if (this.nombre == tab.nombres[i])
+                    if (tab.colores[i] == (ColorJugador)(-1))
+                    {
+                        break;
+                    }
+                    else if (this.nombre == tab.nombres[i])
                         tabs[2].colorJugador = tab.colores[i];
                 }
+                ((TabTablero)tabs[2]).colores = new ColorJugador[i];
+                ((TabTablero)tabs[2]).nombres = new string[i];
+                for (i = 0; i < ((TabTablero)tabs[2]).colores.Length; i++)
+                {
+                    ((TabTablero)tabs[2]).colores[i] = tab.colores[i];
+                    ((TabTablero)tabs[2]).nombres[i] = tab.nombres[i];
+                }
                 tab.Hide();
+
+                
+                ((TabTablero)tabs[2]).nombres = tab.nombres;
+
             }
             else
             {
                 TabLobbyGuest tab = ((TabLobbyGuest)tabs[1]);
                 tab.Tag = "EMPEZAR";
-                for (int i = 0; i < 4; i++)
+                int i;
+                for (i = 0; i < 4; i++)
                 {
-                    if (this.nombre == tab.nombres[i])
+                    if (tab.colores[i] == (ColorJugador)(-1))
+                    {
+                        break;
+                    }
+                    else if (this.nombre == tab.nombres[i])
                         tabs[2].colorJugador = tab.colores[i];
+                }
+                ((TabTablero)tabs[2]).colores = new ColorJugador[i];
+                ((TabTablero)tabs[2]).nombres = new string[i];
+                for (i = 0; i < ((TabTablero)tabs[2]).colores.Length; i++)
+                {
+                    ((TabTablero)tabs[2]).colores[i] = tab.colores[i];
+                    ((TabTablero)tabs[2]).nombres[i] = tab.nombres[i];
                 }
                 tab.Hide();
             }

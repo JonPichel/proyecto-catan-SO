@@ -19,10 +19,6 @@ namespace cliente.Partida
         Superior,
         Inferior
     };
-    public struct Colores
-    {
-
-    }
 
     public struct VerticeCoords
     {

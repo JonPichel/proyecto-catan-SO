@@ -16,6 +16,10 @@ namespace cliente.Partida
         int idP;
         string nombre;
         string turno;
+        public override ColorJugador colorJugador { get; set; }
+
+        public string[] nombres { get; set; }
+        public ColorJugador[] colores { get; set; }
 
         Tile[] tiles;
         List<FichaVertice> fichasVertices;
@@ -25,9 +29,6 @@ namespace cliente.Partida
         VerticeCoords[] verticesTablero;
         LadoCoords[] ladosPosibles;
         VerticeCoords[] verticesPosibles;
-
-        int Ronda;
-        public override ColorJugador colorJugador { get; set; }
 
         int zoomLevel;
         Point basePoint;
@@ -61,6 +62,10 @@ namespace cliente.Partida
             cliente.Properties.Resources._11,
             cliente.Properties.Resources._12,
         };
+
+        PanelInfoJugador[] paneles;
+
+        int madera, ladrillo, oveja, trigo, piedra;
 
         public TabTablero(Socket conn, int idP, string nombre)
         {
@@ -252,9 +257,39 @@ namespace cliente.Partida
             btnCarretera.Enabled = false;
             btnPoblado.Enabled = false;
             btnCiudad.Enabled = false;
+            btnDesarrollo.Enabled = false;
             btnComercio.Enabled = false;
             btnTurno.Enabled = false;
-        }
+
+            btnCarretera.MouseHover += BtnConstruir_MouseHover;
+            btnPoblado.MouseHover += BtnConstruir_MouseHover;
+            btnCiudad.MouseHover += BtnConstruir_MouseHover;
+            btnDesarrollo.MouseHover += BtnConstruir_MouseHover;
+
+            // Paneles
+            this.paneles = new PanelInfoJugador[] { pnlJugador1, pnlJugador2, pnlJugador3, pnlJugador4 };
+            
+            for (int i = 0; i < 4; i++)
+            {
+                if (i < nombres.Length)
+                {
+                    paneles[i].Nombre = nombres[i];
+                    paneles[i].Color = colores[i];
+                    paneles[i].Caballeros = 0;
+                    paneles[i].Carreteras = 0;
+                    paneles[i].Recursos = 0;
+                    paneles[i].Desarrollo = 0;
+                    paneles[i].Puntos = 0;
+                    paneles[i].Show();
+                }
+                else
+                {
+                    paneles[i].Hide();
+                }
+            }
+
+        
+                }
 
         private void TabTablero_Paint(object sender, PaintEventArgs e)
         {
@@ -587,6 +622,7 @@ namespace cliente.Partida
                 btnCarretera.Enabled = true;
                 btnPoblado.Enabled = true;
                 btnCiudad.Enabled = true;
+                btnDesarrollo.Enabled = true;
                 btnComercio.Enabled = true;
                 btnTurno.Text = "Tirar dados";
                 btnTurno.Tag = "DADOS";
@@ -603,6 +639,12 @@ namespace cliente.Partida
                 btnTurno.Text = "Acabar turno";
                 btnTurno.Tag = "ACABAR";
                 btnTurno.Enabled = true;
+                btnCarretera.Enabled = true;
+                btnPoblado.Enabled = true;
+                btnCiudad.Enabled = true;
+                btnDesarrollo.Enabled = true;
+                btnComercio.Enabled = true;
+
             }
             //Animación dados y repartir recursos
             MessageBox.Show(turno + ": " + dados);
@@ -643,10 +685,16 @@ namespace cliente.Partida
                     btnCarretera.Enabled = false;
                     btnPoblado.Enabled = false;
                     btnCiudad.Enabled = false;
+                    btnDesarrollo.Enabled = false;
                     btnComercio.Enabled = false;
                     break;
             }
+        }
 
+        private void BtnConstruir_MouseHover(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            tooltipCostes.SetToolTip(btn, btn.Tag.ToString());
         }
     }
 }

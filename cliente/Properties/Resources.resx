@@ -199,6 +199,39 @@
   <data name="CiudadVerde" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Media\Images\CiudadVerde.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Dado1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\Dado1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Dado2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\Dado2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Dado3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\Dado3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Dado4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\Dado4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Dado5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\Dado5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Dado6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\Dado6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconoCaballeros" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\IconoCaballeros.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconoCarreteras" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\IconoCarreteras.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconoDesarrollo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\IconoDesarrollo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconoPuntos" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\IconoPuntos.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconoRecursos" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\IconoRecursos.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Invento" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Media\Images\Invento.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
