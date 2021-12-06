@@ -30,6 +30,7 @@ namespace cliente.Partida
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TabTablero));
             this.btnPoblado = new System.Windows.Forms.Button();
             this.btnCarretera = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -41,6 +42,11 @@ namespace cliente.Partida
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnTurno = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.lblOveja = new System.Windows.Forms.Label();
+            this.lblTrigo = new System.Windows.Forms.Label();
+            this.lblLadrillo = new System.Windows.Forms.Label();
+            this.lblPiedra = new System.Windows.Forms.Label();
+            this.lblMadera = new System.Windows.Forms.Label();
             this.btnCiudad = new System.Windows.Forms.Button();
             this.btnComercio = new System.Windows.Forms.Button();
             this.pnlTablero = new cliente.Partida.PanelTablero();
@@ -52,6 +58,7 @@ namespace cliente.Partida
             this.pnlJugador3 = new cliente.Partida.PanelInfoJugador();
             this.pnlJugador4 = new cliente.Partida.PanelInfoJugador();
             this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnPoblado
@@ -132,6 +139,8 @@ namespace cliente.Partida
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
+            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.panel1.Location = new System.Drawing.Point(0, 71);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(223, 150);
@@ -158,10 +167,80 @@ namespace cliente.Partida
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.White;
+            this.panel4.Controls.Add(this.lblOveja);
+            this.panel4.Controls.Add(this.lblTrigo);
+            this.panel4.Controls.Add(this.lblLadrillo);
+            this.panel4.Controls.Add(this.lblPiedra);
+            this.panel4.Controls.Add(this.lblMadera);
             this.panel4.Location = new System.Drawing.Point(228, 532);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(311, 65);
             this.panel4.TabIndex = 7;
+            // 
+            // lblOveja
+            // 
+            this.lblOveja.BackColor = System.Drawing.Color.Transparent;
+            this.lblOveja.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblOveja.ForeColor = System.Drawing.Color.Black;
+            this.lblOveja.Image = ((System.Drawing.Image)(resources.GetObject("lblOveja.Image")));
+            this.lblOveja.Location = new System.Drawing.Point(130, 7);
+            this.lblOveja.Name = "lblOveja";
+            this.lblOveja.Size = new System.Drawing.Size(50, 50);
+            this.lblOveja.TabIndex = 0;
+            this.lblOveja.Text = "0";
+            this.lblOveja.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblTrigo
+            // 
+            this.lblTrigo.BackColor = System.Drawing.Color.Transparent;
+            this.lblTrigo.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblTrigo.ForeColor = System.Drawing.Color.White;
+            this.lblTrigo.Image = ((System.Drawing.Image)(resources.GetObject("lblTrigo.Image")));
+            this.lblTrigo.Location = new System.Drawing.Point(190, 7);
+            this.lblTrigo.Name = "lblTrigo";
+            this.lblTrigo.Size = new System.Drawing.Size(50, 50);
+            this.lblTrigo.TabIndex = 0;
+            this.lblTrigo.Text = "0";
+            this.lblTrigo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblLadrillo
+            // 
+            this.lblLadrillo.BackColor = System.Drawing.Color.Transparent;
+            this.lblLadrillo.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblLadrillo.ForeColor = System.Drawing.Color.White;
+            this.lblLadrillo.Image = ((System.Drawing.Image)(resources.GetObject("lblLadrillo.Image")));
+            this.lblLadrillo.Location = new System.Drawing.Point(70, 7);
+            this.lblLadrillo.Name = "lblLadrillo";
+            this.lblLadrillo.Size = new System.Drawing.Size(50, 50);
+            this.lblLadrillo.TabIndex = 0;
+            this.lblLadrillo.Text = "0";
+            this.lblLadrillo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblPiedra
+            // 
+            this.lblPiedra.BackColor = System.Drawing.Color.Transparent;
+            this.lblPiedra.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblPiedra.ForeColor = System.Drawing.Color.White;
+            this.lblPiedra.Image = ((System.Drawing.Image)(resources.GetObject("lblPiedra.Image")));
+            this.lblPiedra.Location = new System.Drawing.Point(250, 7);
+            this.lblPiedra.Name = "lblPiedra";
+            this.lblPiedra.Size = new System.Drawing.Size(50, 50);
+            this.lblPiedra.TabIndex = 0;
+            this.lblPiedra.Text = "0";
+            this.lblPiedra.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblMadera
+            // 
+            this.lblMadera.BackColor = System.Drawing.Color.Transparent;
+            this.lblMadera.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblMadera.ForeColor = System.Drawing.Color.White;
+            this.lblMadera.Image = ((System.Drawing.Image)(resources.GetObject("lblMadera.Image")));
+            this.lblMadera.Location = new System.Drawing.Point(10, 7);
+            this.lblMadera.Name = "lblMadera";
+            this.lblMadera.Size = new System.Drawing.Size(50, 50);
+            this.lblMadera.TabIndex = 0;
+            this.lblMadera.Text = "0";
+            this.lblMadera.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnCiudad
             // 
@@ -212,11 +291,12 @@ namespace cliente.Partida
             // 
             // pnlJugador1
             // 
-            this.pnlJugador1.BackColor = System.Drawing.Color.DarkRed;
+            this.pnlJugador1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(171)))), ((int)(((byte)(200)))));
             this.pnlJugador1.Caballeros = 0;
             this.pnlJugador1.Carreteras = 0;
+            this.pnlJugador1.Color = cliente.Partida.ColorJugador.Azul;
             this.pnlJugador1.Desarrollo = 0;
-            this.pnlJugador1.Location = new System.Drawing.Point(0, 3);
+            this.pnlJugador1.Location = new System.Drawing.Point(4, 5);
             this.pnlJugador1.Name = "pnlJugador1";
             this.pnlJugador1.Nombre = "Nombre";
             this.pnlJugador1.Puntos = 0;
@@ -226,45 +306,48 @@ namespace cliente.Partida
             // 
             // pnlJugador2
             // 
-            this.pnlJugador2.BackColor = System.Drawing.Color.DarkRed;
+            this.pnlJugador2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(171)))), ((int)(((byte)(200)))));
             this.pnlJugador2.Caballeros = 0;
             this.pnlJugador2.Carreteras = 0;
+            this.pnlJugador2.Color = cliente.Partida.ColorJugador.Azul;
             this.pnlJugador2.Desarrollo = 0;
-            this.pnlJugador2.Location = new System.Drawing.Point(201, 3);
+            this.pnlJugador2.Location = new System.Drawing.Point(203, 5);
             this.pnlJugador2.Name = "pnlJugador2";
             this.pnlJugador2.Nombre = "Nombre";
             this.pnlJugador2.Puntos = 0;
             this.pnlJugador2.Recursos = 0;
             this.pnlJugador2.Size = new System.Drawing.Size(195, 60);
-            this.pnlJugador2.TabIndex = 15;
+            this.pnlJugador2.TabIndex = 13;
             // 
             // pnlJugador3
             // 
-            this.pnlJugador3.BackColor = System.Drawing.Color.DarkRed;
+            this.pnlJugador3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(171)))), ((int)(((byte)(200)))));
             this.pnlJugador3.Caballeros = 0;
             this.pnlJugador3.Carreteras = 0;
+            this.pnlJugador3.Color = cliente.Partida.ColorJugador.Azul;
             this.pnlJugador3.Desarrollo = 0;
-            this.pnlJugador3.Location = new System.Drawing.Point(402, 3);
+            this.pnlJugador3.Location = new System.Drawing.Point(402, 5);
             this.pnlJugador3.Name = "pnlJugador3";
             this.pnlJugador3.Nombre = "Nombre";
             this.pnlJugador3.Puntos = 0;
             this.pnlJugador3.Recursos = 0;
             this.pnlJugador3.Size = new System.Drawing.Size(195, 60);
-            this.pnlJugador3.TabIndex = 16;
+            this.pnlJugador3.TabIndex = 13;
             // 
             // pnlJugador4
             // 
-            this.pnlJugador4.BackColor = System.Drawing.Color.DarkRed;
+            this.pnlJugador4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(171)))), ((int)(((byte)(200)))));
             this.pnlJugador4.Caballeros = 0;
             this.pnlJugador4.Carreteras = 0;
+            this.pnlJugador4.Color = cliente.Partida.ColorJugador.Azul;
             this.pnlJugador4.Desarrollo = 0;
-            this.pnlJugador4.Location = new System.Drawing.Point(602, 3);
+            this.pnlJugador4.Location = new System.Drawing.Point(601, 5);
             this.pnlJugador4.Name = "pnlJugador4";
             this.pnlJugador4.Nombre = "Nombre";
             this.pnlJugador4.Puntos = 0;
             this.pnlJugador4.Recursos = 0;
             this.pnlJugador4.Size = new System.Drawing.Size(195, 60);
-            this.pnlJugador4.TabIndex = 17;
+            this.pnlJugador4.TabIndex = 13;
             // 
             // TabTablero
             // 
@@ -292,6 +375,7 @@ namespace cliente.Partida
             this.Load += new System.EventHandler(this.TabTablero_Load);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -320,5 +404,10 @@ namespace cliente.Partida
         private PanelInfoJugador pnlJugador2;
         private PanelInfoJugador pnlJugador3;
         private PanelInfoJugador pnlJugador4;
+        private System.Windows.Forms.Label lblOveja;
+        private System.Windows.Forms.Label lblTrigo;
+        private System.Windows.Forms.Label lblLadrillo;
+        private System.Windows.Forms.Label lblPiedra;
+        private System.Windows.Forms.Label lblMadera;
     }
 }

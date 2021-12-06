@@ -543,6 +543,46 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap IconoLadrillo {
+            get {
+                object obj = ResourceManager.GetObject("IconoLadrillo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap IconoMadera {
+            get {
+                object obj = ResourceManager.GetObject("IconoMadera", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap IconoOveja {
+            get {
+                object obj = ResourceManager.GetObject("IconoOveja", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap IconoPiedra {
+            get {
+                object obj = ResourceManager.GetObject("IconoPiedra", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap IconoPuntos {
             get {
                 object obj = ResourceManager.GetObject("IconoPuntos", resourceCulture);
@@ -556,6 +596,26 @@ namespace cliente.Properties {
         internal static System.Drawing.Bitmap IconoRecursos {
             get {
                 object obj = ResourceManager.GetObject("IconoRecursos", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap IconoTrigo {
+            get {
+                object obj = ResourceManager.GetObject("IconoTrigo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap InformacionMateriales {
+            get {
+                object obj = ResourceManager.GetObject("InformacionMateriales", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

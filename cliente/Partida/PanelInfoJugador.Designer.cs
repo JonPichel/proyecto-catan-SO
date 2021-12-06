@@ -29,6 +29,7 @@ namespace cliente.Partida
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PanelInfoJugador));
             this.lblCaballeros = new System.Windows.Forms.Label();
             this.lblCarreteras = new System.Windows.Forms.Label();
             this.lblRecursos = new System.Windows.Forms.Label();
@@ -41,7 +42,7 @@ namespace cliente.Partida
             // 
             this.lblCaballeros.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblCaballeros.ForeColor = System.Drawing.Color.White;
-            this.lblCaballeros.Image = global::cliente.Properties.Resources.IconoCaballeros;
+            this.lblCaballeros.Image = ((System.Drawing.Image)(resources.GetObject("lblCaballeros.Image")));
             this.lblCaballeros.Location = new System.Drawing.Point(3, 26);
             this.lblCaballeros.Name = "lblCaballeros";
             this.lblCaballeros.Size = new System.Drawing.Size(30, 30);
@@ -53,7 +54,7 @@ namespace cliente.Partida
             // 
             this.lblCarreteras.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblCarreteras.ForeColor = System.Drawing.Color.White;
-            this.lblCarreteras.Image = global::cliente.Properties.Resources.IconoCarreteras;
+            this.lblCarreteras.Image = ((System.Drawing.Image)(resources.GetObject("lblCarreteras.Image")));
             this.lblCarreteras.Location = new System.Drawing.Point(39, 26);
             this.lblCarreteras.Name = "lblCarreteras";
             this.lblCarreteras.Size = new System.Drawing.Size(30, 30);
@@ -65,7 +66,7 @@ namespace cliente.Partida
             // 
             this.lblRecursos.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblRecursos.ForeColor = System.Drawing.Color.White;
-            this.lblRecursos.Image = global::cliente.Properties.Resources.IconoRecursos;
+            this.lblRecursos.Image = ((System.Drawing.Image)(resources.GetObject("lblRecursos.Image")));
             this.lblRecursos.Location = new System.Drawing.Point(75, 26);
             this.lblRecursos.Name = "lblRecursos";
             this.lblRecursos.Size = new System.Drawing.Size(30, 30);
@@ -77,7 +78,7 @@ namespace cliente.Partida
             // 
             this.lblDesarrollo.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblDesarrollo.ForeColor = System.Drawing.Color.White;
-            this.lblDesarrollo.Image = global::cliente.Properties.Resources.IconoDesarrollo;
+            this.lblDesarrollo.Image = ((System.Drawing.Image)(resources.GetObject("lblDesarrollo.Image")));
             this.lblDesarrollo.Location = new System.Drawing.Point(111, 26);
             this.lblDesarrollo.Name = "lblDesarrollo";
             this.lblDesarrollo.Size = new System.Drawing.Size(30, 30);
@@ -89,13 +90,13 @@ namespace cliente.Partida
             // 
             this.lblPuntos.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblPuntos.ForeColor = System.Drawing.Color.White;
-            this.lblPuntos.Image = global::cliente.Properties.Resources.IconoPuntos;
+            this.lblPuntos.Image = ((System.Drawing.Image)(resources.GetObject("lblPuntos.Image")));
             this.lblPuntos.Location = new System.Drawing.Point(147, 11);
             this.lblPuntos.Name = "lblPuntos";
             this.lblPuntos.Size = new System.Drawing.Size(45, 45);
             this.lblPuntos.TabIndex = 9;
             this.lblPuntos.Text = "0";
-            this.lblPuntos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPuntos.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblNombre
             // 

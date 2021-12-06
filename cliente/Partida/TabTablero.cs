@@ -227,6 +227,53 @@ namespace cliente.Partida
             this.fichasVertices = new List<FichaVertice>();
         }
 
+        public int Madera
+        {
+            get => this.madera;
+            set
+            {
+                this.madera = value;
+                this.lblMadera.Text = value.ToString();
+            }
+        }
+        public int Ladrillo
+        {
+            get => this.ladrillo;
+            set
+            {
+                this.ladrillo = value;
+                this.lblLadrillo.Text = value.ToString();
+            }
+        }
+        public int Oveja
+        {
+            get => this.oveja;
+            set
+            {
+                this.oveja = value;
+                this.lblOveja.Text = value.ToString();
+            }
+        }
+        public int Trigo
+        {
+            get => this.trigo;
+            set
+            {
+                this.trigo = value;
+                this.lblTrigo.Text = value.ToString();
+            }
+        }
+        public int Piedra
+        {
+            get => this.piedra;
+            set
+            {
+                this.piedra = value;
+                this.lblPiedra.Text = value.ToString();
+            }
+        }
+
+
         private void TabTablero_Load(object sender, EventArgs e)
         {
             // Calcular las posiciones posibles de carreteras y poblados
@@ -288,8 +335,14 @@ namespace cliente.Partida
                 }
             }
 
+            //Recursos 
+            Madera = 0;
+            Ladrillo = 0;
+            Oveja = 0;
+            Trigo = 0;
+            Piedra = 0;
         
-                }
+        }
 
         private void TabTablero_Paint(object sender, PaintEventArgs e)
         {
