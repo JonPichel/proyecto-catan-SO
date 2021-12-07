@@ -187,5 +187,9 @@ namespace cliente.Partida
             mensaje = mensaje.Split("/")[1];
             ((TabTablero)tabs[2]).ComprarCarta(mensaje);
         }
+        public void UsarCarta(string mensaje)
+        {
+            ((TabTablero)tabs[2]).UsarCarta(mensaje);
+        }
     }
 }

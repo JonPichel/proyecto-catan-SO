@@ -784,7 +784,7 @@ namespace cliente.Partida
             int num = 0;
             foreach(Carta otra in this.cartas)
             {
-                if (otra.Tipo == carta.Tipo)
+                if ((otra.Tipo == carta.Tipo) && ((int)otra.Tipo != 4))
                 {
                     otra.Enabled = false;
                     num++;
@@ -802,8 +802,14 @@ namespace cliente.Partida
 
         private void Carta_Click(object sender, EventArgs e)
         {
+            if (this.nombre != this.turno)
+                return;
+
             Carta carta = (Carta)sender;
-            cartas.Remove(carta);
+            
+            if ((int)carta.Tipo == 4)
+                return;
+
             pnlCartas.Controls.Remove(carta);
             for (int i = cartas.Count - 1; i >= 0; i--)
             {
@@ -812,6 +818,52 @@ namespace cliente.Partida
                     cartas[i].Enabled = true;
                     break;
                 }
+            }
+            string pet;
+            byte[] pet_b;
+            switch ((int)carta.Tipo)
+            {
+                case 0:
+                    pet = "25/" + idP.ToString() + "/MADERA";
+                    break;
+                case 1:
+                    pet = "24/" + idP.ToString();
+                    break;
+                case 2:
+                    pet = "22/" + idP.ToString();
+                    break;
+                case 3:
+                    pet = "23/" + idP.ToString();
+                    break;
+                default:
+                    return;
+            }
+            pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+            conn.Send(pet_b);
+        }
+        public void UsarCarta(string mensaje)
+        {
+            if (this.nombre == this.turno)
+                return;
+                
+            string[] trozos = mensaje.Split('/');
+            int codigo = Convert.ToInt32(trozos[0]);
+            
+            switch (codigo)
+            {
+                case 22:
+                    MessageBox.Show(this.turno + " ha usado carta de desarrollo: Caballero");
+                    break;
+                case 23:
+                    MessageBox.Show(this.turno + " ha usado carta de desarrollo: Carreteras" );
+                    break;
+                case 24:
+                    MessageBox.Show(this.turno + " ha usado carta de desarrollo: Invento" );
+                    break;
+                case 25:
+                    string recurso = trozos[2];
+                    MessageBox.Show(this.turno + " ha usado carta de desarrollo: Monopolio \n Quiere recurso: " + recurso);
+                    break;
             }
         }
     }
