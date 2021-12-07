@@ -393,6 +393,56 @@ namespace cliente.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CartaCaballero {
+            get {
+                object obj = ResourceManager.GetObject("CartaCaballero", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CartaCarreteras {
+            get {
+                object obj = ResourceManager.GetObject("CartaCarreteras", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CartaInvento {
+            get {
+                object obj = ResourceManager.GetObject("CartaInvento", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CartaMonopolio {
+            get {
+                object obj = ResourceManager.GetObject("CartaMonopolio", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CartaPunto {
+            get {
+                object obj = ResourceManager.GetObject("CartaPunto", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CiudadAzul {
             get {
                 object obj = ResourceManager.GetObject("CiudadAzul", resourceCulture);
@@ -616,26 +666,6 @@ namespace cliente.Properties {
         internal static System.Drawing.Bitmap InformacionMateriales {
             get {
                 object obj = ResourceManager.GetObject("InformacionMateriales", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Invento {
-            get {
-                object obj = ResourceManager.GetObject("Invento", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Monopolio {
-            get {
-                object obj = ResourceManager.GetObject("Monopolio", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

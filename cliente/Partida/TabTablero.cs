@@ -65,8 +65,10 @@ namespace cliente.Partida
 
         PanelInfoJugador[] paneles;
 
+        // Recursos en tu poder
         int madera, ladrillo, oveja, trigo, piedra;
-
+        List<Carta> cartas;
+        
         public TabTablero(Socket conn, int idP, string nombre)
         {
             InitializeComponent();
@@ -77,6 +79,15 @@ namespace cliente.Partida
 
         public void CargarTablero(string[] trozos)
         {
+            // Vaciar recursos
+            this.madera = 0;
+            this.ladrillo = 0;
+            this.oveja = 0;
+            this.trigo = 0;
+            this.piedra = 0;
+            this.cartas = new List<Carta>();
+
+            // Construir tablero
             string[] casillas = trozos[0].Split(",");
             string[] datosPuertos = trozos[1].Split(",");
 
@@ -703,6 +714,20 @@ namespace cliente.Partida
             MessageBox.Show(turno + ": " + dados);
         }
 
+        private void btnDesarrollo_Click(object sender, EventArgs e)
+        {
+            //if (oveja < 1 || trigo < 1 || piedra < 1)
+            //    return;
+
+            oveja--;
+            trigo--;
+            piedra--;
+
+            string pet = "21/" + idP.ToString();
+            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+            conn.Send(pet_b);
+        }
+
         private void btnEnviar_Click(object sender, EventArgs e)
         {
             EnviarMensaje();
@@ -748,6 +773,46 @@ namespace cliente.Partida
         {
             Button btn = (Button)sender;
             tooltipCostes.SetToolTip(btn, btn.Tag.ToString());
+        }
+
+        public void ComprarCarta(string mensaje)
+        {
+            if (this.nombre != this.turno)
+                return;
+
+            Carta carta = new Carta((Carta.TipoCarta)Convert.ToInt32(mensaje));
+            int num = 0;
+            foreach(Carta otra in this.cartas)
+            {
+                if (otra.Tipo == carta.Tipo)
+                {
+                    otra.Enabled = false;
+                    num++;
+                }
+            }
+            cartas.Add(carta);
+            int x = 20 * num + 5;
+            int y = cliente.Properties.Resources.CartaMonopolio.Size.Height * (int)carta.Tipo + 5;
+
+            carta.Click += Carta_Click;
+            pnlCartas.Controls.Add(carta);
+            carta.Location = new Point(x, y);
+            carta.BringToFront();
+        }
+
+        private void Carta_Click(object sender, EventArgs e)
+        {
+            Carta carta = (Carta)sender;
+            cartas.Remove(carta);
+            pnlCartas.Controls.Remove(carta);
+            for (int i = cartas.Count - 1; i >= 0; i--)
+            {
+                if (cartas[i].Tipo == carta.Tipo)
+                {
+                    cartas[i].Enabled = true;
+                    break;
+                }
+            }
         }
     }
 }

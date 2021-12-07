@@ -334,9 +334,6 @@
   <data name="Dado5" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Media\Images\Dado5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Monopolio" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Media\Images\Monopolio.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="CarreteraNorteAzul" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Media\Images\CarreteraNorteAzul.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -373,9 +370,6 @@
   <data name="CarreteraOesteRojo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Media\Images\CarreteraOesteRojo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Invento" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Media\Images\Invento.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="PuertoOesteMadera" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Media\Images\PuertoOesteMadera.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -387,5 +381,20 @@
   </data>
   <data name="InformacionMateriales" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Media\Images\InformacionMateriales.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CartaCaballero" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CartaCaballero.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CartaCarreteras" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CartaCarreteras.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CartaInvento" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CartaInvento.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CartaMonopolio" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CartaMonopolio.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CartaPunto" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CartaPunto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

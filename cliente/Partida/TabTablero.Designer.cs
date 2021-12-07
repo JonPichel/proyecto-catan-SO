@@ -39,7 +39,7 @@ namespace cliente.Partida
             this.txtMsg = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.pnlCartas = new System.Windows.Forms.Panel();
             this.btnTurno = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.lblOveja = new System.Windows.Forms.Label();
@@ -65,7 +65,7 @@ namespace cliente.Partida
             // 
             this.btnPoblado.Location = new System.Drawing.Point(545, 532);
             this.btnPoblado.Name = "btnPoblado";
-            this.btnPoblado.Size = new System.Drawing.Size(60, 30);
+            this.btnPoblado.Size = new System.Drawing.Size(70, 30);
             this.btnPoblado.TabIndex = 0;
             this.btnPoblado.Tag = "Madera,Ladrillo,Oveja,Paja";
             this.btnPoblado.Text = "Pueblo";
@@ -76,7 +76,7 @@ namespace cliente.Partida
             // 
             this.btnCarretera.Location = new System.Drawing.Point(545, 497);
             this.btnCarretera.Name = "btnCarretera";
-            this.btnCarretera.Size = new System.Drawing.Size(60, 30);
+            this.btnCarretera.Size = new System.Drawing.Size(70, 30);
             this.btnCarretera.TabIndex = 1;
             this.btnCarretera.Tag = "Madera,Ladrillo";
             this.btnCarretera.Text = "Camino";
@@ -146,13 +146,13 @@ namespace cliente.Partida
             this.panel1.Size = new System.Drawing.Size(223, 150);
             this.panel1.TabIndex = 4;
             // 
-            // panel2
+            // pnlCartas
             // 
-            this.panel2.BackColor = System.Drawing.Color.White;
-            this.panel2.Location = new System.Drawing.Point(0, 225);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(223, 149);
-            this.panel2.TabIndex = 5;
+            this.pnlCartas.BackColor = System.Drawing.Color.White;
+            this.pnlCartas.Location = new System.Drawing.Point(0, 225);
+            this.pnlCartas.Name = "pnlCartas";
+            this.pnlCartas.Size = new System.Drawing.Size(223, 149);
+            this.pnlCartas.TabIndex = 5;
             // 
             // btnTurno
             // 
@@ -246,7 +246,7 @@ namespace cliente.Partida
             // 
             this.btnCiudad.Location = new System.Drawing.Point(545, 567);
             this.btnCiudad.Name = "btnCiudad";
-            this.btnCiudad.Size = new System.Drawing.Size(60, 30);
+            this.btnCiudad.Size = new System.Drawing.Size(70, 30);
             this.btnCiudad.TabIndex = 8;
             this.btnCiudad.Tag = "Paja(2),Piedra(3)";
             this.btnCiudad.Text = "Ciudad";
@@ -254,9 +254,9 @@ namespace cliente.Partida
             // 
             // btnComercio
             // 
-            this.btnComercio.Location = new System.Drawing.Point(611, 497);
+            this.btnComercio.Location = new System.Drawing.Point(621, 532);
             this.btnComercio.Name = "btnComercio";
-            this.btnComercio.Size = new System.Drawing.Size(80, 100);
+            this.btnComercio.Size = new System.Drawing.Size(70, 65);
             this.btnComercio.TabIndex = 9;
             this.btnComercio.Text = "Comerciar";
             this.btnComercio.UseVisualStyleBackColor = true;
@@ -281,13 +281,14 @@ namespace cliente.Partida
             // 
             // btnDesarrollo
             // 
-            this.btnDesarrollo.Location = new System.Drawing.Point(479, 497);
+            this.btnDesarrollo.Location = new System.Drawing.Point(621, 497);
             this.btnDesarrollo.Name = "btnDesarrollo";
-            this.btnDesarrollo.Size = new System.Drawing.Size(60, 30);
+            this.btnDesarrollo.Size = new System.Drawing.Size(70, 30);
             this.btnDesarrollo.TabIndex = 12;
             this.btnDesarrollo.Tag = "Oveja,Paja,Piedra";
             this.btnDesarrollo.Text = "Carta";
             this.btnDesarrollo.UseVisualStyleBackColor = true;
+            this.btnDesarrollo.Click += new System.EventHandler(this.btnDesarrollo_Click);
             // 
             // pnlJugador1
             // 
@@ -365,7 +366,7 @@ namespace cliente.Partida
             this.Controls.Add(this.btnCiudad);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.btnTurno);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.pnlCartas);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.btnCarretera);
@@ -391,7 +392,7 @@ namespace cliente.Partida
         private System.Windows.Forms.TextBox txtMsg;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel pnlCartas;
         private System.Windows.Forms.Button btnTurno;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Button btnCiudad;

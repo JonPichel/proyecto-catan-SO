@@ -181,5 +181,11 @@ namespace cliente.Partida
             mensaje = mensaje.Split("/")[1];
             ((TabTablero)tabs[2]).TirarDados(mensaje);
         }
+
+        public void ComprarCarta(string mensaje)
+        {
+            mensaje = mensaje.Split("/")[1];
+            ((TabTablero)tabs[2]).ComprarCarta(mensaje);
+        }
     }
 }
