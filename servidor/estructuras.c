@@ -9,6 +9,8 @@ int tipos_casillas[19] = {0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 
 int tipos_puertos[9] = {0, 0, 0, 0, 1, 2, 3, 4, 5};
 int saltos_puertos[9] = {3, 3, 3, 3, 3, 3, 4, 4, 4};
 
+int tipos_cartas[25] = {0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 4};
+
 int conn_add_jugador(listaconn_t *lista, char nombre[20], int socket) {
     if (lista->num > MAX_CONN)
         return -1;
@@ -167,4 +169,9 @@ void barajar_puertos(char *asignacion) {
         }
     }
     asignacion[strlen(asignacion) - 1] = '\0';
+}
+
+int escoger_carta(){
+    int num = rand() % 25;      // Returns a pseudo-random integer between 0 and RAND_MAX.
+    return tipos_cartas[num];
 }

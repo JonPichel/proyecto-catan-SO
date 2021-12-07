@@ -19,5 +19,7 @@ void pet_enviar_chat(char *resto, int socket);
 void pet_empezar_partida(char *resto, int socket);
 void pet_acabar_turno(char *resto, int socket);
 void pet_tirar_dados(char *resto, int socket);
+void pet_carta(char *resto, int socket);
+void pet_usar_carta(int codigo, char *resto, int socket);
 
 #endif /* __PETICIONES_H__ */

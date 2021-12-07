@@ -23,6 +23,7 @@ int main(int argc, char *argv[]) {
     int sock_listen, sock_conn;
     struct sockaddr_in host_addr;
     int puerto;
+    srand(time(NULL)); 
 
     if (argc < 3) {
         printf("Uso: %s <PORT> <MODO>\n", argv[0]);
@@ -166,6 +167,21 @@ void *atender_cliente(void *sock_ptr) {
                 break;
             case 16:
                 pet_tirar_dados(resto, socket);
+                break;
+            case 21:
+                pet_carta(resto, socket);
+                break;
+            case 22:
+                pet_usar_carta(codigo, resto, socket);
+                break;
+            case 23:
+                pet_usar_carta(codigo, resto, socket);
+                break;
+            case 24:
+                pet_usar_carta(codigo, resto, socket);
+                break;
+            case 25:
+                pet_usar_carta(codigo, resto, socket);
                 break;
             default:
                 log_msg(tag, "Peticion desconocida: %d\n", codigo);

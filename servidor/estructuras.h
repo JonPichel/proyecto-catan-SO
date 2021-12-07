@@ -57,5 +57,6 @@ int part_cambio_color(partida_t *partida, char nombre[20], int color);
 
 void barajar_casillas(char *asignacion);
 void barajar_puertos(char *asignacion);
+int escoger_carta();
 
 #endif /* __ESTRUCTURAS_H__ */

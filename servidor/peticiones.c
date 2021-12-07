@@ -112,6 +112,14 @@ void not_movimiento(int idP, char *respuesta, char *tag) {
 	}
 }
 
+void not_carta(int idP, char *respuesta, char *tag){
+    for (int i = 0; i < partidas[idP].numj; i++) {
+        log_msg(tag, "Notificando carta desarrollo por el socket %d: %s\n",
+                partidas[idP].jugadores[i].socket, respuesta);
+        write(partidas[idP].jugadores[i].socket, respuesta, strlen(respuesta));
+    }
+}
+
 /* Peticiones */
 
 void pet_desconectar(int socket) {
@@ -458,6 +466,34 @@ void pet_tirar_dados(char *resto, int socket) {
 
     char respuesta[32];
     sprintf(respuesta, "16/%d/%d,%d~~END~~", idP, (rand() % 6) + 1, (rand() % 6) + 1);
+    not_movimiento(idP, respuesta, tag);
+}
+
+void pet_carta(char *resto, int socket){
+    char tag[32];
+    sprintf(tag, "THREAD %d", socket);
+    
+    int idP = atoi(strtok_r(resto, "/", &resto));
+    
+    char respuesta[32];
+    int num_carta = escoger_carta();
+    
+    sprintf(respuesta, "21/%d/%d~~END~~", idP, num_carta);
+    not_carta(idP, respuesta, tag);
+}
+void pet_usar_carta(int codigo, char *resto, int socket){
+    char tag[32];
+    sprintf(tag, "THREAD %d", socket);
+    
+    int idP = atoi(strtok_r(resto, "/", &resto));
+    
+    char respuesta[32];
+    if (codigo == 25){
+        sprintf(respuesta, "%d/%d/%s~~END~~", codigo, idP, resto);
+    }
+    else{
+        sprintf(respuesta, "%d/%d~~END~~", codigo, idP);
+    }
     not_movimiento(idP, respuesta, tag);
 }
 
