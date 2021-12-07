@@ -824,7 +824,10 @@ namespace cliente.Partida
             switch ((int)carta.Tipo)
             {
                 case 0:
-                    pet = "25/" + idP.ToString() + "/MADERA";
+                    Monopolio form = new Monopolio();
+                    form.ShowDialog();
+                    string recurso = form.Recurso;
+                    pet = "25/" + idP.ToString() + "/" + recurso;
                     break;
                 case 1:
                     pet = "24/" + idP.ToString();
