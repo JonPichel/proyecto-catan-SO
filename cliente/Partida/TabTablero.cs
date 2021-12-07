@@ -809,7 +809,7 @@ namespace cliente.Partida
             
             if ((int)carta.Tipo == 4)
                 return;
-
+            cartas.Remove(carta);
             pnlCartas.Controls.Remove(carta);
             for (int i = cartas.Count - 1; i >= 0; i--)
             {
