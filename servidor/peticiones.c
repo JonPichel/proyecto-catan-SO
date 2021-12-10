@@ -91,6 +91,7 @@ void not_partida_empezada(int idP, char *tag){
     sprintf(respuesta, "14/%d/", idP);
     barajar_casillas(respuesta);
     barajar_puertos(respuesta);
+    barajar_cartas(&partidas[idP]);
     // Notificar turno
     pthread_mutex_lock(&mutex_estructuras);
     partidas[idP].turno = 0;
@@ -471,16 +472,20 @@ void pet_tirar_dados(char *resto, int socket) {
 
 void pet_carta(char *resto, int socket){
     char tag[32];
+    int idP, carta;
     sprintf(tag, "THREAD %d", socket);
     
-    int idP = atoi(strtok_r(resto, "/", &resto));
+    idP = atoi(strtok_r(resto, "/", &resto));
+    if (partidas[idP].carta < 25)
+        carta = partidas[idP].cartas[partidas[idP].carta++];
+    else
+        carta = -1;
     
     char respuesta[32];
-    int num_carta = escoger_carta();
-    
-    sprintf(respuesta, "21/%d/%d~~END~~", idP, num_carta);
+    sprintf(respuesta, "21/%d/%d~~END~~", idP, carta);
     not_carta(idP, respuesta, tag);
 }
+
 void pet_usar_carta(int codigo, char *resto, int socket){
     char tag[32];
     sprintf(tag, "THREAD %d", socket);

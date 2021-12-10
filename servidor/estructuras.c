@@ -171,7 +171,10 @@ void barajar_puertos(char *asignacion) {
     asignacion[strlen(asignacion) - 1] = '\0';
 }
 
-int escoger_carta(){
-    int num = rand() % 25;      // Returns a pseudo-random integer between 0 and RAND_MAX.
-    return tipos_cartas[num];
+void barajar_cartas(partida_t *partida) {
+    for (int i = 0; i < 25; i++) {
+        partida->cartas[i] = tipos_cartas[i];
+    }
+    barajar(partida->cartas, 25);
+    partida->carta = 0;
 }

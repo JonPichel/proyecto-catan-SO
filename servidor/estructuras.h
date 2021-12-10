@@ -40,8 +40,10 @@ enum ESTADO {
 typedef struct {
     int numj;
     jugador_t jugadores[4];
-    int numturnos;          // numero de turnos
     int turno;              // a quien le toca
+    int numturnos;          // numero de turnos
+    int cartas[25];
+    int carta;
     enum ESTADO estado;
 } partida_t;
 
@@ -57,6 +59,6 @@ int part_cambio_color(partida_t *partida, char nombre[20], int color);
 
 void barajar_casillas(char *asignacion);
 void barajar_puertos(char *asignacion);
-int escoger_carta();
+void barajar_cartas(partida_t *partida);
 
 #endif /* __ESTRUCTURAS_H__ */
