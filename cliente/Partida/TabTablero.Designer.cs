@@ -57,6 +57,7 @@ namespace cliente.Partida
             this.pnlJugador2 = new cliente.Partida.PanelInfoJugador();
             this.pnlJugador3 = new cliente.Partida.PanelInfoJugador();
             this.pnlJugador4 = new cliente.Partida.PanelInfoJugador();
+            this.btnUndo = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.SuspendLayout();
@@ -252,6 +253,7 @@ namespace cliente.Partida
             this.btnCiudad.Tag = "Paja(2),Piedra(3)";
             this.btnCiudad.Text = "Ciudad";
             this.btnCiudad.UseVisualStyleBackColor = true;
+            this.btnCiudad.Click += new System.EventHandler(this.btnCiudad_Click);
             // 
             // btnComercio
             // 
@@ -354,11 +356,27 @@ namespace cliente.Partida
             this.pnlJugador4.Size = new System.Drawing.Size(195, 60);
             this.pnlJugador4.TabIndex = 13;
             // 
+            // btnUndo
+            // 
+            this.btnUndo.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btnUndo.FlatAppearance.BorderSize = 0;
+            this.btnUndo.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnUndo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnUndo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUndo.Image = ((System.Drawing.Image)(resources.GetObject("btnUndo.Image")));
+            this.btnUndo.Location = new System.Drawing.Point(752, 446);
+            this.btnUndo.Name = "btnUndo";
+            this.btnUndo.Size = new System.Drawing.Size(40, 40);
+            this.btnUndo.TabIndex = 14;
+            this.btnUndo.UseVisualStyleBackColor = false;
+            this.btnUndo.Click += new System.EventHandler(this.btnUndo_Click);
+            // 
             // TabTablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.btnUndo);
             this.Controls.Add(this.pnlJugador4);
             this.Controls.Add(this.pnlJugador3);
             this.Controls.Add(this.pnlJugador2);
@@ -414,5 +432,6 @@ namespace cliente.Partida
         private System.Windows.Forms.Label lblLadrillo;
         private System.Windows.Forms.Label lblPiedra;
         private System.Windows.Forms.Label lblMadera;
+        private System.Windows.Forms.Button btnUndo;
     }
 }

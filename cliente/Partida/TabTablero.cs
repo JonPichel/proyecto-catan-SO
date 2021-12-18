@@ -23,12 +23,15 @@ namespace cliente.Partida
 
         Tile[] tiles;
         List<FichaVertice> fichasVertices;
+        List<VerticeCoords> misPoblados;
         Puerto[] puertos;
         List<Carretera> carreteras;
         LadoCoords[] ladosTablero;
         VerticeCoords[] verticesTablero;
         LadoCoords[] ladosPosibles;
         VerticeCoords[] verticesPosibles;
+
+
 
         int zoomLevel;
         Point basePoint;
@@ -39,6 +42,7 @@ namespace cliente.Partida
             Normal,
             ClickCasilla,
             ColocarPoblado,
+            ColocarCiudad,
             ColocarCarretera,
             Comerciar
         };
@@ -236,6 +240,7 @@ namespace cliente.Partida
             this.puertos = puertos.ToArray();
             this.carreteras = new List<Carretera>();
             this.fichasVertices = new List<FichaVertice>();
+            this.misPoblados = new List<VerticeCoords>();
         }
 
         public int Madera
@@ -432,6 +437,15 @@ namespace cliente.Partida
                 }
                 e.Graphics.DrawImage(verticeColocar.Bitmap, new Rectangle(verticeColocar.VerticeToPixel(basePoint, zoomLevel), size));
             }
+            if(estado == Estado.ColocarCiudad)
+            {
+                foreach (VerticeCoords vertice in misPoblados)
+                {
+                    e.Graphics.DrawImage(cliente.Properties.Resources.VerticeContorno, new Rectangle(vertice.VerticeToPixel(basePoint, zoomLevel), size));
+                }
+                e.Graphics.DrawImage(verticeColocar.Bitmap, new Rectangle(verticeColocar.VerticeToPixel(basePoint, zoomLevel), size));
+            }
+
         }
 
         private void TabTablero_MouseWheel(object sender, MouseEventArgs e)
@@ -470,6 +484,7 @@ namespace cliente.Partida
                 {
                     case Estado.Normal:
                         oldMouse = e.Location;
+                        pnlTablero.Refresh();
                         break;
                     case Estado.ClickCasilla:
                         MessageBox.Show(HexCoords.PixelToHex(e.Location, basePoint, zoomLevel).ToString());
@@ -478,7 +493,7 @@ namespace cliente.Partida
                         if (ComprobarCarretera(carreteraColocar.Coords))
                         {
                             carreteras.Add(carreteraColocar);
-                            string pet = "20/" + idP.ToString() + "/" + carreteraColocar.Coords.R.ToString() + "," + 
+                            string pet = "20/" + idP.ToString() + "/" + carreteraColocar.Coords.R.ToString() + "," +
                                 carreteraColocar.Coords.Q.ToString() + "," + carreteraColocar.Coords.L;
                             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
@@ -488,9 +503,10 @@ namespace cliente.Partida
                         }
                         break;
                     case Estado.ColocarPoblado:
-                        if (ComprobarFichaVertice(verticeColocar.Coords))
+                        if (ComprobarFichaVertice(verticeColocar.Coords, verticesPosibles))
                         {
                             fichasVertices.Add(verticeColocar);
+                            misPoblados.Add(verticeColocar.Coords);
                             string pet = "18/" + idP.ToString() + "/" + verticeColocar.Coords.R.ToString() + "," +
                                 verticeColocar.Coords.Q.ToString() + "," + verticeColocar.Coords.V;
                             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
@@ -500,8 +516,33 @@ namespace cliente.Partida
                             estado = Estado.Normal;
                         }
                         break;
+                    case Estado.ColocarCiudad:
+                        if (ComprobarFichaVertice(verticeColocar.Coords, misPoblados.ToArray()))
+                        {
+                            foreach (FichaVertice ficha in fichasVertices)
+                            {
+                                if (ficha.Coords == verticeColocar.Coords)
+                                {
+                                    fichasVertices.Remove(ficha);
+                                    break;
+                                }
+                            }
+                            fichasVertices.Add(verticeColocar);
+                            misPoblados.Remove(verticeColocar.Coords);
+                            string pet = "19/" + idP.ToString() + "/" + verticeColocar.Coords.R.ToString() + "," +
+                                verticeColocar.Coords.Q.ToString() + "," + verticeColocar.Coords.V;
+                            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                            conn.Send(pet_b);
+                            estado = Estado.Normal;
+                        }
+                        break;
                 }
-               
+                pnlTablero.Refresh();
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                estado = Estado.Normal;
+                pnlTablero.Refresh();
             }
         }
 
@@ -528,6 +569,10 @@ namespace cliente.Partida
                     verticeColocar.Coords = VerticeCoords.PixelToVertice(e.Location, basePoint, zoomLevel);
                     pnlTablero.Refresh();
                     break;
+                case Estado.ColocarCiudad:
+                    verticeColocar.Coords = VerticeCoords.PixelToVertice(e.Location, basePoint, zoomLevel);
+                    pnlTablero.Refresh();
+                    break;
                 default:
                     return;
             }
@@ -548,7 +593,7 @@ namespace cliente.Partida
         private void btnCiudad_Click(object sender, EventArgs e)
         {
             verticeColocar = new FichaCiudad(0, 0, Vertice.Superior, this.colorJugador);
-            estado = Estado.ColocarPoblado;
+            estado = Estado.ColocarCiudad;
         }
 
         public bool ComprobarCarretera(LadoCoords coords)
@@ -560,9 +605,9 @@ namespace cliente.Partida
             }
             return false;
         }
-        public bool ComprobarFichaVertice(VerticeCoords coords)
+        public bool ComprobarFichaVertice(VerticeCoords coords, VerticeCoords[] ListaVertices)
         {
-            foreach (VerticeCoords posible in verticesPosibles)
+            foreach (VerticeCoords posible in ListaVertices)
             {
                 if (posible == coords)
                     return true;
@@ -784,6 +829,12 @@ namespace cliente.Partida
 
             Comerciar form = new Comerciar(1, 2, 0, 3, 2); //(madera, ladrillo, oveja, trigo, piedra)
             form.ShowDialog();
+        }
+
+        private void btnUndo_Click(object sender, EventArgs e)
+        {
+            estado = Estado.Normal;
+            pnlTablero.Refresh();
         }
 
         private void BtnConstruir_MouseHover(object sender, EventArgs e)
