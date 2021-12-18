@@ -35,8 +35,13 @@ namespace cliente.Menu
                 lblError.Show();
                 return;
             }
-            this.nombre = txtNombre.Text;
-            string pet = "2/" + txtNombre.Text + "," + txtPass.Text;
+            char[] letras = txtNombre.Text.ToCharArray();
+            this.nombre = Convert.ToString(letras[0]).ToUpper();
+            for (int i = 1; i < letras.Length; i++)
+            {
+                this.nombre = nombre + Convert.ToString(letras[i]).ToLower();
+            }
+            string pet = "2/" + nombre + "," + txtPass.Text;
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             this.conn.Send(pet_b);
         }

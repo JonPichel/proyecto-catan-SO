@@ -260,6 +260,7 @@ namespace cliente.Partida
             this.btnComercio.TabIndex = 9;
             this.btnComercio.Text = "Comerciar";
             this.btnComercio.UseVisualStyleBackColor = true;
+            this.btnComercio.Click += new System.EventHandler(this.btnComercio_Click);
             // 
             // pnlTablero
             // 

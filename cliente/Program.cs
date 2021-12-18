@@ -19,7 +19,7 @@ namespace cliente
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMenuPrincipal());
+            Application.Run(new FormMenuPrincipal()); 
         }
     }
 }

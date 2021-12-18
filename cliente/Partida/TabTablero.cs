@@ -769,6 +769,15 @@ namespace cliente.Partida
             }
         }
 
+        private void btnComercio_Click(object sender, EventArgs e)
+        {
+            if (this.nombre != this.turno)
+                return;
+
+            Comerciar form = new Comerciar(1, 2, 0, 3, 2); //(madera, ladrillo, oveja, trigo, piedra)
+            form.ShowDialog();
+        }
+
         private void BtnConstruir_MouseHover(object sender, EventArgs e)
         {
             Button btn = (Button)sender;

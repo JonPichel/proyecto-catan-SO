@@ -162,7 +162,7 @@
             this.btnEscoger.Size = new System.Drawing.Size(93, 23);
             this.btnEscoger.TabIndex = 3;
             this.btnEscoger.Text = "Escoger";
-            this.btnEscoger.UseVisualStyleBackColor = true;
+            this.btnEscoger.UseVisualStyleBackColor = false;
             this.btnEscoger.Click += new System.EventHandler(this.btnEscoger_Click);
             // 
             // lblDefinicion
@@ -195,7 +195,12 @@
             this.Controls.Add(this.picBoxOveja);
             this.Controls.Add(this.picBoxLadrillo);
             this.Controls.Add(this.picBoxMadera);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Monopolio";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Monopolio";
             this.Load += new System.EventHandler(this.Monopolio_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picBoxMadera)).EndInit();
