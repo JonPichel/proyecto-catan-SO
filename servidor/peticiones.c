@@ -502,3 +502,14 @@ void pet_usar_carta(int codigo, char *resto, int socket){
     not_movimiento(idP, respuesta, tag);
 }
 
+void pet_colocar(int codigo, char *resto, int socket){
+    char tag[32];
+    sprintf(tag, "THREAD %d", socket);
+    
+    int idP = atoi(strtok_r(resto, "/", &resto));
+    
+    char respuesta[64];
+    sprintf(respuesta, "%d/%d/%s~~END~~", codigo, idP, resto);
+    not_movimiento(idP, respuesta, tag);
+}
+

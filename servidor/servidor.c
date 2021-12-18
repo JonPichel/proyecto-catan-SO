@@ -168,6 +168,18 @@ void *atender_cliente(void *sock_ptr) {
             case 16:
                 pet_tirar_dados(resto, socket);
                 break;
+            case 17:
+                pet_colocar(codigo, resto, socket);
+                break;
+            case 18:
+                pet_colocar(codigo, resto, socket);
+                break;
+            case 19:
+                pet_colocar(codigo, resto, socket);
+                break;
+            case 20:
+                pet_colocar(codigo, resto, socket);
+                break;
             case 21:
                 pet_carta(resto, socket);
                 break;
