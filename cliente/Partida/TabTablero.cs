@@ -357,7 +357,7 @@ namespace cliente.Partida
 
         private void TabTablero_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.Clear(Color.Gainsboro);
+            e.Graphics.Clear(Color.PowderBlue);
 
             Bitmap bmp;
             Size size;
@@ -478,6 +478,10 @@ namespace cliente.Partida
                         if (ComprobarCarretera(carreteraColocar.Coords))
                         {
                             carreteras.Add(carreteraColocar);
+                            string pet = "20/" + idP.ToString() + "/" + carreteraColocar.Coords.R.ToString() + "," + 
+                                carreteraColocar.Coords.Q.ToString() + "," + carreteraColocar.Coords.L;
+                            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                            conn.Send(pet_b);
                             RecalcularLadosPosibles();
                             RecalcularVerticesPosibles();
                             estado = Estado.Normal;
@@ -487,6 +491,10 @@ namespace cliente.Partida
                         if (ComprobarFichaVertice(verticeColocar.Coords))
                         {
                             fichasVertices.Add(verticeColocar);
+                            string pet = "18/" + idP.ToString() + "/" + verticeColocar.Coords.R.ToString() + "," +
+                                verticeColocar.Coords.Q.ToString() + "," + verticeColocar.Coords.V;
+                            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                            conn.Send(pet_b);
                             RecalcularLadosPosibles();
                             RecalcularVerticesPosibles();
                             estado = Estado.Normal;

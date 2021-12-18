@@ -97,17 +97,17 @@ namespace cliente.Partida
             // txtChat
             // 
             this.txtChat.BackColor = System.Drawing.Color.White;
-            this.txtChat.Location = new System.Drawing.Point(4, 4);
+            this.txtChat.Location = new System.Drawing.Point(4, 1);
             this.txtChat.Name = "txtChat";
             this.txtChat.ReadOnly = true;
             this.txtChat.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.txtChat.Size = new System.Drawing.Size(213, 151);
+            this.txtChat.Size = new System.Drawing.Size(213, 186);
             this.txtChat.TabIndex = 4;
             this.txtChat.Text = "";
             // 
             // btnEnviar
             // 
-            this.btnEnviar.Location = new System.Drawing.Point(79, 190);
+            this.btnEnviar.Location = new System.Drawing.Point(157, 193);
             this.btnEnviar.Name = "btnEnviar";
             this.btnEnviar.Size = new System.Drawing.Size(60, 23);
             this.btnEnviar.TabIndex = 2;
@@ -117,10 +117,10 @@ namespace cliente.Partida
             // 
             // txtMsg
             // 
-            this.txtMsg.Location = new System.Drawing.Point(4, 161);
+            this.txtMsg.Location = new System.Drawing.Point(4, 193);
             this.txtMsg.MaxLength = 400;
             this.txtMsg.Name = "txtMsg";
-            this.txtMsg.Size = new System.Drawing.Size(213, 23);
+            this.txtMsg.Size = new System.Drawing.Size(142, 23);
             this.txtMsg.TabIndex = 0;
             this.txtMsg.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMsg_KeyPress);
             // 
@@ -130,10 +130,10 @@ namespace cliente.Partida
             this.panel3.Controls.Add(this.txtChat);
             this.panel3.Controls.Add(this.btnEnviar);
             this.panel3.Controls.Add(this.txtMsg);
-            this.panel3.Location = new System.Drawing.Point(0, 378);
+            this.panel3.Location = new System.Drawing.Point(0, 379);
             this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(223, 219);
+            this.panel3.Size = new System.Drawing.Size(223, 218);
             this.panel3.TabIndex = 2;
             // 
             // panel1
@@ -149,6 +149,7 @@ namespace cliente.Partida
             // pnlCartas
             // 
             this.pnlCartas.BackColor = System.Drawing.Color.White;
+            this.pnlCartas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlCartas.Location = new System.Drawing.Point(0, 225);
             this.pnlCartas.Name = "pnlCartas";
             this.pnlCartas.Size = new System.Drawing.Size(223, 149);
@@ -264,6 +265,8 @@ namespace cliente.Partida
             // 
             // pnlTablero
             // 
+            this.pnlTablero.BackColor = System.Drawing.Color.PowderBlue;
+            this.pnlTablero.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pnlTablero.Location = new System.Drawing.Point(229, 71);
             this.pnlTablero.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlTablero.Name = "pnlTablero";
@@ -355,7 +358,7 @@ namespace cliente.Partida
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Transparent;
+            this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.pnlJugador4);
             this.Controls.Add(this.pnlJugador3);
             this.Controls.Add(this.pnlJugador2);
