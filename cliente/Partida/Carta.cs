@@ -28,6 +28,7 @@ namespace cliente.Partida
             this.AutoSize = false;
             this.Size = cliente.Properties.Resources.CartaMonopolio.Size;
             this.Enabled = true;
+
             switch (this.Tipo)
             {
                 case TipoCarta.Monopolio:

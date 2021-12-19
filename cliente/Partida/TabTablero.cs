@@ -90,7 +90,7 @@ namespace cliente.Partida
             this.trigo = 0;
             this.piedra = 0;
             this.cartas = new List<Carta>();
-
+            
             // Construir tablero
             string[] casillas = trozos[0].Split(",");
             string[] datosPuertos = trozos[1].Split(",");
@@ -311,6 +311,9 @@ namespace cliente.Partida
 
             // Estado partida
             this.estado = Estado.Normal;
+            this.lblUndo.Parent = pnlTablero;
+            this.lblUndo.Visible = false;
+            this.lblUndo.Location = new Point(522, 375);
 
             pnlTablero.Paint += TabTablero_Paint;
             pnlTablero.MouseWheel += TabTablero_MouseWheel;
@@ -494,12 +497,13 @@ namespace cliente.Partida
                         {
                             carreteras.Add(carreteraColocar);
                             string pet = "20/" + idP.ToString() + "/" + carreteraColocar.Coords.R.ToString() + "," +
-                                carreteraColocar.Coords.Q.ToString() + "," + carreteraColocar.Coords.L;
+                                carreteraColocar.Coords.Q.ToString() + "," + (int)carreteraColocar.Coords.L;
                             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
                             RecalcularLadosPosibles();
                             RecalcularVerticesPosibles();
                             estado = Estado.Normal;
+                            this.lblUndo.Visible = false;
                         }
                         break;
                     case Estado.ColocarPoblado:
@@ -508,12 +512,13 @@ namespace cliente.Partida
                             fichasVertices.Add(verticeColocar);
                             misPoblados.Add(verticeColocar.Coords);
                             string pet = "18/" + idP.ToString() + "/" + verticeColocar.Coords.R.ToString() + "," +
-                                verticeColocar.Coords.Q.ToString() + "," + verticeColocar.Coords.V;
+                                verticeColocar.Coords.Q.ToString() + "," + (int)verticeColocar.Coords.V;
                             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
                             RecalcularLadosPosibles();
                             RecalcularVerticesPosibles();
                             estado = Estado.Normal;
+                            this.lblUndo.Visible = false;
                         }
                         break;
                     case Estado.ColocarCiudad:
@@ -530,10 +535,11 @@ namespace cliente.Partida
                             fichasVertices.Add(verticeColocar);
                             misPoblados.Remove(verticeColocar.Coords);
                             string pet = "19/" + idP.ToString() + "/" + verticeColocar.Coords.R.ToString() + "," +
-                                verticeColocar.Coords.Q.ToString() + "," + verticeColocar.Coords.V;
+                                verticeColocar.Coords.Q.ToString() + "," + (int)verticeColocar.Coords.V;
                             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
                             estado = Estado.Normal;
+                            this.lblUndo.Visible = false;
                         }
                         break;
                 }
@@ -541,6 +547,7 @@ namespace cliente.Partida
             }
             if (e.Button == MouseButtons.Right)
             {
+                this.lblUndo.Visible = false;
                 estado = Estado.Normal;
                 pnlTablero.Refresh();
             }
@@ -580,18 +587,21 @@ namespace cliente.Partida
 
         private void btnCarretera_Click(object sender, EventArgs e)
         {
+            this.lblUndo.Visible = true;
             estado = Estado.ColocarCarretera;
             carreteraColocar = new Carretera(0, 0, Lado.Oeste, this.colorJugador);
         }
 
         private void btnPoblado_Click(object sender, EventArgs e)
         {
+            this.lblUndo.Visible = true;
             verticeColocar = new FichaPoblado(0, 0, Vertice.Superior, this.colorJugador);
             estado = Estado.ColocarPoblado;
         }
 
         private void btnCiudad_Click(object sender, EventArgs e)
         {
+            this.lblUndo.Visible = true;
             verticeColocar = new FichaCiudad(0, 0, Vertice.Superior, this.colorJugador);
             estado = Estado.ColocarCiudad;
         }
@@ -622,12 +632,30 @@ namespace cliente.Partida
             {
                 if (carretera.Color != this.colorJugador)
                     continue;
+                VerticeCoords[] extremos = carretera.Coords.VerticesExtremos();
+
                 foreach (LadoCoords lado in carretera.Coords.LadosVecinos())
                 {
-                    // Comprobar que sea una posición "construible"
-                    foreach (LadoCoords posible in this.ladosTablero)
+                    bool posible = true;
+                    VerticeCoords[] extremos2 = lado.VerticesExtremos();
+                    foreach (VerticeCoords extremo in extremos)
                     {
-                        if (lado == posible)
+                        foreach (VerticeCoords extremo2 in extremos2)
+                        {
+                            if (extremo == extremo2)
+                            {
+                                foreach (FichaVertice ficha in fichasVertices)
+                                {
+                                    if (ficha.Coords == extremo && ficha.Color != this.colorJugador)
+                                        posible = false;
+                                }
+                            }
+                        }
+                    }
+                    // Comprobar que sea una posición "construible"
+                    foreach (LadoCoords opcion in this.ladosTablero)
+                    {
+                        if (lado == opcion && posible == true)
                         {
                             lados.Add(lado);
                             break;
@@ -831,8 +859,9 @@ namespace cliente.Partida
             form.ShowDialog();
         }
 
-        private void btnUndo_Click(object sender, EventArgs e)
+        private void lblUndo_Click(object sender, EventArgs e)
         {
+            this.lblUndo.Visible = false;
             estado = Estado.Normal;
             pnlTablero.Refresh();
         }
@@ -936,6 +965,45 @@ namespace cliente.Partida
                     MessageBox.Show(this.turno + " ha usado carta de desarrollo: Monopolio \n Quiere recurso: " + recurso);
                     break;
             }
+        }
+        public void Colocar(string mensaje)
+        {
+            if (this.nombre == this.turno)
+                return;
+
+            string[] trozos = mensaje.Split('/');
+            int codigo = Convert.ToInt32(trozos[0]);
+
+            ColorJugador Color = this.colorJugador;
+
+            for (int i = 0; i < nombres.Length; i++)
+            {
+                if (nombres[i] == turno)
+                    Color = colores[i];
+            }
+
+            string[] coordenadas = trozos[2].Split(',');
+
+            switch (codigo)
+            {
+                case 18:
+                    verticeColocar = new FichaPoblado(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Vertice)Convert.ToInt32(coordenadas[2]), Color);
+                    fichasVertices.Add(verticeColocar);
+                    pnlTablero.Refresh();
+                    break;
+                case 19:
+                    verticeColocar = new FichaCiudad(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Vertice)Convert.ToInt32(coordenadas[2]), Color);
+                    fichasVertices.Add(verticeColocar);
+                    pnlTablero.Refresh();
+                    break;
+                case 20:
+                    carreteraColocar = new Carretera(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Lado)Convert.ToInt32(coordenadas[2]), Color);
+                    carreteras.Add(carreteraColocar);
+                    pnlTablero.Refresh();
+                    break;
+            }
+            RecalcularLadosPosibles();
+            RecalcularVerticesPosibles();
         }
     }
 }

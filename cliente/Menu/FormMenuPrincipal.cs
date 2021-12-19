@@ -35,13 +35,12 @@ namespace cliente.Menu
         {
             // Conectar al servidor
             IPAddress addrServer = IPAddress.Parse("147.83.117.22");
-            IPEndPoint ipep = new IPEndPoint(addrServer, 50075);
+            IPEndPoint ipep = new IPEndPoint(addrServer, 50076);
 
             conn = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
             {
                 conn.Connect(ipep);
-                MessageBox.Show("Conectado");
             }
             catch (SocketException exc)
             {
@@ -201,7 +200,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 15:
-                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
                                 delegado = new DelegadoRespuestas(partidas[idP].PartidaTurno);
@@ -215,6 +214,30 @@ namespace cliente.Menu
                             {
                                 delegado = new DelegadoRespuestas(partidas[idP].TirarDados);
                                 partidas[idP].Invoke(delegado, new object[] { mensaje });
+                            }
+                            break;
+                        case 18:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].Colocar);
+                                partidas[idP].Invoke(delegado, new object[] { trozos[i] });
+                            }
+                            break;
+                        case 19:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].Colocar);
+                                partidas[idP].Invoke(delegado, new object[] { trozos[i] });
+                            }
+                            break;
+                        case 20:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].Colocar);
+                                partidas[idP].Invoke(delegado, new object[] { trozos[i] });
                             }
                             break;
                         case 21:

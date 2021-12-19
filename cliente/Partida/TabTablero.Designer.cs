@@ -57,31 +57,39 @@ namespace cliente.Partida
             this.pnlJugador2 = new cliente.Partida.PanelInfoJugador();
             this.pnlJugador3 = new cliente.Partida.PanelInfoJugador();
             this.pnlJugador4 = new cliente.Partida.PanelInfoJugador();
-            this.btnUndo = new System.Windows.Forms.Button();
+            this.lblUndo = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnPoblado
             // 
+            this.btnPoblado.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnPoblado.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnPoblado.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnPoblado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPoblado.Location = new System.Drawing.Point(545, 532);
             this.btnPoblado.Name = "btnPoblado";
             this.btnPoblado.Size = new System.Drawing.Size(70, 30);
             this.btnPoblado.TabIndex = 0;
             this.btnPoblado.Tag = "Madera,Ladrillo,Oveja,Paja";
             this.btnPoblado.Text = "Pueblo";
-            this.btnPoblado.UseVisualStyleBackColor = true;
+            this.btnPoblado.UseVisualStyleBackColor = false;
             this.btnPoblado.Click += new System.EventHandler(this.btnPoblado_Click);
             // 
             // btnCarretera
             // 
+            this.btnCarretera.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnCarretera.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnCarretera.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnCarretera.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCarretera.Location = new System.Drawing.Point(545, 497);
             this.btnCarretera.Name = "btnCarretera";
             this.btnCarretera.Size = new System.Drawing.Size(70, 30);
             this.btnCarretera.TabIndex = 1;
             this.btnCarretera.Tag = "Madera,Ladrillo";
             this.btnCarretera.Text = "Camino";
-            this.btnCarretera.UseVisualStyleBackColor = true;
+            this.btnCarretera.UseVisualStyleBackColor = false;
             this.btnCarretera.Click += new System.EventHandler(this.btnCarretera_Click);
             // 
             // button1
@@ -158,12 +166,16 @@ namespace cliente.Partida
             // 
             // btnTurno
             // 
-            this.btnTurno.Location = new System.Drawing.Point(697, 497);
+            this.btnTurno.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnTurno.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnTurno.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnTurno.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTurno.Location = new System.Drawing.Point(702, 497);
             this.btnTurno.Name = "btnTurno";
-            this.btnTurno.Size = new System.Drawing.Size(100, 100);
+            this.btnTurno.Size = new System.Drawing.Size(95, 100);
             this.btnTurno.TabIndex = 6;
             this.btnTurno.Text = "Tirar dado";
-            this.btnTurno.UseVisualStyleBackColor = true;
+            this.btnTurno.UseVisualStyleBackColor = false;
             this.btnTurno.Click += new System.EventHandler(this.btnTurno_Click);
             // 
             // panel4
@@ -246,23 +258,31 @@ namespace cliente.Partida
             // 
             // btnCiudad
             // 
+            this.btnCiudad.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnCiudad.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnCiudad.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnCiudad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCiudad.Location = new System.Drawing.Point(545, 567);
             this.btnCiudad.Name = "btnCiudad";
             this.btnCiudad.Size = new System.Drawing.Size(70, 30);
             this.btnCiudad.TabIndex = 8;
             this.btnCiudad.Tag = "Paja(2),Piedra(3)";
             this.btnCiudad.Text = "Ciudad";
-            this.btnCiudad.UseVisualStyleBackColor = true;
+            this.btnCiudad.UseVisualStyleBackColor = false;
             this.btnCiudad.Click += new System.EventHandler(this.btnCiudad_Click);
             // 
             // btnComercio
             // 
+            this.btnComercio.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnComercio.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnComercio.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnComercio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnComercio.Location = new System.Drawing.Point(621, 532);
             this.btnComercio.Name = "btnComercio";
-            this.btnComercio.Size = new System.Drawing.Size(70, 65);
+            this.btnComercio.Size = new System.Drawing.Size(75, 65);
             this.btnComercio.TabIndex = 9;
             this.btnComercio.Text = "Comerciar";
-            this.btnComercio.UseVisualStyleBackColor = true;
+            this.btnComercio.UseVisualStyleBackColor = false;
             this.btnComercio.Click += new System.EventHandler(this.btnComercio_Click);
             // 
             // pnlTablero
@@ -287,13 +307,17 @@ namespace cliente.Partida
             // 
             // btnDesarrollo
             // 
+            this.btnDesarrollo.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnDesarrollo.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btnDesarrollo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnDesarrollo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDesarrollo.Location = new System.Drawing.Point(621, 497);
             this.btnDesarrollo.Name = "btnDesarrollo";
-            this.btnDesarrollo.Size = new System.Drawing.Size(70, 30);
+            this.btnDesarrollo.Size = new System.Drawing.Size(75, 30);
             this.btnDesarrollo.TabIndex = 12;
             this.btnDesarrollo.Tag = "Oveja,Paja,Piedra";
             this.btnDesarrollo.Text = "Carta";
-            this.btnDesarrollo.UseVisualStyleBackColor = true;
+            this.btnDesarrollo.UseVisualStyleBackColor = false;
             this.btnDesarrollo.Click += new System.EventHandler(this.btnDesarrollo_Click);
             // 
             // pnlJugador1
@@ -356,27 +380,22 @@ namespace cliente.Partida
             this.pnlJugador4.Size = new System.Drawing.Size(195, 60);
             this.pnlJugador4.TabIndex = 13;
             // 
-            // btnUndo
+            // lblUndo
             // 
-            this.btnUndo.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.btnUndo.FlatAppearance.BorderSize = 0;
-            this.btnUndo.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.btnUndo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.btnUndo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUndo.Image = ((System.Drawing.Image)(resources.GetObject("btnUndo.Image")));
-            this.btnUndo.Location = new System.Drawing.Point(752, 446);
-            this.btnUndo.Name = "btnUndo";
-            this.btnUndo.Size = new System.Drawing.Size(40, 40);
-            this.btnUndo.TabIndex = 14;
-            this.btnUndo.UseVisualStyleBackColor = false;
-            this.btnUndo.Click += new System.EventHandler(this.btnUndo_Click);
+            this.lblUndo.BackColor = System.Drawing.Color.Transparent;
+            this.lblUndo.Image = ((System.Drawing.Image)(resources.GetObject("lblUndo.Image")));
+            this.lblUndo.Location = new System.Drawing.Point(752, 446);
+            this.lblUndo.Name = "lblUndo";
+            this.lblUndo.Size = new System.Drawing.Size(40, 40);
+            this.lblUndo.TabIndex = 16;
+            this.lblUndo.Click += new System.EventHandler(this.lblUndo_Click);
             // 
             // TabTablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.btnUndo);
+            this.Controls.Add(this.lblUndo);
             this.Controls.Add(this.pnlJugador4);
             this.Controls.Add(this.pnlJugador3);
             this.Controls.Add(this.pnlJugador2);
@@ -432,6 +451,6 @@ namespace cliente.Partida
         private System.Windows.Forms.Label lblLadrillo;
         private System.Windows.Forms.Label lblPiedra;
         private System.Windows.Forms.Label lblMadera;
-        private System.Windows.Forms.Button btnUndo;
+        private System.Windows.Forms.Label lblUndo;
     }
 }
