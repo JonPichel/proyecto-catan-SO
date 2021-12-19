@@ -46,6 +46,7 @@ void inicializar_partidas(partida_t partidas[MAX_PART]) {
     for (int i = 0; i < MAX_PART; i++) {
         partidas[i].estado = VACIA;
         partidas[i].numj = 0;
+        partidas[i].numturnos = 1;
     }
 }
 
