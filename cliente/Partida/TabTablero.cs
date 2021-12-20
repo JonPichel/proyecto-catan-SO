@@ -68,6 +68,7 @@ namespace cliente.Partida
         };
 
         PanelInfoJugador[] paneles;
+        PanelInfoJugador panelActualizar;
 
         // Recursos en tu poder
         int madera, ladrillo, oveja, trigo, piedra;
@@ -353,6 +354,7 @@ namespace cliente.Partida
                     paneles[i].Hide();
                 }
             }
+            this.panelActualizar = new PanelInfoJugador();
 
             //Recursos 
             Madera = 0;
@@ -504,6 +506,7 @@ namespace cliente.Partida
                             RecalcularVerticesPosibles();
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
+                            panelActualizar.Caballeros = panelActualizar.Caballeros + 1;
                         }
                         break;
                     case Estado.ColocarPoblado:
@@ -519,6 +522,7 @@ namespace cliente.Partida
                             RecalcularVerticesPosibles();
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
+                            panelActualizar.Puntos = panelActualizar.Puntos + 1;
                         }
                         break;
                     case Estado.ColocarCiudad:
@@ -540,6 +544,7 @@ namespace cliente.Partida
                             conn.Send(pet_b);
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
+                            panelActualizar.Puntos = panelActualizar.Puntos + 1;
                         }
                         break;
                 }
@@ -773,6 +778,11 @@ namespace cliente.Partida
                 btnTurno.Tag = "DADOS";
                 btnTurno.Enabled = true;
             }
+            foreach (PanelInfoJugador panel in paneles)
+            {
+                if (panel.Nombre == this.turno)
+                    panelActualizar = panel;
+            }
         }
         public void TirarDados(string dados)
         {
@@ -874,7 +884,13 @@ namespace cliente.Partida
 
         public void ComprarCarta(string mensaje)
         {
-            if (this.nombre != this.turno)
+            foreach (PanelInfoJugador panel in paneles)
+            {
+                if (panel.Nombre == this.turno)
+                    panel.Desarrollo = panel.Desarrollo + 1;
+            }
+
+            if (this.nombre != this.turno) 
                 return;
 
             Carta carta = new Carta((Carta.TipoCarta)Convert.ToInt32(mensaje));
@@ -931,6 +947,7 @@ namespace cliente.Partida
                     break;
                 case 2:
                     pet = "22/" + idP.ToString();
+                    panelActualizar.Caballeros = panelActualizar.Caballeros + 1;
                     break;
                 case 3:
                     pet = "23/" + idP.ToString();
@@ -943,16 +960,19 @@ namespace cliente.Partida
         }
         public void UsarCarta(string mensaje)
         {
+            panelActualizar.Desarrollo = panelActualizar.Desarrollo + 1;
             if (this.nombre == this.turno)
                 return;
                 
             string[] trozos = mensaje.Split('/');
             int codigo = Convert.ToInt32(trozos[0]);
-            
+
             switch (codigo)
             {
                 case 22:
                     MessageBox.Show(this.turno + " ha usado carta de desarrollo: Caballero");
+                    panelActualizar.Caballeros = panelActualizar.Caballeros + 1;
+
                     break;
                 case 23:
                     MessageBox.Show(this.turno + " ha usado carta de desarrollo: Carreteras" );
@@ -979,7 +999,7 @@ namespace cliente.Partida
             for (int i = 0; i < nombres.Length; i++)
             {
                 if (nombres[i] == turno)
-                    Color = colores[i];
+                    Color = colores[i]; 
             }
 
             string[] coordenadas = trozos[2].Split(',');
@@ -990,16 +1010,19 @@ namespace cliente.Partida
                     verticeColocar = new FichaPoblado(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Vertice)Convert.ToInt32(coordenadas[2]), Color);
                     fichasVertices.Add(verticeColocar);
                     pnlTablero.Refresh();
+                    panelActualizar.Puntos = panelActualizar.Puntos + 1;
                     break;
                 case 19:
                     verticeColocar = new FichaCiudad(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Vertice)Convert.ToInt32(coordenadas[2]), Color);
                     fichasVertices.Add(verticeColocar);
                     pnlTablero.Refresh();
+                    panelActualizar.Puntos = panelActualizar.Puntos + 1;
                     break;
                 case 20:
                     carreteraColocar = new Carretera(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Lado)Convert.ToInt32(coordenadas[2]), Color);
                     carreteras.Add(carreteraColocar);
                     pnlTablero.Refresh();
+                    panelActualizar.Carreteras = panelActualizar.Carreteras + 1;
                     break;
             }
             RecalcularLadosPosibles();
