@@ -45,7 +45,7 @@ namespace cliente.Partida
             this.lblCaballeros.Image = ((System.Drawing.Image)(resources.GetObject("lblCaballeros.Image")));
             this.lblCaballeros.Location = new System.Drawing.Point(3, 26);
             this.lblCaballeros.Name = "lblCaballeros";
-            this.lblCaballeros.Size = new System.Drawing.Size(30, 30);
+            this.lblCaballeros.Size = new System.Drawing.Size(39, 30);
             this.lblCaballeros.TabIndex = 5;
             this.lblCaballeros.Text = "0";
             this.lblCaballeros.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -57,7 +57,7 @@ namespace cliente.Partida
             this.lblCarreteras.Image = ((System.Drawing.Image)(resources.GetObject("lblCarreteras.Image")));
             this.lblCarreteras.Location = new System.Drawing.Point(39, 26);
             this.lblCarreteras.Name = "lblCarreteras";
-            this.lblCarreteras.Size = new System.Drawing.Size(30, 30);
+            this.lblCarreteras.Size = new System.Drawing.Size(37, 30);
             this.lblCarreteras.TabIndex = 6;
             this.lblCarreteras.Text = "0";
             this.lblCarreteras.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -69,7 +69,7 @@ namespace cliente.Partida
             this.lblRecursos.Image = ((System.Drawing.Image)(resources.GetObject("lblRecursos.Image")));
             this.lblRecursos.Location = new System.Drawing.Point(75, 26);
             this.lblRecursos.Name = "lblRecursos";
-            this.lblRecursos.Size = new System.Drawing.Size(30, 30);
+            this.lblRecursos.Size = new System.Drawing.Size(37, 30);
             this.lblRecursos.TabIndex = 7;
             this.lblRecursos.Text = "0";
             this.lblRecursos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -81,7 +81,7 @@ namespace cliente.Partida
             this.lblDesarrollo.Image = ((System.Drawing.Image)(resources.GetObject("lblDesarrollo.Image")));
             this.lblDesarrollo.Location = new System.Drawing.Point(111, 26);
             this.lblDesarrollo.Name = "lblDesarrollo";
-            this.lblDesarrollo.Size = new System.Drawing.Size(30, 30);
+            this.lblDesarrollo.Size = new System.Drawing.Size(39, 30);
             this.lblDesarrollo.TabIndex = 8;
             this.lblDesarrollo.Text = "0";
             this.lblDesarrollo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -91,9 +91,9 @@ namespace cliente.Partida
             this.lblPuntos.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblPuntos.ForeColor = System.Drawing.Color.White;
             this.lblPuntos.Image = ((System.Drawing.Image)(resources.GetObject("lblPuntos.Image")));
-            this.lblPuntos.Location = new System.Drawing.Point(147, 11);
+            this.lblPuntos.Location = new System.Drawing.Point(144, 11);
             this.lblPuntos.Name = "lblPuntos";
-            this.lblPuntos.Size = new System.Drawing.Size(45, 45);
+            this.lblPuntos.Size = new System.Drawing.Size(48, 45);
             this.lblPuntos.TabIndex = 9;
             this.lblPuntos.Text = "0";
             this.lblPuntos.TextAlign = System.Drawing.ContentAlignment.TopCenter;

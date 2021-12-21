@@ -16,6 +16,7 @@ namespace cliente.Partida
         int idP;
         string nombre;
         string turno;
+        int numturnos;
         public override ColorJugador colorJugador { get; set; }
 
         public string[] nombres { get; set; }
@@ -315,6 +316,7 @@ namespace cliente.Partida
             this.lblUndo.Parent = pnlTablero;
             this.lblUndo.Visible = false;
             this.lblUndo.Location = new Point(522, 375);
+            this.numturnos = 0;
 
             pnlTablero.Paint += TabTablero_Paint;
             pnlTablero.MouseWheel += TabTablero_MouseWheel;
@@ -506,7 +508,37 @@ namespace cliente.Partida
                             RecalcularVerticesPosibles();
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
-                            panelActualizar.Caballeros = panelActualizar.Caballeros + 1;
+                            panelActualizar.Carreteras = panelActualizar.Carreteras + 1;
+                            if (numturnos < nombres.Length)
+                            {
+                                btnCarretera.Enabled = false;
+                                btnTurno.Text = "Acabar turno";
+                                btnTurno.Tag = "ACABAR";
+                                btnTurno.Enabled = true;
+                            }
+                            else if (numturnos == nombres.Length)
+                            {
+                                btnCarretera.Enabled = false;
+                                btnPoblado.Enabled = true;
+                            }
+                            else if ((numturnos > nombres.Length) && (numturnos < (nombres.Length * 2 - 1)))
+                            {
+                                btnCarretera.Enabled = false;
+                                btnTurno.Text = "Acabar turno";
+                                btnTurno.Tag = "ACABAR";
+                                btnTurno.Enabled = true;
+                            }
+                            else if (numturnos == (nombres.Length * 2 - 1))
+                            {
+                                btnCarretera.Enabled = true;
+                                btnPoblado.Enabled = true;
+                                btnCiudad.Enabled = true;
+                                btnDesarrollo.Enabled = true;
+                                btnComercio.Enabled = true;
+                                btnTurno.Text = "Tirar dados";
+                                btnTurno.Tag = "DADOS";
+                                btnTurno.Enabled = true;
+                            }
                         }
                         break;
                     case Estado.ColocarPoblado:
@@ -523,6 +555,11 @@ namespace cliente.Partida
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
                             panelActualizar.Puntos = panelActualizar.Puntos + 1;
+                            if (numturnos < nombres.Length*2 )
+                            {
+                                btnCarretera.Enabled = true;
+                                btnPoblado.Enabled = false;
+                            }
                         }
                         break;
                     case Estado.ColocarCiudad:
@@ -767,16 +804,22 @@ namespace cliente.Partida
         {
             lblTurno.Text = "Turno: " + nombre;
             this.turno = nombre;
+            this.numturnos = numturnos + 1;
             if (turno == this.nombre)
             {
-                btnCarretera.Enabled = true;
-                btnPoblado.Enabled = true;
-                btnCiudad.Enabled = true;
-                btnDesarrollo.Enabled = true;
-                btnComercio.Enabled = true;
-                btnTurno.Text = "Tirar dados";
-                btnTurno.Tag = "DADOS";
-                btnTurno.Enabled = true;
+                if (numturnos < nombres.Length * 2)
+                    btnPoblado.Enabled = true;
+                else
+                {
+                    btnCarretera.Enabled = true;
+                    btnPoblado.Enabled = true;
+                    btnCiudad.Enabled = true;
+                    btnDesarrollo.Enabled = true;
+                    btnComercio.Enabled = true;
+                    btnTurno.Text = "Tirar dados";
+                    btnTurno.Tag = "DADOS";
+                    btnTurno.Enabled = true;
+                }
             }
             foreach (PanelInfoJugador panel in paneles)
             {
@@ -883,12 +926,8 @@ namespace cliente.Partida
         }
 
         public void ComprarCarta(string mensaje)
-        {
-            foreach (PanelInfoJugador panel in paneles)
-            {
-                if (panel.Nombre == this.turno)
-                    panel.Desarrollo = panel.Desarrollo + 1;
-            }
+        { 
+            panelActualizar.Desarrollo = panelActualizar.Desarrollo + 1;
 
             if (this.nombre != this.turno) 
                 return;
@@ -960,7 +999,7 @@ namespace cliente.Partida
         }
         public void UsarCarta(string mensaje)
         {
-            panelActualizar.Desarrollo = panelActualizar.Desarrollo + 1;
+            panelActualizar.Desarrollo = panelActualizar.Desarrollo - 1;
             if (this.nombre == this.turno)
                 return;
                 
