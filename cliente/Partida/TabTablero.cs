@@ -17,6 +17,7 @@ namespace cliente.Partida
         string nombre;
         string turno;
         int numturnos;
+        int numJugadores;
         public override ColorJugador colorJugador { get; set; }
 
         public string[] nombres { get; set; }
@@ -337,10 +338,10 @@ namespace cliente.Partida
 
             // Paneles
             this.paneles = new PanelInfoJugador[] { pnlJugador1, pnlJugador2, pnlJugador3, pnlJugador4 };
-            
+            this.numJugadores = nombres.Length;
             for (int i = 0; i < 4; i++)
             {
-                if (i < nombres.Length)
+                if (i < numJugadores)
                 {
                     paneles[i].Nombre = nombres[i];
                     paneles[i].Color = colores[i];
@@ -509,35 +510,14 @@ namespace cliente.Partida
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
                             panelActualizar.Carreteras = panelActualizar.Carreteras + 1;
-                            if (numturnos < nombres.Length)
+                            if (numturnos <= (numJugadores*2))
                             {
                                 btnCarretera.Enabled = false;
-                                btnTurno.Text = "Acabar turno";
-                                btnTurno.Tag = "ACABAR";
-                                btnTurno.Enabled = true;
-                            }
-                            else if (numturnos == nombres.Length)
-                            {
-                                btnCarretera.Enabled = false;
-                                btnPoblado.Enabled = true;
-                            }
-                            else if ((numturnos > nombres.Length) && (numturnos < (nombres.Length * 2 - 1)))
-                            {
-                                btnCarretera.Enabled = false;
-                                btnTurno.Text = "Acabar turno";
-                                btnTurno.Tag = "ACABAR";
-                                btnTurno.Enabled = true;
-                            }
-                            else if (numturnos == (nombres.Length * 2 - 1))
-                            {
-                                btnCarretera.Enabled = true;
-                                btnPoblado.Enabled = true;
-                                btnCiudad.Enabled = true;
-                                btnDesarrollo.Enabled = true;
-                                btnComercio.Enabled = true;
-                                btnTurno.Text = "Tirar dados";
-                                btnTurno.Tag = "DADOS";
-                                btnTurno.Enabled = true;
+
+                                //Peticion acabar turno automatica
+                                pet = "15/" + idP.ToString();
+                                pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                                conn.Send(pet_b);
                             }
                         }
                         break;
@@ -555,10 +535,10 @@ namespace cliente.Partida
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
                             panelActualizar.Puntos = panelActualizar.Puntos + 1;
-                            if (numturnos < nombres.Length*2 )
+                            if (numturnos <= (numJugadores*2))
                             {
-                                btnCarretera.Enabled = true;
                                 btnPoblado.Enabled = false;
+                                btnCarretera.Enabled = true;
                             }
                         }
                         break;
@@ -670,58 +650,80 @@ namespace cliente.Partida
         public void RecalcularLadosPosibles()
         {
             List<LadoCoords> lados = new List<LadoCoords>();
-            foreach (Carretera carretera in carreteras)
+            if (numturnos > numJugadores * 2)
             {
-                if (carretera.Color != this.colorJugador)
-                    continue;
-                VerticeCoords[] extremos = carretera.Coords.VerticesExtremos();
-
-                foreach (LadoCoords lado in carretera.Coords.LadosVecinos())
+                foreach (Carretera carretera in carreteras)
                 {
-                    bool posible = true;
-                    VerticeCoords[] extremos2 = lado.VerticesExtremos();
-                    foreach (VerticeCoords extremo in extremos)
+                    if (carretera.Color != this.colorJugador)
+                        continue;
+                    VerticeCoords[] extremos = carretera.Coords.VerticesExtremos();
+
+                    foreach (LadoCoords lado in carretera.Coords.LadosVecinos())
                     {
-                        foreach (VerticeCoords extremo2 in extremos2)
+                        bool posible = true;
+                        VerticeCoords[] extremos2 = lado.VerticesExtremos();
+                        foreach (VerticeCoords extremo in extremos)
                         {
-                            if (extremo == extremo2)
+                            foreach (VerticeCoords extremo2 in extremos2)
                             {
-                                foreach (FichaVertice ficha in fichasVertices)
+                                if (extremo == extremo2)
                                 {
-                                    if (ficha.Coords == extremo && ficha.Color != this.colorJugador)
-                                        posible = false;
+                                    foreach (FichaVertice ficha in fichasVertices)
+                                    {
+                                        if (ficha.Coords == extremo && ficha.Color != this.colorJugador)
+                                            posible = false;
+                                    }
                                 }
                             }
                         }
-                    }
-                    // Comprobar que sea una posición "construible"
-                    foreach (LadoCoords opcion in this.ladosTablero)
-                    {
-                        if (lado == opcion && posible == true)
+                        // Comprobar que sea una posición "construible"
+                        foreach (LadoCoords opcion in this.ladosTablero)
                         {
-                            lados.Add(lado);
-                            break;
+                            if (lado == opcion && posible == true)
+                            {
+                                lados.Add(lado);
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            foreach (FichaVertice ficha in fichasVertices)
-            {
-                if (ficha.Color != this.colorJugador)
-                    continue;
-                foreach (LadoCoords lado in ficha.Coords.LadosVecinos())
+                foreach (FichaVertice ficha in fichasVertices)
                 {
-                    // Comprobar que sea una posición "construible"
-                    foreach (LadoCoords posible in this.ladosTablero)
+                    if (ficha.Color != this.colorJugador)
+                        continue;
+                    foreach (LadoCoords lado in ficha.Coords.LadosVecinos())
                     {
-                        if (lado == posible)
+                        // Comprobar que sea una posición "construible"
+                        foreach (LadoCoords posible in this.ladosTablero)
                         {
-                            lados.Add(lado);
-                            break;
+                            if (lado == posible)
+                            {
+                                lados.Add(lado);
+                                break;
+                            }
                         }
                     }
                 }
             }
+            else
+            {
+                if (numturnos > 0)
+                {
+                    foreach (LadoCoords lado in fichasVertices.Last().Coords.LadosVecinos())
+                    {
+                        // Comprobar que sea una posición "construible"
+                        foreach (LadoCoords posible in this.ladosTablero)
+                        {
+                            if (lado == posible)
+                            {
+                                lados.Add(lado);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
             lados = lados.Distinct().ToList();
             foreach (Carretera carretera in carreteras)
             {
@@ -807,7 +809,7 @@ namespace cliente.Partida
             this.numturnos = numturnos + 1;
             if (turno == this.nombre)
             {
-                if (numturnos < nombres.Length * 2)
+                if (numturnos <= (numJugadores * 2))
                     btnPoblado.Enabled = true;
                 else
                 {
@@ -1035,7 +1037,7 @@ namespace cliente.Partida
 
             ColorJugador Color = this.colorJugador;
 
-            for (int i = 0; i < nombres.Length; i++)
+            for (int i = 0; i < numJugadores; i++)
             {
                 if (nombres[i] == turno)
                     Color = colores[i]; 
