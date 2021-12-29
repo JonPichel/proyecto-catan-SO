@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Linq;
 using System.Net.Sockets;
+using System.Resources;
 
 namespace cliente.Partida
 {
@@ -18,6 +19,8 @@ namespace cliente.Partida
         string turno;
         int numturnos;
         int numJugadores;
+        int sumadados;
+
         public override ColorJugador colorJugador { get; set; }
 
         public string[] nombres { get; set; }
@@ -317,6 +320,8 @@ namespace cliente.Partida
             this.lblUndo.Parent = pnlTablero;
             this.lblUndo.Visible = false;
             this.lblUndo.Location = new Point(522, 375);
+            //this.lblDado1.Parent = pnlTablero;
+            //this.lblDado2.Parent = pnlTablero;
             this.numturnos = 0;
 
             pnlTablero.Paint += TabTablero_Paint;
@@ -360,8 +365,8 @@ namespace cliente.Partida
             this.panelActualizar = new PanelInfoJugador();
 
             //Recursos 
-            Madera = 0;
-            Ladrillo = 0;
+            Madera = 2;
+            Ladrillo = 2;
             Oveja = 0;
             Trigo = 0;
             Piedra = 0;
@@ -519,6 +524,12 @@ namespace cliente.Partida
                                 pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                                 conn.Send(pet_b);
                             }
+                            else
+                            {
+                                madera--;
+                                ladrillo--;
+                                RefreshBotones();
+                            }
                         }
                         break;
                     case Estado.ColocarPoblado:
@@ -539,6 +550,14 @@ namespace cliente.Partida
                             {
                                 btnPoblado.Enabled = false;
                                 btnCarretera.Enabled = true;
+                            }
+                            else
+                            {
+                                madera--;
+                                ladrillo--;
+                                oveja--;
+                                trigo--;                                
+                                RefreshBotones();                                
                             }
                         }
                         break;
@@ -562,6 +581,9 @@ namespace cliente.Partida
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
                             panelActualizar.Puntos = panelActualizar.Puntos + 1;
+                            trigo -= 2;
+                            piedra -= 3;
+                            RefreshBotones();
                         }
                         break;
                 }
@@ -813,22 +835,58 @@ namespace cliente.Partida
                     btnPoblado.Enabled = true;
                 else
                 {
-                    btnCarretera.Enabled = true;
-                    btnPoblado.Enabled = true;
-                    btnCiudad.Enabled = true;
-                    btnDesarrollo.Enabled = true;
-                    btnComercio.Enabled = true;
+                    btnCiudad.Enabled = false;
+                    btnCarretera.Enabled = false;
+                    btnPoblado.Enabled = false;
+                    btnComercio.Enabled = false;
+                    btnDesarrollo.Enabled = false;
+                    btnTurno.Enabled = true;
                     btnTurno.Text = "Tirar dados";
                     btnTurno.Tag = "DADOS";
-                    btnTurno.Enabled = true;
                 }
             }
             foreach (PanelInfoJugador panel in paneles)
             {
                 if (panel.Nombre == this.turno)
+                {
                     panelActualizar = panel;
+                    panel.BorderStyle = BorderStyle.Fixed3D;
+                }
+                else
+                    panel.BorderStyle = BorderStyle.None;
             }
         }
+
+        public void RefreshBotones()
+        {
+            // Comprobar construir carretera
+            if (madera < 1 || ladrillo < 1)
+                btnCarretera.Enabled = false;
+            else
+                btnCarretera.Enabled = true;
+
+            // Comprobar construir poblado
+            if (madera < 1 || ladrillo < 1 || trigo < 1 || oveja < 1)
+                btnPoblado.Enabled = false;
+            else
+                btnPoblado.Enabled = true;
+
+            // Comprobar contruir ciudad
+            if (trigo < 2 || piedra < 3)
+                btnCiudad.Enabled = false;
+            else
+                btnCiudad.Enabled = true;
+
+            // Comprobar comprar carta
+            if (trigo < 1 || oveja < 1 || piedra < 1)
+                btnDesarrollo.Enabled = false;
+            else
+                btnDesarrollo.Enabled = true;
+
+            btnComercio.Enabled = true;            
+            btnTurno.Enabled = true;
+        }
+
         public void TirarDados(string dados)
         {
             string[] valores = dados.Split(",");
@@ -836,25 +894,25 @@ namespace cliente.Partida
             int dado2 = Convert.ToInt32(valores[1]);
             if (this.turno == this.nombre)
             {
+                RefreshBotones();
                 btnTurno.Text = "Acabar turno";
-                btnTurno.Tag = "ACABAR";
-                btnTurno.Enabled = true;
-                btnCarretera.Enabled = true;
-                btnPoblado.Enabled = true;
-                btnCiudad.Enabled = true;
-                btnDesarrollo.Enabled = true;
-                btnComercio.Enabled = true;
+                btnTurno.Tag = "ACABAR";                
 
             }
             //Animación dados y repartir recursos
-            MessageBox.Show(turno + ": " + dados);
+            this.sumadados = dado1 + dado2;
+            MessageBox.Show(turno + ": " + sumadados.ToString());
+
+            string dado1location = "Dado" + dado1.ToString();
+            string dado2location = "Dado" + dado2.ToString();
+
+            lblDado1.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado1location), new Size(40, 40));
+            lblDado2.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado2location), new Size(40, 40));
+
         }
 
         private void btnDesarrollo_Click(object sender, EventArgs e)
         {
-            //if (oveja < 1 || trigo < 1 || piedra < 1)
-            //    return;
-
             oveja--;
             trigo--;
             piedra--;

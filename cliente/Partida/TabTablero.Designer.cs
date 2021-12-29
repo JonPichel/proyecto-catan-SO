@@ -58,6 +58,8 @@ namespace cliente.Partida
             this.pnlJugador3 = new cliente.Partida.PanelInfoJugador();
             this.pnlJugador4 = new cliente.Partida.PanelInfoJugador();
             this.lblUndo = new System.Windows.Forms.Label();
+            this.lblDado1 = new System.Windows.Forms.Label();
+            this.lblDado2 = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.SuspendLayout();
@@ -390,11 +392,30 @@ namespace cliente.Partida
             this.lblUndo.TabIndex = 16;
             this.lblUndo.Click += new System.EventHandler(this.lblUndo_Click);
             // 
+            // lblDado1
+            // 
+            this.lblDado1.BackColor = System.Drawing.Color.Transparent;
+            this.lblDado1.Location = new System.Drawing.Point(236, 444);
+            this.lblDado1.Name = "lblDado1";
+            this.lblDado1.Size = new System.Drawing.Size(40, 40);
+            this.lblDado1.TabIndex = 17;
+            // 
+            // lblDado2
+            // 
+            this.lblDado2.BackColor = System.Drawing.Color.Transparent;
+            this.lblDado2.Location = new System.Drawing.Point(282, 444);
+            this.lblDado2.Name = "lblDado2";
+            this.lblDado2.Size = new System.Drawing.Size(40, 40);
+            this.lblDado2.TabIndex = 16;
+            this.lblDado2.Click += new System.EventHandler(this.lblUndo_Click);
+            // 
             // TabTablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.lblDado2);
+            this.Controls.Add(this.lblDado1);
             this.Controls.Add(this.lblUndo);
             this.Controls.Add(this.pnlJugador4);
             this.Controls.Add(this.pnlJugador3);
@@ -452,5 +473,7 @@ namespace cliente.Partida
         private System.Windows.Forms.Label lblPiedra;
         private System.Windows.Forms.Label lblMadera;
         private System.Windows.Forms.Label lblUndo;
+        private System.Windows.Forms.Label lblDado1;
+        private System.Windows.Forms.Label lblDado2;
     }
 }
