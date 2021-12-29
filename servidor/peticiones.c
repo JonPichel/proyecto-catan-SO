@@ -94,8 +94,8 @@ void not_partida_empezada(int idP, char *tag){
     barajar_cartas(&partidas[idP]);
     // Notificar turno
     pthread_mutex_lock(&mutex_estructuras);
-    partidas[idP].turno = partidas[idP].numj - 1;
-    int turno = partidas[idP].numj - 1;
+    partidas[idP].turno = 0;
+    int turno = 0;
     pthread_mutex_unlock(&mutex_estructuras);
     sprintf(respuesta, "%s~~END~~15/%d/%s~~END~~", respuesta, idP, partidas[idP].jugadores[turno].nombre);
     for (int i = 0; i < partidas[idP].numj; i++) {
@@ -451,15 +451,18 @@ void pet_acabar_turno(char *resto, int socket) {
     int idP = atoi(strtok_r(resto, "/", &resto));
     printf("%d,%d\n",partidas[idP].turno,partidas[idP].numturnos);
 
-    if (partidas[idP].numturnos < partidas[idP].numj){
+    if ((partidas[idP].numturnos < partidas[idP].numj) || (partidas[idP].numturnos > partidas[idP].numj*2)){
         pthread_mutex_lock(&mutex_estructuras);
-        partidas[idP].turno = (partidas[idP].turno - 1);
+        partidas[idP].turno = (partidas[idP].turno + 1) % partidas[idP].numj;
         Turno = partidas[idP].turno;
         pthread_mutex_unlock(&mutex_estructuras);
     }
+    else if ((partidas[idP].numturnos == partidas[idP].numj) || (partidas[idP].numturnos == partidas[idP].numj*2)){
+        Turno = partidas[idP].turno;
+    }
     else{
         pthread_mutex_lock(&mutex_estructuras);
-        partidas[idP].turno = (partidas[idP].turno + 1) % partidas[idP].numj;
+        partidas[idP].turno = (partidas[idP].turno - 1);
         Turno = partidas[idP].turno;
         pthread_mutex_unlock(&mutex_estructuras);
     }
