@@ -172,6 +172,7 @@ namespace cliente.Menu
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "TabLogin";
+            this.Size = new System.Drawing.Size(750, 550);
             this.Load += new System.EventHandler(this.TabLogin_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

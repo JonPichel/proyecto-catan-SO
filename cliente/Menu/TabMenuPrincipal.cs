@@ -28,18 +28,23 @@ namespace cliente.Menu
 
         private void TabMenuPrincipal_Load(object sender, EventArgs e)
         {
-            dataGridPartidas.BackgroundColor = Color.FromArgb(213, 79, 10);
             dataGridPartidas.RowHeadersVisible = false;
             dataGridPartidas.Columns.Add("ID", "ID");
             dataGridPartidas.Columns.Add("Posición", "Posición");
             dataGridPartidas.Columns.Add("Puntos", "Puntos");
             dataGridPartidas.Columns.Add("Fecha y Hora", "Fecha y Hora");
             dataGridPartidas.Columns.Add("Duración", "Duración");
+            dataGridPartidas.RowsDefaultCellStyle.SelectionBackColor = Color.Transparent;
+            dataGridPartidas.RowsDefaultCellStyle.SelectionForeColor = Color.Black;
             dataGridPartidas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
 
             dataGridJugadores.RowHeadersVisible = false;
-            dataGridJugadores.Columns.Add("Nombre", "Nombre");
-            dataGridJugadores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dataGridJugadores.RowsDefaultCellStyle.SelectionBackColor = Color.Transparent;
+            dataGridJugadores.RowsDefaultCellStyle.SelectionForeColor = Color.Black;
+            dataGridJugadores.ColumnHeadersVisible = false;
+            dataGridJugadores.Columns.Add("Nombre","Nombre");
+            dataGridJugadores.Columns[0].Width = dataGridJugadores.Width;
+            dataGridJugadores.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
         private void btnPartidas_Click(object sender, EventArgs e)

@@ -320,8 +320,10 @@ namespace cliente.Partida
             this.lblUndo.Parent = pnlTablero;
             this.lblUndo.Visible = false;
             this.lblUndo.Location = new Point(522, 375);
-            //this.lblDado1.Parent = pnlTablero;
-            //this.lblDado2.Parent = pnlTablero;
+            this.lblDado1.Parent = pnlTablero;
+            this.lblDado1.Location = new Point(10, 375);
+            this.lblDado2.Parent = pnlTablero;
+            this.lblDado2.Location = new Point(60, 375);
             this.numturnos = 0;
 
             pnlTablero.Paint += TabTablero_Paint;
@@ -829,6 +831,10 @@ namespace cliente.Partida
             lblTurno.Text = "Turno: " + nombre;
             this.turno = nombre;
             this.numturnos = numturnos + 1;
+            if(fichasVertices.Count != 0)
+            {
+                RecalcularLadosPosibles();
+            }
             if (turno == this.nombre)
             {
                 if (numturnos <= (numJugadores * 2))
@@ -901,7 +907,6 @@ namespace cliente.Partida
             }
             //Animación dados y repartir recursos
             this.sumadados = dado1 + dado2;
-            MessageBox.Show(turno + ": " + sumadados.ToString());
 
             string dado1location = "Dado" + dado1.ToString();
             string dado2location = "Dado" + dado2.ToString();

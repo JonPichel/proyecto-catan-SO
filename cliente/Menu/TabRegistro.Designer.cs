@@ -162,6 +162,7 @@ namespace cliente.Menu
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Name = "TabRegistro";
+            this.Size = new System.Drawing.Size(750, 550);
             this.ResumeLayout(false);
             this.PerformLayout();
 

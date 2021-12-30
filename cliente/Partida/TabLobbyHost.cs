@@ -107,6 +107,11 @@ namespace cliente.Partida
         {
             foreach (DataGridViewCell celda in dataGridConectados.SelectedCells)
             {
+                if (celda.Value == null)
+                {
+                    dataGridConectados.ClearSelection();
+                    return;
+                }
                 if(!nombres.Contains(celda.Value.ToString()))
                 {
                     string pet = "8/" + idP.ToString() + "/" + celda.Value.ToString();
@@ -181,7 +186,6 @@ namespace cliente.Partida
                     {
                         nombres[i] = "";
                         colores[i] = (ColorJugador)(-1);
-
                         dataGridJugadores.Rows[i].Cells[0].Value = null;
                         dataGridJugadores.Rows[i].Cells[1].Style.BackColor = Color.White;
                     }

@@ -37,7 +37,7 @@ namespace cliente.Menu
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Transparent;
             this.Name = "TabMenu";
-            this.Size = new System.Drawing.Size(625, 440);
+            this.Size = new System.Drawing.Size(750, 550);
             this.ResumeLayout(false);
 
         }

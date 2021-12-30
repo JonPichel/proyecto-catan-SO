@@ -77,6 +77,7 @@ namespace cliente.Menu
             this.Controls.Add(this.dataGridResultadoPartida);
             this.Controls.Add(this.lblIdPartida);
             this.Name = "TabInfoPartida";
+            this.Size = new System.Drawing.Size(750, 550);
             this.Load += new System.EventHandler(this.TabInfoPartida_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResultadoPartida)).EndInit();
             this.ResumeLayout(false);
