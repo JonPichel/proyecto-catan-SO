@@ -361,7 +361,7 @@
             this.btnComerciar.BackColor = System.Drawing.Color.White;
             this.btnComerciar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnComerciar.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnComerciar.Location = new System.Drawing.Point(152, 309);
+            this.btnComerciar.Location = new System.Drawing.Point(150, 294);
             this.btnComerciar.Name = "btnComerciar";
             this.btnComerciar.Size = new System.Drawing.Size(212, 27);
             this.btnComerciar.TabIndex = 3;

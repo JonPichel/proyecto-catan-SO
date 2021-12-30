@@ -95,7 +95,7 @@ CLIENTE: 16/idPartida/
 SERVIDOR: 16/idPartida/dado1,dado2 [todos]
 
 # COLOCAR LADRÓN
-CLIENTE: 17/idPartida/R,Q,V
+CLIENTE: 17/idPartida/R,Q
 SERVIDOR: 17/idPartida/R,Q [todos]
 
 # COLOCAR POBLADO
@@ -134,3 +134,14 @@ SERVIDOR: 25/idPartida/recurso [todos]
 CLIENTE: 26/idPartida/nombreEntrega,recurso,cantidad
 SERVIDOR: 26/idPartida/nombreEntrega,recurso,cantidad [todos]
 
+# OFERTA COMERCIO
+CLIENTE: 27/idPartida/OMadera,OLadrillo...,PMadera,PLadrillo... (números)
+SERVIDOR: 27/idPartida/OMadera,OLadrillo...,PMadera,PLadrillo... [todos menos a ti]
+
+# RESPUESTA COMERCIO
+CLIENTE: 28/idPartida/NombreAcepta/SI o NO
+SERVIDOR: 28/idPartida/NombreAcepta/SI o NO	[turno]
+
+# RESULTADO COMERCIO
+CLIENTE: 29/idPartida/NombreAcepta/OMadera,OLadrillo...,PMadera,PLadrillo... (números)
+SERVIDOR: 29/idPartida/NombreAcepta/OMadera,OLadrillo...,PMadera,PLadrillo... (números)	[todos]

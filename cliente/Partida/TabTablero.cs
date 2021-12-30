@@ -35,7 +35,7 @@ namespace cliente.Partida
         VerticeCoords[] verticesTablero;
         LadoCoords[] ladosPosibles;
         VerticeCoords[] verticesPosibles;
-
+        HexCoords posicionLadron;
 
 
         int zoomLevel;
@@ -45,7 +45,7 @@ namespace cliente.Partida
         enum Estado
         {
             Normal,
-            ClickCasilla,
+            ColocarLadron,
             ColocarPoblado,
             ColocarCiudad,
             ColocarCarretera,
@@ -501,7 +501,7 @@ namespace cliente.Partida
                         oldMouse = e.Location;
                         pnlTablero.Refresh();
                         break;
-                    case Estado.ClickCasilla:
+                    case Estado.ColocarLadron:
                         MessageBox.Show(HexCoords.PixelToHex(e.Location, basePoint, zoomLevel).ToString());
                         break;
                     case Estado.ColocarCarretera:

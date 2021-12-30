@@ -5,3 +5,22 @@ TODO:
 
 PARA COMPILAR:
 gcc -g -o servidorCatan util.c estructuras.c base_datos.c peticiones.c servidor.c -pthread `mysql_config --cflags --libs`
+
+
+FALTA
+
+- Repartir recursos (JONATHAN) parte gráfica (ALBA)
+- Comerciar, botones (ALBA)
+- Ladrón (RAUL)
+- 
+
+
+COMERCIO
+Recibe el número y la ratio de cada recurso (según los puertos) 
+Mandar las notificaciones
+Mostrar la respuesta de la oferta de los otros jugadores (a baix del form)
+Hacer otro form para mostrar oferta
+
+
+
+- Arreglar carretera mas larga
