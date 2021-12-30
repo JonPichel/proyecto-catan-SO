@@ -558,8 +558,8 @@ namespace cliente.Partida
                                 madera--;
                                 ladrillo--;
                                 oveja--;
-                                trigo--;                                
-                                RefreshBotones();                                
+                                trigo--;
+                                RefreshBotones();
                             }
                         }
                         break;
@@ -973,7 +973,7 @@ namespace cliente.Partida
             if (this.nombre != this.turno)
                 return;
 
-            Comerciar form = new Comerciar(1, 2, 0, 3, 2); //(madera, ladrillo, oveja, trigo, piedra)
+            FormComerciar form = new FormComerciar(1, 2, 0, 3, 2); //(madera, ladrillo, oveja, trigo, piedra)
             form.ShowDialog();
         }
 
@@ -1041,7 +1041,7 @@ namespace cliente.Partida
             switch ((int)carta.Tipo)
             {
                 case 0:
-                    Monopolio form = new Monopolio();
+                    FormMonopolio form = new FormMonopolio();
                     form.ShowDialog();
                     string recurso = form.Recurso;
                     pet = "25/" + idP.ToString() + "/" + recurso;

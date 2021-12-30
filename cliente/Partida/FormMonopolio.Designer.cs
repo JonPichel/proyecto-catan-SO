@@ -1,6 +1,6 @@
 ﻿namespace cliente
 {
-    partial class Monopolio
+    partial class FormMonopolio
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Monopolio));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMonopolio));
             this.picBoxMadera = new System.Windows.Forms.PictureBox();
             this.picBoxLadrillo = new System.Windows.Forms.PictureBox();
             this.picBoxOveja = new System.Windows.Forms.PictureBox();

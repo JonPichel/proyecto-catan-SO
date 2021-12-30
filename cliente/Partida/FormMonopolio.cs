@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace cliente
 {
-    public partial class Monopolio : Form
+    public partial class FormMonopolio : Form
     {
-        public Monopolio()
+        public FormMonopolio()
         {
             InitializeComponent();
         }

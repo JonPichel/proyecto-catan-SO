@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Update="Partida\FormComerciar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Partida\FormMonopolio.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Partida\TabLobbyGuest.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>

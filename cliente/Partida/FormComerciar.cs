@@ -6,16 +6,16 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace cliente
+namespace cliente.Partida
 {
-    public partial class Comerciar : Form
+    public partial class FormComerciar : Form
     {
         //Recursos en tu poder
         int madera, ladrillo, oveja, trigo, piedra;
 
         int Comercio = 0; // 0: comercio con otros jugadores, 1: comercio marítimo  
 
-        public Comerciar(int Madera, int Ladrillo, int Oveja, int Trigo, int Piedra)
+        public FormComerciar(int Madera, int Ladrillo, int Oveja, int Trigo, int Piedra)
         {
             InitializeComponent();
             this.madera = Madera;
