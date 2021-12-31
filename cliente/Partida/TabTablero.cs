@@ -27,6 +27,7 @@ namespace cliente.Partida
         public ColorJugador[] colores { get; set; }
 
         Tile[] tiles;
+        TileLadron ladron;
         List<FichaVertice> fichasVertices;
         List<VerticeCoords> misPoblados;
         Puerto[] puertos;
@@ -138,6 +139,7 @@ namespace cliente.Partida
                         {
                             case "DESIERTO":
                                 tiles.Add(new TileDesierto(coords.Q, coords.R));
+                                posicionLadron = new HexCoords(coords.Q, coords.R);
                                 break;
                             case "MADERA":
                                 tiles.Add(new TileMadera(coords.Q, coords.R, valores.Dequeue()));
@@ -180,7 +182,7 @@ namespace cliente.Partida
                     tiles.Add(new TilePiedra(0, 0, valores.Dequeue()));
                     break;
             }
-
+            
             // Poblar puertos
             List<Puerto> puertos = new List<Puerto>();
             LadoCoords[] costa = new LadoCoords[30]
@@ -460,6 +462,12 @@ namespace cliente.Partida
                 }
                 e.Graphics.DrawImage(verticeColocar.Bitmap, new Rectangle(verticeColocar.VerticeToPixel(basePoint, zoomLevel), size));
             }
+            
+            /* Dibujar ladron */
+            size = new Size(Tile.BWIDTH / this.zoomLevel, Tile.BHEIGHT / this.zoomLevel);
+            ladron = new TileLadron(posicionLadron.Q, posicionLadron.R);
+            Rectangle ladr = new Rectangle(ladron.HexToPixel(this.basePoint, this.zoomLevel), size);
+            e.Graphics.DrawImage(ladron.Bitmap, ladr);
 
         }
 
@@ -502,15 +510,20 @@ namespace cliente.Partida
                         pnlTablero.Refresh();
                         break;
                     case Estado.ColocarLadron:
-                        MessageBox.Show(HexCoords.PixelToHex(e.Location, basePoint, zoomLevel).ToString());
+                        posicionLadron = HexCoords.PixelToHex(e.Location, basePoint, zoomLevel);
+                        string pet = "17/" + idP.ToString() + "/" + posicionLadron.R.ToString() + "," +
+                                posicionLadron.Q.ToString();
+                        byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                        conn.Send(pet_b);
+                        estado = Estado.Normal;
                         break;
                     case Estado.ColocarCarretera:
                         if (ComprobarCarretera(carreteraColocar.Coords))
                         {
                             carreteras.Add(carreteraColocar);
-                            string pet = "20/" + idP.ToString() + "/" + carreteraColocar.Coords.R.ToString() + "," +
+                            pet = "20/" + idP.ToString() + "/" + carreteraColocar.Coords.R.ToString() + "," +
                                 carreteraColocar.Coords.Q.ToString() + "," + (int)carreteraColocar.Coords.L;
-                            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                            pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
                             RecalcularLadosPosibles();
                             RecalcularVerticesPosibles();
@@ -539,9 +552,9 @@ namespace cliente.Partida
                         {
                             fichasVertices.Add(verticeColocar);
                             misPoblados.Add(verticeColocar.Coords);
-                            string pet = "18/" + idP.ToString() + "/" + verticeColocar.Coords.R.ToString() + "," +
+                            pet = "18/" + idP.ToString() + "/" + verticeColocar.Coords.R.ToString() + "," +
                                 verticeColocar.Coords.Q.ToString() + "," + (int)verticeColocar.Coords.V;
-                            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                            pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
                             RecalcularLadosPosibles();
                             RecalcularVerticesPosibles();
@@ -576,9 +589,9 @@ namespace cliente.Partida
                             }
                             fichasVertices.Add(verticeColocar);
                             misPoblados.Remove(verticeColocar.Coords);
-                            string pet = "19/" + idP.ToString() + "/" + verticeColocar.Coords.R.ToString() + "," +
+                            pet = "19/" + idP.ToString() + "/" + verticeColocar.Coords.R.ToString() + "," +
                                 verticeColocar.Coords.Q.ToString() + "," + (int)verticeColocar.Coords.V;
-                            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                            pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
@@ -898,13 +911,7 @@ namespace cliente.Partida
             string[] valores = dados.Split(",");
             int dado1 = Convert.ToInt32(valores[0]);
             int dado2 = Convert.ToInt32(valores[1]);
-            if (this.turno == this.nombre)
-            {
-                RefreshBotones();
-                btnTurno.Text = "Acabar turno";
-                btnTurno.Tag = "ACABAR";                
-
-            }
+            
             //Animación dados y repartir recursos
             this.sumadados = dado1 + dado2;
 
@@ -914,6 +921,16 @@ namespace cliente.Partida
             lblDado1.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado1location), new Size(40, 40));
             lblDado2.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado2location), new Size(40, 40));
 
+            if (this.turno == this.nombre)
+            {
+                RefreshBotones();
+                btnTurno.Text = "Acabar turno";
+                btnTurno.Tag = "ACABAR";
+
+                if (sumadados == 7)
+                    estado = Estado.ColocarLadron;
+
+            }
         }
 
         private void btnDesarrollo_Click(object sender, EventArgs e)
@@ -1052,6 +1069,7 @@ namespace cliente.Partida
                 case 2:
                     pet = "22/" + idP.ToString();
                     panelActualizar.Caballeros = panelActualizar.Caballeros + 1;
+                    estado = Estado.ColocarLadron;
                     break;
                 case 3:
                     pet = "23/" + idP.ToString();
@@ -1097,6 +1115,7 @@ namespace cliente.Partida
 
             string[] trozos = mensaje.Split('/');
             int codigo = Convert.ToInt32(trozos[0]);
+            string[] coordenadas = trozos[2].Split(',');
 
             ColorJugador Color = this.colorJugador;
 
@@ -1106,10 +1125,12 @@ namespace cliente.Partida
                     Color = colores[i]; 
             }
 
-            string[] coordenadas = trozos[2].Split(',');
-
             switch (codigo)
             {
+                case 17:
+                    posicionLadron = new HexCoords(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]));
+                    pnlTablero.Refresh();
+                    break;
                 case 18:
                     verticeColocar = new FichaPoblado(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Vertice)Convert.ToInt32(coordenadas[2]), Color);
                     fichasVertices.Add(verticeColocar);

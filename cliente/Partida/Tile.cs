@@ -194,4 +194,13 @@ namespace cliente.Partida
         {
         }
     }
+
+    class TileLadron : Tile
+    {
+        public override Bitmap Bitmap { get => cliente.Properties.Resources.Ladron; }
+
+        public TileLadron(int q, int r) : base(q, r, null)
+        {
+        }
+    }
 }

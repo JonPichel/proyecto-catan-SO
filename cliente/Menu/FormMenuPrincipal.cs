@@ -216,6 +216,14 @@ namespace cliente.Menu
                                 partidas[idP].Invoke(delegado, new object[] { mensaje });
                             }
                             break;
+                        case 17:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].Colocar);
+                                partidas[idP].Invoke(delegado, new object[] { trozos[i] });
+                            }
+                            break;
                         case 18:
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
