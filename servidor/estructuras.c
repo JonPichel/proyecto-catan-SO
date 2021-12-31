@@ -11,13 +11,24 @@ int saltos_puertos[9] = {3, 3, 3, 3, 3, 3, 4, 4, 4};
 
 int tipos_cartas[25] = {0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 4};
 
-int conn_add_jugador(listaconn_t *lista, char nombre[20], int socket) {
+int conn_add_jugador(listaconn_t *lista, int socket) {
     if (lista->num > MAX_CONN)
         return -1;
-    strcpy(lista->conectados[lista->num].nombre, nombre);
+    lista->conectados[lista->num].nombre[0] = '\0';
     lista->conectados[lista->num].socket = socket;
     lista->num++;
     return 0;
+}
+
+int conn_id_jugador(listaconn_t *lista, char nombre[20], int socket) {
+    for (int i = lista->num - 1; i >= 0; i--) {
+        if (socket == lista->conectados[i].socket) {
+            strcpy(lista->conectados[i].nombre, nombre);
+            lista->numid++;
+            return 0;
+        }
+    }
+    return -1;
 }
 
 int conn_delete_jugador(listaconn_t *lista, int socket) {
@@ -28,6 +39,7 @@ int conn_delete_jugador(listaconn_t *lista, int socket) {
                 lista->conectados[j-1].socket = lista->conectados[j].socket;
             }
             lista->num--;
+            lista->numid--;
             return 0;
         }
     }

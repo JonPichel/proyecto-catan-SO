@@ -13,6 +13,7 @@ typedef struct {
 
 typedef struct {
     int num;
+    int numid;
     conectado_t conectados[MAX_CONN];
 } listaconn_t;
 
@@ -48,7 +49,8 @@ typedef struct {
 } partida_t;
 
 /* Funciones */
-int conn_add_jugador(listaconn_t *lista, char nombre[20], int socket);
+int conn_add_jugador(listaconn_t *lista, int socket);
+int conn_id_jugador(listaconn_t *lista, char nombre[20], int socket);
 int conn_delete_jugador(listaconn_t *lista, int socket);
 int conn_socket_jugador(listaconn_t *lista, char nombre[20]);
 

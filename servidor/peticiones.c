@@ -25,9 +25,11 @@ void not_lista_conectados(char *tag) {
     */
     // Generar mensaje
     char respuesta[512];
-    sprintf(respuesta, "6/%d/", conectados.num);
+    sprintf(respuesta, "6/%d/", conectados.numid);
     if (conectados.num != 0) {
         for (int i = 0; i < conectados.num; i++) {
+            if (conectados.conectados[i].nombre[0] == '\0')
+                continue;
             sprintf(respuesta, "%s%s,", respuesta, conectados.conectados[i].nombre);
         }
         respuesta[strlen(respuesta) - 1] = '\0';
@@ -35,6 +37,8 @@ void not_lista_conectados(char *tag) {
     }
     // Enviar lista
     for (int i = 0; i < conectados.num; i++) {
+        if (conectados.conectados[i].nombre[0] == '\0')
+            continue;
         log_msg(tag, "Lista de conectados por el socket %d: %s\n",
                 conectados.conectados[i].socket, respuesta);
         write(conectados.conectados[i].socket, respuesta, strlen(respuesta));
@@ -204,7 +208,7 @@ void pet_iniciar_sesion(char *nombre, char *resto, int socket) {
     write(socket, respuesta, strlen(respuesta));
     if (conectado) {
         pthread_mutex_lock(&mutex_estructuras);
-        conn_add_jugador(&conectados, nombre, socket);
+        conn_id_jugador(&conectados, nombre, socket);
         pthread_mutex_unlock(&mutex_estructuras);
         /* NOTIFICACION LISTA DE CONECTADOS */
         not_lista_conectados(tag);

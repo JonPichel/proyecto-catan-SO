@@ -6,6 +6,7 @@
 #include <sys/socket.h> 
 #include <netinet/in.h> 
 #include <pthread.h>
+#include <time.h>
 
 #include "peticiones.h"
 #include "base_datos.h"
@@ -72,22 +73,24 @@ int main(int argc, char *argv[]) {
     }
 
     conectados.num = 0;
+    conectados.numid = 0;
     inicializar_partidas(partidas);
     
-    int sockets[MAX_CONN];
-    pthread_t threads[MAX_CONN];
-    int i = 0;
+    pthread_t thread;
     for (;;) {
         log_msg("MAIN", "Escuchando...\n");
 
         sock_conn = accept(sock_listen, NULL, NULL);
         log_msg("MAIN", "Conexion establecida\n");
         
-        sockets[i] = sock_conn;
-        pthread_create(&threads[i], NULL, atender_cliente, &sockets[i]);
-        i++;
-        if (i == MAX_CONN) {
-            i = 0;
+        pthread_mutex_lock(&mutex_estructuras);
+        conn_add_jugador(&conectados, sock_conn);
+        pthread_mutex_unlock(&mutex_estructuras);
+        pthread_create(&thread, NULL, atender_cliente,
+                &conectados.conectados[conectados.num - 1].socket);
+        // Esperar a que alguien se desconecte antes de aceptar nuevos clientes
+        while (conectados.num == MAX_CONN) {
+            sleep(5);
         }
     }
     bdd_terminar();
@@ -169,14 +172,8 @@ void *atender_cliente(void *sock_ptr) {
                 pet_tirar_dados(resto, socket);
                 break;
             case 17:
-                pet_colocar(codigo, resto, socket);
-                break;
             case 18:
-                pet_colocar(codigo, resto, socket);
-                break;
             case 19:
-                pet_colocar(codigo, resto, socket);
-                break;
             case 20:
                 pet_colocar(codigo, resto, socket);
                 break;
@@ -184,14 +181,8 @@ void *atender_cliente(void *sock_ptr) {
                 pet_carta(resto, socket);
                 break;
             case 22:
-                pet_usar_carta(codigo, resto, socket);
-                break;
             case 23:
-                pet_usar_carta(codigo, resto, socket);
-                break;
             case 24:
-                pet_usar_carta(codigo, resto, socket);
-                break;
             case 25:
                 pet_usar_carta(codigo, resto, socket);
                 break;
