@@ -353,7 +353,7 @@ namespace cliente.Partida
                 if (i < numJugadores)
                 {
                     paneles[i].Nombre = nombres[i];
-                    paneles[i].Color = colores[i];
+                    paneles[i].ColorJ = colores[i];
                     paneles[i].Caballeros = 0;
                     paneles[i].Carreteras = 0;
                     paneles[i].Recursos = 0;
@@ -913,61 +913,77 @@ namespace cliente.Partida
             lblDado1.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado1location), new Size(40, 40));
             lblDado2.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado2location), new Size(40, 40));
 
-            if (this.turno == this.nombre)
+
+            /* Sumar recursos */
+            foreach (Tile casilla in tiles[18..])
             {
-                /* Sumar recursos */
-                foreach (Tile casilla in tiles[18..])
+                if ((casilla.Valor ?? 0) == sumadados && posicionLadron != casilla.Coords)
                 {
-                    if ((casilla.Valor ?? 0) == sumadados)
+                    foreach (VerticeCoords vertice in casilla.Coords.Vertices)
                     {
-                        foreach (VerticeCoords vertice in casilla.Coords.Vertices)
+                        foreach (FichaVertice ficha in fichasVertices)
                         {
-                            foreach (FichaVertice ficha in fichasVertices)
+                            if (ficha.Coords == vertice)
                             {
-                                if (ficha.Coords == vertice)
+                                int suma = 1;
+                                switch (ficha)
                                 {
-                                    int suma = 1;
-                                    switch (ficha)
+                                    case FichaPoblado _:
+                                        suma = 1;
+                                        break;
+                                    case FichaCiudad _:
+                                        suma = 2;
+                                        break;
+                                }
+                                // Sumatelo a los recursos
+                                if (ficha.Color == this.colorJugador)
+                                {
+                                    switch (casilla)
                                     {
-                                        case FichaPoblado _:
-                                            suma = 1;
+                                        case TileMadera _:
+                                            madera += suma;
                                             break;
-                                        case FichaCiudad _:
-                                            suma = 2;
+                                        case TileLadrillo _:
+                                            ladrillo += suma;
+                                            break;
+                                        case TileOveja _:
+                                            oveja += suma;
+                                            break;
+                                        case TileTrigo _:
+                                            trigo += suma;
+                                            break;
+                                        case TilePiedra _:
+                                            piedra += suma;
                                             break;
                                     }
-                                    // Sumatelo a los recursos
-                                    if (ficha.Color == this.colorJugador)
+                                }
+                                // Actualizar gráficamente
+                                for (int i = 0; i < numJugadores; i++)
+                                {
+                                    if (colores[i] == ficha.Color)
                                     {
+                                        paneles[i].Recursos += suma;
                                         switch (casilla)
                                         {
                                             case TileMadera _:
-                                                madera += suma;
+                                                paneles[i].Madera += suma;
                                                 break;
                                             case TileLadrillo _:
-                                                ladrillo += suma;
+                                                paneles[i].Ladrillo += suma;
                                                 break;
                                             case TileOveja _:
-                                                oveja += suma;
+                                                paneles[i].Oveja += suma;
                                                 break;
                                             case TileTrigo _:
-                                                trigo += suma;
+                                                paneles[i].Trigo += suma;
                                                 break;
                                             case TilePiedra _:
-                                                piedra += suma;
+                                                paneles[i].Piedra += suma;
                                                 break;
                                         }
                                     }
-                                    // Actualizar gráficamente (alba)
-                                    for (int i = 0; i < numJugadores; i++)
-                                    {
-                                        if (colores[i] == ficha.Color)
-                                        {
-                                            paneles[i].Recursos += suma;
-                                        }
-                                    }
-                                    break;
                                 }
+                                break;
                             }
                         }
                     }
@@ -979,11 +995,14 @@ namespace cliente.Partida
                 Trigo = trigo;
                 Piedra = piedra;
                 RefreshBotones();
+                //Activar timer para mostrar cambios en los recursos
+                timerRecursos.Start();
                 btnTurno.Text = "Acabar turno";
                 btnTurno.Tag = "ACABAR";
 
-                if (sumadados == 7)
+                if (sumadados == 7 && this.turno == this.nombre)
                 {
+                    //FALTA AMPLIAR
                     estado = Estado.ColocarLadron;
                 }
             }
@@ -1057,6 +1076,19 @@ namespace cliente.Partida
         {
             Button btn = (Button)sender;
             tooltipCostes.SetToolTip(btn, btn.Tag.ToString());
+        }
+
+        private void timerRecursos_Tick(object sender, EventArgs e)
+        {
+            foreach(PanelInfoJugador panel in paneles)
+            {
+                panel.Madera = 0;
+                panel.Ladrillo = 0;
+                panel.Oveja = 0;
+                panel.Trigo = 0;
+                panel.Piedra = 0;
+            }
+            timerRecursos.Stop();
         }
 
         public void ComprarCarta(string mensaje)

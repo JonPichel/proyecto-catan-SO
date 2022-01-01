@@ -103,6 +103,28 @@ namespace cliente.Partida
             return basePoint;
         }
 
+        public static bool operator ==(HexCoords casilla1, HexCoords casilla2)
+        {
+            return casilla1.Equals(casilla2);
+        }
+        public static bool operator !=(HexCoords casilla1, HexCoords casilla2)
+        {
+            return !casilla1.Equals(casilla2);
+        }
+        override public bool Equals(object? obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+                return false;
+            HexCoords other = (HexCoords)obj;
+            return this.R == other.R && this.Q == other.Q;
+        }
+
+        public override int GetHashCode()
+        {
+
+            return (Q << 8) + R;
+        }
+
         public override string ToString()
         {
             return String.Format("HexCoords({0}, {1})", Q, R);

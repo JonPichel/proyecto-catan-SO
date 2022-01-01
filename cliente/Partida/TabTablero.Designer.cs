@@ -53,13 +53,14 @@ namespace cliente.Partida
             this.lblTurno = new System.Windows.Forms.Label();
             this.btnDesarrollo = new System.Windows.Forms.Button();
             this.tooltipCostes = new System.Windows.Forms.ToolTip(this.components);
+            this.lblUndo = new System.Windows.Forms.Label();
+            this.lblDado1 = new System.Windows.Forms.Label();
+            this.lblDado2 = new System.Windows.Forms.Label();
+            this.timerRecursos = new System.Windows.Forms.Timer(this.components);
             this.pnlJugador1 = new cliente.Partida.PanelInfoJugador();
             this.pnlJugador2 = new cliente.Partida.PanelInfoJugador();
             this.pnlJugador3 = new cliente.Partida.PanelInfoJugador();
             this.pnlJugador4 = new cliente.Partida.PanelInfoJugador();
-            this.lblUndo = new System.Windows.Forms.Label();
-            this.lblDado1 = new System.Windows.Forms.Label();
-            this.lblDado2 = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.SuspendLayout();
@@ -322,66 +323,6 @@ namespace cliente.Partida
             this.btnDesarrollo.UseVisualStyleBackColor = false;
             this.btnDesarrollo.Click += new System.EventHandler(this.btnDesarrollo_Click);
             // 
-            // pnlJugador1
-            // 
-            this.pnlJugador1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(171)))), ((int)(((byte)(200)))));
-            this.pnlJugador1.Caballeros = 0;
-            this.pnlJugador1.Carreteras = 0;
-            this.pnlJugador1.Color = cliente.Partida.ColorJugador.Azul;
-            this.pnlJugador1.Desarrollo = 0;
-            this.pnlJugador1.Location = new System.Drawing.Point(4, 5);
-            this.pnlJugador1.Name = "pnlJugador1";
-            this.pnlJugador1.Nombre = "Nombre";
-            this.pnlJugador1.Puntos = 0;
-            this.pnlJugador1.Recursos = 0;
-            this.pnlJugador1.Size = new System.Drawing.Size(195, 60);
-            this.pnlJugador1.TabIndex = 13;
-            // 
-            // pnlJugador2
-            // 
-            this.pnlJugador2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(171)))), ((int)(((byte)(200)))));
-            this.pnlJugador2.Caballeros = 0;
-            this.pnlJugador2.Carreteras = 0;
-            this.pnlJugador2.Color = cliente.Partida.ColorJugador.Azul;
-            this.pnlJugador2.Desarrollo = 0;
-            this.pnlJugador2.Location = new System.Drawing.Point(203, 5);
-            this.pnlJugador2.Name = "pnlJugador2";
-            this.pnlJugador2.Nombre = "Nombre";
-            this.pnlJugador2.Puntos = 0;
-            this.pnlJugador2.Recursos = 0;
-            this.pnlJugador2.Size = new System.Drawing.Size(195, 60);
-            this.pnlJugador2.TabIndex = 13;
-            // 
-            // pnlJugador3
-            // 
-            this.pnlJugador3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(171)))), ((int)(((byte)(200)))));
-            this.pnlJugador3.Caballeros = 0;
-            this.pnlJugador3.Carreteras = 0;
-            this.pnlJugador3.Color = cliente.Partida.ColorJugador.Azul;
-            this.pnlJugador3.Desarrollo = 0;
-            this.pnlJugador3.Location = new System.Drawing.Point(402, 5);
-            this.pnlJugador3.Name = "pnlJugador3";
-            this.pnlJugador3.Nombre = "Nombre";
-            this.pnlJugador3.Puntos = 0;
-            this.pnlJugador3.Recursos = 0;
-            this.pnlJugador3.Size = new System.Drawing.Size(195, 60);
-            this.pnlJugador3.TabIndex = 13;
-            // 
-            // pnlJugador4
-            // 
-            this.pnlJugador4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(171)))), ((int)(((byte)(200)))));
-            this.pnlJugador4.Caballeros = 0;
-            this.pnlJugador4.Carreteras = 0;
-            this.pnlJugador4.Color = cliente.Partida.ColorJugador.Azul;
-            this.pnlJugador4.Desarrollo = 0;
-            this.pnlJugador4.Location = new System.Drawing.Point(601, 5);
-            this.pnlJugador4.Name = "pnlJugador4";
-            this.pnlJugador4.Nombre = "Nombre";
-            this.pnlJugador4.Puntos = 0;
-            this.pnlJugador4.Recursos = 0;
-            this.pnlJugador4.Size = new System.Drawing.Size(195, 60);
-            this.pnlJugador4.TabIndex = 13;
-            // 
             // lblUndo
             // 
             this.lblUndo.BackColor = System.Drawing.Color.Transparent;
@@ -409,18 +350,103 @@ namespace cliente.Partida
             this.lblDado2.TabIndex = 16;
             this.lblDado2.Click += new System.EventHandler(this.lblUndo_Click);
             // 
+            // timerRecursos
+            // 
+            this.timerRecursos.Interval = 2000;
+            this.timerRecursos.Tick += new System.EventHandler(this.timerRecursos_Tick);
+            // 
+            // pnlJugador1
+            // 
+            this.pnlJugador1.BackColor = System.Drawing.Color.Transparent;
+            this.pnlJugador1.Caballeros = 0;
+            this.pnlJugador1.Carreteras = 0;
+            this.pnlJugador1.ColorJ = cliente.Partida.ColorJugador.Azul;
+            this.pnlJugador1.Desarrollo = 0;
+            this.pnlJugador1.Ladrillo = 0;
+            this.pnlJugador1.Location = new System.Drawing.Point(2, 2);
+            this.pnlJugador1.Madera = 0;
+            this.pnlJugador1.Name = "pnlJugador1";
+            this.pnlJugador1.Nombre = "Nombre";
+            this.pnlJugador1.Oveja = 0;
+            this.pnlJugador1.Piedra = 0;
+            this.pnlJugador1.Puntos = 0;
+            this.pnlJugador1.Recursos = 0;
+            this.pnlJugador1.Size = new System.Drawing.Size(195, 100);
+            this.pnlJugador1.TabIndex = 18;
+            this.pnlJugador1.Trigo = 0;
+            // 
+            // pnlJugador2
+            // 
+            this.pnlJugador2.BackColor = System.Drawing.Color.Transparent;
+            this.pnlJugador2.Caballeros = 0;
+            this.pnlJugador2.Carreteras = 0;
+            this.pnlJugador2.ColorJ = cliente.Partida.ColorJugador.Azul;
+            this.pnlJugador2.Desarrollo = 0;
+            this.pnlJugador2.Ladrillo = 0;
+            this.pnlJugador2.Location = new System.Drawing.Point(202, 2);
+            this.pnlJugador2.Madera = 0;
+            this.pnlJugador2.Name = "pnlJugador2";
+            this.pnlJugador2.Nombre = "Nombre";
+            this.pnlJugador2.Oveja = 0;
+            this.pnlJugador2.Piedra = 0;
+            this.pnlJugador2.Puntos = 0;
+            this.pnlJugador2.Recursos = 0;
+            this.pnlJugador2.Size = new System.Drawing.Size(195, 100);
+            this.pnlJugador2.TabIndex = 18;
+            this.pnlJugador2.Trigo = 0;
+            // 
+            // pnlJugador3
+            // 
+            this.pnlJugador3.BackColor = System.Drawing.Color.Transparent;
+            this.pnlJugador3.Caballeros = 0;
+            this.pnlJugador3.Carreteras = 0;
+            this.pnlJugador3.ColorJ = cliente.Partida.ColorJugador.Azul;
+            this.pnlJugador3.Desarrollo = 0;
+            this.pnlJugador3.Ladrillo = 0;
+            this.pnlJugador3.Location = new System.Drawing.Point(402, 2);
+            this.pnlJugador3.Madera = 0;
+            this.pnlJugador3.Name = "pnlJugador3";
+            this.pnlJugador3.Nombre = "Nombre";
+            this.pnlJugador3.Oveja = 0;
+            this.pnlJugador3.Piedra = 0;
+            this.pnlJugador3.Puntos = 0;
+            this.pnlJugador3.Recursos = 0;
+            this.pnlJugador3.Size = new System.Drawing.Size(195, 100);
+            this.pnlJugador3.TabIndex = 18;
+            this.pnlJugador3.Trigo = 0;
+            // 
+            // pnlJugador4
+            // 
+            this.pnlJugador4.BackColor = System.Drawing.Color.Transparent;
+            this.pnlJugador4.Caballeros = 0;
+            this.pnlJugador4.Carreteras = 0;
+            this.pnlJugador4.ColorJ = cliente.Partida.ColorJugador.Azul;
+            this.pnlJugador4.Desarrollo = 0;
+            this.pnlJugador4.Ladrillo = 0;
+            this.pnlJugador4.Location = new System.Drawing.Point(602, 2);
+            this.pnlJugador4.Madera = 0;
+            this.pnlJugador4.Name = "pnlJugador4";
+            this.pnlJugador4.Nombre = "Nombre";
+            this.pnlJugador4.Oveja = 0;
+            this.pnlJugador4.Piedra = 0;
+            this.pnlJugador4.Puntos = 0;
+            this.pnlJugador4.Recursos = 0;
+            this.pnlJugador4.Size = new System.Drawing.Size(195, 100);
+            this.pnlJugador4.TabIndex = 18;
+            this.pnlJugador4.Trigo = 0;
+            // 
             // TabTablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.lblDado2);
-            this.Controls.Add(this.lblDado1);
-            this.Controls.Add(this.lblUndo);
             this.Controls.Add(this.pnlJugador4);
             this.Controls.Add(this.pnlJugador3);
             this.Controls.Add(this.pnlJugador2);
             this.Controls.Add(this.pnlJugador1);
+            this.Controls.Add(this.lblDado2);
+            this.Controls.Add(this.lblDado1);
+            this.Controls.Add(this.lblUndo);
             this.Controls.Add(this.btnDesarrollo);
             this.Controls.Add(this.lblTurno);
             this.Controls.Add(this.pnlTablero);
@@ -463,10 +489,6 @@ namespace cliente.Partida
         private System.Windows.Forms.Label lblTurno;
         private System.Windows.Forms.Button btnDesarrollo;
         private System.Windows.Forms.ToolTip tooltipCostes;
-        private PanelInfoJugador pnlJugador1;
-        private PanelInfoJugador pnlJugador2;
-        private PanelInfoJugador pnlJugador3;
-        private PanelInfoJugador pnlJugador4;
         private System.Windows.Forms.Label lblOveja;
         private System.Windows.Forms.Label lblTrigo;
         private System.Windows.Forms.Label lblLadrillo;
@@ -475,5 +497,10 @@ namespace cliente.Partida
         private System.Windows.Forms.Label lblUndo;
         private System.Windows.Forms.Label lblDado1;
         private System.Windows.Forms.Label lblDado2;
+        private System.Windows.Forms.Timer timerRecursos;
+        private PanelInfoJugador pnlJugador1;
+        private PanelInfoJugador pnlJugador2;
+        private PanelInfoJugador pnlJugador3;
+        private PanelInfoJugador pnlJugador4;
     }
 }
