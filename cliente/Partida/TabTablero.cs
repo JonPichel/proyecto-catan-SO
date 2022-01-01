@@ -367,14 +367,6 @@ namespace cliente.Partida
                 }
             }
             this.panelActualizar = new PanelInfoJugador();
-
-            //Recursos 
-            Madera = 2;
-            Ladrillo = 2;
-            Oveja = 0;
-            Trigo = 0;
-            Piedra = 0;
-        
         }
 
         private void TabTablero_Paint(object sender, PaintEventArgs e)
@@ -541,8 +533,8 @@ namespace cliente.Partida
                             }
                             else
                             {
-                                madera--;
-                                ladrillo--;
+                                Madera--;
+                                Ladrillo--;
                                 RefreshBotones();
                             }
                         }
@@ -568,10 +560,10 @@ namespace cliente.Partida
                             }
                             else
                             {
-                                madera--;
-                                ladrillo--;
-                                oveja--;
-                                trigo--;
+                                Madera--;
+                                Ladrillo--;
+                                Oveja--;
+                                Trigo--;
                                 RefreshBotones();
                             }
                         }
@@ -923,22 +915,82 @@ namespace cliente.Partida
 
             if (this.turno == this.nombre)
             {
+                /* Sumar recursos */
+                foreach (Tile casilla in tiles[18..])
+                {
+                    if ((casilla.Valor ?? 0) == sumadados)
+                    {
+                        foreach (VerticeCoords vertice in casilla.Coords.Vertices)
+                        {
+                            foreach (FichaVertice ficha in fichasVertices)
+                            {
+                                if (ficha.Coords == vertice)
+                                {
+                                    int suma = 1;
+                                    switch (ficha)
+                                    {
+                                        case FichaPoblado _:
+                                            suma = 1;
+                                            break;
+                                        case FichaCiudad _:
+                                            suma = 2;
+                                            break;
+                                    }
+                                    // Sumatelo a los recursos
+                                    if (ficha.Color == this.colorJugador)
+                                    {
+                                        switch (casilla)
+                                        {
+                                            case TileMadera _:
+                                                madera += suma;
+                                                break;
+                                            case TileLadrillo _:
+                                                ladrillo += suma;
+                                                break;
+                                            case TileOveja _:
+                                                oveja += suma;
+                                                break;
+                                            case TileTrigo _:
+                                                trigo += suma;
+                                                break;
+                                            case TilePiedra _:
+                                                piedra += suma;
+                                                break;
+                                        }
+                                    }
+                                    // Actualizar gráficamente (alba)
+                                    for (int i = 0; i < numJugadores; i++)
+                                    {
+                                        if (colores[i] == ficha.Color)
+                                        {
+                                            paneles[i].Recursos += suma;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                // Refrescar panel
+                Madera = madera;
+                Ladrillo = ladrillo;
+                Oveja = oveja;
+                Trigo = trigo;
+                Piedra = piedra;
                 RefreshBotones();
                 btnTurno.Text = "Acabar turno";
                 btnTurno.Tag = "ACABAR";
 
                 if (sumadados == 7)
+                {
                     estado = Estado.ColocarLadron;
-
+                }
             }
         }
 
         private void btnDesarrollo_Click(object sender, EventArgs e)
         {
-            oveja--;
-            trigo--;
-            piedra--;
-
             string pet = "21/" + idP.ToString();
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
@@ -1008,19 +1060,27 @@ namespace cliente.Partida
         }
 
         public void ComprarCarta(string mensaje)
-        { 
-            panelActualizar.Desarrollo = panelActualizar.Desarrollo + 1;
+        {
+            if (Convert.ToInt32(mensaje) == -1)
+            {
+                btnDesarrollo.Enabled = false;
+                return;
+            }
+            panelActualizar.Desarrollo++;
+            if ((Carta.TipoCarta)Convert.ToInt32(mensaje) == Carta.TipoCarta.Punto)
+                panelActualizar.Puntos++;
 
-            if (this.nombre != this.turno) 
+            if (this.nombre != this.turno)
                 return;
 
             Carta carta = new Carta((Carta.TipoCarta)Convert.ToInt32(mensaje));
             int num = 0;
             foreach(Carta otra in this.cartas)
             {
-                if ((otra.Tipo == carta.Tipo) && ((int)otra.Tipo != 4))
+                if (otra.Tipo == carta.Tipo)
                 {
-                    otra.Enabled = false;
+                    if (carta.Tipo != Carta.TipoCarta.Punto)
+                        otra.Enabled = false;
                     num++;
                 }
             }
@@ -1082,7 +1142,8 @@ namespace cliente.Partida
         }
         public void UsarCarta(string mensaje)
         {
-            panelActualizar.Desarrollo = panelActualizar.Desarrollo - 1;
+            panelActualizar.Desarrollo--;
+
             if (this.nombre == this.turno)
                 return;
                 
@@ -1093,8 +1154,7 @@ namespace cliente.Partida
             {
                 case 22:
                     MessageBox.Show(this.turno + " ha usado carta de desarrollo: Caballero");
-                    panelActualizar.Caballeros = panelActualizar.Caballeros + 1;
-
+                    panelActualizar.Caballeros++;
                     break;
                 case 23:
                     MessageBox.Show(this.turno + " ha usado carta de desarrollo: Carreteras" );
