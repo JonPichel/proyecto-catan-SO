@@ -96,12 +96,12 @@ void not_partida_empezada(int idP, char *tag){
     barajar_casillas(respuesta);
     barajar_puertos(respuesta);
     barajar_cartas(&partidas[idP]);
-    // Notificar turno
     pthread_mutex_lock(&mutex_estructuras);
     partidas[idP].turno = 0;
-    int turno = 0;
+    partidas[idP].numturnos = 1;
     pthread_mutex_unlock(&mutex_estructuras);
-    sprintf(respuesta, "%s~~END~~15/%d/%s~~END~~", respuesta, idP, partidas[idP].jugadores[turno].nombre);
+    // Notificar turno
+    sprintf(respuesta, "%s~~END~~15/%d/%s~~END~~", respuesta, idP, partidas[idP].jugadores[0].nombre);
     for (int i = 0; i < partidas[idP].numj; i++) {
         log_msg(tag, "Notificando partida empezada por el socket %d: %s\n",
                 partidas[idP].jugadores[i].socket, respuesta);
@@ -451,30 +451,22 @@ void pet_empezar_partida(char *resto, int socket){
 void pet_acabar_turno(char *resto, int socket) {
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
-    int Turno;
     int idP = atoi(strtok_r(resto, "/", &resto));
     printf("%d,%d\n",partidas[idP].turno,partidas[idP].numturnos);
 
-    if ((partidas[idP].numturnos < partidas[idP].numj) || (partidas[idP].numturnos > partidas[idP].numj*2)){
-        pthread_mutex_lock(&mutex_estructuras);
-        partidas[idP].turno = (partidas[idP].turno + 1) % partidas[idP].numj;
-        Turno = partidas[idP].turno;
-        pthread_mutex_unlock(&mutex_estructuras);
-    }
-    else if ((partidas[idP].numturnos == partidas[idP].numj) || (partidas[idP].numturnos == partidas[idP].numj*2)){
-        Turno = partidas[idP].turno;
-    }
-    else{
-        pthread_mutex_lock(&mutex_estructuras);
-        partidas[idP].turno = (partidas[idP].turno - 1);
-        Turno = partidas[idP].turno;
-        pthread_mutex_unlock(&mutex_estructuras);
-    }
     pthread_mutex_lock(&mutex_estructuras);
+    // Turno normal
+    if ((partidas[idP].numturnos < partidas[idP].numj) || (partidas[idP].numturnos > partidas[idP].numj*2)) {
+        partidas[idP].turno = (partidas[idP].turno + 1) % partidas[idP].numj;
+    }
+    // Ronda inversa (en los otros dos casos se repite el turno)
+    else if ((partidas[idP].numturnos != partidas[idP].numj) && (partidas[idP].numturnos != partidas[idP].numj*2)) {
+        partidas[idP].turno = (partidas[idP].turno - 1);
+    }
     partidas[idP].numturnos = partidas[idP].numturnos + 1;
     pthread_mutex_unlock(&mutex_estructuras);
     char respuesta[64];
-    sprintf(respuesta, "15/%d/%s~~END~~", idP, partidas[idP].jugadores[Turno].nombre);
+    sprintf(respuesta, "15/%d/%s~~END~~", idP, partidas[idP].jugadores[partidas[idP].turno].nombre);
     not_movimiento(idP, respuesta, tag);
 }
 
