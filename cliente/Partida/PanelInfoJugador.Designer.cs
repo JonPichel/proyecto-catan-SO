@@ -132,63 +132,58 @@ namespace cliente.Partida
             // 
             // lblMadera
             // 
-            this.lblMadera.BackColor = System.Drawing.Color.Gray;
-            this.lblMadera.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblMadera.ForeColor = System.Drawing.Color.White;
-            this.lblMadera.Location = new System.Drawing.Point(3, 63);
+            this.lblMadera.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblMadera.Image = ((System.Drawing.Image)(resources.GetObject("lblMadera.Image")));
+            this.lblMadera.Location = new System.Drawing.Point(0, 61);
             this.lblMadera.Name = "lblMadera";
-            this.lblMadera.Size = new System.Drawing.Size(32, 32);
-            this.lblMadera.TabIndex = 8;
-            this.lblMadera.Text = "0";
-            this.lblMadera.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblMadera.Size = new System.Drawing.Size(35, 28);
+            this.lblMadera.TabIndex = 12;
+            this.lblMadera.Text = "2";
+            this.lblMadera.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblLadrillo
             // 
-            this.lblLadrillo.BackColor = System.Drawing.Color.Gray;
-            this.lblLadrillo.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblLadrillo.ForeColor = System.Drawing.Color.White;
-            this.lblLadrillo.Location = new System.Drawing.Point(38, 63);
+            this.lblLadrillo.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblLadrillo.Image = ((System.Drawing.Image)(resources.GetObject("lblLadrillo.Image")));
+            this.lblLadrillo.Location = new System.Drawing.Point(40, 61);
             this.lblLadrillo.Name = "lblLadrillo";
-            this.lblLadrillo.Size = new System.Drawing.Size(32, 32);
-            this.lblLadrillo.TabIndex = 8;
-            this.lblLadrillo.Text = "0";
-            this.lblLadrillo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblLadrillo.Size = new System.Drawing.Size(35, 28);
+            this.lblLadrillo.TabIndex = 12;
+            this.lblLadrillo.Text = "2";
+            this.lblLadrillo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblOveja
             // 
-            this.lblOveja.BackColor = System.Drawing.Color.Gray;
-            this.lblOveja.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblOveja.ForeColor = System.Drawing.Color.White;
-            this.lblOveja.Location = new System.Drawing.Point(73, 63);
+            this.lblOveja.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblOveja.Image = ((System.Drawing.Image)(resources.GetObject("lblOveja.Image")));
+            this.lblOveja.Location = new System.Drawing.Point(80, 61);
             this.lblOveja.Name = "lblOveja";
-            this.lblOveja.Size = new System.Drawing.Size(32, 32);
-            this.lblOveja.TabIndex = 8;
-            this.lblOveja.Text = "0";
-            this.lblOveja.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblOveja.Size = new System.Drawing.Size(35, 28);
+            this.lblOveja.TabIndex = 12;
+            this.lblOveja.Text = "2";
+            this.lblOveja.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblTrigo
             // 
-            this.lblTrigo.BackColor = System.Drawing.Color.Gray;
-            this.lblTrigo.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblTrigo.ForeColor = System.Drawing.Color.White;
-            this.lblTrigo.Location = new System.Drawing.Point(108, 63);
+            this.lblTrigo.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblTrigo.Image = ((System.Drawing.Image)(resources.GetObject("lblTrigo.Image")));
+            this.lblTrigo.Location = new System.Drawing.Point(120, 61);
             this.lblTrigo.Name = "lblTrigo";
-            this.lblTrigo.Size = new System.Drawing.Size(32, 32);
-            this.lblTrigo.TabIndex = 8;
-            this.lblTrigo.Text = "0";
-            this.lblTrigo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTrigo.Size = new System.Drawing.Size(35, 28);
+            this.lblTrigo.TabIndex = 12;
+            this.lblTrigo.Text = "2";
+            this.lblTrigo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblPiedra
             // 
-            this.lblPiedra.BackColor = System.Drawing.Color.Gray;
-            this.lblPiedra.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblPiedra.ForeColor = System.Drawing.Color.White;
-            this.lblPiedra.Location = new System.Drawing.Point(143, 63);
+            this.lblPiedra.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblPiedra.Image = ((System.Drawing.Image)(resources.GetObject("lblPiedra.Image")));
+            this.lblPiedra.Location = new System.Drawing.Point(160, 61);
             this.lblPiedra.Name = "lblPiedra";
-            this.lblPiedra.Size = new System.Drawing.Size(32, 32);
-            this.lblPiedra.TabIndex = 8;
-            this.lblPiedra.Text = "0";
-            this.lblPiedra.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPiedra.Size = new System.Drawing.Size(35, 28);
+            this.lblPiedra.TabIndex = 12;
+            this.lblPiedra.Text = "2";
+            this.lblPiedra.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PanelInfoJugador
             // 
@@ -202,7 +197,7 @@ namespace cliente.Partida
             this.Controls.Add(this.lblMadera);
             this.Controls.Add(this.panelColor);
             this.Name = "PanelInfoJugador";
-            this.Size = new System.Drawing.Size(195, 100);
+            this.Size = new System.Drawing.Size(195, 90);
             this.panelColor.ResumeLayout(false);
             this.panelColor.PerformLayout();
             this.ResumeLayout(false);

@@ -109,17 +109,17 @@ namespace cliente.Partida
             // txtChat
             // 
             this.txtChat.BackColor = System.Drawing.Color.White;
-            this.txtChat.Location = new System.Drawing.Point(4, 1);
+            this.txtChat.Location = new System.Drawing.Point(4, 0);
             this.txtChat.Name = "txtChat";
             this.txtChat.ReadOnly = true;
             this.txtChat.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.txtChat.Size = new System.Drawing.Size(213, 186);
+            this.txtChat.Size = new System.Drawing.Size(213, 169);
             this.txtChat.TabIndex = 4;
             this.txtChat.Text = "";
             // 
             // btnEnviar
             // 
-            this.btnEnviar.Location = new System.Drawing.Point(157, 193);
+            this.btnEnviar.Location = new System.Drawing.Point(157, 175);
             this.btnEnviar.Name = "btnEnviar";
             this.btnEnviar.Size = new System.Drawing.Size(60, 23);
             this.btnEnviar.TabIndex = 2;
@@ -129,7 +129,7 @@ namespace cliente.Partida
             // 
             // txtMsg
             // 
-            this.txtMsg.Location = new System.Drawing.Point(4, 193);
+            this.txtMsg.Location = new System.Drawing.Point(4, 175);
             this.txtMsg.MaxLength = 400;
             this.txtMsg.Name = "txtMsg";
             this.txtMsg.Size = new System.Drawing.Size(142, 23);
@@ -142,10 +142,10 @@ namespace cliente.Partida
             this.panel3.Controls.Add(this.txtChat);
             this.panel3.Controls.Add(this.btnEnviar);
             this.panel3.Controls.Add(this.txtMsg);
-            this.panel3.Location = new System.Drawing.Point(0, 379);
+            this.panel3.Location = new System.Drawing.Point(2, 394);
             this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(223, 218);
+            this.panel3.Size = new System.Drawing.Size(223, 203);
             this.panel3.TabIndex = 2;
             // 
             // panel1
@@ -153,16 +153,16 @@ namespace cliente.Partida
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.panel1.Location = new System.Drawing.Point(0, 71);
+            this.panel1.Location = new System.Drawing.Point(2, 95);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(223, 150);
+            this.panel1.Size = new System.Drawing.Size(223, 139);
             this.panel1.TabIndex = 4;
             // 
             // pnlCartas
             // 
             this.pnlCartas.BackColor = System.Drawing.Color.White;
             this.pnlCartas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlCartas.Location = new System.Drawing.Point(0, 225);
+            this.pnlCartas.Location = new System.Drawing.Point(2, 240);
             this.pnlCartas.Name = "pnlCartas";
             this.pnlCartas.Size = new System.Drawing.Size(223, 149);
             this.pnlCartas.TabIndex = 5;
@@ -292,10 +292,10 @@ namespace cliente.Partida
             // 
             this.pnlTablero.BackColor = System.Drawing.Color.PowderBlue;
             this.pnlTablero.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pnlTablero.Location = new System.Drawing.Point(229, 71);
+            this.pnlTablero.Location = new System.Drawing.Point(229, 93);
             this.pnlTablero.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlTablero.Name = "pnlTablero";
-            this.pnlTablero.Size = new System.Drawing.Size(568, 420);
+            this.pnlTablero.Size = new System.Drawing.Size(568, 398);
             this.pnlTablero.TabIndex = 10;
             // 
             // lblTurno
@@ -371,7 +371,7 @@ namespace cliente.Partida
             this.pnlJugador1.Piedra = 0;
             this.pnlJugador1.Puntos = 0;
             this.pnlJugador1.Recursos = 0;
-            this.pnlJugador1.Size = new System.Drawing.Size(195, 100);
+            this.pnlJugador1.Size = new System.Drawing.Size(195, 90);
             this.pnlJugador1.TabIndex = 18;
             this.pnlJugador1.Trigo = 0;
             // 
@@ -391,7 +391,7 @@ namespace cliente.Partida
             this.pnlJugador2.Piedra = 0;
             this.pnlJugador2.Puntos = 0;
             this.pnlJugador2.Recursos = 0;
-            this.pnlJugador2.Size = new System.Drawing.Size(195, 100);
+            this.pnlJugador2.Size = new System.Drawing.Size(195, 90);
             this.pnlJugador2.TabIndex = 18;
             this.pnlJugador2.Trigo = 0;
             // 
@@ -411,7 +411,7 @@ namespace cliente.Partida
             this.pnlJugador3.Piedra = 0;
             this.pnlJugador3.Puntos = 0;
             this.pnlJugador3.Recursos = 0;
-            this.pnlJugador3.Size = new System.Drawing.Size(195, 100);
+            this.pnlJugador3.Size = new System.Drawing.Size(195, 90);
             this.pnlJugador3.TabIndex = 18;
             this.pnlJugador3.Trigo = 0;
             // 
@@ -431,7 +431,7 @@ namespace cliente.Partida
             this.pnlJugador4.Piedra = 0;
             this.pnlJugador4.Puntos = 0;
             this.pnlJugador4.Recursos = 0;
-            this.pnlJugador4.Size = new System.Drawing.Size(195, 100);
+            this.pnlJugador4.Size = new System.Drawing.Size(195, 90);
             this.pnlJugador4.TabIndex = 18;
             this.pnlJugador4.Trigo = 0;
             // 
@@ -440,8 +440,8 @@ namespace cliente.Partida
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.pnlJugador4);
             this.Controls.Add(this.pnlJugador3);
+            this.Controls.Add(this.pnlJugador4);
             this.Controls.Add(this.pnlJugador2);
             this.Controls.Add(this.pnlJugador1);
             this.Controls.Add(this.lblDado2);

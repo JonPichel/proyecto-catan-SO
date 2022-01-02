@@ -321,11 +321,11 @@ namespace cliente.Partida
             this.estado = Estado.Normal;
             this.lblUndo.Parent = pnlTablero;
             this.lblUndo.Visible = false;
-            this.lblUndo.Location = new Point(522, 375);
+            this.lblUndo.Location = new Point(522, 355);
             this.lblDado1.Parent = pnlTablero;
-            this.lblDado1.Location = new Point(10, 375);
+            this.lblDado1.Location = new Point(10, 355);
             this.lblDado2.Parent = pnlTablero;
-            this.lblDado2.Location = new Point(60, 375);
+            this.lblDado2.Location = new Point(60, 355);
             this.numturnos = 0;
 
             pnlTablero.Paint += TabTablero_Paint;
@@ -861,7 +861,7 @@ namespace cliente.Partida
                 if (panel.Nombre == this.turno)
                 {
                     panelActualizar = panel;
-                    panel.BorderStyle = BorderStyle.Fixed3D;
+                    //panel.BorderStyle = BorderStyle.Fixed3D;
                 }
                 else
                     panel.BorderStyle = BorderStyle.None;

@@ -421,7 +421,34 @@
   <data name="ComercioLadrillo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Media\Images\ComercioLadrillo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Ladron" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Media\Images\Ladron.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="masLadrillo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\masLadrillo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="masMadera" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\masMadera.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="masOveja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\masOveja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="masPiedra" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\masPiedra.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="masTrigo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\masTrigo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="menosLadrillo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\menosLadrillo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="menosMadera" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\menosMadera.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="menosOveja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\menosOveja.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="menosPiedra" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\menosPiedra.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="menosTrigo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\menosTrigo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -97,14 +97,14 @@ namespace cliente.Partida
                 else if (this.madera > 0)
                 {
                     this.lblMadera.Visible = true;
-                    this.lblMadera.BackColor = Color.Green;
-                    this.lblMadera.Text = "+" + value.ToString();
+                    this.lblMadera.Image = cliente.Properties.Resources.masMadera;
+                    this.lblMadera.Text = value.ToString();
                 }
                 else
                 {
                     this.lblMadera.Visible = true;
-                    this.lblMadera.BackColor = Color.Red;
-                    this.lblMadera.Text = "-" + value.ToString();
+                    this.lblMadera.Image = cliente.Properties.Resources.menosMadera;
+                    this.lblMadera.Text = Math.Abs(value).ToString();
                 }
             }
         }
@@ -121,14 +121,14 @@ namespace cliente.Partida
                 else if (this.ladrillo > 0)
                 {
                     this.lblLadrillo.Visible = true;
-                    this.lblLadrillo.BackColor = Color.Green;
-                    this.lblLadrillo.Text = "+ " + value.ToString();
+                    this.lblMadera.Image = cliente.Properties.Resources.masLadrillo;
+                    this.lblLadrillo.Text = value.ToString();
                 }
                 else
                 {
                     this.lblLadrillo.Visible = true;
-                    this.lblLadrillo.BackColor = Color.Red;
-                    this.lblLadrillo.Text = "- " + value.ToString();
+                    this.lblMadera.Image = cliente.Properties.Resources.menosLadrillo;
+                    this.lblLadrillo.Text = Math.Abs(value).ToString();
                 }
             }
         }
@@ -145,14 +145,14 @@ namespace cliente.Partida
                 else if (this.oveja > 0)
                 {
                     this.lblOveja.Visible = true;
-                    this.lblOveja.BackColor = Color.Green;
-                    this.lblOveja.Text = "+ " + value.ToString();
+                    this.lblMadera.Image = cliente.Properties.Resources.masOveja;
+                    this.lblOveja.Text = value.ToString();
                 }
                 else
                 {
                     this.lblOveja.Visible = true;
-                    this.lblOveja.BackColor = Color.Red;
-                    this.lblOveja.Text = "- " + value.ToString();
+                    this.lblMadera.Image = cliente.Properties.Resources.menosOveja;
+                    this.lblOveja.Text = Math.Abs(value).ToString();
                 }
             }
         }
@@ -169,14 +169,14 @@ namespace cliente.Partida
                 else if (this.trigo > 0)
                 {
                     this.lblTrigo.Visible = true;
-                    this.lblTrigo.BackColor = Color.Green;
-                    this.lblTrigo.Text = "+ " + value.ToString();
+                    this.lblMadera.Image = cliente.Properties.Resources.masTrigo;
+                    this.lblTrigo.Text = value.ToString();
                 }
                 else
                 {
                     this.lblTrigo.Visible = true;
-                    this.lblTrigo.BackColor = Color.Red;
-                    this.lblTrigo.Text = "- " + value.ToString();
+                    this.lblMadera.Image = cliente.Properties.Resources.menosTrigo;
+                    this.lblTrigo.Text = Math.Abs(value).ToString();
                 }
             }
         }
@@ -193,14 +193,14 @@ namespace cliente.Partida
                 else if (this.piedra > 0)
                 {
                     this.lblPiedra.Visible = true;
-                    this.lblPiedra.BackColor = Color.Green;
-                    this.lblPiedra.Text = "+ " + value.ToString();
+                    this.lblMadera.Image = cliente.Properties.Resources.masPiedra;
+                    this.lblPiedra.Text = value.ToString();
                 }
                 else
                 {
                     this.lblPiedra.Visible = true;
-                    this.lblPiedra.BackColor = Color.Red;
-                    this.lblPiedra.Text = "- " + value.ToString();
+                    this.lblMadera.Image = cliente.Properties.Resources.menosPiedra;
+                    this.lblPiedra.Text = Math.Abs(value).ToString();
                 }
             }
         }
