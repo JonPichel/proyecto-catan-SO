@@ -394,13 +394,13 @@ void pet_abandonar_lobby(char *resto, char *nombre, int socket) {
     sprintf(tag, "THREAD %d", socket);
 
     int idP = atoi(strtok_r(resto, "/", &resto));
-    if (strcmp(partidas[idP].jugadores[0].nombre, nombre) == 0) {
-        // Abandona el host
+    if (strcmp(partidas[idP].jugadores[0].nombre, nombre) == 0
+            || partidas[idP].estado == JUGANDO) {
         partidas[idP].estado = VACIA;
         not_partida_cancelada(idP, tag);
         partidas[idP].numj = 0;
     } else {
-        // Abandona un invitado
+        // Abandona un invitado el lobby
         part_delete_jugador(&partidas[idP], nombre);
         not_lista_jugadores(idP, tag);
         char mensaje[100];
@@ -524,3 +524,49 @@ void pet_colocar(int codigo, char *resto, int socket){
     not_movimiento(idP, respuesta, tag);
 }
 
+void pet_oferta_comercio(char *resto, int socket) {
+    char tag[32];
+    sprintf(tag, "THREAD %d", socket);
+
+    idP = atoi(strtok_r(resto, "/", &resto));
+    
+    char respuesta[64];
+    sprintf(respuesta, "27/%d/%s~~END~~", idP, resto);
+    not_movimiento(idP, respuesta, tag);
+}
+
+void pet_respuesta_comercio(char *resto, int socket) {
+    char tag[32];
+    sprintf(tag, "THREAD %d", socket);
+
+    idP = atoi(strtok_r(resto, "/", &resto));
+    
+    char respuesta[100];
+    sprintf(respuesta, "28/%d/%s~~END~~", idP, resto);
+    // Mandar solo al del turno
+    log_msg(tag, "Notificando respuesta de comercio por el socket %d: %s\n",
+            partidas[idP].jugadores[turno].socket, respuesta);
+    write(partidas[idP].jugadores[turno].socket, respuesta, strlen(respuesta));
+}
+
+void pet_resultado_comercio(char *resto, int socket) {
+    char tag[32];
+    sprintf(tag, "THREAD %d", socket);
+
+    idP = atoi(strtok_r(resto, "/", &resto));
+    
+    char respuesta[100];
+    sprintf(respuesta, "29/%d/%s~~END~~", idP, resto);
+    not_movimiento(idP, respuesta, tag);
+}
+
+void pet_resultado_comercio_mar(char *resto, int socket) {
+    char tag[32];
+    sprintf(tag, "THREAD %d", socket);
+
+    idP = atoi(strtok_r(resto, "/", &resto));
+    
+    char respuesta[64];
+    sprintf(respuesta, "30/%d/%s~~END~~", idP, resto);
+    not_movimiento(idP, respuesta, tag);
+}

@@ -145,3 +145,7 @@ SERVIDOR: 28/idPartida/NombreAcepta/SI o NO	[turno]
 # RESULTADO COMERCIO
 CLIENTE: 29/idPartida/NombreAcepta/OMadera,OLadrillo...,PMadera,PLadrillo... (números)
 SERVIDOR: 29/idPartida/NombreAcepta/OMadera,OLadrillo...,PMadera,PLadrillo... (números)	[todos]
+
+# RESULTADO COMERCIO MARITIMO
+CLIENTE: 30/idPartida/NombreAcepta/OMadera,OLadrillo...,PMadera,PLadrillo... (números)
+SERVIDOR: 30/idPartida/NombreAcepta/OMadera,OLadrillo...,PMadera,PLadrillo... (números)	[todos]

@@ -186,6 +186,18 @@ void *atender_cliente(void *sock_ptr) {
             case 25:
                 pet_usar_carta(codigo, resto, socket);
                 break;
+            case 27:
+                pet_oferta_comercio(resto, socket);
+                break;
+            case 28:
+                pet_respuesta_comercio(resto, socket);
+                break;
+            case 29:
+                pet_resultado_comercio(resto, socket);
+                break;
+            case 30:
+                pet_resultado_comercio_mar(resto, socket);
+                break;
             default:
                 log_msg(tag, "Peticion desconocida: %d\n", codigo);
                 close(socket);

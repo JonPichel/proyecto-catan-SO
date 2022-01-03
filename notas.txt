@@ -1,8 +1,5 @@
 PUERTOS: 50074, 50075, 50076
 
-TODO:
- * Cambiar conexión MySQL
-
 PARA COMPILAR:
 gcc -g -o servidorCatan util.c estructuras.c base_datos.c peticiones.c servidor.c -pthread `mysql_config --cflags --libs`
 
