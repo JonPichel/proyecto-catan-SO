@@ -121,13 +121,13 @@ namespace cliente.Partida
                 else if (this.ladrillo > 0)
                 {
                     this.lblLadrillo.Visible = true;
-                    this.lblMadera.Image = cliente.Properties.Resources.masLadrillo;
+                    this.lblLadrillo.Image = cliente.Properties.Resources.masLadrillo;
                     this.lblLadrillo.Text = value.ToString();
                 }
                 else
                 {
                     this.lblLadrillo.Visible = true;
-                    this.lblMadera.Image = cliente.Properties.Resources.menosLadrillo;
+                    this.lblLadrillo.Image = cliente.Properties.Resources.menosLadrillo;
                     this.lblLadrillo.Text = Math.Abs(value).ToString();
                 }
             }
@@ -145,13 +145,13 @@ namespace cliente.Partida
                 else if (this.oveja > 0)
                 {
                     this.lblOveja.Visible = true;
-                    this.lblMadera.Image = cliente.Properties.Resources.masOveja;
+                    this.lblOveja.Image = cliente.Properties.Resources.masOveja;
                     this.lblOveja.Text = value.ToString();
                 }
                 else
                 {
                     this.lblOveja.Visible = true;
-                    this.lblMadera.Image = cliente.Properties.Resources.menosOveja;
+                    this.lblOveja.Image = cliente.Properties.Resources.menosOveja;
                     this.lblOveja.Text = Math.Abs(value).ToString();
                 }
             }
@@ -169,13 +169,13 @@ namespace cliente.Partida
                 else if (this.trigo > 0)
                 {
                     this.lblTrigo.Visible = true;
-                    this.lblMadera.Image = cliente.Properties.Resources.masTrigo;
+                    this.lblTrigo.Image = cliente.Properties.Resources.masTrigo;
                     this.lblTrigo.Text = value.ToString();
                 }
                 else
                 {
                     this.lblTrigo.Visible = true;
-                    this.lblMadera.Image = cliente.Properties.Resources.menosTrigo;
+                    this.lblTrigo.Image = cliente.Properties.Resources.menosTrigo;
                     this.lblTrigo.Text = Math.Abs(value).ToString();
                 }
             }
@@ -193,13 +193,13 @@ namespace cliente.Partida
                 else if (this.piedra > 0)
                 {
                     this.lblPiedra.Visible = true;
-                    this.lblMadera.Image = cliente.Properties.Resources.masPiedra;
+                    this.lblPiedra.Image = cliente.Properties.Resources.masPiedra;
                     this.lblPiedra.Text = value.ToString();
                 }
                 else
                 {
                     this.lblPiedra.Visible = true;
-                    this.lblMadera.Image = cliente.Properties.Resources.menosPiedra;
+                    this.lblPiedra.Image = cliente.Properties.Resources.menosPiedra;
                     this.lblPiedra.Text = Math.Abs(value).ToString();
                 }
             }

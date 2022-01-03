@@ -535,8 +535,12 @@ namespace cliente.Partida
                             {
                                 Madera--;
                                 Ladrillo--;
+                                panelActualizar.Madera--;
+                                panelActualizar.Ladrillo--;
+                                panelActualizar.Recursos -= 2;
                                 RefreshBotones();
                             }
+                            timerRecursos.Start();
                         }
                         break;
                     case Estado.ColocarPoblado:
@@ -564,8 +568,14 @@ namespace cliente.Partida
                                 Ladrillo--;
                                 Oveja--;
                                 Trigo--;
+                                panelActualizar.Madera--;
+                                panelActualizar.Ladrillo--;
+                                panelActualizar.Oveja--;
+                                panelActualizar.Trigo--;
+                                panelActualizar.Recursos -= 4;
                                 RefreshBotones();
                             }
+                            timerRecursos.Start();
                         }
                         break;
                     case Estado.ColocarCiudad:
@@ -590,6 +600,10 @@ namespace cliente.Partida
                             panelActualizar.Puntos = panelActualizar.Puntos + 1;
                             trigo -= 2;
                             piedra -= 3;
+                            panelActualizar.Trigo -= 2;
+                            panelActualizar.Piedra -= 3;
+                            panelActualizar.Recursos -= 5;
+                            timerRecursos.Start();
                             RefreshBotones();
                         }
                         break;
@@ -610,7 +624,7 @@ namespace cliente.Partida
             {
                 case Estado.Normal:
                     // Panning
-                    if (e.Button == MouseButtons.Left)
+                    if (e.Button == MouseButtons.Left && timerRecursos.Enabled == false)
                     {
                         basePoint.X += e.Location.X - oldMouse.X;
                         basePoint.Y += e.Location.Y - oldMouse.Y;
@@ -1061,7 +1075,7 @@ namespace cliente.Partida
             if (this.nombre != this.turno)
                 return;
 
-            FormComerciar form = new FormComerciar(1, 2, 0, 3, 2); //(madera, ladrillo, oveja, trigo, piedra)
+            FormComerciar form = new FormComerciar(this.conn, this.idP, this.nombre, this.nombres, this.colores, 2, 3, 0, 1, 4, 4, 4, 4, 4, 4); //Socket conn, int idP, string nombre, string[] nombres, ColorJugador[] colores, int Madera, int Ladrillo, int Oveja, int Trigo, int Piedra, int puertomadera, int puertoladrillo, int puertooveja, int puertotrigo, int puertopiedra
             form.ShowDialog();
         }
 
@@ -1228,18 +1242,41 @@ namespace cliente.Partida
                     fichasVertices.Add(verticeColocar);
                     pnlTablero.Refresh();
                     panelActualizar.Puntos = panelActualizar.Puntos + 1;
+                    if (numturnos > (numJugadores * 2))
+                    {
+                        panelActualizar.Madera--;
+                        panelActualizar.Ladrillo--;
+                        panelActualizar.Oveja--;
+                        panelActualizar.Trigo--;
+                        panelActualizar.Recursos -= 4;
+                        timerRecursos.Start();
+                    }
                     break;
                 case 19:
                     verticeColocar = new FichaCiudad(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Vertice)Convert.ToInt32(coordenadas[2]), Color);
                     fichasVertices.Add(verticeColocar);
                     pnlTablero.Refresh();
                     panelActualizar.Puntos = panelActualizar.Puntos + 1;
+                    if (numturnos > (numJugadores * 2))
+                    {
+                        panelActualizar.Trigo -= 2;
+                        panelActualizar.Piedra -= 3;
+                        panelActualizar.Recursos -= 5;
+                        timerRecursos.Start();
+                    }
                     break;
                 case 20:
                     carreteraColocar = new Carretera(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Lado)Convert.ToInt32(coordenadas[2]), Color);
                     carreteras.Add(carreteraColocar);
                     pnlTablero.Refresh();
                     panelActualizar.Carreteras = panelActualizar.Carreteras + 1;
+                    if (numturnos > (numJugadores * 2))
+                    {
+                        panelActualizar.Madera--;
+                        panelActualizar.Ladrillo--;
+                        panelActualizar.Recursos -= 2;
+                        timerRecursos.Start();
+                    }
                     break;
             }
             RecalcularLadosPosibles();
