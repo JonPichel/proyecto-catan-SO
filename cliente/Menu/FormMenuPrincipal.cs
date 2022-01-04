@@ -28,7 +28,6 @@ namespace cliente.Menu
         public FormMenuPrincipal()
         {
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;
         }
 
         private void FormMenuPrincipal_Load(object sender, EventArgs e)
@@ -296,7 +295,38 @@ namespace cliente.Menu
                                 partidas[idP].Invoke(delegado, new object[] { mensaje });
                             }
                             break;
-
+                        case 27:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].ComercioOferta);
+                                partidas[idP].Invoke(delegado, new object[] { trozos[i] });
+                            }
+                            break;
+                        case 28:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].ComercioRespuesta);
+                                partidas[idP].Invoke(delegado, new object[] { trozos[i] });
+                            }
+                            break;
+                        case 29:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].ComercioResultado);
+                                partidas[idP].Invoke(delegado, new object[] { trozos[i] });
+                            }
+                            break;
+                        case 30:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].ComercioMaritimo);
+                                partidas[idP].Invoke(delegado, new object[] { trozos[i] });
+                            }
+                            break;
                     }
                 }
             }

@@ -147,5 +147,9 @@ CLIENTE: 29/idPartida/NombreAcepta/OMadera,OLadrillo...,PMadera,PLadrillo... (n�
 SERVIDOR: 29/idPartida/NombreAcepta/OMadera,OLadrillo...,PMadera,PLadrillo... (números)	[todos]
 
 # RESULTADO COMERCIO MARITIMO
-CLIENTE: 30/idPartida/NombreAcepta/OMadera,OLadrillo...,PMadera,PLadrillo... (números)
-SERVIDOR: 30/idPartida/NombreAcepta/OMadera,OLadrillo...,PMadera,PLadrillo... (números)	[todos]
+CLIENTE: 30/idPartida/OMadera,OLadrillo...,PMadera,PLadrillo... (números)
+SERVIDOR: 30/idPartida/OMadera,OLadrillo...,PMadera,PLadrillo... (números)	[todos]
+
+# ENTREGAR RECURSOS LADRÓN
+CLIENTE: 31/idPartida/NombreEntrega/#madera,#ladrillo,...
+SERVIDOR: 31/idPartida/NombreEntrega/#madera,#ladrillo,... [todos]

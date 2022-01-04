@@ -539,7 +539,7 @@ void pet_oferta_comercio(char *resto, int socket) {
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
-    idP = atoi(strtok_r(resto, "/", &resto));
+    int idP = atoi(strtok_r(resto, "/", &resto));
     
     char respuesta[64];
     sprintf(respuesta, "27/%d/%s~~END~~", idP, resto);
@@ -550,21 +550,21 @@ void pet_respuesta_comercio(char *resto, int socket) {
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
-    idP = atoi(strtok_r(resto, "/", &resto));
+    int idP = atoi(strtok_r(resto, "/", &resto));
     
     char respuesta[100];
     sprintf(respuesta, "28/%d/%s~~END~~", idP, resto);
     // Mandar solo al del turno
     log_msg(tag, "Notificando respuesta de comercio por el socket %d: %s\n",
-            partidas[idP].jugadores[turno].socket, respuesta);
-    write(partidas[idP].jugadores[turno].socket, respuesta, strlen(respuesta));
+            partidas[idP].jugadores[partidas[idP].turno].socket, respuesta);
+    write(partidas[idP].jugadores[partidas[idP].turno].socket, respuesta, strlen(respuesta));
 }
 
 void pet_resultado_comercio(char *resto, int socket) {
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
-    idP = atoi(strtok_r(resto, "/", &resto));
+    int idP = atoi(strtok_r(resto, "/", &resto));
     
     char respuesta[100];
     sprintf(respuesta, "29/%d/%s~~END~~", idP, resto);
@@ -575,7 +575,7 @@ void pet_resultado_comercio_mar(char *resto, int socket) {
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
-    idP = atoi(strtok_r(resto, "/", &resto));
+    int idP = atoi(strtok_r(resto, "/", &resto));
     
     char respuesta[64];
     sprintf(respuesta, "30/%d/%s~~END~~", idP, resto);
