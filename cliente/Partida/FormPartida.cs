@@ -195,5 +195,10 @@ namespace cliente.Partida
         {
             ((TabTablero)tabs[2]).Colocar(mensaje);
         }
+        public void DarMonopolio(string mensaje)
+        {
+            mensaje = mensaje.Split("/")[1];
+            ((TabTablero)tabs[2]).DarMonopolio(mensaje);
+        }
     }
 }

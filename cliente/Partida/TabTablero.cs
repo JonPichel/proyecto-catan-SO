@@ -501,13 +501,14 @@ namespace cliente.Partida
                         oldMouse = e.Location;
                         pnlTablero.Refresh();
                         break;
-                    case Estado.ColocarLadron:
+                    case Estado.ColocarLadron:                        
                         posicionLadron = HexCoords.PixelToHex(e.Location, basePoint, zoomLevel);
                         string pet = "17/" + idP.ToString() + "/" + posicionLadron.R.ToString() + "," +
                                 posicionLadron.Q.ToString();
                         byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                         conn.Send(pet_b);
                         estado = Estado.Normal;
+                        RefreshBotones();
                         break;
                     case Estado.ColocarCarretera:
                         if (ComprobarCarretera(carreteraColocar.Coords))
@@ -884,32 +885,44 @@ namespace cliente.Partida
 
         public void RefreshBotones()
         {
-            // Comprobar construir carretera
-            if (madera < 1 || ladrillo < 1)
+            if (this.turno == nombre && estado != Estado.ColocarLadron)
+            {
+                // Comprobar construir carretera
+                if (madera < 1 || ladrillo < 1)
+                    btnCarretera.Enabled = false;
+                else
+                    btnCarretera.Enabled = true;
+
+                // Comprobar construir poblado
+                if (madera < 1 || ladrillo < 1 || trigo < 1 || oveja < 1)
+                    btnPoblado.Enabled = false;
+                else
+                    btnPoblado.Enabled = true;
+
+                // Comprobar contruir ciudad
+                if (trigo < 2 || piedra < 3)
+                    btnCiudad.Enabled = false;
+                else
+                    btnCiudad.Enabled = true;
+
+                // Comprobar comprar carta
+                if (trigo < 1 || oveja < 1 || piedra < 1)
+                    btnDesarrollo.Enabled = false;
+                else
+                    btnDesarrollo.Enabled = true;
+
+                btnComercio.Enabled = true;
+                btnTurno.Enabled = true;
+            }
+            else
+            {
                 btnCarretera.Enabled = false;
-            else
-                btnCarretera.Enabled = true;
-
-            // Comprobar construir poblado
-            if (madera < 1 || ladrillo < 1 || trigo < 1 || oveja < 1)
-                btnPoblado.Enabled = false;
-            else
-                btnPoblado.Enabled = true;
-
-            // Comprobar contruir ciudad
-            if (trigo < 2 || piedra < 3)
                 btnCiudad.Enabled = false;
-            else
-                btnCiudad.Enabled = true;
-
-            // Comprobar comprar carta
-            if (trigo < 1 || oveja < 1 || piedra < 1)
+                btnPoblado.Enabled = false;
+                btnComercio.Enabled = false;
                 btnDesarrollo.Enabled = false;
-            else
-                btnDesarrollo.Enabled = true;
-
-            btnComercio.Enabled = true;            
-            btnTurno.Enabled = true;
+                btnTurno.Enabled = false;
+            }
         }
 
         public void TirarDados(string dados)
@@ -1017,6 +1030,7 @@ namespace cliente.Partida
                 if (sumadados == 7 && this.turno == this.nombre)
                 {
                     //FALTA AMPLIAR
+                    RefreshBotones();
                     estado = Estado.ColocarLadron;
                 }
             }
@@ -1112,12 +1126,13 @@ namespace cliente.Partida
                 btnDesarrollo.Enabled = false;
                 return;
             }
-            panelActualizar.Desarrollo++;
-            if ((Carta.TipoCarta)Convert.ToInt32(mensaje) == Carta.TipoCarta.Punto)
-                panelActualizar.Puntos++;
+            panelActualizar.Desarrollo++;            
 
             if (this.nombre != this.turno)
                 return;
+
+            if ((Carta.TipoCarta)Convert.ToInt32(mensaje) == Carta.TipoCarta.Punto)
+                panelActualizar.Puntos++;
 
             Carta carta = new Carta((Carta.TipoCarta)Convert.ToInt32(mensaje));
             int num = 0;
@@ -1138,6 +1153,16 @@ namespace cliente.Partida
             pnlCartas.Controls.Add(carta);
             carta.Location = new Point(x, y);
             carta.BringToFront();
+
+            this.oveja--;
+            this.trigo--;
+            this.piedra--;
+
+            Oveja--;
+            Trigo--;
+            Piedra--;
+
+            RefreshBotones();
         }
 
         private void Carta_Click(object sender, EventArgs e)
@@ -1209,8 +1234,34 @@ namespace cliente.Partida
                     MessageBox.Show(this.turno + " ha usado carta de desarrollo: Invento" );
                     break;
                 case 25:
-                    string recurso = trozos[2];
-                    MessageBox.Show(this.turno + " ha usado carta de desarrollo: Monopolio \n Quiere recurso: " + recurso);
+                    string recurso = trozos[2];                   
+                    string pet;
+                    byte[] pet_b;
+                    int cantidad;
+                    switch (recurso)
+                    {
+                        case "Madera":
+                            cantidad = this.madera;
+                            break;
+                        case "Ladrillo":
+                            cantidad = this.ladrillo;
+                            break;
+                        case "Oveja":
+                            cantidad = this.oveja;
+                            break;
+                        case "Trigo":
+                            cantidad = this.trigo;
+                            break;
+                        case "Piedra":
+                            cantidad = this.piedra;
+                            break;
+                        default:
+                            cantidad = 0;
+                            break;
+                    }                        
+                    pet = "26/" + idP.ToString() + "/" + this.nombre + "," + recurso + "," + cantidad.ToString();
+                    pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                    conn.Send(pet_b);
                     break;
             }
         }
@@ -1281,6 +1332,94 @@ namespace cliente.Partida
             }
             RecalcularLadosPosibles();
             RecalcularVerticesPosibles();
+        }
+
+        public void DarMonopolio(string mensaje)
+        {
+
+            string[] trozos = mensaje.Split(',');
+            string donante = trozos[0];
+            string recurso = trozos[1];
+            int cantidad = Convert.ToInt32(trozos[2]);
+
+            if (this.turno == this.nombre)
+            {
+                switch (recurso)
+                {
+                    case "Madera":
+                        madera += cantidad;
+                        panelActualizar.Madera = madera;
+                        Madera = madera;
+                        break;
+                    case "Ladrillo":
+                        ladrillo += cantidad;
+                        panelActualizar.Ladrillo = ladrillo;
+                        Ladrillo = ladrillo;
+                        break;
+                    case "Oveja":
+                        oveja += cantidad;
+                        panelActualizar.Oveja = oveja;
+                        Oveja = oveja;
+                        break;
+                    case "Trigo":
+                        trigo += cantidad;
+                        panelActualizar.Trigo = trigo;
+                        Trigo = trigo;
+                        break;
+                    case "Piedra":
+                        piedra += cantidad;
+                        panelActualizar.Piedra = piedra;
+                        Piedra = piedra;
+                        break;
+                }
+
+                foreach (PanelInfoJugador panel in paneles)
+                {
+                    if (panel.Nombre == this.nombre)
+                    {
+                        panelActualizar.Recursos += cantidad;
+                    }
+                }
+            }
+            if (donante == this.nombre)
+            {
+                switch (recurso)
+                {
+                    case "Madera":
+                        madera = 0;
+                        panelActualizar.Madera = madera;
+                        Madera = madera;
+                        break;
+                    case "Ladrillo":
+                        ladrillo = 0;
+                        panelActualizar.Ladrillo = ladrillo;
+                        Ladrillo = ladrillo;
+                        break;
+                    case "Oveja":
+                        oveja = 0;
+                        panelActualizar.Oveja = oveja;
+                        Oveja = oveja;
+                        break;
+                    case "Trigo":
+                        trigo = 0;
+                        panelActualizar.Trigo = trigo;
+                        Trigo = trigo;
+                        break;
+                    case "Piedra":
+                        piedra = 0;
+                        panelActualizar.Piedra = piedra;
+                        Piedra = piedra;
+                        break;
+                }
+            }
+            foreach (PanelInfoJugador panel in paneles)
+            {
+                if (panel.Nombre == donante)
+                {
+                    panel.Recursos -= cantidad;
+                }
+            }
+
         }
     }
 }
