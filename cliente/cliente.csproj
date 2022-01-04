@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Update="Partida\FormOferta.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Partida\FormComerciar.cs">
       <SubType>Form</SubType>
     </Compile>

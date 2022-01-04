@@ -19,6 +19,9 @@ namespace cliente.Partida
 
         List<TabPartida> tabs = new List<TabPartida>();
 
+
+        Form FormSecundario = null;
+
         public FormPartida(Socket conn, int idP, string nombre, bool host)
         {
             InitializeComponent();
@@ -194,6 +197,26 @@ namespace cliente.Partida
         public void Colocar(string mensaje)
         {
             ((TabTablero)tabs[2]).Colocar(mensaje);
+        }
+
+        public void ComercioOferta(string mensaje)
+        {
+            ((TabTablero)tabs[2]).ComercioOferta(mensaje);
+        }
+
+        public void ComercioRespuesta(string mensaje)
+        {
+            ((TabTablero)tabs[2]).ComercioRespuesta(mensaje);
+        }
+
+        public void ComercioResultado(string mensaje)
+        {
+            ((TabTablero)tabs[2]).ComercioResultado(mensaje);
+        }
+
+        public void ComercioMaritimo(string mensaje)
+        {
+            ((TabTablero)tabs[2]).ComercioMaritimo(mensaje);
         }
     }
 }

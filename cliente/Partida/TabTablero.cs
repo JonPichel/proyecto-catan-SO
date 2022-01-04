@@ -75,6 +75,7 @@ namespace cliente.Partida
 
         PanelInfoJugador[] paneles;
         PanelInfoJugador panelActualizar;
+        FormComerciar formComerciar = null;
 
         // Recursos en tu poder
         int madera, ladrillo, oveja, trigo, piedra;
@@ -519,17 +520,14 @@ namespace cliente.Partida
                             conn.Send(pet_b);
                             RecalcularLadosPosibles();
                             RecalcularVerticesPosibles();
-                            estado = Estado.Normal;
                             this.lblUndo.Visible = false;
-                            panelActualizar.Carreteras = panelActualizar.Carreteras + 1;
+                            panelActualizar.Carreteras += 1;
                             if (numturnos <= (numJugadores*2))
                             {
                                 btnCarretera.Enabled = false;
-
-                                //Peticion acabar turno automatica
-                                pet = "15/" + idP.ToString();
-                                pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
-                                conn.Send(pet_b);
+                                btnTurno.Text = "Acabar turno";
+                                btnTurno.Tag = "ACABAR";
+                                btnTurno.Enabled = true;
                             }
                             else
                             {
@@ -541,6 +539,7 @@ namespace cliente.Partida
                                 RefreshBotones();
                             }
                             timerRecursos.Start();
+                            estado = Estado.Normal;
                         }
                         break;
                     case Estado.ColocarPoblado:
@@ -884,6 +883,9 @@ namespace cliente.Partida
 
         public void RefreshBotones()
         {
+            // Si no te toca no puedes hacer nada
+            if (this.nombre != this.turno) return;
+
             // Comprobar construir carretera
             if (madera < 1 || ladrillo < 1)
                 btnCarretera.Enabled = false;
@@ -1075,8 +1077,55 @@ namespace cliente.Partida
             if (this.nombre != this.turno)
                 return;
 
-            FormComerciar form = new FormComerciar(this.conn, this.idP, this.nombre, this.nombres, this.colores, 2, 3, 0, 1, 4, 4, 4, 4, 4, 4); //Socket conn, int idP, string nombre, string[] nombres, ColorJugador[] colores, int Madera, int Ladrillo, int Oveja, int Trigo, int Piedra, int puertomadera, int puertoladrillo, int puertooveja, int puertotrigo, int puertopiedra
-            form.ShowDialog();
+            int ratioMadera = 4;
+            int ratioLadrillo = 4;
+            int ratioOveja = 4;
+            int ratioTrigo = 4;
+            int ratioPiedra = 4;
+            foreach (Puerto puerto in this.puertos)
+            {
+                foreach (VerticeCoords coords in puerto.Coords.VerticesExtremos())
+                {
+                    foreach (VerticeCoords poblado in this.misPoblados)
+                    {
+                        if (poblado == coords)
+                        {
+                            switch (puerto)
+                            {
+                                case PuertoGeneral _:
+                                    if (ratioMadera == 4) ratioMadera = 3;
+                                    if (ratioLadrillo == 4) ratioLadrillo = 3;
+                                    if (ratioOveja == 4) ratioOveja = 3;
+                                    if (ratioTrigo == 4) ratioTrigo = 3;
+                                    if (ratioPiedra == 4) ratioPiedra = 3;
+                                    break;
+                                case PuertoMadera _:
+                                    ratioMadera = 2;
+                                    break;
+                                case PuertoLadrillo _:
+                                    ratioLadrillo = 2;
+                                    break;
+                                case PuertoOveja _:
+                                    ratioOveja = 2;
+                                    break;
+                                case PuertoTrigo _:
+                                    ratioTrigo = 2;
+                                    break;
+                                case PuertoPiedra _:
+                                    ratioPiedra = 2;
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            formComerciar = new FormComerciar(this.conn, this.idP, this.nombre, this.nombres, this.colores,
+                madera, ladrillo, oveja, trigo, piedra,
+                ratioMadera, ratioLadrillo, ratioOveja, ratioTrigo, ratioPiedra);
+            formComerciar.ShowDialog();
+            formComerciar = null;
         }
 
         private void lblUndo_Click(object sender, EventArgs e)
@@ -1174,7 +1223,7 @@ namespace cliente.Partida
                     break;
                 case 2:
                     pet = "22/" + idP.ToString();
-                    panelActualizar.Caballeros = panelActualizar.Caballeros + 1;
+                    panelActualizar.Caballeros += 1;
                     estado = Estado.ColocarLadron;
                     break;
                 case 3:
@@ -1216,6 +1265,7 @@ namespace cliente.Partida
         }
         public void Colocar(string mensaje)
         {
+            // Ya lo habrá colocado antes
             if (this.nombre == this.turno)
                 return;
 
@@ -1256,7 +1306,7 @@ namespace cliente.Partida
                     verticeColocar = new FichaCiudad(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Vertice)Convert.ToInt32(coordenadas[2]), Color);
                     fichasVertices.Add(verticeColocar);
                     pnlTablero.Refresh();
-                    panelActualizar.Puntos = panelActualizar.Puntos + 1;
+                    panelActualizar.Puntos += 1;
                     if (numturnos > (numJugadores * 2))
                     {
                         panelActualizar.Trigo -= 2;
@@ -1269,7 +1319,7 @@ namespace cliente.Partida
                     carreteraColocar = new Carretera(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Lado)Convert.ToInt32(coordenadas[2]), Color);
                     carreteras.Add(carreteraColocar);
                     pnlTablero.Refresh();
-                    panelActualizar.Carreteras = panelActualizar.Carreteras + 1;
+                    panelActualizar.Carreteras += 1;
                     if (numturnos > (numJugadores * 2))
                     {
                         panelActualizar.Madera--;
@@ -1281,6 +1331,99 @@ namespace cliente.Partida
             }
             RecalcularLadosPosibles();
             RecalcularVerticesPosibles();
+        }
+
+        public void ComercioOferta(string mensaje)
+        {
+            if (this.formComerciar != null) return;
+
+            FormOferta form = new FormOferta(this.conn, this.idP, this.nombre, mensaje,
+                madera, ladrillo, oveja, trigo, piedra);
+            form.ShowDialog();
+        }
+
+        public void ComercioRespuesta(string mensaje)
+        {
+            if (this.formComerciar != null)
+            {
+                formComerciar.ActualizarRespuesta(mensaje);
+            }
+        }
+        
+        public void ComercioResultado(string mensaje)
+        {
+            string[] trozos = mensaje.Split("/");
+            int[] recursos = new int[10];
+            int i = 0;
+            foreach (string num in trozos[3].Split(","))
+            {
+                recursos[i++] = Convert.ToInt32(num);
+            }
+
+            if (this.nombre == this.turno)
+            {
+                Madera += recursos[5] - recursos[0];
+                Ladrillo += recursos[6] - recursos[1];
+                Oveja += recursos[7] - recursos[2];
+                Trigo += recursos[8] - recursos[3];
+                Piedra += recursos[9] - recursos[4];
+            } else if (this.nombre == trozos[2])
+            {
+                Madera -= recursos[5] - recursos[0];
+                Ladrillo -= recursos[6] - recursos[1];
+                Oveja -= recursos[7] - recursos[2];
+                Trigo -= recursos[8] - recursos[3];
+                Piedra -= recursos[9] - recursos[4];
+            }
+
+            panelActualizar.Recursos += recursos[5..].Sum() - recursos[..5].Sum();
+            panelActualizar.Madera += recursos[5] - recursos[0];
+            panelActualizar.Ladrillo += recursos[6] - recursos[1];
+            panelActualizar.Oveja += recursos[7] - recursos[2];
+            panelActualizar.Trigo += recursos[8] - recursos[3];
+            panelActualizar.Piedra += recursos[9] - recursos[4];
+            foreach (PanelInfoJugador panel in paneles)
+            {
+                if (panel.Nombre == trozos[2])
+                {
+                    panel.Recursos -= recursos[5..].Sum() - recursos[..5].Sum();
+                    panel.Madera -= recursos[5] - recursos[0];
+                    panel.Ladrillo -= recursos[6] - recursos[1];
+                    panel.Oveja -= recursos[7] - recursos[2];
+                    panel.Trigo -= recursos[8] - recursos[3];
+                    panel.Piedra -= recursos[9] - recursos[4];
+                    break;
+                }
+            }
+            timerRecursos.Start();
+        }
+
+        public void ComercioMaritimo(string mensaje)
+        {
+            string[] trozos = mensaje.Split("/");
+            int[] recursos = new int[10];
+            int i = 0;
+            foreach (string num in trozos[2].Split(","))
+            {
+                recursos[i++] = Convert.ToInt32(num);
+            }
+
+            if (this.nombre == this.turno)
+            {
+                Madera += recursos[5] - recursos[0];
+                Ladrillo += recursos[6] - recursos[1];
+                Oveja += recursos[7] - recursos[2];
+                Trigo += recursos[8] - recursos[3];
+                Piedra += recursos[9] - recursos[4];
+            }
+
+            panelActualizar.Recursos += recursos[5..].Sum() - recursos[..5].Sum();
+            panelActualizar.Madera += recursos[5] - recursos[0];
+            panelActualizar.Ladrillo += recursos[6] - recursos[1];
+            panelActualizar.Oveja += recursos[7] - recursos[2];
+            panelActualizar.Trigo += recursos[8] - recursos[3];
+            panelActualizar.Piedra += recursos[9] - recursos[4];
+            timerRecursos.Start();
         }
     }
 }

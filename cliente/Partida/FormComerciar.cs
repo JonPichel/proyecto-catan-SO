@@ -21,10 +21,10 @@ namespace cliente.Partida
         Image Jugador2;
 
         //Recursos en tu poder
-        int[] recursos = new int[] { 0, 0, 0, 0, 0 }; //{Madera,Ladrillo,Oveja,Trigo,Piedra}
+        int[] recursos;
 
         //Tus puertos
-        int[] ratiopuertos = new int[] { 4, 4, 4, 4, 4 }; //{ratioMadera, ratioLadrillo...}
+        int[] ratiopuertos;
 
         Button[] btnsO;         //btns ofrecer
         Button[] btnsP;         //btns pedir
@@ -36,24 +36,30 @@ namespace cliente.Partida
         int Comercio = 0; // 0: comercio con otros jugadores, 1: comercio marítimo  
 
         public FormComerciar(Socket conn, int idP, string nombre, string[] nombres, ColorJugador[] colores,
-            int Madera, int Ladrillo, int Oveja, int Trigo, int Piedra, 
-            int ratiomadera, int ratioladrillo, int ratiooveja, int ratiotrigo, int ratiopiedra)
+            int madera, int ladrillo, int oveja, int trigo, int piedra, 
+            int ratioMadera, int ratioLadrillo, int ratioOveja, int ratioTrigo, int ratioPiedra)
         {
             this.conn = conn;
             this.idP = idP;
             this.nombre = nombre;
             this.nombres = nombres;
             this.colores = colores;
-            this.recursos[0] = Madera;
-            this.recursos[1] = Ladrillo;
-            this.recursos[2] = Oveja;
-            this.recursos[3] = Trigo;
-            this.recursos[4] = Piedra;
-            this.ratiopuertos[0] = ratiomadera;
-            this.ratiopuertos[1] = ratioladrillo;
-            this.ratiopuertos[2] = ratiooveja;
-            this.ratiopuertos[3] = ratiotrigo;
-            this.ratiopuertos[4] = ratiopiedra;
+            this.recursos = new int[]
+            {
+                madera,
+                ladrillo,
+                oveja,
+                trigo,
+                piedra
+            };
+            this.ratiopuertos = new int[]
+            {
+                ratioMadera,
+                ratioLadrillo,
+                ratioOveja,
+                ratioTrigo,
+                ratioPiedra
+            };
             InitializeComponent();
         }
 
@@ -87,6 +93,11 @@ namespace cliente.Partida
                 if (btn.Name.Contains("Menos"))
                     btn.Enabled = false;
             }
+            foreach (Button btn in btnsComercio)
+            {
+                btn.Visible = false;
+                btn.Click += btnComercio_Click;
+            }
 
             //Solo se activan los botones de aquellos recursos disponibles
             if (recursos[0] > 0)
@@ -99,9 +110,6 @@ namespace cliente.Partida
                 btnMasTrigoO.Enabled = true;
             if (recursos[4] > 0)
                 btnMasPiedraO.Enabled = true;
-            btnComercio1.Visible = false;
-            btnComercio2.Visible = false;
-            btnComercio3.Visible = false;
 
             //Dibujar Jugadores 
             int i = 0;
@@ -138,6 +146,7 @@ namespace cliente.Partida
                 else
                 {
                     pboxs[b].Image = Figura;
+                    pboxs[b].Tag = nombres[i];
                     b = b + 1;
                 }
                 i = i + 1;
@@ -198,22 +207,41 @@ namespace cliente.Partida
         }
         private void btnComerciar_Click(object sender, EventArgs e)
         {
+            string pet;
+            byte[] pet_b;
             if (this.Comercio == 1)
-                return;
-
-            //Mandar Peticiones
-            //string pet = "27/" + this.idP + "/" + lblMaderaO.Text + "," + lblLadrilloO.Text + "," + lblOvejaO.Text + "," +
-            //lblTrigoO.Text + "," + lblPiedraO.Text + "," + lblMaderaP.Text + "," + lblLadrilloP.Text + "," + lblOvejaP.Text + "," +
-            //lblTrigoP.Text + "," + lblPiedraP.Text;
-            //byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
-            //this.conn.Send(pet_b);
-
-            int i = 0;
-            while (i < (colores.Length-1))
             {
-                btnsComercio[i].Visible = true;
-                i = i + 1;
+                pet = "30/" + this.idP + "/" + lblMaderaO.Text + "," + lblLadrilloO.Text + "," + lblOvejaO.Text + "," +
+                    lblTrigoO.Text + "," + lblPiedraO.Text + "," + lblMaderaP.Text + "," + lblLadrilloP.Text + "," + 
+                    lblOvejaP.Text + "," + lblTrigoP.Text + "," + lblPiedraP.Text;
+                pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                this.conn.Send(pet_b);
+                this.Close();
+                return;
             }
+            
+            pet = "27/" + this.idP + "/" + lblMaderaO.Text + "," + lblLadrilloO.Text + "," + lblOvejaO.Text + "," +
+            lblTrigoO.Text + "," + lblPiedraO.Text + "," + lblMaderaP.Text + "," + lblLadrilloP.Text + "," + lblOvejaP.Text + "," +
+            lblTrigoP.Text + "," + lblPiedraP.Text;
+            pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+            this.conn.Send(pet_b);
+
+            for (int i = 0; i < btnsComercio.Length; i++) {
+                btnsComercio[i].Visible = true;
+                btnsComercio[i].Enabled = false;
+                btnsComercio[i].Image = cliente.Properties.Resources.Espera;
+                btnsComercio[i].Tag = pboxs[i].Tag;
+            }
+
+            foreach (Button btn in btnsO)
+            {
+                btn.Enabled = false;
+            }
+            foreach (Button btn in btnsP)
+            {
+                btn.Enabled = false;
+            }
+            btnComercioM.Enabled = false;
         }
         private void btnOfrecer_Click(object sender, EventArgs e)
         {
@@ -299,8 +327,40 @@ namespace cliente.Partida
                     }
                     break;
                 }
-                counter = counter + 1;
+                counter++;
             }
+        }
+
+        public void ActualizarRespuesta(string mensaje)
+        {
+            string[] trozos = mensaje.Split("/");
+            foreach (Button btn in btnsComercio)
+            {
+                if (btn.Tag.ToString() == trozos[2])
+                {
+                    if (trozos[3] == "SI")
+                    {
+                        btn.Image = cliente.Properties.Resources.Si;
+                        btn.Enabled = true;
+                    }
+                    else
+                    {
+                        btn.Image = cliente.Properties.Resources.No;
+                    }
+                    break;
+                }
+            }
+        }
+
+        private void btnComercio_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            string pet = "29/" + this.idP + "/" + btn.Tag.ToString() + "/" + 
+                lblMaderaO.Text + "," + lblLadrilloO.Text + "," + lblOvejaO.Text + "," + lblTrigoO.Text + "," + lblPiedraO.Text + "," + 
+                lblMaderaP.Text + "," + lblLadrilloP.Text + "," + lblOvejaP.Text + "," + lblTrigoP.Text + "," + lblPiedraP.Text;
+            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+            this.conn.Send(pet_b);
+            this.Close();
         }
     }
 }
