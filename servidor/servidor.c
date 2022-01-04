@@ -201,6 +201,9 @@ void *atender_cliente(void *sock_ptr) {
             case 30:
                 pet_resultado_comercio_mar(resto, socket);
                 break;
+	    case 31:
+		pet_dar_recursos_ladron(resto, socket);
+		break;
             default:
                 log_msg(tag, "Peticion desconocida: %d\n", codigo);
                 close(socket);

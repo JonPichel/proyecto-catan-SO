@@ -27,5 +27,6 @@ void pet_oferta_comercio(char *resto, int socket);
 void pet_respuesta_comercio(char *resto, int socket);
 void pet_resultado_comercio(char *resto, int socket);
 void pet_resultado_comercio_mar(char *resto, int socket);
+void pet_dar_recursos_ladron(char *resto, int socket);
 
 #endif /* __PETICIONES_H__ */
