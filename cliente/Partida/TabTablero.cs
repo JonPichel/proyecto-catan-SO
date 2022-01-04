@@ -502,14 +502,27 @@ namespace cliente.Partida
                         oldMouse = e.Location;
                         pnlTablero.Refresh();
                         break;
-                    case Estado.ColocarLadron:                        
+                    case Estado.ColocarLadron:                                            
                         posicionLadron = HexCoords.PixelToHex(e.Location, basePoint, zoomLevel);
+
+                        bool encontrado = false;
+                        foreach (Tile ficha in tiles[18..])
+                        {                          
+                            if (ficha.Coords == posicionLadron)
+                                encontrado = true;
+                        }
+
+                        if (encontrado == false)
+                            return;
+
                         string pet = "17/" + idP.ToString() + "/" + posicionLadron.R.ToString() + "," +
                                 posicionLadron.Q.ToString();
                         byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                         conn.Send(pet_b);
                         estado = Estado.Normal;
                         RefreshBotones();
+                        btnTurno.Text = "Acabar turno";
+                        btnTurno.Tag = "ACABAR";
                         break;
                     case Estado.ColocarCarretera:
                         if (ComprobarCarretera(carreteraColocar.Coords))
@@ -930,6 +943,28 @@ namespace cliente.Partida
             lblDado1.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado1location), new Size(40, 40));
             lblDado2.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado2location), new Size(40, 40));
 
+            if (sumadados == 7)
+            {
+                MessageBox.Show("ladron");
+
+                if ((madera + ladrillo + oveja + trigo + piedra) > 7)
+                {
+                    FormLadron form = new FormLadron(this.conn, this.idP, this.nombre,
+                        madera, ladrillo, oveja, trigo, piedra);
+                    form.ShowDialog();
+                }
+
+                if (this.turno == this.nombre)
+                {
+                    //FALTA AMPLIAR
+                    
+                    estado = Estado.ColocarLadron;
+                    RefreshBotones();
+                    
+
+                }
+                return;
+            }
 
             /* Sumar recursos */
             foreach (Tile casilla in tiles[18..])
@@ -1015,14 +1050,7 @@ namespace cliente.Partida
                 //Activar timer para mostrar cambios en los recursos
                 timerRecursos.Start();
                 btnTurno.Text = "Acabar turno";
-                btnTurno.Tag = "ACABAR";
-
-                if (sumadados == 7 && this.turno == this.nombre)
-                {
-                    //FALTA AMPLIAR
-                    RefreshBotones();
-                    estado = Estado.ColocarLadron;
-                }
+                btnTurno.Tag = "ACABAR";                           
             }
         }
 
@@ -1191,10 +1219,6 @@ namespace cliente.Partida
             carta.Location = new Point(x, y);
             carta.BringToFront();
 
-            this.oveja--;
-            this.trigo--;
-            this.piedra--;
-
             Oveja--;
             Trigo--;
             Piedra--;
@@ -1238,6 +1262,7 @@ namespace cliente.Partida
                     pet = "22/" + idP.ToString();
                     panelActualizar.Caballeros += 1;
                     estado = Estado.ColocarLadron;
+                    RefreshBotones();
                     break;
                 case 3:
                     pet = "23/" + idP.ToString();
@@ -1374,7 +1399,6 @@ namespace cliente.Partida
 
         public void DarMonopolio(string mensaje)
         {
-
             string[] trozos = mensaje.Split(',');
             string donante = trozos[0];
             string recurso = trozos[1];
@@ -1385,29 +1409,24 @@ namespace cliente.Partida
                 switch (recurso)
                 {
                     case "Madera":
-                        madera += cantidad;
-                        panelActualizar.Madera = madera;
-                        Madera = madera;
+                        Madera += cantidad;
+                        panelActualizar.Madera += cantidad;
                         break;
                     case "Ladrillo":
-                        ladrillo += cantidad;
-                        panelActualizar.Ladrillo = ladrillo;
-                        Ladrillo = ladrillo;
+                        Ladrillo += cantidad;
+                        panelActualizar.Ladrillo += cantidad;
                         break;
                     case "Oveja":
-                        oveja += cantidad;
-                        panelActualizar.Oveja = oveja;
-                        Oveja = oveja;
+                        Oveja += cantidad;
+                        panelActualizar.Oveja += cantidad;
                         break;
                     case "Trigo":
-                        trigo += cantidad;
-                        panelActualizar.Trigo = trigo;
-                        Trigo = trigo;
+                        Trigo += cantidad;
+                        panelActualizar.Trigo += cantidad;
                         break;
                     case "Piedra":
-                        piedra += cantidad;
-                        panelActualizar.Piedra = piedra;
-                        Piedra = piedra;
+                        Piedra += cantidad;
+                        panelActualizar.Piedra += cantidad;
                         break;
                 }
 
@@ -1424,29 +1443,24 @@ namespace cliente.Partida
                 switch (recurso)
                 {
                     case "Madera":
-                        madera = 0;
-                        panelActualizar.Madera = madera;
-                        Madera = madera;
+                        panelActualizar.Madera -= madera;
+                        Madera = 0;
                         break;
                     case "Ladrillo":
-                        ladrillo = 0;
-                        panelActualizar.Ladrillo = ladrillo;
-                        Ladrillo = ladrillo;
+                        panelActualizar.Ladrillo -= ladrillo;
+                        Ladrillo = 0;                        
                         break;
                     case "Oveja":
-                        oveja = 0;
-                        panelActualizar.Oveja = oveja;
-                        Oveja = oveja;
+                        panelActualizar.Oveja -= oveja;
+                        Oveja = 0;
                         break;
                     case "Trigo":
-                        trigo = 0;
-                        panelActualizar.Trigo = trigo;
-                        Trigo = trigo;
+                        panelActualizar.Trigo -= trigo;
+                        Trigo = 0;
                         break;
                     case "Piedra":
-                        piedra = 0;
-                        panelActualizar.Piedra = piedra;
-                        Piedra = piedra;
+                        panelActualizar.Piedra -= piedra;
+                        Piedra = 0;
                         break;
                 }
             }
@@ -1550,6 +1564,39 @@ namespace cliente.Partida
             panelActualizar.Trigo += recursos[8] - recursos[3];
             panelActualizar.Piedra += recursos[9] - recursos[4];
             timerRecursos.Start();
+        }
+
+        public void DarLadron(string mensaje)
+        {
+            string[] trozos = mensaje.Split('/');
+            string donante = trozos[2];
+            int[] recursos = new int[5];
+            
+
+            int i = 0;
+            foreach (string num in trozos[3].Split(","))
+            {
+                recursos[i++] = Convert.ToInt32(num);
+            }
+
+            if (this.turno == this.nombre)
+            {
+                Madera -= recursos[0];
+                Ladrillo -= recursos[1];
+                Oveja -= recursos[2];
+                Trigo -= recursos[3];
+                Piedra -= recursos[4];
+            }
+
+            int cantidad = recursos[0] + recursos[1] + recursos[2] + recursos[3] + recursos[4];
+
+            foreach (PanelInfoJugador panel in paneles)
+            {
+                if (panel.Nombre == donante)
+                {
+                    panel.Recursos -= cantidad;
+                }
+            }
         }
     }
 }

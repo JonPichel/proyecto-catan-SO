@@ -223,5 +223,10 @@ namespace cliente.Partida
         {
             ((TabTablero)tabs[2]).ComercioMaritimo(mensaje);
         }
+
+        public void DarLadron(string mensaje)
+        {
+            ((TabTablero)tabs[2]).DarLadron(mensaje);
+        }
     }
 }
