@@ -186,6 +186,9 @@ void *atender_cliente(void *sock_ptr) {
             case 25:
                 pet_usar_carta(codigo, resto, socket);
                 break;
+            case 26:
+                pet_dar_recurso_mono(resto, socket);
+                break;
             case 27:
                 pet_oferta_comercio(resto, socket);
                 break;
