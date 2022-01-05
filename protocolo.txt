@@ -153,3 +153,7 @@ SERVIDOR: 30/idPartida/OMadera,OLadrillo...,PMadera,PLadrillo... (números)	[tod
 # ENTREGAR RECURSOS LADRÓN
 CLIENTE: 31/idPartida/NombreEntrega/#madera,#ladrillo,...
 SERVIDOR: 31/idPartida/NombreEntrega/#madera,#ladrillo,... [todos]
+
+# ROBAR RECURSOS LADRÓN
+CLIENTE: 32/idPartida/NombreRobado...
+SERVIDOR: 32/idPartida/NombreRobado... [todos]
