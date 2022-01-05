@@ -26,12 +26,12 @@ namespace cliente.Partida
         //Tus puertos
         int[] ratiopuertos;
 
-        Button[] btnsO;         //btns ofrecer
-        Button[] btnsP;         //btns pedir
-        Button[] btnsComercio;  //btns comercio
-        Label[] lblsO;          //lbls ofrecer
-        Label[] lblsP;          //lbls pedir
-        PictureBox[] pboxs;     //pbox jugadores
+        Button[] btnsO;             //btns ofrecer
+        Button[] btnsP;             //btns pedir
+        Button[] btnsComercio;      //btns comercio
+        Label[] lblsO;              //lbls ofrecer
+        Label[] lblsP;              //lbls pedir
+        PictureBox[] pboxs;         //pbox jugadores
 
         int Comercio = 0; // 0: comercio con otros jugadores, 1: comercio marítimo  
 
@@ -226,9 +226,8 @@ namespace cliente.Partida
             pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             this.conn.Send(pet_b);
 
-            for (int i = 0; i < btnsComercio.Length; i++) {
+            for (int i = 0; i < (colores.Length - 1); i++) {
                 btnsComercio[i].Visible = true;
-                btnsComercio[i].Enabled = false;
                 btnsComercio[i].Image = cliente.Properties.Resources.Espera;
                 btnsComercio[i].Tag = pboxs[i].Tag;
             }
@@ -334,19 +333,15 @@ namespace cliente.Partida
         public void ActualizarRespuesta(string mensaje)
         {
             string[] trozos = mensaje.Split("/");
+
             foreach (Button btn in btnsComercio)
             {
                 if (btn.Tag.ToString() == trozos[2])
                 {
                     if (trozos[3] == "SI")
-                    {
                         btn.Image = cliente.Properties.Resources.Si;
-                        btn.Enabled = true;
-                    }
                     else
-                    {
                         btn.Image = cliente.Properties.Resources.No;
-                    }
                     break;
                 }
             }
@@ -355,9 +350,9 @@ namespace cliente.Partida
         private void btnComercio_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            string pet = "29/" + this.idP + "/" + btn.Tag.ToString() + "/" + 
-                lblMaderaO.Text + "," + lblLadrilloO.Text + "," + lblOvejaO.Text + "," + lblTrigoO.Text + "," + lblPiedraO.Text + "," + 
-                lblMaderaP.Text + "," + lblLadrilloP.Text + "," + lblOvejaP.Text + "," + lblTrigoP.Text + "," + lblPiedraP.Text;
+            string pet = "29/" + this.idP + "/" + btn.Tag.ToString() + "/" +
+                            lblMaderaO.Text + "," + lblLadrilloO.Text + "," + lblOvejaO.Text + "," + lblTrigoO.Text + "," + lblPiedraO.Text + "," +
+                            lblMaderaP.Text + "," + lblLadrilloP.Text + "," + lblOvejaP.Text + "," + lblTrigoP.Text + "," + lblPiedraP.Text;
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             this.conn.Send(pet_b);
             this.Close();

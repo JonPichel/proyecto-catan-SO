@@ -17,6 +17,7 @@ namespace cliente.Partida
         int idP;
         string nombre;
         string turno;
+        ColorJugador colorturno;
         int numturnos;
         int numJugadores;
         int sumadados;
@@ -862,6 +863,9 @@ namespace cliente.Partida
         {
             lblTurno.Text = "Turno: " + nombre;
             this.turno = nombre;
+            for (int i = 0; i < nombres.Length; i++)
+                if (nombres[i] == turno)
+                    this.colorturno = colores[i];
             this.numturnos = numturnos + 1;
             if(fichasVertices.Count != 0)
             {
@@ -1477,7 +1481,7 @@ namespace cliente.Partida
         {
             if (this.formComerciar != null) return;
 
-            FormOferta form = new FormOferta(this.conn, this.idP, this.nombre, mensaje,
+            FormOferta form = new FormOferta(this.conn, this.idP, this.nombre, this.colorturno, mensaje,
                 madera, ladrillo, oveja, trigo, piedra);
             form.ShowDialog();
         }

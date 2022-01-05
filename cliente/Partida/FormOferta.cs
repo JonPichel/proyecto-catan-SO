@@ -14,6 +14,8 @@ namespace cliente.Partida
     {
         //Informacion partida necesaria
         string nombre;
+        string turno;
+        ColorJugador colorturno;
         Socket conn;
         int idP;
 
@@ -24,12 +26,13 @@ namespace cliente.Partida
         Label[] lblsO;          //lbls ofrecer
         Label[] lblsP;          //lbls pedir
 
-        public FormOferta(Socket conn, int idP, string nombre, string oferta,
+        public FormOferta(Socket conn, int idP, string nombre, ColorJugador colorturno, string oferta,
             int madera, int ladrillo, int oveja, int trigo, int piedra)
         {
             this.conn = conn;
             this.idP = idP;
             this.nombre = nombre;
+            this.colorturno = colorturno;
             this.recursos = new int[]
             {
                 madera,
@@ -54,6 +57,7 @@ namespace cliente.Partida
 
             lblsO = new Label[] { lblMaderaO, lblLadrilloO, lblOvejaO, lblTrigoO, lblPiedraO };
             lblsP = new Label[] { lblMaderaP, lblLadrilloP, lblOvejaP, lblTrigoP, lblPiedraP };
+            lblOfertaNP.Visible = false;
 
             string[] trozos = oferta.Split("/")[2].Split(",");
             for (int i = 0; i < 5; i++)
@@ -65,8 +69,34 @@ namespace cliente.Partida
                 if (recursos[i-5] < Convert.ToInt32(trozos[i]))
                 {
                     btnAceptar.Enabled = false;
+                    lblOfertaNP.Visible = true;
                 }
                 lblsP[i-5].Text = trozos[i];
+            }
+
+            switch (colorturno)
+            {
+                case ColorJugador.Azul:
+                    pboxTurno.Image = cliente.Properties.Resources.JugadorAzul;
+                    break;
+                case ColorJugador.Rojo:
+                    pboxTurno.Image = cliente.Properties.Resources.JugadorRojo;
+                    break;
+                case ColorJugador.Naranja:
+                    pboxTurno.Image = cliente.Properties.Resources.JugadorNaranja;
+                    break;
+                case ColorJugador.Gris:
+                    pboxTurno.Image = cliente.Properties.Resources.JugadorGris;
+                    break;
+                case ColorJugador.Morado:
+                    pboxTurno.Image = cliente.Properties.Resources.JugadorMorado;
+                    break;
+                case ColorJugador.Verde:
+                    pboxTurno.Image = cliente.Properties.Resources.JugadorVerde;
+                    break;
+                default:
+                    pboxTurno.Image = cliente.Properties.Resources.JugadorAzul;
+                    break;
             }
         }
 
