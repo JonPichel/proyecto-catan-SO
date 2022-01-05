@@ -592,3 +592,14 @@ void pet_dar_recursos_ladron(char *resto, int socket) {
 	sprintf(respuesta, "31/%d/%s~~END~~", idP, resto);
 	not_movimiento(idP, respuesta, tag);
 }
+
+void pet_pedir_recursos_ladron(char *resto, int socket) {
+	char tag[32];
+	sprintf(tag, "THREAD %d", socket);
+	
+	int idP = atoi(strtok_r(resto, "/", &resto));
+	
+	char respuesta[64];
+	sprintf(respuesta, "32/%d/%s~~END~~", idP, resto);
+	not_movimiento(idP, respuesta, tag);
+}
