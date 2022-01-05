@@ -38,6 +38,7 @@ namespace cliente.Partida
         LadoCoords[] ladosPosibles;
         VerticeCoords[] verticesPosibles;
         HexCoords posicionLadron;
+        VerticeCoords fichaRobar;
 
 
         int zoomLevel;
@@ -51,7 +52,8 @@ namespace cliente.Partida
             ColocarPoblado,
             ColocarCiudad,
             ColocarCarretera,
-            Comerciar
+            Comerciar,
+            Robar
         };
 
         Estado estado;
@@ -519,6 +521,73 @@ namespace cliente.Partida
                         string pet = "17/" + idP.ToString() + "/" + posicionLadron.R.ToString() + "," +
                                 posicionLadron.Q.ToString();
                         byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                        conn.Send(pet_b);
+
+                        int numPosibles = 0;
+                        foreach (VerticeCoords vecinos in posicionLadron.Vertices)
+                        {
+
+                            foreach (FichaVertice fichas in fichasVertices)
+                            {
+                                if (vecinos == fichas.Coords)
+                                {
+                                    if (fichas.Color != this.colorturno)
+                                        numPosibles++;                                    
+                                }
+                            }
+
+                        }
+
+                        // Si no hay opción de robar se acaba el ladrón
+                        if (numPosibles == 0)
+                        {
+                            estado = Estado.Normal;
+                            RefreshBotones();
+                            btnTurno.Text = "Acabar turno";
+                            btnTurno.Tag = "ACABAR";
+                            return;
+                        }
+
+                        MessageBox.Show("Elija a quien robar");
+                        estado = Estado.Robar;
+                        break;
+                    case Estado.Robar:
+                        fichaRobar = VerticeCoords.PixelToVertice(e.Location, basePoint, zoomLevel);
+                        string donante;
+                        string a = "";
+
+                        foreach (VerticeCoords vecinos in posicionLadron.Vertices)
+                        {
+                            if (vecinos == fichaRobar)
+                            {
+                                foreach (FichaVertice fichas in fichasVertices)
+                                {
+                                    if (vecinos == fichas.Coords)
+                                    {
+                                        if (vecinos == fichaRobar)
+                                        {
+ 
+                                            for (int l = 0; l < numJugadores; l++)
+                                            {
+                                                if (fichas.Color == colores[l] && fichas.Color != this.colorturno)
+                                                {
+                                                    a = nombres[l];
+                                                }
+                                            }
+                                            
+                                        }
+                                    }
+                                }
+                            }                    
+                        }
+
+                        if (a == "")
+                            return;                       
+                        else
+                            donante = a;
+
+                        pet = "32/" + idP.ToString() + "/" + donante;
+                        pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                         conn.Send(pet_b);
                         estado = Estado.Normal;
                         RefreshBotones();
@@ -1227,7 +1296,7 @@ namespace cliente.Partida
             Trigo--;
             Piedra--;
 
-            RefreshBotones();
+            //RefreshBotones();
         }
 
         private void Carta_Click(object sender, EventArgs e)
@@ -1352,7 +1421,7 @@ namespace cliente.Partida
             switch (codigo)
             {
                 case 17:
-                    posicionLadron = new HexCoords(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]));
+                    posicionLadron = new HexCoords(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]));                  
                     pnlTablero.Refresh();
                     break;
                 case 18:
@@ -1574,32 +1643,123 @@ namespace cliente.Partida
         {
             string[] trozos = mensaje.Split('/');
             string donante = trozos[2];
-            int[] recursos = new int[5];
-            
 
-            int i = 0;
-            foreach (string num in trozos[3].Split(","))
+            if (trozos[0] == "31")
             {
-                recursos[i++] = Convert.ToInt32(num);
-            }
+                int[] recursos = new int[5];
 
-            if (this.turno == this.nombre)
-            {
-                Madera -= recursos[0];
-                Ladrillo -= recursos[1];
-                Oveja -= recursos[2];
-                Trigo -= recursos[3];
-                Piedra -= recursos[4];
-            }
-
-            int cantidad = recursos[0] + recursos[1] + recursos[2] + recursos[3] + recursos[4];
-
-            foreach (PanelInfoJugador panel in paneles)
-            {
-                if (panel.Nombre == donante)
+                int i = 0;
+                foreach (string num in trozos[3].Split(","))
                 {
-                    panel.Recursos -= cantidad;
+                    recursos[i++] = Convert.ToInt32(num);
                 }
+
+                int cantidad = recursos[0] + recursos[1] + recursos[2] + recursos[3] + recursos[4];
+
+                if (this.turno == this.nombre)
+                {
+                    if (cantidad > 1 && donante == this.nombre)
+                    {
+                        Madera -= recursos[0];
+                        Ladrillo -= recursos[1];
+                        Oveja -= recursos[2];
+                        Trigo -= recursos[3];
+                        Piedra -= recursos[4];
+                    }
+                    else // Recibes 1 recurso
+                    {
+                        int j = 0;
+                        bool encontrado = false;
+                        while (!encontrado)
+                        {
+                            if (recursos[j] != 0)
+                                encontrado = true;
+                            else
+                                j++;
+                        }
+
+                        switch (j)
+                        {
+                            case 0:
+                                Madera += 1;
+                                break;
+                            case 1:
+                                Ladrillo += 1;
+                                break;
+                            case 2:
+                                Oveja += 1;
+                                break;
+                            case 3:
+                                Trigo += 1;
+                                break;
+                            case 4:
+                                Piedra += 1;
+                                break;
+                        }
+                    }                    
+                }
+
+                foreach (PanelInfoJugador panel in paneles)
+                {
+                    if (panel.Nombre == donante)
+                    {
+                        panel.Recursos -= cantidad;
+                    }
+                    if (panel.Nombre == this.turno && cantidad == 1)
+                    {
+                        panel.Recursos += cantidad;
+                    }
+                }
+            }
+            else
+            {
+                if (donante == this.nombre && (madera + ladrillo + oveja + trigo + piedra != 0))
+                {
+                    string resto = "";
+                    Random rnd = new Random();
+                    int num = 0;
+
+                    int[] recursos = new int[5] { madera, ladrillo, oveja, trigo, piedra };
+                    int dar = 0;
+                    
+                    while (dar == 0)
+                    {
+                        num = rnd.Next(0, 4);
+                        dar = recursos[num];
+                    }
+
+                    string pet;
+                    byte[] pet_b;
+                    
+                    switch (num)
+                    {
+                        case 0:
+                            resto = "1,0,0,0,0";
+                            Madera--;
+                            break;
+                        case 1:
+                            resto = "0,1,0,0,0";
+                            Ladrillo--;
+                            break;
+                        case 2:
+                            resto = "0,0,1,0,0";
+                            Oveja--;
+                            break;
+                        case 3:
+                            resto = "0,0,0,1,0";
+                            Trigo--;
+                            break;
+                        case 4:
+                            resto = "0,0,0,0,1";
+                            Piedra--;
+                            break;
+                    }
+                    pet = "31/" + idP.ToString() + "/" + this.nombre + "/" + resto;
+                    pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                    conn.Send(pet_b);
+
+                }
+                // Sino no hacemos nada, no hemos sido elegidos o tenemos 0 recursos
             }
         }
     }

@@ -34,7 +34,7 @@ namespace cliente.Menu
         {
             // Conectar al servidor
             IPAddress addrServer = IPAddress.Parse("147.83.117.22");
-            IPEndPoint ipep = new IPEndPoint(addrServer, 50074);
+            IPEndPoint ipep = new IPEndPoint(addrServer, 50075);
 
             conn = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
@@ -328,6 +328,14 @@ namespace cliente.Menu
                             }
                             break;
                         case 31:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].DarLadron);
+                                partidas[idP].Invoke(delegado, new object[] { trozos[i] });
+                            }
+                            break;
+                        case 32:
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
