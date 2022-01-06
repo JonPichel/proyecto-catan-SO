@@ -19,6 +19,8 @@ namespace cliente.Partida
         Socket conn;
         int idP;
         Image Jugador2;
+        int ofrecer;
+        int pedir;
 
         //Recursos en tu poder
         int[] recursos;
@@ -26,12 +28,12 @@ namespace cliente.Partida
         //Tus puertos
         int[] ratiopuertos;
 
-        Button[] btnsO;             //btns ofrecer
-        Button[] btnsP;             //btns pedir
-        Button[] btnsComercio;      //btns comercio
-        Label[] lblsO;              //lbls ofrecer
-        Label[] lblsP;              //lbls pedir
-        PictureBox[] pboxs;         //pbox jugadores
+        Button[] btnsO;                 //btns ofrecer
+        Button[] btnsP;                 //btns pedir
+        Label[] lblsO;                  //lbls ofrecer
+        Label[] lblsP;                  //lbls pedir
+        PictureBox[] pboxs;             //pbox jugadores
+        PictureBox[] pboxsComercio;     //pbox comercio
 
         int Comercio = 0; // 0: comercio con otros jugadores, 1: comercio marítimo  
 
@@ -76,11 +78,13 @@ namespace cliente.Partida
                 btnMenosOvejaO, btnMasTrigoO, btnMenosTrigoO, btnMasPiedraO, btnMenosPiedraO };
             btnsP = new Button[] { btnMasMaderaP, btnMenosMaderaP, btnMasLadrilloP, btnMenosLadrilloP, btnMasOvejaP,
                 btnMenosOvejaP, btnMasTrigoP, btnMenosTrigoP, btnMasPiedraP, btnMenosPiedraP };
-            btnsComercio = new Button[] { btnComercio1, btnComercio2, btnComercio3 };
+            pboxsComercio = new PictureBox[] { pboxComercio1, pboxComercio2, pboxComercio3 };
             lblsO = new Label[] { lblMaderaO, lblLadrilloO, lblOvejaO, lblTrigoO, lblPiedraO };
             lblsP = new Label[] { lblMaderaP, lblLadrilloP, lblOvejaP, lblTrigoP, lblPiedraP };
             pboxs = new PictureBox[] { pbox2, pbox3, pbox4 };
-
+            btnComerciar.Enabled = false;
+            ofrecer = 0;
+            pedir = 0;
 
             foreach (Button btn in btnsO)
             {
@@ -93,10 +97,12 @@ namespace cliente.Partida
                 if (btn.Name.Contains("Menos"))
                     btn.Enabled = false;
             }
-            foreach (Button btn in btnsComercio)
+            foreach (PictureBox pbox in pboxsComercio)
             {
-                btn.Visible = false;
-                btn.Click += btnComercio_Click;
+                pbox.Visible = false;
+                pbox.Click += this.pboxComercio_Click;
+                pbox.MouseHover += this.pboxComercio_MouseHover;
+                pbox.MouseLeave += this.pboxComercio_MouseLeave;
             }
 
             //Solo se activan los botones de aquellos recursos disponibles
@@ -227,9 +233,10 @@ namespace cliente.Partida
             this.conn.Send(pet_b);
 
             for (int i = 0; i < (colores.Length - 1); i++) {
-                btnsComercio[i].Visible = true;
-                btnsComercio[i].Image = cliente.Properties.Resources.Espera;
-                btnsComercio[i].Tag = pboxs[i].Tag;
+                pboxsComercio[i].Visible = true;
+                pboxsComercio[i].Image = cliente.Properties.Resources.Espera;
+                pboxsComercio[i].Tag = pboxs[i].Tag;
+                pboxsComercio[i].Enabled = false;
             }
 
             foreach (Button btn in btnsO)
@@ -261,11 +268,13 @@ namespace cliente.Partida
                                 if (Comercio == 0)
                                 {
                                     lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) + 1);
+                                    ofrecer = ofrecer + 1;
                                     this.recursos[counter] = this.recursos[counter] - 1;
                                 }
                                 else
                                 {
                                     lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) + ratiopuertos[counter]);
+                                    ofrecer = ofrecer + ratiopuertos[counter];
                                     this.recursos[counter] = this.recursos[counter] - ratiopuertos[counter];
                                 }
                                 btnsO[counter * 2 + 1].Enabled = true;
@@ -277,11 +286,13 @@ namespace cliente.Partida
                                 if (Comercio == 0)
                                 {
                                     lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) - 1);
+                                    ofrecer = ofrecer - 1;
                                     this.recursos[counter] = this.recursos[counter] + 1;
                                 }
                                 else
                                 {
                                     lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) - ratiopuertos[counter]);
+                                    ofrecer = ofrecer - ratiopuertos[counter];
                                     this.recursos[counter] = this.recursos[counter] + ratiopuertos[counter];
                                 }
                                 btnsO[counter * 2].Enabled = true;
@@ -295,6 +306,10 @@ namespace cliente.Partida
                 }
                 counter = counter + 1;
             }
+            if (pedir > 0 && ofrecer > 0)
+                btnComerciar.Enabled = true;
+            else
+                btnComerciar.Enabled = false;
         }
         private void btnPedir_Click(object sender, EventArgs e)
         {
@@ -313,11 +328,13 @@ namespace cliente.Partida
                             if (btnClicked.Name.Contains("Mas"))
                             {
                                 lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) + 1);
+                                pedir = pedir + 1;
                                 btnsP[counter * 2 + 1].Enabled = true;
                             }
                             else
                             {
                                 lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) - 1);
+                                pedir = pedir - 1;
                                 if (Convert.ToInt32(lbl.Text) == 0)
                                     btnClicked.Enabled = false;
                             }
@@ -328,34 +345,52 @@ namespace cliente.Partida
                 }
                 counter++;
             }
+            if (pedir > 0 && ofrecer > 0)
+                btnComerciar.Enabled = true;
+            else
+                btnComerciar.Enabled = false;
         }
 
         public void ActualizarRespuesta(string mensaje)
         {
             string[] trozos = mensaje.Split("/");
 
-            foreach (Button btn in btnsComercio)
+            foreach (PictureBox pbox in pboxsComercio)
             {
-                if (btn.Tag.ToString() == trozos[2])
+                if (pbox.Tag.ToString() == trozos[2])
                 {
                     if (trozos[3] == "SI")
-                        btn.Image = cliente.Properties.Resources.Si;
+                    {
+                        pbox.Image = cliente.Properties.Resources.Si;
+                        pbox.Enabled = true;
+                    }
                     else
-                        btn.Image = cliente.Properties.Resources.No;
+                        pbox.Image = cliente.Properties.Resources.No;
                     break;
                 }
             }
         }
 
-        private void btnComercio_Click(object sender, EventArgs e)
+        private void pboxComercio_Click(object sender, EventArgs e)
         {
-            Button btn = (Button)sender;
-            string pet = "29/" + this.idP + "/" + btn.Tag.ToString() + "/" +
+            PictureBox pbox = (PictureBox)sender;
+            string pet = "29/" + this.idP + "/" + pbox.Tag.ToString() + "/" +
                             lblMaderaO.Text + "," + lblLadrilloO.Text + "," + lblOvejaO.Text + "," + lblTrigoO.Text + "," + lblPiedraO.Text + "," +
                             lblMaderaP.Text + "," + lblLadrilloP.Text + "," + lblOvejaP.Text + "," + lblTrigoP.Text + "," + lblPiedraP.Text;
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             this.conn.Send(pet_b);
             this.Close();
+        }
+
+        private void pboxComercio_MouseHover(object sender, EventArgs e)
+        {
+            PictureBox pbox = (PictureBox)sender;
+            pbox.BackColor = Color.DimGray;
+        }
+        private void pboxComercio_MouseLeave(object sender, EventArgs e)
+        {
+            PictureBox pbox = (PictureBox)sender;
+            pbox.BackColor = Color.White;
         }
     }
 }

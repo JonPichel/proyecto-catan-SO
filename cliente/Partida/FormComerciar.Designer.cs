@@ -90,10 +90,10 @@
             this.pbox3 = new System.Windows.Forms.PictureBox();
             this.pbox2 = new System.Windows.Forms.PictureBox();
             this.pbox1 = new System.Windows.Forms.PictureBox();
-            this.btnComercio1 = new System.Windows.Forms.Button();
-            this.btnComercio2 = new System.Windows.Forms.Button();
-            this.btnComercio3 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.pboxComercio1 = new System.Windows.Forms.PictureBox();
+            this.pboxComercio2 = new System.Windows.Forms.PictureBox();
+            this.pboxComercio3 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.pnlPiedraO.SuspendLayout();
             this.pnlTrigoO.SuspendLayout();
@@ -109,6 +109,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxComercio1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxComercio2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxComercio3)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -914,54 +917,6 @@
             this.pbox1.TabIndex = 6;
             this.pbox1.TabStop = false;
             // 
-            // btnComercio1
-            // 
-            this.btnComercio1.BackColor = System.Drawing.Color.White;
-            this.btnComercio1.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnComercio1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
-            this.btnComercio1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gainsboro;
-            this.btnComercio1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnComercio1.Font = new System.Drawing.Font("Sylfaen", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnComercio1.Image = ((System.Drawing.Image)(resources.GetObject("btnComercio1.Image")));
-            this.btnComercio1.Location = new System.Drawing.Point(282, 502);
-            this.btnComercio1.Name = "btnComercio1";
-            this.btnComercio1.Size = new System.Drawing.Size(28, 28);
-            this.btnComercio1.TabIndex = 2;
-            this.btnComercio1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnComercio1.UseVisualStyleBackColor = false;
-            // 
-            // btnComercio2
-            // 
-            this.btnComercio2.BackColor = System.Drawing.Color.White;
-            this.btnComercio2.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnComercio2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
-            this.btnComercio2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gainsboro;
-            this.btnComercio2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnComercio2.Font = new System.Drawing.Font("Sylfaen", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnComercio2.Image = ((System.Drawing.Image)(resources.GetObject("btnComercio2.Image")));
-            this.btnComercio2.Location = new System.Drawing.Point(362, 502);
-            this.btnComercio2.Name = "btnComercio2";
-            this.btnComercio2.Size = new System.Drawing.Size(28, 28);
-            this.btnComercio2.TabIndex = 2;
-            this.btnComercio2.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnComercio2.UseVisualStyleBackColor = false;
-            // 
-            // btnComercio3
-            // 
-            this.btnComercio3.BackColor = System.Drawing.Color.White;
-            this.btnComercio3.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnComercio3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
-            this.btnComercio3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gainsboro;
-            this.btnComercio3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnComercio3.Font = new System.Drawing.Font("Sylfaen", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnComercio3.Image = ((System.Drawing.Image)(resources.GetObject("btnComercio3.Image")));
-            this.btnComercio3.Location = new System.Drawing.Point(446, 502);
-            this.btnComercio3.Name = "btnComercio3";
-            this.btnComercio3.Size = new System.Drawing.Size(28, 28);
-            this.btnComercio3.TabIndex = 2;
-            this.btnComercio3.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.btnComercio3.UseVisualStyleBackColor = false;
-            // 
             // panel2
             // 
             this.panel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel2.BackgroundImage")));
@@ -971,16 +926,44 @@
             this.panel2.Size = new System.Drawing.Size(110, 47);
             this.panel2.TabIndex = 7;
             // 
+            // pboxComercio1
+            // 
+            this.pboxComercio1.BackColor = System.Drawing.Color.White;
+            this.pboxComercio1.Image = ((System.Drawing.Image)(resources.GetObject("pboxComercio1.Image")));
+            this.pboxComercio1.Location = new System.Drawing.Point(282, 502);
+            this.pboxComercio1.Name = "pboxComercio1";
+            this.pboxComercio1.Size = new System.Drawing.Size(25, 25);
+            this.pboxComercio1.TabIndex = 8;
+            this.pboxComercio1.TabStop = false;
+            // 
+            // pboxComercio2
+            // 
+            this.pboxComercio2.Image = ((System.Drawing.Image)(resources.GetObject("pboxComercio2.Image")));
+            this.pboxComercio2.Location = new System.Drawing.Point(362, 502);
+            this.pboxComercio2.Name = "pboxComercio2";
+            this.pboxComercio2.Size = new System.Drawing.Size(25, 25);
+            this.pboxComercio2.TabIndex = 8;
+            this.pboxComercio2.TabStop = false;
+            // 
+            // pboxComercio3
+            // 
+            this.pboxComercio3.Image = ((System.Drawing.Image)(resources.GetObject("pboxComercio3.Image")));
+            this.pboxComercio3.Location = new System.Drawing.Point(446, 502);
+            this.pboxComercio3.Name = "pboxComercio3";
+            this.pboxComercio3.Size = new System.Drawing.Size(25, 25);
+            this.pboxComercio3.TabIndex = 8;
+            this.pboxComercio3.TabStop = false;
+            // 
             // FormComerciar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(536, 536);
+            this.Controls.Add(this.pboxComercio3);
+            this.Controls.Add(this.pboxComercio2);
+            this.Controls.Add(this.pboxComercio1);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.btnComercio3);
-            this.Controls.Add(this.btnComercio2);
-            this.Controls.Add(this.btnComercio1);
             this.Controls.Add(this.pbox4);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pbox3);
@@ -1013,6 +996,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxComercio1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxComercio2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pboxComercio3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1081,9 +1067,9 @@
         private System.Windows.Forms.PictureBox pbox3;
         private System.Windows.Forms.PictureBox pbox2;
         private System.Windows.Forms.PictureBox pbox1;
-        private System.Windows.Forms.Button btnComercio1;
-        private System.Windows.Forms.Button btnComercio2;
-        private System.Windows.Forms.Button btnComercio3;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.PictureBox pboxComercio1;
+        private System.Windows.Forms.PictureBox pboxComercio2;
+        private System.Windows.Forms.PictureBox pboxComercio3;
     }
 }

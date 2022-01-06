@@ -505,8 +505,16 @@ namespace cliente.Partida
                         oldMouse = e.Location;
                         pnlTablero.Refresh();
                         break;
-                    case Estado.ColocarLadron:                                            
-                        posicionLadron = HexCoords.PixelToHex(e.Location, basePoint, zoomLevel);
+                    case Estado.ColocarLadron:
+                        HexCoords nuevaposicionLadron = HexCoords.PixelToHex(e.Location, basePoint, zoomLevel);
+
+                        if (nuevaposicionLadron == posicionLadron)
+                        {
+                            MessageBox.Show("Debes cambiar la posicion del ladron");
+                            return;
+                        }
+                        else
+                            this.posicionLadron = nuevaposicionLadron;
 
                         bool encontrado = false;
                         foreach (Tile ficha in tiles[18..])
