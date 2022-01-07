@@ -518,9 +518,12 @@ namespace cliente.Partida
 
                         bool encontrado = false;
                         foreach (Tile ficha in tiles[18..])
-                        {                          
+                        {
                             if (ficha.Coords == posicionLadron)
+                            {
                                 encontrado = true;
+                                break;
+                            }
                         }
 
                         if (encontrado == false)
@@ -613,7 +616,6 @@ namespace cliente.Partida
                             RecalcularLadosPosibles();
                             RecalcularVerticesPosibles();
                             this.lblUndo.Visible = false;
-                            panelActualizar.Carreteras += 1;
                             if (numturnos <= (numJugadores*2))
                             {
                                 btnCarretera.Enabled = false;
@@ -1410,10 +1412,6 @@ namespace cliente.Partida
         }
         public void Colocar(string mensaje)
         {
-            // Ya lo habrá colocado antes
-            if (this.nombre == this.turno)
-                return;
-
             string[] trozos = mensaje.Split('/');
             int codigo = Convert.ToInt32(trozos[0]);
             string[] coordenadas = trozos[2].Split(',');
@@ -1464,7 +1462,41 @@ namespace cliente.Partida
                     carreteraColocar = new Carretera(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Lado)Convert.ToInt32(coordenadas[2]), Color);
                     carreteras.Add(carreteraColocar);
                     pnlTablero.Refresh();
-                    panelActualizar.Carreteras += 1;
+                    Dictionary<VerticeCoords, List<LadoCoords>> vertices = new Dictionary<VerticeCoords, List<LadoCoords>>();
+                    List<LadoCoords> lados = new List<LadoCoords>();
+                    foreach (Carretera c in this.carreteras)
+                    {
+                        if (c.Color == carreteraColocar.Color)
+                        {
+                            lados.Add(c.Coords);
+                            foreach (VerticeCoords vertice in c.Coords.VerticesExtremos())
+                            {
+                                if (!vertices.ContainsKey(vertice))
+                                {
+                                    vertices[vertice] = new List<LadoCoords>();
+                                }
+                                vertices[vertice].Add(c.Coords);
+                            }
+                        }
+                    }
+
+                    Dictionary<LadoCoords, VerticeCoords> extremos = new Dictionary<LadoCoords, VerticeCoords>();
+                    foreach (VerticeCoords v in vertices.Keys)
+                    {
+                        if (vertices[v].Count == 1)
+                        {
+                            extremos[vertices[v][0]] = v;
+                        }
+                    }
+                    int maxCarreteras = 0;
+                    foreach (LadoCoords ladoExtremo in extremos.Keys)
+                    {
+                        int ret = MaximaLongitud(extremos[ladoExtremo], ladoExtremo, lados, vertices);
+                        if (ret > maxCarreteras)
+                            maxCarreteras = ret;
+                    }
+
+                    panelActualizar.Carreteras = maxCarreteras;
                     if (numturnos > (numJugadores * 2))
                     {
                         panelActualizar.Madera--;
@@ -1769,6 +1801,31 @@ namespace cliente.Partida
                 }
                 // Sino no hacemos nada, no hemos sido elegidos o tenemos 0 recursos
             }
+        }
+
+        private int MaximaLongitud(VerticeCoords s, LadoCoords lado, List<LadoCoords> lados,
+            Dictionary<VerticeCoords, List<LadoCoords>> vertices)
+        {
+            foreach (VerticeCoords v in lado.VerticesExtremos())
+            {
+                if (s != v)
+                {
+                    // Si se queda en 0, este es un lado extremo
+                    int max = 0;
+                    foreach (LadoCoords l in vertices[v])
+                    {
+                        if (l != lado)
+                        {
+                            int ret = MaximaLongitud(v, l, lados, vertices);
+                            if (ret > max)
+                                max = ret;
+                        }
+                    }
+                    return max + 1;
+                }
+            }
+            // Nunca ocurrirá
+            return -10000;
         }
     }
 }
