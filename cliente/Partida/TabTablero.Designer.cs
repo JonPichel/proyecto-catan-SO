@@ -50,19 +50,21 @@ namespace cliente.Partida
             this.btnCiudad = new System.Windows.Forms.Button();
             this.btnComercio = new System.Windows.Forms.Button();
             this.pnlTablero = new cliente.Partida.PanelTablero();
-            this.lblTurno = new System.Windows.Forms.Label();
             this.btnDesarrollo = new System.Windows.Forms.Button();
             this.tooltipCostes = new System.Windows.Forms.ToolTip(this.components);
             this.lblUndo = new System.Windows.Forms.Label();
-            this.lblDado1 = new System.Windows.Forms.Label();
-            this.lblDado2 = new System.Windows.Forms.Label();
             this.timerRecursos = new System.Windows.Forms.Timer(this.components);
             this.pnlJugador1 = new cliente.Partida.PanelInfoJugador();
             this.pnlJugador2 = new cliente.Partida.PanelInfoJugador();
             this.pnlJugador3 = new cliente.Partida.PanelInfoJugador();
             this.pnlJugador4 = new cliente.Partida.PanelInfoJugador();
+            this.lblInfo = new System.Windows.Forms.Label();
+            this.lblDado1 = new System.Windows.Forms.PictureBox();
+            this.lblDado2 = new System.Windows.Forms.PictureBox();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.lblDado1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblDado2)).BeginInit();
             this.SuspendLayout();
             // 
             // btnPoblado
@@ -189,9 +191,9 @@ namespace cliente.Partida
             this.panel4.Controls.Add(this.lblLadrillo);
             this.panel4.Controls.Add(this.lblPiedra);
             this.panel4.Controls.Add(this.lblMadera);
-            this.panel4.Location = new System.Drawing.Point(228, 532);
+            this.panel4.Location = new System.Drawing.Point(230, 542);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(311, 65);
+            this.panel4.Size = new System.Drawing.Size(311, 55);
             this.panel4.TabIndex = 7;
             // 
             // lblOveja
@@ -200,7 +202,7 @@ namespace cliente.Partida
             this.lblOveja.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblOveja.ForeColor = System.Drawing.Color.Black;
             this.lblOveja.Image = ((System.Drawing.Image)(resources.GetObject("lblOveja.Image")));
-            this.lblOveja.Location = new System.Drawing.Point(130, 7);
+            this.lblOveja.Location = new System.Drawing.Point(130, 3);
             this.lblOveja.Name = "lblOveja";
             this.lblOveja.Size = new System.Drawing.Size(50, 50);
             this.lblOveja.TabIndex = 0;
@@ -213,7 +215,7 @@ namespace cliente.Partida
             this.lblTrigo.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblTrigo.ForeColor = System.Drawing.Color.White;
             this.lblTrigo.Image = ((System.Drawing.Image)(resources.GetObject("lblTrigo.Image")));
-            this.lblTrigo.Location = new System.Drawing.Point(190, 7);
+            this.lblTrigo.Location = new System.Drawing.Point(190, 3);
             this.lblTrigo.Name = "lblTrigo";
             this.lblTrigo.Size = new System.Drawing.Size(50, 50);
             this.lblTrigo.TabIndex = 0;
@@ -226,7 +228,7 @@ namespace cliente.Partida
             this.lblLadrillo.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblLadrillo.ForeColor = System.Drawing.Color.White;
             this.lblLadrillo.Image = ((System.Drawing.Image)(resources.GetObject("lblLadrillo.Image")));
-            this.lblLadrillo.Location = new System.Drawing.Point(70, 7);
+            this.lblLadrillo.Location = new System.Drawing.Point(70, 3);
             this.lblLadrillo.Name = "lblLadrillo";
             this.lblLadrillo.Size = new System.Drawing.Size(50, 50);
             this.lblLadrillo.TabIndex = 0;
@@ -239,7 +241,7 @@ namespace cliente.Partida
             this.lblPiedra.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblPiedra.ForeColor = System.Drawing.Color.White;
             this.lblPiedra.Image = ((System.Drawing.Image)(resources.GetObject("lblPiedra.Image")));
-            this.lblPiedra.Location = new System.Drawing.Point(250, 7);
+            this.lblPiedra.Location = new System.Drawing.Point(250, 3);
             this.lblPiedra.Name = "lblPiedra";
             this.lblPiedra.Size = new System.Drawing.Size(50, 50);
             this.lblPiedra.TabIndex = 0;
@@ -252,7 +254,7 @@ namespace cliente.Partida
             this.lblMadera.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblMadera.ForeColor = System.Drawing.Color.White;
             this.lblMadera.Image = ((System.Drawing.Image)(resources.GetObject("lblMadera.Image")));
-            this.lblMadera.Location = new System.Drawing.Point(10, 7);
+            this.lblMadera.Location = new System.Drawing.Point(10, 3);
             this.lblMadera.Name = "lblMadera";
             this.lblMadera.Size = new System.Drawing.Size(50, 50);
             this.lblMadera.TabIndex = 0;
@@ -292,21 +294,11 @@ namespace cliente.Partida
             // 
             this.pnlTablero.BackColor = System.Drawing.Color.PowderBlue;
             this.pnlTablero.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pnlTablero.Location = new System.Drawing.Point(229, 93);
+            this.pnlTablero.Location = new System.Drawing.Point(229, 95);
             this.pnlTablero.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlTablero.Name = "pnlTablero";
-            this.pnlTablero.Size = new System.Drawing.Size(568, 398);
+            this.pnlTablero.Size = new System.Drawing.Size(568, 377);
             this.pnlTablero.TabIndex = 10;
-            // 
-            // lblTurno
-            // 
-            this.lblTurno.AutoSize = true;
-            this.lblTurno.Location = new System.Drawing.Point(229, 497);
-            this.lblTurno.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblTurno.Name = "lblTurno";
-            this.lblTurno.Size = new System.Drawing.Size(44, 15);
-            this.lblTurno.TabIndex = 11;
-            this.lblTurno.Text = "Turno: ";
             // 
             // btnDesarrollo
             // 
@@ -327,28 +319,11 @@ namespace cliente.Partida
             // 
             this.lblUndo.BackColor = System.Drawing.Color.Transparent;
             this.lblUndo.Image = ((System.Drawing.Image)(resources.GetObject("lblUndo.Image")));
-            this.lblUndo.Location = new System.Drawing.Point(752, 446);
+            this.lblUndo.Location = new System.Drawing.Point(335, 495);
             this.lblUndo.Name = "lblUndo";
             this.lblUndo.Size = new System.Drawing.Size(40, 40);
             this.lblUndo.TabIndex = 16;
             this.lblUndo.Click += new System.EventHandler(this.lblUndo_Click);
-            // 
-            // lblDado1
-            // 
-            this.lblDado1.BackColor = System.Drawing.Color.Transparent;
-            this.lblDado1.Location = new System.Drawing.Point(236, 444);
-            this.lblDado1.Name = "lblDado1";
-            this.lblDado1.Size = new System.Drawing.Size(40, 40);
-            this.lblDado1.TabIndex = 17;
-            // 
-            // lblDado2
-            // 
-            this.lblDado2.BackColor = System.Drawing.Color.Transparent;
-            this.lblDado2.Location = new System.Drawing.Point(282, 444);
-            this.lblDado2.Name = "lblDado2";
-            this.lblDado2.Size = new System.Drawing.Size(40, 40);
-            this.lblDado2.TabIndex = 16;
-            this.lblDado2.Click += new System.EventHandler(this.lblUndo_Click);
             // 
             // timerRecursos
             // 
@@ -417,7 +392,7 @@ namespace cliente.Partida
             // 
             // pnlJugador4
             // 
-            this.pnlJugador4.BackColor = System.Drawing.Color.Transparent;
+            this.pnlJugador4.BackColor = System.Drawing.Color.White;
             this.pnlJugador4.Caballeros = 0;
             this.pnlJugador4.Carreteras = 0;
             this.pnlJugador4.ColorJ = cliente.Partida.ColorJugador.Azul;
@@ -435,20 +410,47 @@ namespace cliente.Partida
             this.pnlJugador4.TabIndex = 18;
             this.pnlJugador4.Trigo = 0;
             // 
+            // lblInfo
+            // 
+            this.lblInfo.BackColor = System.Drawing.Color.Transparent;
+            this.lblInfo.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+            this.lblInfo.ForeColor = System.Drawing.Color.Maroon;
+            this.lblInfo.Location = new System.Drawing.Point(252, 477);
+            this.lblInfo.Name = "lblInfo";
+            this.lblInfo.Size = new System.Drawing.Size(545, 17);
+            this.lblInfo.TabIndex = 19;
+            this.lblInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblDado1
+            // 
+            this.lblDado1.Location = new System.Drawing.Point(233, 497);
+            this.lblDado1.Name = "lblDado1";
+            this.lblDado1.Size = new System.Drawing.Size(35, 35);
+            this.lblDado1.TabIndex = 20;
+            this.lblDado1.TabStop = false;
+            // 
+            // lblDado2
+            // 
+            this.lblDado2.Location = new System.Drawing.Point(282, 497);
+            this.lblDado2.Name = "lblDado2";
+            this.lblDado2.Size = new System.Drawing.Size(35, 35);
+            this.lblDado2.TabIndex = 20;
+            this.lblDado2.TabStop = false;
+            // 
             // TabTablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.lblDado2);
+            this.Controls.Add(this.lblDado1);
+            this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.pnlJugador3);
             this.Controls.Add(this.pnlJugador4);
             this.Controls.Add(this.pnlJugador2);
             this.Controls.Add(this.pnlJugador1);
-            this.Controls.Add(this.lblDado2);
-            this.Controls.Add(this.lblDado1);
             this.Controls.Add(this.lblUndo);
             this.Controls.Add(this.btnDesarrollo);
-            this.Controls.Add(this.lblTurno);
             this.Controls.Add(this.pnlTablero);
             this.Controls.Add(this.btnComercio);
             this.Controls.Add(this.btnCiudad);
@@ -465,8 +467,9 @@ namespace cliente.Partida
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.lblDado1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblDado2)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -486,7 +489,6 @@ namespace cliente.Partida
         private System.Windows.Forms.Button btnCiudad;
         private System.Windows.Forms.Button btnComercio;
         private PanelTablero pnlTablero;
-        private System.Windows.Forms.Label lblTurno;
         private System.Windows.Forms.Button btnDesarrollo;
         private System.Windows.Forms.ToolTip tooltipCostes;
         private System.Windows.Forms.Label lblOveja;
@@ -495,12 +497,13 @@ namespace cliente.Partida
         private System.Windows.Forms.Label lblPiedra;
         private System.Windows.Forms.Label lblMadera;
         private System.Windows.Forms.Label lblUndo;
-        private System.Windows.Forms.Label lblDado1;
-        private System.Windows.Forms.Label lblDado2;
         private System.Windows.Forms.Timer timerRecursos;
         private PanelInfoJugador pnlJugador1;
         private PanelInfoJugador pnlJugador2;
         private PanelInfoJugador pnlJugador3;
         private PanelInfoJugador pnlJugador4;
+        private System.Windows.Forms.Label lblInfo;
+        private System.Windows.Forms.PictureBox lblDado1;
+        private System.Windows.Forms.PictureBox lblDado2;
     }
 }

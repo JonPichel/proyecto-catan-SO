@@ -454,6 +454,7 @@
             this.Controls.Add(this.lblPiedra);
             this.Controls.Add(this.lblOveja);
             this.Name = "FormLadron";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormLadron";
             this.Load += new System.EventHandler(this.FormLadron_Load);
             this.panel1.ResumeLayout(false);

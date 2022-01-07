@@ -323,13 +323,6 @@ namespace cliente.Partida
 
             // Estado partida
             this.estado = Estado.Normal;
-            this.lblUndo.Parent = pnlTablero;
-            this.lblUndo.Visible = false;
-            this.lblUndo.Location = new Point(522, 355);
-            this.lblDado1.Parent = pnlTablero;
-            this.lblDado1.Location = new Point(10, 355);
-            this.lblDado2.Parent = pnlTablero;
-            this.lblDado2.Location = new Point(60, 355);
             this.numturnos = 0;
 
             pnlTablero.Paint += TabTablero_Paint;
@@ -343,6 +336,7 @@ namespace cliente.Partida
             btnDesarrollo.Enabled = false;
             btnComercio.Enabled = false;
             btnTurno.Enabled = false;
+            lblUndo.Visible = false;
 
             btnCarretera.MouseHover += BtnConstruir_MouseHover;
             btnPoblado.MouseHover += BtnConstruir_MouseHover;
@@ -537,16 +531,17 @@ namespace cliente.Partida
                         int numPosibles = 0;
                         foreach (VerticeCoords vecinos in posicionLadron.Vertices)
                         {
-
                             foreach (FichaVertice fichas in fichasVertices)
                             {
                                 if (vecinos == fichas.Coords)
                                 {
                                     if (fichas.Color != this.colorturno)
-                                        numPosibles++;                                    
+                                    {
+                                        numPosibles++;
+                                        break;
+                                    }
                                 }
                             }
-
                         }
 
                         // Si no hay opción de robar se acaba el ladrón
@@ -556,10 +551,11 @@ namespace cliente.Partida
                             RefreshBotones();
                             btnTurno.Text = "Acabar turno";
                             btnTurno.Tag = "ACABAR";
+                            lblInfo.Text = "";
                             return;
                         }
 
-                        MessageBox.Show("Elija a quien robar");
+                        lblInfo.Text = "Elige a quien robar dando click a un poblado cercano al ladrón";
                         estado = Estado.Robar;
                         break;
                     case Estado.Robar:
@@ -575,20 +571,17 @@ namespace cliente.Partida
                                 {
                                     if (vecinos == fichas.Coords)
                                     {
-                                        if (vecinos == fichaRobar)
+                                        for (int l = 0; l < numJugadores; l++)
                                         {
- 
-                                            for (int l = 0; l < numJugadores; l++)
+                                            if (fichas.Color == colores[l] && fichas.Color != this.colorturno)
                                             {
-                                                if (fichas.Color == colores[l] && fichas.Color != this.colorturno)
-                                                {
-                                                    a = nombres[l];
-                                                }
+                                                a = nombres[l];
                                             }
-                                            
                                         }
+                                        break;
                                     }
                                 }
+                                break;
                             }                    
                         }
 
@@ -602,20 +595,19 @@ namespace cliente.Partida
                         conn.Send(pet_b);
                         estado = Estado.Normal;
                         RefreshBotones();
+                        lblInfo.Text = "";
                         btnTurno.Text = "Acabar turno";
                         btnTurno.Tag = "ACABAR";
                         break;
                     case Estado.ColocarCarretera:
                         if (ComprobarCarretera(carreteraColocar.Coords))
                         {
-                            carreteras.Add(carreteraColocar);
                             pet = "20/" + idP.ToString() + "/" + carreteraColocar.Coords.R.ToString() + "," +
                                 carreteraColocar.Coords.Q.ToString() + "," + (int)carreteraColocar.Coords.L;
                             pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
-                            RecalcularLadosPosibles();
-                            RecalcularVerticesPosibles();
                             this.lblUndo.Visible = false;
+                            //Dos primeras rondas
                             if (numturnos <= (numJugadores*2))
                             {
                                 btnCarretera.Enabled = false;
@@ -627,29 +619,22 @@ namespace cliente.Partida
                             {
                                 Madera--;
                                 Ladrillo--;
-                                panelActualizar.Madera--;
-                                panelActualizar.Ladrillo--;
-                                panelActualizar.Recursos -= 2;
                                 RefreshBotones();
                             }
-                            timerRecursos.Start();
                             estado = Estado.Normal;
                         }
                         break;
                     case Estado.ColocarPoblado:
                         if (ComprobarFichaVertice(verticeColocar.Coords, verticesPosibles))
                         {
-                            fichasVertices.Add(verticeColocar);
                             misPoblados.Add(verticeColocar.Coords);
                             pet = "18/" + idP.ToString() + "/" + verticeColocar.Coords.R.ToString() + "," +
                                 verticeColocar.Coords.Q.ToString() + "," + (int)verticeColocar.Coords.V;
                             pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
-                            RecalcularLadosPosibles();
-                            RecalcularVerticesPosibles();
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
-                            panelActualizar.Puntos = panelActualizar.Puntos + 1;
+                            //Dos primeras rondas
                             if (numturnos <= (numJugadores*2))
                             {
                                 btnPoblado.Enabled = false;
@@ -661,42 +646,21 @@ namespace cliente.Partida
                                 Ladrillo--;
                                 Oveja--;
                                 Trigo--;
-                                panelActualizar.Madera--;
-                                panelActualizar.Ladrillo--;
-                                panelActualizar.Oveja--;
-                                panelActualizar.Trigo--;
-                                panelActualizar.Recursos -= 4;
                                 RefreshBotones();
                             }
-                            timerRecursos.Start();
                         }
                         break;
                     case Estado.ColocarCiudad:
                         if (ComprobarFichaVertice(verticeColocar.Coords, misPoblados.ToArray()))
                         {
-                            foreach (FichaVertice ficha in fichasVertices)
-                            {
-                                if (ficha.Coords == verticeColocar.Coords)
-                                {
-                                    fichasVertices.Remove(ficha);
-                                    break;
-                                }
-                            }
-                            fichasVertices.Add(verticeColocar);
-                            misPoblados.Remove(verticeColocar.Coords);
                             pet = "19/" + idP.ToString() + "/" + verticeColocar.Coords.R.ToString() + "," +
                                 verticeColocar.Coords.Q.ToString() + "," + (int)verticeColocar.Coords.V;
                             pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
-                            panelActualizar.Puntos = panelActualizar.Puntos + 1;
-                            trigo -= 2;
-                            piedra -= 3;
-                            panelActualizar.Trigo -= 2;
-                            panelActualizar.Piedra -= 3;
-                            panelActualizar.Recursos -= 5;
-                            timerRecursos.Start();
+                            Trigo -= 2;
+                            Piedra -= 3;
                             RefreshBotones();
                         }
                         break;
@@ -940,7 +904,7 @@ namespace cliente.Partida
 
         public void CambiarTurno(string nombre)
         {
-            lblTurno.Text = "Turno: " + nombre;
+            panelActualizar.BackColor = Color.White;
             this.turno = nombre;
             for (int i = 0; i < nombres.Length; i++)
                 if (nombres[i] == turno)
@@ -971,10 +935,8 @@ namespace cliente.Partida
                 if (panel.Nombre == this.turno)
                 {
                     panelActualizar = panel;
-                    //panel.BorderStyle = BorderStyle.Fixed3D;
+                    panelActualizar.BackColor = Color.Gold;
                 }
-                else
-                    panel.BorderStyle = BorderStyle.None;
             }
         }
 
@@ -1023,12 +985,12 @@ namespace cliente.Partida
             string dado1location = "Dado" + dado1.ToString();
             string dado2location = "Dado" + dado2.ToString();
 
-            lblDado1.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado1location), new Size(40, 40));
-            lblDado2.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado2location), new Size(40, 40));
+            lblDado1.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado1location), new Size(35, 35));
+            lblDado2.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado2location), new Size(35, 35));
 
             if (sumadados == 7)
             {
-                MessageBox.Show("ladron");
+                
 
                 if ((madera + ladrillo + oveja + trigo + piedra) > 7)
                 {
@@ -1040,12 +1002,12 @@ namespace cliente.Partida
                 if (this.turno == this.nombre)
                 {
                     //FALTA AMPLIAR
-                    
+                    lblInfo.Text = "Ha salido un siete! Mueve el ladrón a la casilla que quieras";
                     estado = Estado.ColocarLadron;
                     RefreshBotones();
-                    
-
                 }
+                else
+                    lblInfo.Text = "Ha salido un siete! Esperando a que se mueva el ladrón";
                 return;
             }
 
@@ -1387,18 +1349,23 @@ namespace cliente.Partida
                     {
                         case "Madera":
                             cantidad = this.madera;
+                            Madera = 0;
                             break;
                         case "Ladrillo":
                             cantidad = this.ladrillo;
+                            Ladrillo = 0;
                             break;
                         case "Oveja":
                             cantidad = this.oveja;
+                            Oveja = 0;
                             break;
                         case "Trigo":
                             cantidad = this.trigo;
+                            Trigo = 0;
                             break;
                         case "Piedra":
                             cantidad = this.piedra;
+                            Piedra = 0;
                             break;
                         default:
                             cantidad = 0;
@@ -1427,14 +1394,16 @@ namespace cliente.Partida
             switch (codigo)
             {
                 case 17:
-                    posicionLadron = new HexCoords(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]));                  
+                    posicionLadron = new HexCoords(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]));
+                    if(this.nombre != this.turno)
+                        lblInfo.Text = "";
                     pnlTablero.Refresh();
                     break;
                 case 18:
                     verticeColocar = new FichaPoblado(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Vertice)Convert.ToInt32(coordenadas[2]), Color);
                     fichasVertices.Add(verticeColocar);
                     pnlTablero.Refresh();
-                    panelActualizar.Puntos = panelActualizar.Puntos + 1;
+                    panelActualizar.Puntos += 1;
                     if (numturnos > (numJugadores * 2))
                     {
                         panelActualizar.Madera--;
@@ -1447,6 +1416,14 @@ namespace cliente.Partida
                     break;
                 case 19:
                     verticeColocar = new FichaCiudad(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Vertice)Convert.ToInt32(coordenadas[2]), Color);
+                    foreach (FichaVertice ficha in fichasVertices)
+                    {
+                        if (ficha.Coords == verticeColocar.Coords)
+                        {
+                            fichasVertices.Remove(ficha);
+                            break;
+                        }
+                    }
                     fichasVertices.Add(verticeColocar);
                     pnlTablero.Refresh();
                     panelActualizar.Puntos += 1;
@@ -1455,8 +1432,8 @@ namespace cliente.Partida
                         panelActualizar.Trigo -= 2;
                         panelActualizar.Piedra -= 3;
                         panelActualizar.Recursos -= 5;
-                        timerRecursos.Start();
                     }
+                        timerRecursos.Start();
                     break;
                 case 20:
                     carreteraColocar = new Carretera(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Lado)Convert.ToInt32(coordenadas[2]), Color);
@@ -1523,68 +1500,71 @@ namespace cliente.Partida
                 {
                     case "Madera":
                         Madera += cantidad;
-                        panelActualizar.Madera += cantidad;
                         break;
                     case "Ladrillo":
                         Ladrillo += cantidad;
-                        panelActualizar.Ladrillo += cantidad;
                         break;
                     case "Oveja":
                         Oveja += cantidad;
-                        panelActualizar.Oveja += cantidad;
                         break;
                     case "Trigo":
                         Trigo += cantidad;
-                        panelActualizar.Trigo += cantidad;
                         break;
                     case "Piedra":
                         Piedra += cantidad;
-                        panelActualizar.Piedra += cantidad;
-                        break;
-                }
-
-                foreach (PanelInfoJugador panel in paneles)
-                {
-                    if (panel.Nombre == this.nombre)
-                    {
-                        panelActualizar.Recursos += cantidad;
-                    }
-                }
-            }
-            if (donante == this.nombre)
-            {
-                switch (recurso)
-                {
-                    case "Madera":
-                        panelActualizar.Madera -= madera;
-                        Madera = 0;
-                        break;
-                    case "Ladrillo":
-                        panelActualizar.Ladrillo -= ladrillo;
-                        Ladrillo = 0;                        
-                        break;
-                    case "Oveja":
-                        panelActualizar.Oveja -= oveja;
-                        Oveja = 0;
-                        break;
-                    case "Trigo":
-                        panelActualizar.Trigo -= trigo;
-                        Trigo = 0;
-                        break;
-                    case "Piedra":
-                        panelActualizar.Piedra -= piedra;
-                        Piedra = 0;
                         break;
                 }
             }
+            
             foreach (PanelInfoJugador panel in paneles)
             {
                 if (panel.Nombre == donante)
                 {
                     panel.Recursos -= cantidad;
+                    switch (recurso)
+                    {
+                        case "Madera":
+                            panel.Madera -= cantidad;
+                            break;
+                        case "Ladrillo":
+                            panel.Ladrillo -= cantidad;
+                            break;
+                        case "Oveja":
+                            panel.Oveja -= cantidad;
+                            break;
+                        case "Trigo":
+                            panel.Trigo -= cantidad;
+                            break;
+                        case "Piedra":
+                            panel.Piedra -= cantidad;
+                            break;
+                    }
+                }
+                else if(panel.Nombre == this.turno)
+                {
+                    panel.Recursos += cantidad;
+                    switch (recurso)
+                    {
+                        case "Madera":
+                            panel.Madera += cantidad;
+                            break;
+                        case "Ladrillo":
+                            panel.Ladrillo += cantidad;
+                            break;
+                        case "Oveja":
+                            panel.Oveja += cantidad;
+                            break;
+                        case "Trigo":
+                            panel.Trigo += cantidad;
+                            break;
+                        case "Piedra":
+                            panel.Piedra += cantidad;
+                            break;
+                    }
                 }
             }
-	}
+            timerRecursos.Start();
+        }
 
         public void ComercioOferta(string mensaje)
         {
@@ -1602,7 +1582,8 @@ namespace cliente.Partida
                 formComerciar.ActualizarRespuesta(mensaje);
             }
         }
-        
+
+
         public void ComercioResultado(string mensaje)
         {
             string[] trozos = mensaje.Split("/");
@@ -1744,12 +1725,23 @@ namespace cliente.Partida
                     if (panel.Nombre == donante)
                     {
                         panel.Recursos -= cantidad;
+                        panel.Madera -= recursos[0];
+                        panel.Ladrillo -= recursos[1];
+                        panel.Oveja -= recursos[2];
+                        panel.Trigo -= recursos[3];
+                        panel.Piedra -= recursos[4];
                     }
                     if (panel.Nombre == this.turno && cantidad == 1)
                     {
                         panel.Recursos += cantidad;
+                        panel.Madera += recursos[0];
+                        panel.Ladrillo += recursos[1];
+                        panel.Oveja += recursos[2];
+                        panel.Trigo += recursos[3];
+                        panel.Piedra += recursos[4];
                     }
                 }
+                timerRecursos.Start();
             }
             else
             {
