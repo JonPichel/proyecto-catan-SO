@@ -415,10 +415,11 @@
             this.btnAceptar.AutoSize = true;
             this.btnAceptar.BackColor = System.Drawing.Color.White;
             this.btnAceptar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnAceptar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAceptar.Font = new System.Drawing.Font("Yu Gothic UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnAceptar.Location = new System.Drawing.Point(104, 212);
             this.btnAceptar.Name = "btnAceptar";
-            this.btnAceptar.Size = new System.Drawing.Size(212, 27);
+            this.btnAceptar.Size = new System.Drawing.Size(212, 29);
             this.btnAceptar.TabIndex = 3;
             this.btnAceptar.Text = "ACEPTAR";
             this.btnAceptar.UseVisualStyleBackColor = false;
@@ -428,7 +429,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.SeaShell;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(434, 251);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.label12);

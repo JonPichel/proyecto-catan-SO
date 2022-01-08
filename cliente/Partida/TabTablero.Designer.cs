@@ -319,7 +319,7 @@ namespace cliente.Partida
             // 
             this.lblUndo.BackColor = System.Drawing.Color.Transparent;
             this.lblUndo.Image = ((System.Drawing.Image)(resources.GetObject("lblUndo.Image")));
-            this.lblUndo.Location = new System.Drawing.Point(335, 495);
+            this.lblUndo.Location = new System.Drawing.Point(499, 497);
             this.lblUndo.Name = "lblUndo";
             this.lblUndo.Size = new System.Drawing.Size(40, 40);
             this.lblUndo.TabIndex = 16;

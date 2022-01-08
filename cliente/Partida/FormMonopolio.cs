@@ -56,6 +56,11 @@ namespace cliente
             }
             btnEscoger.Enabled = true;
         }
-   
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Recurso = "";
+            Close();
+        }
     }
 }

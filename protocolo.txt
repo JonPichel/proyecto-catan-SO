@@ -123,8 +123,8 @@ CLIENTE: 23/idPartida
 SERVIDOR: 23/idPartida [todos]
 
 # JUGAR CARTA INVENTO
-CLIENTE: 24/idPartida
-SERVIDOR: 24/idPartida [todos]
+CLIENTE: 24/idPartida/recurso1, recurso2
+SERVIDOR: 24/idPartida/recurso1, recurso2 [todos]
 
 # JUGAR CARTA MONOPOLIO
 CLIENTE: 25/idPartida/recurso

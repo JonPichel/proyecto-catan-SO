@@ -42,17 +42,20 @@
             this.radiobtnPiedra = new System.Windows.Forms.RadioButton();
             this.btnEscoger = new System.Windows.Forms.Button();
             this.lblDefinicion = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnCancelar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxMadera)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxLadrillo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxOveja)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxTrigo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxPiedra)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // picBoxMadera
             // 
             this.picBoxMadera.Image = ((System.Drawing.Image)(resources.GetObject("picBoxMadera.Image")));
-            this.picBoxMadera.Location = new System.Drawing.Point(25, 100);
+            this.picBoxMadera.Location = new System.Drawing.Point(19, 41);
             this.picBoxMadera.Name = "picBoxMadera";
             this.picBoxMadera.Size = new System.Drawing.Size(50, 50);
             this.picBoxMadera.TabIndex = 0;
@@ -61,7 +64,7 @@
             // picBoxLadrillo
             // 
             this.picBoxLadrillo.Image = ((System.Drawing.Image)(resources.GetObject("picBoxLadrillo.Image")));
-            this.picBoxLadrillo.Location = new System.Drawing.Point(95, 100);
+            this.picBoxLadrillo.Location = new System.Drawing.Point(89, 41);
             this.picBoxLadrillo.Name = "picBoxLadrillo";
             this.picBoxLadrillo.Size = new System.Drawing.Size(50, 50);
             this.picBoxLadrillo.TabIndex = 0;
@@ -70,7 +73,7 @@
             // picBoxOveja
             // 
             this.picBoxOveja.Image = ((System.Drawing.Image)(resources.GetObject("picBoxOveja.Image")));
-            this.picBoxOveja.Location = new System.Drawing.Point(165, 100);
+            this.picBoxOveja.Location = new System.Drawing.Point(159, 41);
             this.picBoxOveja.Name = "picBoxOveja";
             this.picBoxOveja.Size = new System.Drawing.Size(50, 50);
             this.picBoxOveja.TabIndex = 0;
@@ -79,7 +82,7 @@
             // picBoxTrigo
             // 
             this.picBoxTrigo.Image = ((System.Drawing.Image)(resources.GetObject("picBoxTrigo.Image")));
-            this.picBoxTrigo.Location = new System.Drawing.Point(235, 100);
+            this.picBoxTrigo.Location = new System.Drawing.Point(229, 41);
             this.picBoxTrigo.Name = "picBoxTrigo";
             this.picBoxTrigo.Size = new System.Drawing.Size(50, 50);
             this.picBoxTrigo.TabIndex = 0;
@@ -88,7 +91,7 @@
             // picBoxPiedra
             // 
             this.picBoxPiedra.Image = ((System.Drawing.Image)(resources.GetObject("picBoxPiedra.Image")));
-            this.picBoxPiedra.Location = new System.Drawing.Point(305, 100);
+            this.picBoxPiedra.Location = new System.Drawing.Point(299, 41);
             this.picBoxPiedra.Name = "picBoxPiedra";
             this.picBoxPiedra.Size = new System.Drawing.Size(50, 50);
             this.picBoxPiedra.TabIndex = 0;
@@ -108,7 +111,7 @@
             // radiobtnMadera
             // 
             this.radiobtnMadera.AutoSize = true;
-            this.radiobtnMadera.Location = new System.Drawing.Point(43, 80);
+            this.radiobtnMadera.Location = new System.Drawing.Point(37, 21);
             this.radiobtnMadera.Name = "radiobtnMadera";
             this.radiobtnMadera.Size = new System.Drawing.Size(14, 13);
             this.radiobtnMadera.TabIndex = 2;
@@ -118,7 +121,7 @@
             // radiobtnLadrillo
             // 
             this.radiobtnLadrillo.AutoSize = true;
-            this.radiobtnLadrillo.Location = new System.Drawing.Point(115, 80);
+            this.radiobtnLadrillo.Location = new System.Drawing.Point(109, 21);
             this.radiobtnLadrillo.Name = "radiobtnLadrillo";
             this.radiobtnLadrillo.Size = new System.Drawing.Size(14, 13);
             this.radiobtnLadrillo.TabIndex = 2;
@@ -128,7 +131,7 @@
             // radiobtnOveja
             // 
             this.radiobtnOveja.AutoSize = true;
-            this.radiobtnOveja.Location = new System.Drawing.Point(183, 80);
+            this.radiobtnOveja.Location = new System.Drawing.Point(177, 21);
             this.radiobtnOveja.Name = "radiobtnOveja";
             this.radiobtnOveja.Size = new System.Drawing.Size(14, 13);
             this.radiobtnOveja.TabIndex = 2;
@@ -138,7 +141,7 @@
             // radiobtnTrigo
             // 
             this.radiobtnTrigo.AutoSize = true;
-            this.radiobtnTrigo.Location = new System.Drawing.Point(253, 80);
+            this.radiobtnTrigo.Location = new System.Drawing.Point(247, 21);
             this.radiobtnTrigo.Name = "radiobtnTrigo";
             this.radiobtnTrigo.Size = new System.Drawing.Size(14, 13);
             this.radiobtnTrigo.TabIndex = 2;
@@ -148,7 +151,7 @@
             // radiobtnPiedra
             // 
             this.radiobtnPiedra.AutoSize = true;
-            this.radiobtnPiedra.Location = new System.Drawing.Point(323, 80);
+            this.radiobtnPiedra.Location = new System.Drawing.Point(317, 21);
             this.radiobtnPiedra.Name = "radiobtnPiedra";
             this.radiobtnPiedra.Size = new System.Drawing.Size(14, 13);
             this.radiobtnPiedra.TabIndex = 2;
@@ -157,9 +160,10 @@
             // 
             // btnEscoger
             // 
-            this.btnEscoger.Location = new System.Drawing.Point(142, 158);
+            this.btnEscoger.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEscoger.Location = new System.Drawing.Point(97, 187);
             this.btnEscoger.Name = "btnEscoger";
-            this.btnEscoger.Size = new System.Drawing.Size(93, 23);
+            this.btnEscoger.Size = new System.Drawing.Size(93, 30);
             this.btnEscoger.TabIndex = 3;
             this.btnEscoger.Text = "Escoger";
             this.btnEscoger.UseVisualStyleBackColor = false;
@@ -176,29 +180,51 @@
             this.lblDefinicion.Text = "Elige una materia prima. Todos los demás jugadores tienen que darte todas las car" +
     "tas que tengan de esa materia prima";
             // 
-            // Monopolio
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.picBoxOveja);
+            this.groupBox1.Controls.Add(this.picBoxMadera);
+            this.groupBox1.Controls.Add(this.picBoxLadrillo);
+            this.groupBox1.Controls.Add(this.radiobtnPiedra);
+            this.groupBox1.Controls.Add(this.picBoxTrigo);
+            this.groupBox1.Controls.Add(this.radiobtnTrigo);
+            this.groupBox1.Controls.Add(this.picBoxPiedra);
+            this.groupBox1.Controls.Add(this.radiobtnOveja);
+            this.groupBox1.Controls.Add(this.radiobtnMadera);
+            this.groupBox1.Controls.Add(this.radiobtnLadrillo);
+            this.groupBox1.Location = new System.Drawing.Point(8, 72);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(367, 109);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Recurso";
+            // 
+            // btnCancelar
+            // 
+            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelar.Location = new System.Drawing.Point(196, 187);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(93, 30);
+            this.btnCancelar.TabIndex = 3;
+            this.btnCancelar.Text = "No Usar Carta";
+            this.btnCancelar.UseVisualStyleBackColor = false;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
+            // FormMonopolio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(384, 191);
+            this.ClientSize = new System.Drawing.Size(384, 225);
+            this.Controls.Add(this.btnCancelar);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblDefinicion);
             this.Controls.Add(this.btnEscoger);
-            this.Controls.Add(this.radiobtnPiedra);
-            this.Controls.Add(this.radiobtnTrigo);
-            this.Controls.Add(this.radiobtnOveja);
-            this.Controls.Add(this.radiobtnLadrillo);
-            this.Controls.Add(this.radiobtnMadera);
             this.Controls.Add(this.lblMonopolio);
-            this.Controls.Add(this.picBoxPiedra);
-            this.Controls.Add(this.picBoxTrigo);
-            this.Controls.Add(this.picBoxOveja);
-            this.Controls.Add(this.picBoxLadrillo);
-            this.Controls.Add(this.picBoxMadera);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Monopolio";
+            this.Name = "FormMonopolio";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Monopolio";
@@ -208,6 +234,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.picBoxOveja)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxTrigo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxPiedra)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -228,5 +256,7 @@
         private System.Windows.Forms.RadioButton radiobtnPiedra;
         private System.Windows.Forms.Button btnEscoger;
         private System.Windows.Forms.Label lblDefinicion;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnCancelar;
     }
 }

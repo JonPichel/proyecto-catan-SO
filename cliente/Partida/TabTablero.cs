@@ -21,6 +21,7 @@ namespace cliente.Partida
         int numturnos;
         int numJugadores;
         int sumadados;
+        bool desarrolloUsada;
 
         public override ColorJugador colorJugador { get; set; }
 
@@ -337,6 +338,7 @@ namespace cliente.Partida
             btnComercio.Enabled = false;
             btnTurno.Enabled = false;
             lblUndo.Visible = false;
+            desarrolloUsada = false;
 
             btnCarretera.MouseHover += BtnConstruir_MouseHover;
             btnPoblado.MouseHover += BtnConstruir_MouseHover;
@@ -935,7 +937,7 @@ namespace cliente.Partida
                 if (panel.Nombre == this.turno)
                 {
                     panelActualizar = panel;
-                    panelActualizar.BackColor = Color.Gold;
+                    panelActualizar.BackColor = Color.FromArgb(255, 255, 128);
                 }
             }
         }
@@ -1143,6 +1145,7 @@ namespace cliente.Partida
                     btnCiudad.Enabled = false;
                     btnDesarrollo.Enabled = false;
                     btnComercio.Enabled = false;
+                    desarrolloUsada = false;
                     break;
             }
         }
@@ -1275,48 +1278,61 @@ namespace cliente.Partida
         {
             if (this.nombre != this.turno)
                 return;
+            if (desarrolloUsada == false)
+            {
+                Carta carta = (Carta)sender;
 
-            Carta carta = (Carta)sender;
-            
-            if ((int)carta.Tipo == 4)
-                return;
-            cartas.Remove(carta);
-            pnlCartas.Controls.Remove(carta);
-            for (int i = cartas.Count - 1; i >= 0; i--)
-            {
-                if (cartas[i].Tipo == carta.Tipo)
-                {
-                    cartas[i].Enabled = true;
-                    break;
-                }
-            }
-            string pet;
-            byte[] pet_b;
-            switch ((int)carta.Tipo)
-            {
-                case 0:
-                    FormMonopolio form = new FormMonopolio();
-                    form.ShowDialog();
-                    string recurso = form.Recurso;
-                    pet = "25/" + idP.ToString() + "/" + recurso;
-                    break;
-                case 1:
-                    pet = "24/" + idP.ToString();
-                    break;
-                case 2:
-                    pet = "22/" + idP.ToString();
-                    panelActualizar.Caballeros += 1;
-                    estado = Estado.ColocarLadron;
-                    RefreshBotones();
-                    break;
-                case 3:
-                    pet = "23/" + idP.ToString();
-                    break;
-                default:
+                if ((int)carta.Tipo == 4)
                     return;
+
+                string pet;
+                byte[] pet_b;
+                switch ((int)carta.Tipo)
+                {
+                    case 0:
+                        FormMonopolio form1 = new FormMonopolio();
+                        form1.ShowDialog();
+                        string recurso = form1.Recurso;
+                        if (recurso == "")
+                            return;
+                        pet = "25/" + idP.ToString() + "/" + recurso;
+                        break;
+                    case 1:
+                        FormInvento form2 = new FormInvento();
+                        form2.ShowDialog();
+                        string[] recursos = form2.recursos;
+                        if (recursos[0] == "" || recursos[1] == "")
+                            return;
+                        pet = "24/" + idP.ToString() + "/" + recursos[0] + "," + recursos[1];
+                        UsarInvento(recursos[0] + "," + recursos[1]);
+                        break;
+                    case 2:
+                        pet = "22/" + idP.ToString();
+                        panelActualizar.Caballeros += 1;
+                        estado = Estado.ColocarLadron;
+                        lblInfo.Text = "Ha salido un siete! Mueve el ladrón a la casilla que quieras";
+                        RefreshBotones();
+                        break;
+                    case 3:
+                        pet = "23/" + idP.ToString();
+                        break;
+                    default:
+                        return;
+                }
+                pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                conn.Send(pet_b);
+                cartas.Remove(carta);
+                pnlCartas.Controls.Remove(carta);
+                for (int i = cartas.Count - 1; i >= 0; i--)
+                {
+                    if (cartas[i].Tipo == carta.Tipo)
+                    {
+                        cartas[i].Enabled = true;
+                        break;
+                    }
+                }
+                desarrolloUsada = true;
             }
-            pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
-            conn.Send(pet_b);
         }
         public void UsarCarta(string mensaje)
         {
@@ -1327,6 +1343,7 @@ namespace cliente.Partida
                 
             string[] trozos = mensaje.Split('/');
             int codigo = Convert.ToInt32(trozos[0]);
+            int cantidad;
 
             switch (codigo)
             {
@@ -1338,13 +1355,12 @@ namespace cliente.Partida
                     MessageBox.Show(this.turno + " ha usado carta de desarrollo: Carreteras" );
                     break;
                 case 24:
-                    MessageBox.Show(this.turno + " ha usado carta de desarrollo: Invento" );
+                    UsarInvento(trozos[2]);
                     break;
                 case 25:
                     string recurso = trozos[2];                   
                     string pet;
                     byte[] pet_b;
-                    int cantidad;
                     switch (recurso)
                     {
                         case "Madera":
@@ -1792,6 +1808,55 @@ namespace cliente.Partida
 
                 }
                 // Sino no hacemos nada, no hemos sido elegidos o tenemos 0 recursos
+            }
+        }
+        private void UsarInvento(string mensaje)
+        {
+            if (this.nombre != this.turno)
+                lblInfo.Text = this.turno + " ha usado la carta de invento";
+
+            string[] recursos = new string[] { mensaje.Split(',')[0], mensaje.Split(',')[1] };
+            int cantidad;
+
+            if (recursos[0] == recursos[1])
+            {
+                cantidad = 2;
+                recursos = new string[] { mensaje.Split(',')[0] };
+
+            }
+            else
+                cantidad = 1;
+            foreach (string rec in recursos)
+            {
+                switch (rec)
+                {
+                    case "Madera":
+                        if (this.nombre == this.turno)
+                            Madera += cantidad;
+                        panelActualizar.Madera += cantidad;
+                        break;
+                    case "Ladrillo":
+                        if (this.nombre == this.turno)
+                            Ladrillo += cantidad;
+                        panelActualizar.Ladrillo += cantidad;
+                        break;
+                    case "Oveja":
+                        if (this.nombre == this.turno)
+                            Oveja += cantidad;
+                        panelActualizar.Oveja += cantidad;
+                        break;
+                    case "Trigo":
+                        if (this.nombre == this.turno)
+                            Trigo += cantidad;
+                        panelActualizar.Trigo += cantidad;
+                        break;
+                    case "Piedra":
+                        if (this.nombre == this.turno)
+                            Piedra += cantidad;
+                        panelActualizar.Piedra += cantidad;
+                        break;
+                }
+                timerRecursos.Start();
             }
         }
 
