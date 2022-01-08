@@ -54,7 +54,6 @@ namespace cliente.Partida
             ColocarPoblado,
             ColocarCiudad,
             ColocarCarretera,
-            Comerciar,
             Robar
         };
 
@@ -500,6 +499,7 @@ namespace cliente.Partida
                 switch (estado)
                 {
                     case Estado.Normal:
+                        if (timerRaton.Enabled) return;
                         oldMouse = e.Location;
                         pnlTablero.Refresh();
                         break;
@@ -551,11 +551,12 @@ namespace cliente.Partida
                         // Si no hay opción de robar se acaba el ladrón
                         if (numPosibles == 0)
                         {
+                            timerRaton.Start();
                             estado = Estado.Normal;
-                            RefreshBotones();
                             btnTurno.Text = "Acabar turno";
                             btnTurno.Tag = "ACABAR";
                             lblInfo.Text = "";
+                            RefreshBotones();
                             return;
                         }
 
@@ -564,8 +565,7 @@ namespace cliente.Partida
                         break;
                     case Estado.Robar:
                         fichaRobar = VerticeCoords.PixelToVertice(e.Location, basePoint, zoomLevel);
-                        string donante;
-                        string a = "";
+                        string donante = "";
 
                         foreach (VerticeCoords vecinos in posicionLadron.Vertices)
                         {
@@ -579,7 +579,7 @@ namespace cliente.Partida
                                         {
                                             if (fichas.Color == colores[l] && fichas.Color != this.colorturno)
                                             {
-                                                a = nombres[l];
+                                                donante = nombres[l];
                                             }
                                         }
                                         break;
@@ -589,19 +589,18 @@ namespace cliente.Partida
                             }                    
                         }
 
-                        if (a == "")
+                        if (donante == "")
                             return;                       
-                        else
-                            donante = a;
 
                         pet = "32/" + idP.ToString() + "/" + donante;
                         pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                         conn.Send(pet_b);
+                        timerRaton.Start();
                         estado = Estado.Normal;
-                        RefreshBotones();
                         lblInfo.Text = "";
                         btnTurno.Text = "Acabar turno";
                         btnTurno.Tag = "ACABAR";
+                        RefreshBotones();
                         break;
                     case Estado.ColocarCarretera:
                         if (ComprobarCarretera(carreteraColocar.Coords))
@@ -620,28 +619,25 @@ namespace cliente.Partida
                                 btnTurno.Tag = "ACABAR";
                                 btnTurno.Enabled = true;
                             }
+                            // Carta carreteras
                             else if (DosCarreteras > 0)
                             {
                                 DosCarreteras--;
                                 if (DosCarreteras == 1)
-                                    lblInfo.Text = "Queda por colocar 1 carretera";                                    
-                                else
-                                    estado = Estado.Normal;
-                                return;
+                                    lblInfo.Text = "Queda por colocar 1 carretera";
                             }
                             else
                             {
                                 Madera--;
                                 Ladrillo--;
-                                panelActualizar.Madera--;
-                                panelActualizar.Ladrillo--;
-                                panelActualizar.Recursos -= 2;
-                                timerRecursos.Start();
                                 RefreshBotones();
                             }
+                            if (DosCarreteras == 0)
+                            {
+                                timerRaton.Start();
+                                estado = Estado.Normal;
+                            }
                         }
-                        if (DosCarreteras == 0)
-                            estado = Estado.Normal;                        
                         break;
                     case Estado.ColocarPoblado:
                         if (ComprobarFichaVertice(verticeColocar.Coords, verticesPosibles))
@@ -651,6 +647,7 @@ namespace cliente.Partida
                                 verticeColocar.Coords.Q.ToString() + "," + (int)verticeColocar.Coords.V;
                             pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
+                            timerRaton.Start();
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
                             //Dos primeras rondas
@@ -676,6 +673,7 @@ namespace cliente.Partida
                                 verticeColocar.Coords.Q.ToString() + "," + (int)verticeColocar.Coords.V;
                             pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
+                            timerRaton.Start();
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
                             Trigo -= 2;
@@ -686,7 +684,7 @@ namespace cliente.Partida
                 }
                 pnlTablero.Refresh();
             }
-            if (e.Button == MouseButtons.Right)
+            else if (e.Button == MouseButtons.Right)
             {
                 this.lblUndo.Visible = false;
                 estado = Estado.Normal;
@@ -700,7 +698,7 @@ namespace cliente.Partida
             {
                 case Estado.Normal:
                     // Panning
-                    if (e.Button == MouseButtons.Left && timerRecursos.Enabled == false)
+                    if (e.Button == MouseButtons.Left && timerRaton.Enabled == false)
                     {
                         basePoint.X += e.Location.X - oldMouse.X;
                         basePoint.Y += e.Location.Y - oldMouse.Y;
@@ -988,7 +986,7 @@ namespace cliente.Partida
             else
                 btnDesarrollo.Enabled = true;
 
-            btnComercio.Enabled = true;
+            btnComercio.Enabled = this.estado == Estado.Normal;
             btnTurno.Enabled = true;
         }
 
@@ -1219,6 +1217,7 @@ namespace cliente.Partida
                 ratioMadera, ratioLadrillo, ratioOveja, ratioTrigo, ratioPiedra);
             formComerciar.ShowDialog();
             formComerciar = null;
+            RefreshBotones();
         }
 
         private void lblUndo_Click(object sender, EventArgs e)
@@ -1245,7 +1244,6 @@ namespace cliente.Partida
                 panel.Piedra = 0;
             }
             timerRecursos.Stop();
-            lblInfo.Text = "";
         }
 
         public void ComprarCarta(string mensaje)
@@ -1293,7 +1291,7 @@ namespace cliente.Partida
             Trigo--;
             Piedra--;
 
-            //RefreshBotones();
+            RefreshBotones();
         }
 
         private void Carta_Click(object sender, EventArgs e)
@@ -1521,7 +1519,7 @@ namespace cliente.Partida
 
                     if (this.turno == this.nombre)
                         carreteraColocar = new Carretera(0, 0, Lado.Oeste, this.colorJugador);
-                    if (numturnos > (numJugadores * 2) && DosCarreteras == 0 && this.turno != this.nombre)
+                    if (numturnos > (numJugadores * 2) && DosCarreteras == 0)
                     {
                         panelActualizar.Madera--;
                         panelActualizar.Ladrillo--;
@@ -1652,6 +1650,7 @@ namespace cliente.Partida
                 Oveja += recursos[7] - recursos[2];
                 Trigo += recursos[8] - recursos[3];
                 Piedra += recursos[9] - recursos[4];
+                RefreshBotones();
             } else if (this.nombre == trozos[2])
             {
                 Madera -= recursos[5] - recursos[0];
@@ -1683,6 +1682,11 @@ namespace cliente.Partida
             timerRecursos.Start();
         }
 
+        private void timerRaton_Tick(object sender, EventArgs e)
+        {
+            timerRaton.Stop();
+        }
+
         public void ComercioMaritimo(string mensaje)
         {
             string[] trozos = mensaje.Split("/");
@@ -1700,6 +1704,7 @@ namespace cliente.Partida
                 Oveja += recursos[7] - recursos[2];
                 Trigo += recursos[8] - recursos[3];
                 Piedra += recursos[9] - recursos[4];
+                RefreshBotones();
             }
 
             panelActualizar.Recursos += recursos[5..].Sum() - recursos[..5].Sum();
@@ -1716,6 +1721,7 @@ namespace cliente.Partida
             string[] trozos = mensaje.Split('/');
             string donante = trozos[2];
 
+            // Desechar recursos
             if (trozos[0] == "31")
             {
                 int[] recursos = new int[5];
@@ -1728,48 +1734,30 @@ namespace cliente.Partida
 
                 int cantidad = recursos[0] + recursos[1] + recursos[2] + recursos[3] + recursos[4];
 
-                if (this.turno == this.nombre)
+                // Has desechado recursos o le has dado un recurso al ladron
+                if (donante == this.nombre)
                 {
-                    if (cantidad > 1 && donante == this.nombre)
+                    Madera -= recursos[0];
+                    Ladrillo -= recursos[1];
+                    Oveja -= recursos[2];
+                    Trigo -= recursos[3];
+                    Piedra -= recursos[4];
+                    if (this.turno == this.nombre)
                     {
-                        Madera -= recursos[0];
-                        Ladrillo -= recursos[1];
-                        Oveja -= recursos[2];
-                        Trigo -= recursos[3];
-                        Piedra -= recursos[4];
+                        RefreshBotones();
                     }
-                    else // Recibes 1 recurso
-                    {
-                        int j = 0;
-                        bool encontrado = false;
-                        while (!encontrado)
-                        {
-                            if (recursos[j] != 0)
-                                encontrado = true;
-                            else
-                                j++;
-                        }
-
-                        switch (j)
-                        {
-                            case 0:
-                                Madera += 1;
-                                break;
-                            case 1:
-                                Ladrillo += 1;
-                                break;
-                            case 2:
-                                Oveja += 1;
-                                break;
-                            case 3:
-                                Trigo += 1;
-                                break;
-                            case 4:
-                                Piedra += 1;
-                                break;
-                        }
-                    }                    
                 }
+                // Te entregan un recurso del robo
+                else if (this.turno == this.nombre && cantidad == 1)
+                {
+                    Madera += recursos[0];
+                    Ladrillo += recursos[0];
+                    Oveja += recursos[2];
+                    Trigo += recursos[3];
+                    Piedra += recursos[4];
+                    RefreshBotones();
+                }
+
 
                 foreach (PanelInfoJugador panel in paneles)
                 {
@@ -1782,7 +1770,7 @@ namespace cliente.Partida
                         panel.Trigo -= recursos[3];
                         panel.Piedra -= recursos[4];
                     }
-                    if (panel.Nombre == this.turno && cantidad == 1)
+                    else if (panel.Nombre == this.turno && cantidad == 1)
                     {
                         panel.Recursos += cantidad;
                         panel.Madera += recursos[0];
@@ -1794,8 +1782,10 @@ namespace cliente.Partida
                 }
                 timerRecursos.Start();
             }
+            // Petición 32
             else
             {
+                // Te roban
                 if (donante == this.nombre && (madera + ladrillo + oveja + trigo + piedra != 0))
                 {
                     string resto = "";
@@ -1818,31 +1808,24 @@ namespace cliente.Partida
                     {
                         case 0:
                             resto = "1,0,0,0,0";
-                            Madera--;
                             break;
                         case 1:
                             resto = "0,1,0,0,0";
-                            Ladrillo--;
                             break;
                         case 2:
                             resto = "0,0,1,0,0";
-                            Oveja--;
                             break;
                         case 3:
                             resto = "0,0,0,1,0";
-                            Trigo--;
                             break;
                         case 4:
                             resto = "0,0,0,0,1";
-                            Piedra--;
                             break;
                     }
                     pet = "31/" + idP.ToString() + "/" + this.nombre + "/" + resto;
                     pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                     conn.Send(pet_b);
-
                 }
-                // Sino no hacemos nada, no hemos sido elegidos o tenemos 0 recursos
             }
         }
         private void UsarInvento(string mensaje)

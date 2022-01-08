@@ -61,6 +61,7 @@ namespace cliente.Partida
             this.lblInfo = new System.Windows.Forms.Label();
             this.lblDado1 = new System.Windows.Forms.PictureBox();
             this.lblDado2 = new System.Windows.Forms.PictureBox();
+            this.timerRaton = new System.Windows.Forms.Timer(this.components);
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lblDado1)).BeginInit();
@@ -327,7 +328,7 @@ namespace cliente.Partida
             // 
             // timerRecursos
             // 
-            this.timerRecursos.Interval = 2000;
+            this.timerRecursos.Interval = 5000;
             this.timerRecursos.Tick += new System.EventHandler(this.timerRecursos_Tick);
             // 
             // pnlJugador1
@@ -437,6 +438,11 @@ namespace cliente.Partida
             this.lblDado2.TabIndex = 20;
             this.lblDado2.TabStop = false;
             // 
+            // timerRaton
+            // 
+            this.timerRaton.Interval = 500;
+            this.timerRaton.Tick += new System.EventHandler(this.timerRaton_Tick);
+            // 
             // TabTablero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -505,5 +511,6 @@ namespace cliente.Partida
         private System.Windows.Forms.Label lblInfo;
         private System.Windows.Forms.PictureBox lblDado1;
         private System.Windows.Forms.PictureBox lblDado2;
+        private System.Windows.Forms.Timer timerRaton;
     }
 }

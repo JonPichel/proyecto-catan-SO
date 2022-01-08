@@ -77,12 +77,12 @@ namespace cliente.Menu
             if (conn != null)
             {
                 // Desconectar servidor
+                atender.Interrupt();
                 string pet = "0/";
                 byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                 conn.Send(pet_b);
                 conn.Shutdown(SocketShutdown.Both);
                 conn.Close();
-                atender.Interrupt();
             }
         }
 
@@ -171,7 +171,7 @@ namespace cliente.Menu
                             {
                                 delegado = new DelegadoRespuestas(partidas[idP].PartidaCancelada);
                                 partidas[idP].Invoke(delegado, new object[] { mensaje });
-                                partidas[idP].Close();
+                                partidas.Remove(idP);
                             }
                             break;
                         case 11:
