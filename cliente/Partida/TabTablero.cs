@@ -1244,6 +1244,8 @@ namespace cliente.Partida
                 panel.Trigo = 0;
                 panel.Piedra = 0;
             }
+            lblInfo.Text = "";
+
             timerRecursos.Stop();
         }
 
@@ -1530,6 +1532,9 @@ namespace cliente.Partida
                     else if (DosCarreteras > 0 && this.turno != this.nombre)
                     {
                         DosCarreteras--;
+
+                        if (DosCarreteras == 0)
+                            lblInfo.Text = "";
                     }
                     break;
             }
@@ -1743,6 +1748,10 @@ namespace cliente.Partida
                     Oveja -= recursos[2];
                     Trigo -= recursos[3];
                     Piedra -= recursos[4];
+
+                    if (cantidad == 1)
+                        lblInfo.Text = "Has sido robado por " + this.turno;
+
                     if (this.turno == this.nombre)
                     {
                         RefreshBotones();
@@ -1757,6 +1766,11 @@ namespace cliente.Partida
                     Trigo += recursos[3];
                     Piedra += recursos[4];
                     RefreshBotones();
+                }
+                else
+                {
+                    if (cantidad == 1)
+                        lblInfo.Text = this.turno + " ha robado a " + donante;
                 }
 
 
@@ -1850,7 +1864,7 @@ namespace cliente.Partida
                 switch (rec)
                 {
                     case "Madera":
-                        if (this.nombre == this.turno)
+                        if (this.nombre == this.turno) 
                             Madera += cantidad;
                         panelActualizar.Madera += cantidad;
                         break;
@@ -1877,6 +1891,7 @@ namespace cliente.Partida
                 }
                 timerRecursos.Start();
             }
+            panelActualizar.Recursos += 2;
         }
 
         private int MaximaLongitud(VerticeCoords s, LadoCoords lado, List<LadoCoords> lados,
