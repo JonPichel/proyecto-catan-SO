@@ -22,6 +22,7 @@ namespace cliente.Partida
         int numJugadores;
         int sumadados;
         bool desarrolloUsada;
+        int DosCarreteras;
 
         public override ColorJugador colorJugador { get; set; }
 
@@ -325,6 +326,7 @@ namespace cliente.Partida
             // Estado partida
             this.estado = Estado.Normal;
             this.numturnos = 0;
+            this.DosCarreteras = 0;
 
             pnlTablero.Paint += TabTablero_Paint;
             pnlTablero.MouseWheel += TabTablero_MouseWheel;
@@ -604,27 +606,42 @@ namespace cliente.Partida
                     case Estado.ColocarCarretera:
                         if (ComprobarCarretera(carreteraColocar.Coords))
                         {
+                            lblInfo.Text = "";
                             pet = "20/" + idP.ToString() + "/" + carreteraColocar.Coords.R.ToString() + "," +
-                                carreteraColocar.Coords.Q.ToString() + "," + (int)carreteraColocar.Coords.L;
+                               carreteraColocar.Coords.Q.ToString() + "," + (int)carreteraColocar.Coords.L;
                             pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
                             this.lblUndo.Visible = false;
                             //Dos primeras rondas
-                            if (numturnos <= (numJugadores*2))
-                            {
+                            if (numturnos <= (numJugadores * 2))
+                            {                                
                                 btnCarretera.Enabled = false;
                                 btnTurno.Text = "Acabar turno";
                                 btnTurno.Tag = "ACABAR";
                                 btnTurno.Enabled = true;
                             }
+                            else if (DosCarreteras > 0)
+                            {
+                                DosCarreteras--;
+                                if (DosCarreteras == 1)
+                                    lblInfo.Text = "Queda por colocar 1 carretera";                                    
+                                else
+                                    estado = Estado.Normal;
+                                return;
+                            }
                             else
                             {
                                 Madera--;
                                 Ladrillo--;
+                                panelActualizar.Madera--;
+                                panelActualizar.Ladrillo--;
+                                panelActualizar.Recursos -= 2;
+                                timerRecursos.Start();
                                 RefreshBotones();
                             }
-                            estado = Estado.Normal;
                         }
+                        if (DosCarreteras == 0)
+                            estado = Estado.Normal;                        
                         break;
                     case Estado.ColocarPoblado:
                         if (ComprobarFichaVertice(verticeColocar.Coords, verticesPosibles))
@@ -991,9 +1008,7 @@ namespace cliente.Partida
             lblDado2.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado2location), new Size(35, 35));
 
             if (sumadados == 7)
-            {
-                
-
+            {                
                 if ((madera + ladrillo + oveja + trigo + piedra) > 7)
                 {
                     FormLadron form = new FormLadron(this.conn, this.idP, this.nombre,
@@ -1230,6 +1245,7 @@ namespace cliente.Partida
                 panel.Piedra = 0;
             }
             timerRecursos.Stop();
+            lblInfo.Text = "";
         }
 
         public void ComprarCarta(string mensaje)
@@ -1239,7 +1255,13 @@ namespace cliente.Partida
                 btnDesarrollo.Enabled = false;
                 return;
             }
-            panelActualizar.Desarrollo++;            
+            panelActualizar.Desarrollo++;
+            panelActualizar.Recursos -= 3;
+            panelActualizar.Oveja--;
+            panelActualizar.Trigo--;
+            panelActualizar.Piedra--;
+
+            timerRecursos.Start();
 
             if (this.nombre != this.turno)
                 return;
@@ -1315,6 +1337,10 @@ namespace cliente.Partida
                         break;
                     case 3:
                         pet = "23/" + idP.ToString();
+                        DosCarreteras = 2;
+                        lblInfo.Text = "Ha usado la carta Carreteras. Coloque 2 carreteras sin coste";
+                        estado = Estado.ColocarCarretera;
+                        carreteraColocar = new Carretera(0, 0, Lado.Oeste, this.colorJugador);
                         break;
                     default:
                         return;
@@ -1348,11 +1374,13 @@ namespace cliente.Partida
             switch (codigo)
             {
                 case 22:
-                    MessageBox.Show(this.turno + " ha usado carta de desarrollo: Caballero");
+                    lblInfo.Text = this.turno + " ha usado la carta Caballero";
                     panelActualizar.Caballeros++;
                     break;
                 case 23:
-                    MessageBox.Show(this.turno + " ha usado carta de desarrollo: Carreteras" );
+                    lblInfo.Text = this.turno + " ha usado la carta Carreteras";
+                    DosCarreteras = 2;
+                    timerRecursos.Start();
                     break;
                 case 24:
                     UsarInvento(trozos[2]);
@@ -1490,12 +1518,19 @@ namespace cliente.Partida
                     }
 
                     panelActualizar.Carreteras = maxCarreteras;
-                    if (numturnos > (numJugadores * 2))
+
+                    if (this.turno == this.nombre)
+                        carreteraColocar = new Carretera(0, 0, Lado.Oeste, this.colorJugador);
+                    if (numturnos > (numJugadores * 2) && DosCarreteras == 0 && this.turno != this.nombre)
                     {
                         panelActualizar.Madera--;
                         panelActualizar.Ladrillo--;
                         panelActualizar.Recursos -= 2;
                         timerRecursos.Start();
+                    }
+                    else if (DosCarreteras > 0 && this.turno != this.nombre)
+                    {
+                        DosCarreteras--;
                     }
                     break;
             }
