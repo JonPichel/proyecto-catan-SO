@@ -504,7 +504,7 @@ void pet_usar_carta(int codigo, char *resto, int socket){
     int idP = atoi(strtok_r(resto, "/", &resto));
     
     char respuesta[32];
-    if (codigo == 25){
+    if (codigo == 25 || codigo == 24){
         sprintf(respuesta, "%d/%d/%s~~END~~", codigo, idP, resto);
     }
     else{
