@@ -21,6 +21,7 @@ namespace cliente.Partida
         Image Jugador2;
         int ofrecer;
         int pedir;
+        int posiblesMaritimo;
 
         //Recursos en tu poder
         int[] recursos;
@@ -85,6 +86,7 @@ namespace cliente.Partida
             btnComerciar.Enabled = false;
             ofrecer = 0;
             pedir = 0;
+            posiblesMaritimo = 0;
 
             foreach (Button btn in btnsO)
             {
@@ -169,6 +171,8 @@ namespace cliente.Partida
             btnComercioJ.BackColor = Color.Linen;
             btnComercioM.BackColor = Color.White;
             this.Comercio = 0;
+            this.pedir = 0;
+            this.ofrecer = 0;
             int i = 0;
             while (i < recursos.Length)
             {
@@ -196,6 +200,8 @@ namespace cliente.Partida
             btnComercioM.BackColor = Color.Linen;
             btnComercioJ.BackColor = Color.White;
             this.Comercio = 1;
+            this.pedir = 0;
+            this.ofrecer = 0;
             int i = 0;
             while (i < recursos.Length)
             {
@@ -270,16 +276,22 @@ namespace cliente.Partida
                                     lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) + 1);
                                     ofrecer = ofrecer + 1;
                                     this.recursos[counter] = this.recursos[counter] - 1;
+                                    if (recursos[counter] < 1)
+                                        btnClicked.Enabled = false;
                                 }
                                 else
                                 {
                                     lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) + ratiopuertos[counter]);
                                     ofrecer = ofrecer + ratiopuertos[counter];
                                     this.recursos[counter] = this.recursos[counter] - ratiopuertos[counter];
+                                    this.posiblesMaritimo = this.posiblesMaritimo + 1;
+                                    if (recursos[counter] < ratiopuertos[counter])
+                                        btnClicked.Enabled = false;
+                                    for (int a = 0; a < 10; a++)
+                                        if ((a % 2) == 0)
+                                            btnsP[a].Enabled = true;
                                 }
                                 btnsO[counter * 2 + 1].Enabled = true;
-                                if (recursos[counter] == 0)
-                                    btnClicked.Enabled = false;
                             }
                             else
                             {
@@ -294,9 +306,19 @@ namespace cliente.Partida
                                     lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) - ratiopuertos[counter]);
                                     ofrecer = ofrecer - ratiopuertos[counter];
                                     this.recursos[counter] = this.recursos[counter] + ratiopuertos[counter];
+                                    this.posiblesMaritimo = this.posiblesMaritimo - 1;
+                                    for (int a = 0; a < 5; a++)
+                                        while (lblsP[a].Text != "0" && this.posiblesMaritimo < pedir)
+                                        {
+                                            lblsP[a].Text = Convert.ToString(Convert.ToInt32(lblsP[a].Text) - 1);
+                                            this.pedir = this.pedir - 1;
+                                        }
+                                    if (this.posiblesMaritimo < 1)
+                                        for (int a = 0; a < 10; a++)
+                                            btnsP[a].Enabled = false;
                                 }
                                 btnsO[counter * 2].Enabled = true;
-                                if (Convert.ToInt32(lbl.Text) == 0)
+                                if (Convert.ToInt32(lbl.Text) < 1)
                                     btnClicked.Enabled = false;
                             }
                             break;
@@ -327,9 +349,22 @@ namespace cliente.Partida
                         {
                             if (btnClicked.Name.Contains("Mas"))
                             {
-                                lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) + 1);
-                                pedir = pedir + 1;
-                                btnsP[counter * 2 + 1].Enabled = true;
+                                if (Comercio == 0)
+                                {
+                                    lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) + 1);
+                                    pedir = pedir + 1;
+                                    btnsP[counter * 2 + 1].Enabled = true;
+                                }
+                                else if (Comercio == 1 && posiblesMaritimo > 0)
+                                {
+                                    lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) + 1);
+                                    pedir = pedir + 1;
+                                    btnsP[counter * 2 + 1].Enabled = true;
+                                    if (this.posiblesMaritimo == pedir)
+                                        for (int a = 0; a < 10; a++)
+                                            if (a % 2 == 0)
+                                                btnsP[a].Enabled = false;
+                                }
                             }
                             else
                             {
@@ -337,6 +372,15 @@ namespace cliente.Partida
                                 pedir = pedir - 1;
                                 if (Convert.ToInt32(lbl.Text) == 0)
                                     btnClicked.Enabled = false;
+                                if (Comercio == 1)
+                                {
+                                    if (this.posiblesMaritimo != pedir)
+                                        for (int a = 0; a < 10; a++)
+                                            if (a % 2 == 0)
+                                                btnsP[a].Enabled = true;
+                                }
+                                else
+                                    btnsP[counter * 2].Enabled = true;
                             }
                             break;
                         }

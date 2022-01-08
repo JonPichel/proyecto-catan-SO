@@ -70,9 +70,9 @@ namespace cliente.Partida
             // 
             // btnPoblado
             // 
-            this.btnPoblado.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnPoblado.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnPoblado.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.btnPoblado.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnPoblado.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.btnPoblado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPoblado.Location = new System.Drawing.Point(545, 532);
             this.btnPoblado.Name = "btnPoblado";
@@ -85,9 +85,9 @@ namespace cliente.Partida
             // 
             // btnCarretera
             // 
-            this.btnCarretera.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnCarretera.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnCarretera.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.btnCarretera.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnCarretera.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.btnCarretera.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCarretera.Location = new System.Drawing.Point(545, 497);
             this.btnCarretera.Name = "btnCarretera";
@@ -172,9 +172,9 @@ namespace cliente.Partida
             // 
             // btnTurno
             // 
-            this.btnTurno.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnTurno.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnTurno.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.btnTurno.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnTurno.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.btnTurno.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTurno.Location = new System.Drawing.Point(702, 497);
             this.btnTurno.Name = "btnTurno";
@@ -264,9 +264,9 @@ namespace cliente.Partida
             // 
             // btnCiudad
             // 
-            this.btnCiudad.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnCiudad.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnCiudad.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.btnCiudad.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnCiudad.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.btnCiudad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCiudad.Location = new System.Drawing.Point(545, 567);
             this.btnCiudad.Name = "btnCiudad";
@@ -279,9 +279,9 @@ namespace cliente.Partida
             // 
             // btnComercio
             // 
-            this.btnComercio.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnComercio.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnComercio.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.btnComercio.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnComercio.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.btnComercio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnComercio.Location = new System.Drawing.Point(621, 532);
             this.btnComercio.Name = "btnComercio";
@@ -303,9 +303,9 @@ namespace cliente.Partida
             // 
             // btnDesarrollo
             // 
-            this.btnDesarrollo.BackColor = System.Drawing.Color.Gainsboro;
+            this.btnDesarrollo.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnDesarrollo.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.btnDesarrollo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnDesarrollo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.btnDesarrollo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDesarrollo.Location = new System.Drawing.Point(621, 497);
             this.btnDesarrollo.Name = "btnDesarrollo";

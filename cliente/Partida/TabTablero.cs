@@ -332,12 +332,13 @@ namespace cliente.Partida
             pnlTablero.MouseDown += TabTablero_MouseDown;
             pnlTablero.MouseMove += TabTablero_MouseMove;
 
-            btnCarretera.Enabled = false;
-            btnPoblado.Enabled = false;
-            btnCiudad.Enabled = false;
-            btnDesarrollo.Enabled = false;
-            btnComercio.Enabled = false;
-            btnTurno.Enabled = false;
+            Button[] btnPrincipal = new Button[] { btnCarretera , btnPoblado , btnCiudad , btnDesarrollo, btnComercio, btnTurno };
+            foreach(Button btn in btnPrincipal)
+            {
+                btn.Enabled = false;
+                btn.EnabledChanged += btnPrincipal_EnabledChanged;
+            }
+
             lblUndo.Visible = false;
             desarrolloUsada = false;
 
@@ -1901,6 +1902,14 @@ namespace cliente.Partida
             }
             // Nunca ocurrirá
             return -10000;
+        }
+        private void btnPrincipal_EnabledChanged(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            if (btn.Enabled == true)
+                btn.BackColor = Color.FromArgb(255, 255, 192);
+            else
+                btn.BackColor = Color.WhiteSmoke;
         }
     }
 }
