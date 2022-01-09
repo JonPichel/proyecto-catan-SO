@@ -633,6 +633,7 @@ namespace cliente.Partida
                             {
                                 Madera--;
                                 Ladrillo--;
+                                estado = Estado.Normal;
                                 RefreshBotones();
                             }
                             if (DosCarreteras == 0)
@@ -1329,7 +1330,6 @@ namespace cliente.Partida
                         if (recursos[0] == "" || recursos[1] == "")
                             return;
                         pet = "24/" + idP.ToString() + "/" + recursos[0] + "," + recursos[1];
-                        UsarInvento(recursos[0] + "," + recursos[1]);
                         break;
                     case 2:
                         pet = "22/" + idP.ToString();
@@ -1897,7 +1897,7 @@ namespace cliente.Partida
                 lblInfo.Text = this.turno + " ha usado la carta de invento";
 
             string[] recursos = new string[] { mensaje.Split(',')[0], mensaje.Split(',')[1] };
-            int cantidad;
+            int cantidad = 1;
 
             if (recursos[0] == recursos[1])
             {
@@ -1905,8 +1905,6 @@ namespace cliente.Partida
                 recursos = new string[] { mensaje.Split(',')[0] };
 
             }
-            else
-                cantidad = 1;
             foreach (string rec in recursos)
             {
                 switch (rec)

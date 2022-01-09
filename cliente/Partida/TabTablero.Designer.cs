@@ -338,7 +338,9 @@ namespace cliente.Partida
             this.pnlJugador1.Carreteras = 0;
             this.pnlJugador1.ColorJ = cliente.Partida.ColorJugador.Azul;
             this.pnlJugador1.Desarrollo = 0;
+            this.pnlJugador1.Ejercito = 0;
             this.pnlJugador1.Ladrillo = 0;
+            this.pnlJugador1.Larga = 0;
             this.pnlJugador1.Location = new System.Drawing.Point(2, 2);
             this.pnlJugador1.Madera = 0;
             this.pnlJugador1.Name = "pnlJugador1";
@@ -358,7 +360,9 @@ namespace cliente.Partida
             this.pnlJugador2.Carreteras = 0;
             this.pnlJugador2.ColorJ = cliente.Partida.ColorJugador.Azul;
             this.pnlJugador2.Desarrollo = 0;
+            this.pnlJugador2.Ejercito = 0;
             this.pnlJugador2.Ladrillo = 0;
+            this.pnlJugador2.Larga = 0;
             this.pnlJugador2.Location = new System.Drawing.Point(202, 2);
             this.pnlJugador2.Madera = 0;
             this.pnlJugador2.Name = "pnlJugador2";
@@ -378,7 +382,9 @@ namespace cliente.Partida
             this.pnlJugador3.Carreteras = 0;
             this.pnlJugador3.ColorJ = cliente.Partida.ColorJugador.Azul;
             this.pnlJugador3.Desarrollo = 0;
+            this.pnlJugador3.Ejercito = 0;
             this.pnlJugador3.Ladrillo = 0;
+            this.pnlJugador3.Larga = 0;
             this.pnlJugador3.Location = new System.Drawing.Point(402, 2);
             this.pnlJugador3.Madera = 0;
             this.pnlJugador3.Name = "pnlJugador3";
@@ -398,7 +404,9 @@ namespace cliente.Partida
             this.pnlJugador4.Carreteras = 0;
             this.pnlJugador4.ColorJ = cliente.Partida.ColorJugador.Azul;
             this.pnlJugador4.Desarrollo = 0;
+            this.pnlJugador4.Ejercito = 0;
             this.pnlJugador4.Ladrillo = 0;
+            this.pnlJugador4.Larga = 0;
             this.pnlJugador4.Location = new System.Drawing.Point(602, 2);
             this.pnlJugador4.Madera = 0;
             this.pnlJugador4.Name = "pnlJugador4";
