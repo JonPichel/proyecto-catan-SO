@@ -361,6 +361,8 @@ namespace cliente.Partida
                     paneles[i].Recursos = 0;
                     paneles[i].Desarrollo = 0;
                     paneles[i].Puntos = 0;
+                    paneles[i].Ejercito = 0;
+                    paneles[i].Larga = 0;
                     paneles[i].Show();
                 }
                 else
@@ -1331,16 +1333,13 @@ namespace cliente.Partida
                         break;
                     case 2:
                         pet = "22/" + idP.ToString();
-                        panelActualizar.Caballeros += 1;
                         estado = Estado.ColocarLadron;
-                        lblInfo.Text = "Ha salido un siete! Mueve el ladrón a la casilla que quieras";
+                        lblInfo.Text = "Has usado el caballero! Mueve el ladrón a la casilla que quieras";
                         RefreshBotones();
                         break;
                     case 3:
                         pet = "23/" + idP.ToString();
-                        DosCarreteras = 2;
-                        lblInfo.Text = "Ha usado la carta Carreteras. Coloque 2 carreteras sin coste";
-                        estado = Estado.ColocarCarretera;
+                        lblInfo.Text = "Has usado la carta Carreteras! Coloca 2 carreteras sin coste";
                         carreteraColocar = new Carretera(0, 0, Lado.Oeste, this.colorJugador);
                         break;
                     default:
@@ -1364,9 +1363,6 @@ namespace cliente.Partida
         public void UsarCarta(string mensaje)
         {
             panelActualizar.Desarrollo--;
-
-            if (this.nombre == this.turno)
-                return;
                 
             string[] trozos = mensaje.Split('/');
             int codigo = Convert.ToInt32(trozos[0]);
@@ -1376,11 +1372,39 @@ namespace cliente.Partida
             {
                 case 22:
                     lblInfo.Text = this.turno + " ha usado la carta Caballero";
+                    PanelInfoJugador panelEj = null;
+                    foreach (PanelInfoJugador panel in paneles)
+                    {
+                        if (panel.Ejercito ==  1)
+                        {
+                            panelEj = panel;
+                            break;
+                        }
+                    }
+                    if (panelEj == null)
+                    {
+                        if (panelActualizar.Caballeros == 2)
+                        {
+                            panelActualizar.Ejercito = 1;
+                        }
+                    } else if (panelEj.Nombre != this.turno)
+                    {
+                        if (panelActualizar.Caballeros == panelEj.Caballeros)
+                        {
+                            panelEj.Ejercito = 0;
+                            panelActualizar.Ejercito = 1;
+                        }
+                    }
                     panelActualizar.Caballeros++;
                     break;
                 case 23:
-                    lblInfo.Text = this.turno + " ha usado la carta Carreteras";
                     DosCarreteras = 2;
+                    if (this.nombre != this.turno)
+                        lblInfo.Text = this.turno + " ha usado la carta Carreteras";
+                    else
+                    {
+                        this.estado = Estado.ColocarCarretera;
+                    }
                     timerRecursos.Start();
                     break;
                 case 24:
@@ -1519,6 +1543,30 @@ namespace cliente.Partida
                     }
 
                     panelActualizar.Carreteras = maxCarreteras;
+                    if (maxCarreteras >= 5)
+                    {
+                        PanelInfoJugador panelLarga = null;
+                        foreach (PanelInfoJugador panel in paneles)
+                        {
+                            if (panel.Larga == 1)
+                            {
+                                panelLarga = panel;
+                                break;
+                            }
+                        }
+                        if (panelLarga == null)
+                        {
+                            panelActualizar.Larga = 1;
+                        }
+                        else if (panelLarga.Nombre != this.turno)
+                        {
+                            if (maxCarreteras > panelLarga.Carreteras)
+                            {
+                                panelLarga.Larga = 0;
+                                panelActualizar.Larga = 1;
+                            }
+                        }
+                    }
 
                     if (this.turno == this.nombre)
                         carreteraColocar = new Carretera(0, 0, Lado.Oeste, this.colorJugador);
