@@ -17,6 +17,7 @@ namespace cliente.Partida
         }
   
         int caballeros, carreteras, recursos, desarrollo, puntos;
+        int ejercito, larga;
         int madera, ladrillo, oveja, trigo, piedra;
         ColorJugador color;
 
@@ -81,9 +82,30 @@ namespace cliente.Partida
             set
             {
                 this.puntos = value;
-                this.lblPuntos.Text = value.ToString();
+                this.lblPuntos.Text = (value + 2* Ejercito + 2 * Larga).ToString();
             }
         }
+
+        public int Ejercito
+        {
+            get => this.ejercito;
+            set
+            {
+                this.ejercito = value;
+                this.lblPuntos.Text = (this.puntos + 2 * value + 2 * Larga).ToString();
+            }
+        }
+
+        public int Larga
+        {
+            get => this.larga;
+            set
+            {
+                this.larga = value;
+                this.lblPuntos.Text = (this.puntos + 2 * Ejercito + 2 * value).ToString();
+            }
+        }
+
         public int Madera
         {
             get => this.madera;
