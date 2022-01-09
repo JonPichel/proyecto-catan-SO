@@ -423,9 +423,29 @@ namespace cliente.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CartaCaballero1 {
+            get {
+                object obj = ResourceManager.GetObject("CartaCaballero1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CartaCarreteras {
             get {
                 object obj = ResourceManager.GetObject("CartaCarreteras", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CartaCarreteras1 {
+            get {
+                object obj = ResourceManager.GetObject("CartaCarreteras1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -443,6 +463,16 @@ namespace cliente.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CartaInvento1 {
+            get {
+                object obj = ResourceManager.GetObject("CartaInvento1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CartaMonopolio {
             get {
                 object obj = ResourceManager.GetObject("CartaMonopolio", resourceCulture);
@@ -453,9 +483,29 @@ namespace cliente.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CartaMonopolio1 {
+            get {
+                object obj = ResourceManager.GetObject("CartaMonopolio1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CartaPunto {
             get {
                 object obj = ResourceManager.GetObject("CartaPunto", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CartaPunto1 {
+            get {
+                object obj = ResourceManager.GetObject("CartaPunto1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -836,6 +886,16 @@ namespace cliente.Properties {
         internal static System.Drawing.Bitmap Ladron {
             get {
                 object obj = ResourceManager.GetObject("Ladron", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ladron1 {
+            get {
+                object obj = ResourceManager.GetObject("Ladron1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

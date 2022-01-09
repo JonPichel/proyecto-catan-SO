@@ -490,7 +490,22 @@
   <data name="ComercioLadrillo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Media\Images\ComercioLadrillo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ComercioLadrillo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Media\Images\ComercioLadrillo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CartaCaballero1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CartaCaballero.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CartaCarreteras1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CartaCarreteras.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CartaInvento1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CartaInvento.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CartaMonopolio1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CartaMonopolio.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CartaPunto1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\CartaPunto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ladron1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\Ladron.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

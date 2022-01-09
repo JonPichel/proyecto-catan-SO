@@ -40,6 +40,7 @@ namespace cliente.Menu
             this.dataGridJugadores = new System.Windows.Forms.DataGridView();
             this.btnCrearLobby = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnManual = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridPartidas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridJugadores)).BeginInit();
             this.panel1.SuspendLayout();
@@ -73,7 +74,7 @@ namespace cliente.Menu
             this.lblMedia.BackColor = System.Drawing.Color.Transparent;
             this.lblMedia.Font = new System.Drawing.Font("Palatino Linotype", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblMedia.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblMedia.Location = new System.Drawing.Point(37, 315);
+            this.lblMedia.Location = new System.Drawing.Point(547, 347);
             this.lblMedia.Name = "lblMedia";
             this.lblMedia.Size = new System.Drawing.Size(136, 19);
             this.lblMedia.TabIndex = 13;
@@ -103,7 +104,7 @@ namespace cliente.Menu
             this.btnDesconectar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDesconectar.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnDesconectar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnDesconectar.Location = new System.Drawing.Point(37, 261);
+            this.btnDesconectar.Location = new System.Drawing.Point(37, 258);
             this.btnDesconectar.Name = "btnDesconectar";
             this.btnDesconectar.Size = new System.Drawing.Size(150, 40);
             this.btnDesconectar.TabIndex = 10;
@@ -119,7 +120,7 @@ namespace cliente.Menu
             this.btnMedia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMedia.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnMedia.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnMedia.Location = new System.Drawing.Point(37, 169);
+            this.btnMedia.Location = new System.Drawing.Point(37, 166);
             this.btnMedia.Name = "btnMedia";
             this.btnMedia.Size = new System.Drawing.Size(150, 40);
             this.btnMedia.TabIndex = 9;
@@ -177,7 +178,7 @@ namespace cliente.Menu
             this.btnCrearLobby.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCrearLobby.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnCrearLobby.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnCrearLobby.Location = new System.Drawing.Point(37, 215);
+            this.btnCrearLobby.Location = new System.Drawing.Point(37, 212);
             this.btnCrearLobby.Name = "btnCrearLobby";
             this.btnCrearLobby.Size = new System.Drawing.Size(150, 40);
             this.btnCrearLobby.TabIndex = 19;
@@ -194,13 +195,30 @@ namespace cliente.Menu
             this.panel1.Controls.Add(this.label7);
             this.panel1.Location = new System.Drawing.Point(203, 120);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(493, 214);
+            this.panel1.Size = new System.Drawing.Size(493, 224);
             this.panel1.TabIndex = 20;
+            // 
+            // btnManual
+            // 
+            this.btnManual.BackColor = System.Drawing.Color.Sienna;
+            this.btnManual.FlatAppearance.BorderColor = System.Drawing.Color.DarkGoldenrod;
+            this.btnManual.FlatAppearance.BorderSize = 2;
+            this.btnManual.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnManual.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnManual.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnManual.Location = new System.Drawing.Point(37, 304);
+            this.btnManual.Name = "btnManual";
+            this.btnManual.Size = new System.Drawing.Size(150, 40);
+            this.btnManual.TabIndex = 10;
+            this.btnManual.Text = "Manual";
+            this.btnManual.UseVisualStyleBackColor = false;
+            this.btnManual.Click += new System.EventHandler(this.btnManual_Click);
             // 
             // TabMenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnManual);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnCrearLobby);
             this.Controls.Add(this.lblMedia);
@@ -231,5 +249,6 @@ namespace cliente.Menu
         private System.Windows.Forms.DataGridView dataGridJugadores;
         private System.Windows.Forms.Button btnCrearLobby;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnManual;
     }
 }

@@ -1244,9 +1244,9 @@ namespace cliente.Partida
                 panel.Trigo = 0;
                 panel.Piedra = 0;
             }
-            lblInfo.Text = "";
 
             timerRecursos.Stop();
+            lblInfo.Text = "";
         }
 
         public void ComprarCarta(string mensaje)
@@ -1758,7 +1758,7 @@ namespace cliente.Partida
                     }
                 }
                 // Te entregan un recurso del robo
-                else if (this.turno == this.nombre && cantidad == 1)
+                if (this.turno == this.nombre && cantidad == 1)
                 {
                     Madera += recursos[0];
                     Ladrillo += recursos[0];
@@ -1767,11 +1767,8 @@ namespace cliente.Partida
                     Piedra += recursos[4];
                     RefreshBotones();
                 }
-                else
-                {
-                    if (cantidad == 1)
-                        lblInfo.Text = this.turno + " ha robado a " + donante;
-                }
+                if (cantidad == 1 && donante != this.nombre)
+                    lblInfo.Text = this.turno + " ha robado a " + donante;
 
 
                 foreach (PanelInfoJugador panel in paneles)

@@ -173,5 +173,11 @@ namespace cliente.Menu
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnManual_Click(object sender, EventArgs e)
+        {
+            FormManual form = new FormManual();
+            form.Show();
+        }
     }
 }
