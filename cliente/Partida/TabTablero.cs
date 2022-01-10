@@ -320,7 +320,7 @@ namespace cliente.Partida
 
             // Inicializar camara
             this.zoomLevel = 5;
-            this.basePoint = new Point(this.Width / 2, this.Height / 2);
+            this.basePoint = new Point(290, 210);
 
             // Estado partida
             this.estado = Estado.Normal;
@@ -626,7 +626,7 @@ namespace cliente.Partida
                             else if (DosCarreteras > 0)
                             {
                                 DosCarreteras--;
-                                if (DosCarreteras == 1)
+                                if (DosCarreteras == 2)
                                     lblInfo.Text = "Queda por colocar 1 carretera";
                             }
                             else
@@ -636,8 +636,9 @@ namespace cliente.Partida
                                 estado = Estado.Normal;
                                 RefreshBotones();
                             }
-                            if (DosCarreteras == 0)
+                            if (DosCarreteras == 1 || DosCarreteras == 0)
                             {
+                                lblInfo.Text = "";
                                 timerRaton.Start();
                                 estado = Estado.Normal;
                             }
@@ -686,12 +687,6 @@ namespace cliente.Partida
                         }
                         break;
                 }
-                pnlTablero.Refresh();
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                this.lblUndo.Visible = false;
-                estado = Estado.Normal;
                 pnlTablero.Refresh();
             }
         }
@@ -1398,13 +1393,11 @@ namespace cliente.Partida
                     panelActualizar.Caballeros++;
                     break;
                 case 23:
-                    DosCarreteras = 2;
+                    DosCarreteras = 3;
                     if (this.nombre != this.turno)
                         lblInfo.Text = this.turno + " ha usado la carta Carreteras";
                     else
-                    {
                         this.estado = Estado.ColocarCarretera;
-                    }
                     timerRecursos.Start();
                     break;
                 case 24:
@@ -1445,6 +1438,7 @@ namespace cliente.Partida
                     conn.Send(pet_b);
                     break;
             }
+            RefreshBotones();
         }
         public void Colocar(string mensaje)
         {
@@ -1480,6 +1474,54 @@ namespace cliente.Partida
                         panelActualizar.Oveja--;
                         panelActualizar.Trigo--;
                         panelActualizar.Recursos -= 4;
+                        timerRecursos.Start();
+                    }
+                    else if (numturnos > numJugadores && numturnos <= (numJugadores * 2))
+                    {
+                        int suma = 0;
+                        foreach (Tile Casilla in tiles[18..])
+                        {
+                            foreach (VerticeCoords vertice in Casilla.Coords.Vertices)
+                            {
+                                if (vertice == fichasVertices.Last().Coords)
+                                {
+                                    switch (Casilla)
+                                    {
+                                        case TileMadera _:
+                                            if (this.nombre == this.turno)
+                                                Madera++;
+                                            panelActualizar.Madera++;
+                                            suma++;
+                                            break;
+                                        case TileLadrillo _:
+                                            if (this.nombre == this.turno)
+                                                Ladrillo++;
+                                            panelActualizar.Ladrillo++;
+                                            suma++;
+                                            break;
+                                        case TileOveja _:
+                                            if (this.nombre == this.turno)
+                                                Oveja++;
+                                            panelActualizar.Oveja++;
+                                            suma++;
+                                            break;
+                                        case TileTrigo _:
+                                            if (this.nombre == this.turno)
+                                                Trigo++;
+                                            panelActualizar.Trigo++;
+                                            suma++;
+                                            break;
+                                        case TilePiedra _:
+                                            if (this.nombre == this.turno)
+                                                Piedra++;
+                                            panelActualizar.Piedra++;
+                                            suma++;
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                        panelActualizar.Recursos += suma;
                         timerRecursos.Start();
                     }
                     break;
@@ -1567,9 +1609,6 @@ namespace cliente.Partida
                             }
                         }
                     }
-
-                    if (this.turno == this.nombre)
-                        carreteraColocar = new Carretera(0, 0, Lado.Oeste, this.colorJugador);
                     if (numturnos > (numJugadores * 2) && DosCarreteras == 0)
                     {
                         panelActualizar.Madera--;
@@ -1577,12 +1616,11 @@ namespace cliente.Partida
                         panelActualizar.Recursos -= 2;
                         timerRecursos.Start();
                     }
-                    else if (DosCarreteras > 0 && this.turno != this.nombre)
+                    if (this.turno == this.nombre)
                     {
-                        DosCarreteras--;
-
-                        if (DosCarreteras == 0)
-                            lblInfo.Text = "";
+                        carreteraColocar = new Carretera(0, 0, Lado.Oeste, this.colorJugador);
+                        if (DosCarreteras == 1)
+                            DosCarreteras--;
                     }
                     break;
             }
@@ -1809,7 +1847,7 @@ namespace cliente.Partida
                 if (this.turno == this.nombre && cantidad == 1)
                 {
                     Madera += recursos[0];
-                    Ladrillo += recursos[0];
+                    Ladrillo += recursos[1];
                     Oveja += recursos[2];
                     Trigo += recursos[3];
                     Piedra += recursos[4];

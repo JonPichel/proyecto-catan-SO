@@ -397,6 +397,8 @@ namespace cliente.Partida
 
         public void ActualizarRespuesta(string mensaje)
         {
+            if (pboxsComercio[0].Tag == null)
+                return;
             string[] trozos = mensaje.Split("/");
 
             foreach (PictureBox pbox in pboxsComercio)

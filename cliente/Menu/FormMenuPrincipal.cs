@@ -94,7 +94,7 @@ namespace cliente.Menu
             while (true)
             {
                 DelegadoRespuestas delegado;
-
+                
                 byte[] res_b = new byte[512];
                 conn.Receive(res_b);
                 if (res_b[0] == 0)
