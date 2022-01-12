@@ -1704,6 +1704,7 @@ namespace cliente.Partida
                     }
                 }
             }
+            lblInfo.Text = this.turno + " ha usado la carta de monopolio";
             timerRecursos.Start();
         }
 
