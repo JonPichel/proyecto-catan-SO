@@ -1149,6 +1149,7 @@ namespace cliente.Partida
                     pet = "15/" + idP.ToString();
                     pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                     conn.Send(pet_b);
+                    estado = Estado.Normal;
                     btnTurno.Enabled = false;
                     btnTurno.Tag = "";
                     btnTurno.Text = "";
