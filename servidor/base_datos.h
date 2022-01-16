@@ -10,5 +10,7 @@ int bdd_posicion(int idJ, int idP);
 int bdd_registrar_jugador(char *nombre, char *pass);
 int bdd_info_partidas(int idJ, char *datos);
 int bdd_info_participaciones(int idP, int **ids, char *info);
+int bdd_registrar_partida(char *fechahora, int duracion, char *ganador);
+int bdd_registrar_participacion(int idP, char *nombre, int puntos);
 
 #endif /* __BASE_DATOS_H__ */

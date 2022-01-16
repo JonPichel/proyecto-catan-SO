@@ -163,7 +163,7 @@ CLIENTE: 33/idPartida/fechahora
 SERVIDOR: 33/idPartida/idPartidaBDD [todos]
 
 # REGISTRAR PARTICIPACIÓN
-CLIENTE: 34/idPartida/idPartidaBDD/puntos
+CLIENTE: 34/idPartida/idPartidaBDD/nombre,puntos
 SERVIDOR: 34/idPartida/nombre,puntos [todos]
 
 # BORRAR JUGADOR

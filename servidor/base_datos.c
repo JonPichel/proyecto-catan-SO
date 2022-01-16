@@ -186,15 +186,18 @@ int bdd_registrar_jugador(char *nombre, char *pass) {
 
     sprintf(consulta, "INSERT INTO Jugador VALUES (0, '%s', '%s')", nombre, pass);
 
+    pthread_mutex_lock(&mutex_bdd);
     if (mysql_query(conn, consulta) != 0) {
         printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        pthread_mutex_unlock(&mutex_bdd);
         return -1;
     } else {
+        pthread_mutex_unlock(&mutex_bdd);
         return 0;
     }
 }
 
-int bdd_info_partidas(int idJ, char *datos){
+int bdd_info_partidas(int idJ, char *datos) {
     /*
     Descripcion:
     Obtiene informacion de las partidas de un Jugador
@@ -285,3 +288,61 @@ int bdd_info_participaciones(int idP, int **ids, char *info) {
     return numj;
 }
 
+int bdd_registrar_partida(char *fechahora, int duracion, char *ganador) {
+    /*
+    Descripcion:
+        Registra una partida en la base de datos
+    Parametros:
+        fechahora: fecha y hora en la que se ha jugado la Partida
+        duracion: nº de turnos
+        ganador: nombre del Jugador que ha ganado
+    Retorno:
+        idP si OK, -1 si ERR
+    */
+
+    MYSQL_RES *tabla;
+    MYSQL_ROW fila;
+    char consulta[160];
+    int ret;
+
+    sprintf(consulta, "INSERT INTO Partida VALUES (0, '%s', %d, (SELECT id FROM Jugador WHERE nombre='%s'))", fechahora, duracion, ganador);
+
+    pthread_mutex_lock(&mutex_bdd);
+    if (mysql_query(conn, consulta) != 0) {
+        printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        ret = -1;
+    } else {
+        ret = mysql_insert_id(conn);
+    }
+    pthread_mutex_unlock(&mutex_bdd);
+    return ret;
+}
+
+int bdd_registrar_participacion(int idP, char *nombre, int puntos) {
+    /*
+    Descripcion:
+        Registra una Participacion en la base de datos
+    Parametros:
+        idP: id de la Partida
+        nombre: nombre del Jugador
+        puntos: puntuacion del Jugador en la Partida
+    Retorno:
+        idP si OK, -1 si ERR
+    */
+
+    MYSQL_RES *tabla;
+    MYSQL_ROW fila;
+    char consulta[160];
+
+    sprintf(consulta, "INSERT INTO Participacion VALUES ((SELECT id FROM Jugador WHERE nombre='%s'), %d, %d)", nombre, idP, puntos);
+
+    pthread_mutex_lock(&mutex_bdd);
+    if (mysql_query(conn, consulta) != 0) {
+        printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        pthread_mutex_unlock(&mutex_bdd);
+        return -1;
+    } else {
+        pthread_mutex_unlock(&mutex_bdd);
+        return 0;
+    }
+}

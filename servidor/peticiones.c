@@ -603,3 +603,41 @@ void pet_pedir_recursos_ladron(char *resto, int socket) {
 	sprintf(respuesta, "32/%d/%s~~END~~", idP, resto);
 	not_movimiento(idP, respuesta, tag);
 }
+
+void pet_partida_ganada(char *resto, int socket) {
+	char tag[32];
+	sprintf(tag, "THREAD %d", socket);
+	
+	int idP = atoi(strtok_r(resto, "/", &resto));
+	char *fechahora = strtok_r(resto, "/", &resto);
+
+    // Registrar la partida en la base de datos
+    int id = bdd_registrar_partida(fechahora, partidas[idP].numturnos / 4, partidas[idP].jugadores[partidas[idP].turno].nombre);
+    if (id == -1) return;
+
+    // Cambiar estado a LOBBY
+    pthread_mutex_lock(&mutex_estructuras);
+    partidas[idP].estado = LOBBY;
+    pthread_mutex_unlock(&mutex_estructuras);
+    
+	char respuesta[64];
+	sprintf(respuesta, "33/%d/%d~~END~~", idP, id);
+	not_movimiento(idP, respuesta, tag);
+}
+
+void pet_registrar_participacion(char *resto, int socket) {
+	char tag[32];
+	sprintf(tag, "THREAD %d", socket);
+	
+	int idP = atoi(strtok_r(resto, "/", &resto));
+	int id = atoi(strtok_r(resto, "/", &resto));
+	char *nombre = strtok_r(resto, ",", &resto);
+	int puntos = atoi(strtok_r(resto, "/", &resto));
+
+    // Registrar la participacion en la base de datos
+    bdd_registrar_participacion(id, nombre, puntos);
+    
+	char respuesta[64];
+	sprintf(respuesta, "34/%d/%s,%d~~END~~", idP, nombre, puntos);
+	not_movimiento(idP, respuesta, tag);
+}
