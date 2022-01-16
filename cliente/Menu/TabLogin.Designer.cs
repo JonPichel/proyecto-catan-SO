@@ -39,6 +39,7 @@ namespace cliente.Menu
             this.btnLogin = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.btnRegistro = new System.Windows.Forms.Button();
+            this.btnDarBaja = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -157,10 +158,27 @@ namespace cliente.Menu
             this.btnRegistro.UseVisualStyleBackColor = false;
             this.btnRegistro.Click += new System.EventHandler(this.btnRegistro_Click);
             // 
+            // btnDarBaja
+            // 
+            this.btnDarBaja.BackColor = System.Drawing.Color.Sienna;
+            this.btnDarBaja.FlatAppearance.BorderColor = System.Drawing.Color.DarkGoldenrod;
+            this.btnDarBaja.FlatAppearance.BorderSize = 2;
+            this.btnDarBaja.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDarBaja.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnDarBaja.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnDarBaja.Location = new System.Drawing.Point(21, 498);
+            this.btnDarBaja.Name = "btnDarBaja";
+            this.btnDarBaja.Size = new System.Drawing.Size(130, 35);
+            this.btnDarBaja.TabIndex = 15;
+            this.btnDarBaja.Text = "Dar Baja";
+            this.btnDarBaja.UseVisualStyleBackColor = false;
+            this.btnDarBaja.Click += new System.EventHandler(this.btnDarBaja_Click);
+            // 
             // TabLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnDarBaja);
             this.Controls.Add(this.btnRegistro);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnLogin);
@@ -172,7 +190,6 @@ namespace cliente.Menu
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "TabLogin";
-            this.Size = new System.Drawing.Size(750, 550);
             this.Load += new System.EventHandler(this.TabLogin_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -191,5 +208,6 @@ namespace cliente.Menu
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnRegistro;
+        private System.Windows.Forms.Button btnDarBaja;
     }
 }

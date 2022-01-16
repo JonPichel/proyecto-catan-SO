@@ -15,7 +15,7 @@ namespace cliente.Menu
 
         private void FormManual_Load(object sender, EventArgs e)
         {
-            this.paneles = new Panel[]{ pnlCartas, pnlLadron, pnlPuntos, pnlRecursos, pnlComercio };
+            this.paneles = new Panel[] { pnlCartas, pnlLadron, pnlPuntos, pnlRecursos, pnlComercio };
             PanelShower(pnlCartas);
         }
 
@@ -33,7 +33,7 @@ namespace cliente.Menu
                 {
                     paneles[i].Visible = false;
                 }
-                
+
             }
         }
 
@@ -49,7 +49,7 @@ namespace cliente.Menu
 
         private void btnPuntos_Click(object sender, EventArgs e)
         {
-           PanelShower(pnlPuntos);
+            PanelShower(pnlPuntos);
         }
 
         private void bntRecursos_Click(object sender, EventArgs e)

@@ -212,6 +212,9 @@ void *atender_cliente(void *sock_ptr) {
                 break;
             case 34:
                 pet_registrar_participacion(resto, socket);
+            case 35:
+                /* BORRAR JUGADOR */
+                pet_borrar_jugador(resto, socket);
                 break;
             default:
                 log_msg(tag, "Peticion desconocida: %d\n", codigo);

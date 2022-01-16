@@ -62,5 +62,34 @@ namespace cliente.Menu
                 lblError.Show();
             }
         }
+
+        private void btnDarBaja_Click(object sender, EventArgs e)
+        {
+            if (txtNombre.Text == "" || txtPass.Text == "")
+            {
+                lblError.Text = "Falta uno de los datos";
+                lblError.Show();
+                return;
+            }
+            this.nombre = Convert.ToString(txtNombre.Text[0]).ToUpper() + txtNombre.Text[1..].ToLower();
+            string pet = "35/" + nombre + "," + txtPass.Text;
+            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+            this.conn.Send(pet_b);
+        }
+
+        public void DarBaja(string res)
+        {
+            if(res == "YES")
+            {
+                txtNombre.Text = "";
+                txtPass.Text = "";
+                MessageBox.Show("Se ha dado de baja con éxito.", "Cuenta borrada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                lblError.Text = "Credenciales incorrectas";
+                lblError.Show();
+            }
+        }
     }
 }
