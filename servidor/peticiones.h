@@ -6,6 +6,7 @@
 /* Funciones peticiones */
 void pet_desconectar(int socket);
 void pet_registrar_jugador(char *resto, int socket);
+void pet_borrar_jugador(char *resto, int socket);
 void pet_iniciar_sesion(char *nombre, char *resto, int socket);
 void pet_informacion_partidas_jugador(char *resto, int socket);
 void pet_informacion_partida(char *resto, int socket);

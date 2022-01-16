@@ -360,6 +360,8 @@ namespace cliente.Menu
                             }
                             break;
                         case 35:
+                            delegado = new DelegadoRespuestas(((TabLogin)tabs[0]).DarBaja);
+                            tabs[0].Invoke(delegado, new object[] { mensaje });
                             break;
                     }
                 }

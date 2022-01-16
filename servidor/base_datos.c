@@ -194,6 +194,31 @@ int bdd_registrar_jugador(char *nombre, char *pass) {
     }
 }
 
+int bdd_borrar_jugador(char *nombre, char *pass) {
+    /*
+    Descripcion:
+        Borra al jugador en la base de datos
+    Parametros:
+        nombre: nombre del jugador
+        pass: contraseña del jugador
+    Retorno:
+        0 si OK, -1 si ERR
+    */
+
+    MYSQL_RES *tabla;
+    MYSQL_ROW fila;
+    char consulta[160];
+
+    sprintf(consulta, "DELETE FROM Jugador WHERE Jugador.nombre = '%s' AND Jugador.pass = '%s'", nombre, pass);
+
+    if (mysql_query(conn, consulta) != 0) {
+        printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        return -1;
+    } else {
+        return 0;
+    }
+}
+
 int bdd_info_partidas(int idJ, char *datos){
     /*
     Descripcion:

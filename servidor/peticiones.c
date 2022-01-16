@@ -170,6 +170,35 @@ void pet_registrar_jugador(char *resto, int socket) {
     write(socket, respuesta, strlen(respuesta));
 }
 
+void pet_borrar_jugador(char *resto, int socket) {
+    /*
+    Descripcion:
+        Atiende la peticion de borrar jugador
+    Parametros:
+        nombre: nombre Jugador
+        pass: contraseña introducida
+        respuesta: SI o NO
+    */
+    char tag[32];
+    sprintf(tag, "THREAD %d", socket);
+    char nombre[20], pass[20];
+    char respuesta[13];
+
+    strncpy(nombre, strtok_r(resto, ",", &resto), sizeof(nombre));
+    strncpy(pass, strtok_r(resto, ",", &resto), sizeof(pass));
+
+    if (bdd_nombre_pass(nombre, pass) == 0) {
+        strcpy(respuesta, "1/YES");
+    } else {
+        // Ya existe el usuario
+        strcpy(respuesta, "1/NO");
+    }
+    strcat(respuesta, "~~END~~");
+    // Enviar
+    log_msg(tag, "Transmitiendo respuesta: %s\n", respuesta);
+    write(socket, respuesta, strlen(respuesta));
+}
+
 void pet_iniciar_sesion(char *nombre, char *resto, int socket) {
     /*
     Descripcion:
