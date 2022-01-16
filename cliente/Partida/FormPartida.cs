@@ -39,6 +39,7 @@ namespace cliente.Partida
             tabs.Add(new TabLobbyHost(conn, idP, nombre));
             tabs.Add(new TabLobbyGuest(conn, idP, nombre));
             tabs.Add(new TabTablero(conn, idP, nombre));
+            tabs.Add(new TabPartidaGanada());
 
             foreach (TabPartida tab in this.tabs)
             {
@@ -139,6 +140,7 @@ namespace cliente.Partida
                 }
                 ((TabTablero)tabs[2]).colores = new ColorJugador[i];
                 ((TabTablero)tabs[2]).nombres = new string[i];
+
                 for (i = 0; i < ((TabTablero)tabs[2]).colores.Length; i++)
                 {
                     ((TabTablero)tabs[2]).colores[i] = tab.colores[i];
@@ -146,7 +148,6 @@ namespace cliente.Partida
                 }
                 tab.Hide();
 
-                
                 ((TabTablero)tabs[2]).nombres = tab.nombres;
 
             }
@@ -173,6 +174,28 @@ namespace cliente.Partida
                 }
                 tab.Hide();
             }
+            TabTablero Tab = (TabTablero)tabs[2];
+            ((TabPartidaGanada)tabs[3]).colores = Tab.colores;
+            ((TabPartidaGanada)tabs[3]).nombres = Tab.nombres;
+        }
+        public void PartidaGanada(string mensaje)
+        {
+            TabTablero tab = (TabTablero)tabs[2];
+
+            string pet;
+            byte[] pet_b;
+            pet = "34/" + mensaje + "/" + Convert.ToString(tab.puntos);
+            pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+            conn.Send(pet_b);
+
+            tab.Hide();
+            tabs[3].Show();
+            timerFinalPartida.Start();
+
+        }
+        public void Participacion(string mensaje)
+        {
+            ((TabPartidaGanada)tabs[3]).ActualizarRanking(mensaje);
         }
         public void PartidaTurno(string mensaje)
         {
@@ -227,6 +250,16 @@ namespace cliente.Partida
         public void DarLadron(string mensaje)
         {
             ((TabTablero)tabs[2]).DarLadron(mensaje);
+        }
+
+        private void timerFinalPartida_Tick(object sender, EventArgs e)
+        {
+            tabs[3].Hide();
+            if (host)
+                tabs[0].Show();
+            else
+                tabs[1].Show();
+            timerFinalPartida.Stop();
         }
     }
 }

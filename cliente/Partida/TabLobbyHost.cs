@@ -13,6 +13,7 @@ namespace cliente.Partida
         Socket conn;
         int idP;
         string nombre;
+        int numJug;
 
         public string[] nombres;
         public ColorJugador[] colores;
@@ -54,6 +55,7 @@ namespace cliente.Partida
             dataGridJugadores.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridJugadores.CellPainting += new DataGridViewCellPaintingEventHandler(this.dataGrid_CellPainting);
             dataGridJugadores.ClearSelection();
+            numJug = 0;
 
             dataGridJugadores.Rows[0].Height = dataGridJugadores.Height / 5;
             dataGridJugadores.Rows[1].Height = dataGridJugadores.Height / 5;
@@ -83,10 +85,26 @@ namespace cliente.Partida
 
         private void btnEmpezar_Click(object sender, EventArgs e)
         {
-            this.Tag = "EMPEZAR";
-            string pet = "14/" + idP.ToString();
-            byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
-            conn.Send(pet_b);
+            numJug = 0;
+            int a = 0;
+            while (a < 4)
+            {
+                if (dataGridJugadores.Rows[a].Cells[0].Value != null)
+                    numJug++;
+                a++;
+            } 
+                
+            if(numJug > 1)
+            {
+                this.Tag = "EMPEZAR";
+                string pet = "14/" + idP.ToString();
+                byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                conn.Send(pet_b);
+            }
+            else
+            {
+                MessageBox.Show("Debe haber un mínimo de 2 jugadores para jugar.");
+            }
         }
 
         private void btnCambioColor_Click(object sender, EventArgs e)

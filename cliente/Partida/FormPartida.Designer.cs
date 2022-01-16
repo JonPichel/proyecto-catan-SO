@@ -29,7 +29,14 @@ namespace cliente.Partida
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.timerFinalPartida = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
+            // 
+            // timerFinalPartida
+            // 
+            this.timerFinalPartida.Interval = 40000;
+            this.timerFinalPartida.Tick += new System.EventHandler(this.timerFinalPartida_Tick);
             // 
             // FormPartida
             // 
@@ -48,5 +55,7 @@ namespace cliente.Partida
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer timerFinalPartida;
     }
 }

@@ -508,4 +508,22 @@
   <data name="Ladron1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Media\Images\Ladron.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="bosque" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\bosque.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="confetti" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\confetti.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cuarto" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\cuarto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="primero" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\primero.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="segundo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\segundo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tercero" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Media\Images\tercero.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

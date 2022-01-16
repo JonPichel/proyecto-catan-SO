@@ -17,6 +17,7 @@ namespace cliente.Partida
         int idP;
         string nombre;
         string turno;
+        public int puntos;
         ColorJugador colorturno;
         int numturnos;
         int numJugadores;
@@ -326,6 +327,7 @@ namespace cliente.Partida
             this.estado = Estado.Normal;
             this.numturnos = 0;
             this.DosCarreteras = 0;
+            this.puntos = 0;
 
             pnlTablero.Paint += TabTablero_Paint;
             pnlTablero.MouseWheel += TabTablero_MouseWheel;
@@ -1161,6 +1163,12 @@ namespace cliente.Partida
                     desarrolloUsada = false;
                     break;
             }
+            if (puntos == 10)
+            {
+                pet = "33/" + idP.ToString() + "FECHAHORA???";
+                pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                conn.Send(pet_b);
+            }
         }
 
         private void btnComercio_Click(object sender, EventArgs e)
@@ -1267,7 +1275,10 @@ namespace cliente.Partida
                 return;
 
             if ((Carta.TipoCarta)Convert.ToInt32(mensaje) == Carta.TipoCarta.Punto)
+            {
                 panelActualizar.Puntos++;
+                this.puntos++;
+            }
 
             Carta carta = new Carta((Carta.TipoCarta)Convert.ToInt32(mensaje));
             int num = 0;
@@ -1468,6 +1479,8 @@ namespace cliente.Partida
                     fichasVertices.Add(verticeColocar);
                     pnlTablero.Refresh();
                     panelActualizar.Puntos += 1;
+                    if (this.turno == this.nombre)
+                        puntos++;
                     if (numturnos > (numJugadores * 2))
                     {
                         panelActualizar.Madera--;
@@ -1539,6 +1552,8 @@ namespace cliente.Partida
                     fichasVertices.Add(verticeColocar);
                     pnlTablero.Refresh();
                     panelActualizar.Puntos += 1;
+                    if (this.turno == this.nombre)
+                        puntos++;
                     if (numturnos > (numJugadores * 2))
                     {
                         panelActualizar.Trigo -= 2;

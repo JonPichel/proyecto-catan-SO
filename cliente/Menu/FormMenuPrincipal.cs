@@ -343,6 +343,24 @@ namespace cliente.Menu
                                 partidas[idP].Invoke(delegado, new object[] { trozos[i] });
                             }
                             break;
+                        case 33:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].PartidaGanada);
+                                partidas[idP].Invoke(delegado, new object[] { mensaje });
+                            }
+                            break;
+                        case 34:
+                            idP = Convert.ToInt32(mensaje.Split("/")[0]);
+                            if (partidas.ContainsKey(idP))
+                            {
+                                delegado = new DelegadoRespuestas(partidas[idP].Participacion);
+                                partidas[idP].Invoke(delegado, new object[] { mensaje.Split("/")[1] });
+                            }
+                            break;
+                        case 35:
+                            break;
                     }
                 }
             }
