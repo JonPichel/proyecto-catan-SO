@@ -5,19 +5,9 @@ gcc -g -o servidorCatan util.c estructuras.c base_datos.c peticiones.c servidor.
 
 
 FALTA
-
-- Repartir recursos (JONATHAN) parte gráfica (ALBA)
-- Comerciar, botones (ALBA)
-- Ladrón (RAUL)
-- 
-
-
-COMERCIO
-Recibe el número y la ratio de cada recurso (según los puertos) 
-Mandar las notificaciones
-Mostrar la respuesta de la oferta de los otros jugadores (a baix del form)
-Hacer otro form para mostrar oferta
+- TabLogin botonborrarjugador (mandas nombre y pass del formulario) [RAUL]
+- TabPartidaGanada: muestra el ganador y debajo (imagen, nombre, puntos) [ALBA]
+cuando se abra poner un timer de 40s y que se te oculte automáticamente para volver al lobby
+- Servidor [JONATHAN]
 
 
-
-- Arreglar carretera mas larga

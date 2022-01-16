@@ -157,3 +157,15 @@ SERVIDOR: 31/idPartida/NombreEntrega/#madera,#ladrillo,... [todos]
 # ROBAR RECURSOS LADRÓN
 CLIENTE: 32/idPartida/NombreRobado...
 SERVIDOR: 32/idPartida/NombreRobado... [todos]
+
+# PARTIDA GANADA
+CLIENTE: 33/idPartida/fechahora
+SERVIDOR: 33/idPartida/idPartidaBDD [todos]
+
+# REGISTRAR PARTICIPACIÓN
+CLIENTE: 34/idPartida/idPartidaBDD/puntos
+SERVIDOR: 34/idPartida/nombre,puntos [todos]
+
+# BORRAR JUGADOR
+CLIENTE: 35/nombre,pass
+SERVIDOR: 35/YES o 35/NO
