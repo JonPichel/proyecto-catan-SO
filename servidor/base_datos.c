@@ -209,7 +209,7 @@ int bdd_borrar_jugador(char *nombre, char *pass) {
     MYSQL_ROW fila;
     char consulta[160];
 
-    sprintf(consulta, "DELETE FROM Jugador WHERE Jugador.nombre = '%s' AND Jugador.pass = '%s'", nombre, pass);
+    sprintf(consulta, "DELETE FROM Jugador WHERE nombre = '%s' AND pass = '%s'", nombre, pass);
 
     if (mysql_query(conn, consulta) != 0) {
         printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
