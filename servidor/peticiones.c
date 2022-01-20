@@ -187,7 +187,7 @@ void pet_borrar_jugador(char *resto, int socket) {
     strncpy(nombre, strtok_r(resto, ",", &resto), sizeof(nombre));
     strncpy(pass, strtok_r(resto, ",", &resto), sizeof(pass));
 
-    if (bdd_borrar_pass(nombre, pass) == 0) {
+    if (bdd_borrar_jugador(nombre, pass) == 0) {
         strcpy(respuesta, "35/YES");
     } else {
         // Ya existe el usuario
