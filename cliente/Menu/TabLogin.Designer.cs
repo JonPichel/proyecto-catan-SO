@@ -166,7 +166,7 @@ namespace cliente.Menu
             this.btnDarBaja.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDarBaja.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnDarBaja.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnDarBaja.Location = new System.Drawing.Point(21, 498);
+            this.btnDarBaja.Location = new System.Drawing.Point(21, 444);
             this.btnDarBaja.Name = "btnDarBaja";
             this.btnDarBaja.Size = new System.Drawing.Size(130, 35);
             this.btnDarBaja.TabIndex = 15;

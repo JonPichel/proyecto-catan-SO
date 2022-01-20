@@ -214,10 +214,13 @@ int bdd_borrar_jugador(char *nombre, char *pass) {
 
     sprintf(consulta, "DELETE FROM Jugador WHERE nombre = '%s' AND pass = '%s'", nombre, pass);
 
+    pthread_mutex_lock(&mutex_bdd);
     if (mysql_query(conn, consulta) != 0) {
         printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        pthread_mutex_unlock(&mutex_bdd);
         return -1;
     } else {
+        pthread_mutex_unlock(&mutex_bdd);
         return 0;
     }
 }
