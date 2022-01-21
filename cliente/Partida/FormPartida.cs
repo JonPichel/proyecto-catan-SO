@@ -184,7 +184,10 @@ namespace cliente.Partida
 
             string pet;
             byte[] pet_b;
-            pet = "34/" + mensaje + "/" + Convert.ToString(tab.puntos);
+            int puntos = tab.puntos;
+            if (puntos > 10)
+                puntos = 10;
+            pet = "34/" + mensaje + "/" + this.nombre + "," + Convert.ToString(puntos);
             pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
 

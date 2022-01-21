@@ -327,7 +327,6 @@ namespace cliente.Partida
             this.estado = Estado.Normal;
             this.numturnos = 0;
             this.DosCarreteras = 0;
-            this.puntos = 0;
 
             pnlTablero.Paint += TabTablero_Paint;
             pnlTablero.MouseWheel += TabTablero_MouseWheel;
@@ -1137,6 +1136,14 @@ namespace cliente.Partida
         {
             string pet;
             byte[] pet_b;
+            puntos = panelActualizar.Puntos + panelActualizar.Larga * 2 + panelActualizar.Ejercito * 2;
+            if (puntos >= 10)
+            {
+                pet = "33/" + idP.ToString() + "/02/10/2021 09:00";
+                pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
+                conn.Send(pet_b);
+                return;
+            }
             switch (btnTurno.Tag)
             {
                 case "DADOS":
@@ -1162,12 +1169,6 @@ namespace cliente.Partida
                     btnComercio.Enabled = false;
                     desarrolloUsada = false;
                     break;
-            }
-            if (puntos == 10)
-            {
-                pet = "33/" + idP.ToString() + "FECHAHORA???";
-                pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
-                conn.Send(pet_b);
             }
         }
 
@@ -1277,7 +1278,6 @@ namespace cliente.Partida
             if ((Carta.TipoCarta)Convert.ToInt32(mensaje) == Carta.TipoCarta.Punto)
             {
                 panelActualizar.Puntos++;
-                this.puntos++;
             }
 
             Carta carta = new Carta((Carta.TipoCarta)Convert.ToInt32(mensaje));
@@ -1479,8 +1479,6 @@ namespace cliente.Partida
                     fichasVertices.Add(verticeColocar);
                     pnlTablero.Refresh();
                     panelActualizar.Puntos += 1;
-                    if (this.turno == this.nombre)
-                        puntos++;
                     if (numturnos > (numJugadores * 2))
                     {
                         panelActualizar.Madera--;
@@ -1552,8 +1550,6 @@ namespace cliente.Partida
                     fichasVertices.Add(verticeColocar);
                     pnlTablero.Refresh();
                     panelActualizar.Puntos += 1;
-                    if (this.turno == this.nombre)
-                        puntos++;
                     if (numturnos > (numJugadores * 2))
                     {
                         panelActualizar.Trigo -= 2;
