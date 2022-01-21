@@ -70,6 +70,13 @@ void not_lista_jugadores(int idP, char *tag) {
 }
 
 void not_partida_cancelada(int idP, char *tag) {
+    /*
+    Descripcion:
+        Genera el mensaje de notificacion de que se ha cancelado la partida
+    Parametros:
+        idP: id de la partida en la tabla de partidas
+        tag: tag del thread que activa la notificacion
+    */
     // Enviar lista
     char respuesta[32];
     sprintf(respuesta, "10/%d~~END~~", idP);
@@ -81,6 +88,14 @@ void not_partida_cancelada(int idP, char *tag) {
 }
 
 void not_mensaje_chat(int idP, char *mensaje, char *tag) {
+    /*
+    Descripcion:
+        Genera el mensaje de notificacion de un mensaje que se manda por le chat
+    Parametros:
+        idP: id de la partida en la tabla de partidas
+        mensaje: Texto que se quiere mandar
+        tag: tag del thread que activa la notificacion
+    */
 	char respuesta[512];
 	sprintf(respuesta, "13/%d/%s~~END~~", idP, mensaje); 
 	// Enviar lista
@@ -91,6 +106,13 @@ void not_mensaje_chat(int idP, char *mensaje, char *tag) {
 	}
 }
 void not_partida_empezada(int idP, char *tag){
+    /*
+    Descripcion:
+        Genera el mensaje de notificacion con la estructura del tablero y otros elementos 
+    Parametros:
+        idP: id de la partida en la tabla de partidas
+        tag: tag del thread que activa la notificacion
+    */
     char respuesta[512];
     sprintf(respuesta, "14/%d/", idP);
     barajar_casillas(respuesta);
@@ -110,6 +132,14 @@ void not_partida_empezada(int idP, char *tag){
 }
 
 void not_movimiento(int idP, char *respuesta, char *tag) {
+    /*
+    Descripcion:
+        Genera el mensaje de notificacion de que se ha colocado una estructura en el tablero
+    Parametros:
+        idP: id de la partida en la tabla de partidas
+        respuesta: Coordenadas y tipo de estructura a colocar en el tablero
+        tag: tag del thread que activa la notificacion
+    */
 	for (int i = 0; i < partidas[idP].numj; i++) {
 		log_msg(tag, "Notificando movimiento por el socket %d: %s\n",
                 partidas[idP].jugadores[i].socket, respuesta);
@@ -118,6 +148,14 @@ void not_movimiento(int idP, char *respuesta, char *tag) {
 }
 
 void not_carta(int idP, char *respuesta, char *tag){
+    /*
+    Descripcion:
+        Genera el mensaje de notificacion de que se ha cancelado la partida
+    Parametros:
+        idP: id de la partida en la tabla de partidas
+        respuesta: Carta que se ha seleccionado
+        tag: tag del thread que activa la notificacion
+    */
     for (int i = 0; i < partidas[idP].numj; i++) {
         log_msg(tag, "Notificando carta desarrollo por el socket %d: %s\n",
                 partidas[idP].jugadores[i].socket, respuesta);
@@ -128,6 +166,12 @@ void not_carta(int idP, char *respuesta, char *tag){
 /* Peticiones */
 
 void pet_desconectar(int socket) {
+    /*
+    Descripcion:
+        Atiende la peticion de desconexion
+    Parametros:
+        socket: socket del jugador
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
@@ -187,9 +231,18 @@ void pet_borrar_jugador(char *resto, int socket) {
     strncpy(nombre, strtok_r(resto, ",", &resto), sizeof(nombre));
     strncpy(pass, strtok_r(resto, ",", &resto), sizeof(pass));
 
+    int i = 0;
+	
+	if (bdd_actualizar_participacion(nombre, pass) == 0)
+		i++;
+	
     if (bdd_borrar_jugador(nombre, pass) == 0) {
-        strcpy(respuesta, "35/YES");
-    } else {
+        i++;
+    } 
+	
+	if (i > 0){
+		strcpy(respuesta, "35/YES");
+	} else {
         // Ya existe el usuario
         strcpy(respuesta, "35/NO");
     }
@@ -334,6 +387,13 @@ void pet_puntuacion_media_jugador(char *resto, int socket) {
 
 
 void pet_crear_lobby(char *nombre, int socket) {
+    /*
+    Descripcion:
+        Atiende la peticion de crear un lobby
+    Parametros:
+        nombre: Jugador que quiere crear un lobby
+        socket: socket del jugador
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 

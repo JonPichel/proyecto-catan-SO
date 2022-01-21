@@ -197,6 +197,35 @@ int bdd_registrar_jugador(char *nombre, char *pass) {
     }
 }
 
+int bdd_actualizar_participacion(char *nombre, char *pass) {
+    /*
+    Descripcion:
+        Actualiza la participacion del jugador que se desea eliminar por el ELIMINADO
+    Parametros:
+        nombre: nombre del jugador
+        pass: contraseña del jugador
+    Retorno:
+        0 si OK, -1 si ERR
+    */
+
+    MYSQL_RES *tabla;
+    MYSQL_ROW fila;
+    char consulta[160];
+
+    sprintf(consulta, "UPDATE Participacion SET idJ = 1 WHERE idJ IN (SELECT Id "
+			"FROM Jugador WHERE nombre = '%s' AND pass = '%s')", nombre, pass);
+
+    pthread_mutex_lock(&mutex_bdd);
+    if (mysql_query(conn, consulta) != 0) {
+        printf("Error en la consulta: %u %s\n", mysql_errno(conn), mysql_error(conn));
+        pthread_mutex_unlock(&mutex_bdd);
+        return -1;
+    } else {
+        pthread_mutex_unlock(&mutex_bdd);
+        return 0;
+    }
+}
+
 int bdd_borrar_jugador(char *nombre, char *pass) {
     /*
     Descripcion:

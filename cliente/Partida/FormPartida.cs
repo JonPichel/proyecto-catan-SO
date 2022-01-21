@@ -116,7 +116,7 @@ namespace cliente.Partida
         }
         public void PartidaCancelada(string mensaje)
         {
-            MessageBox.Show("La partida ha sido cancelada por el anfitrión","Partida cancelada",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            MessageBox.Show("Un jugador ha abandonado la partida. \nLa partida ha sido cancelada.", "Partida cancelada",MessageBoxButtons.OK,MessageBoxIcon.Information);
             this.Close();
         }
         public void PartidaEmpezada(string mensaje)
