@@ -62,6 +62,7 @@ namespace cliente.Partida
         FichaVertice verticeColocar;
         Carretera carreteraColocar;
 
+        // Imágenes de los números
         static Bitmap[] numbers = new Bitmap[]
         {
             cliente.Properties.Resources._1,
@@ -82,7 +83,7 @@ namespace cliente.Partida
         PanelInfoJugador panelActualizar;
         FormComerciar formComerciar = null;
 
-        // Recursos en tu poder
+        // Recursos y cartas en tu poder
         int madera, ladrillo, oveja, trigo, piedra;
         List<Carta> cartas;
         
@@ -94,6 +95,11 @@ namespace cliente.Partida
             this.nombre = nombre;
         }
 
+        /// <summary>
+        /// Inicializa la partida junto con la estructura del tablero
+        /// </summary>
+        /// <param name="res"> String de la forma: tipoHex1,tipoHex2,...,tipoHex19/tipoPuerto1,
+        /// indice1,tipoPuerto2,indice2,...,tipoPuerto9,indice9 </param>  
         public void CargarTablero(string[] trozos)
         {
             // Vaciar recursos
@@ -257,6 +263,7 @@ namespace cliente.Partida
             this.misPoblados = new List<VerticeCoords>();
         }
 
+        // Constructor madera
         public int Madera
         {
             get => this.madera;
@@ -266,6 +273,7 @@ namespace cliente.Partida
                 this.lblMadera.Text = value.ToString();
             }
         }
+        // Constructor ladrillo
         public int Ladrillo
         {
             get => this.ladrillo;
@@ -275,6 +283,7 @@ namespace cliente.Partida
                 this.lblLadrillo.Text = value.ToString();
             }
         }
+        // Constructor oveja
         public int Oveja
         {
             get => this.oveja;
@@ -284,6 +293,7 @@ namespace cliente.Partida
                 this.lblOveja.Text = value.ToString();
             }
         }
+        // Constructor trigo
         public int Trigo
         {
             get => this.trigo;
@@ -293,6 +303,7 @@ namespace cliente.Partida
                 this.lblTrigo.Text = value.ToString();
             }
         }
+        // Constructor piedra
         public int Piedra
         {
             get => this.piedra;
@@ -302,7 +313,6 @@ namespace cliente.Partida
                 this.lblPiedra.Text = value.ToString();
             }
         }
-
 
         private void TabTablero_Load(object sender, EventArgs e)
         {
@@ -319,7 +329,7 @@ namespace cliente.Partida
             RecalcularLadosPosibles();
             RecalcularVerticesPosibles();
 
-            // Inicializar camara
+            // Inicializar centrado de la cámara en el tablero
             this.zoomLevel = 5;
             this.basePoint = new Point(290, 210);
 
@@ -348,7 +358,7 @@ namespace cliente.Partida
             btnCiudad.MouseHover += BtnConstruir_MouseHover;
             btnDesarrollo.MouseHover += BtnConstruir_MouseHover;
 
-            // Paneles
+            // Paneles de datos de los jugadores
             this.paneles = new PanelInfoJugador[] { pnlJugador1, pnlJugador2, pnlJugador3, pnlJugador4 };
             this.numJugadores = nombres.Length;
             for (int i = 0; i < 4; i++)
@@ -374,6 +384,9 @@ namespace cliente.Partida
             this.panelActualizar = new PanelInfoJugador();
         }
 
+        /// <summary>
+        /// Pinta el tablero y los objetos que se desean colocar sobre él
+        /// </summary>
         private void TabTablero_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.Clear(Color.PowderBlue);
@@ -468,6 +481,9 @@ namespace cliente.Partida
 
         }
 
+        /// <summary>
+        /// Aumenta o disminuye el escalado de la visión del tablero
+        /// </summary>
         private void TabTablero_MouseWheel(object sender, MouseEventArgs e)
         {
             int oldZoom = zoomLevel;
@@ -496,20 +512,27 @@ namespace cliente.Partida
             pnlTablero.Refresh();
         }
 
+        /// <summary>
+        /// Realiza diferentes eventos haciendo click sobre el tablero
+        /// </summary>
         private void TabTablero_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
+                // Mira los diferentes estados del jugador
                 switch (estado)
-                {
+                {                    
                     case Estado.Normal:
+                        // No se realiza ninguna acción
                         if (timerRaton.Enabled) return;
                         oldMouse = e.Location;
                         pnlTablero.Refresh();
                         break;
                     case Estado.ColocarLadron:
+                        // Guarda las coordenadas del hexágono en las que se quiere colocar el larón
                         HexCoords nuevaposicionLadron = HexCoords.PixelToHex(e.Location, basePoint, zoomLevel);
 
+                        // Miramos si es una posición diferente a la actual
                         if (nuevaposicionLadron == posicionLadron)
                         {
                             MessageBox.Show("Debes cambiar la posicion del ladron");
@@ -519,6 +542,7 @@ namespace cliente.Partida
                             this.posicionLadron = nuevaposicionLadron;
 
                         bool encontrado = false;
+                        // Miramos que sea una ficha en tierra, es decir, no en el mar
                         foreach (Tile ficha in tiles[18..])
                         {
                             if (ficha.Coords == posicionLadron)
@@ -536,6 +560,7 @@ namespace cliente.Partida
                         byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                         conn.Send(pet_b);
 
+                        // Miramos si hay alguna posición disponible en los vértices del hexagono
                         int numPosibles = 0;
                         foreach (VerticeCoords vecinos in posicionLadron.Vertices)
                         {
@@ -552,7 +577,8 @@ namespace cliente.Partida
                             }
                         }
 
-                        // Si no hay opción de robar se acaba el ladrón
+                        // Si no hay opción de robar, ningún vecino disponible
+                        // se acaba el ladrón
                         if (numPosibles == 0)
                         {
                             timerRaton.Start();
@@ -564,13 +590,16 @@ namespace cliente.Partida
                             return;
                         }
 
+                        // Si hay la opción de robar a alquien pasamos al estado robar
                         lblInfo.Text = "Elige a quien robar dando click a un poblado cercano al ladrón";
                         estado = Estado.Robar;
                         break;
                     case Estado.Robar:
+                        // Guarda las coordenadas del hexágono de la ficha a la que se quiere robar
                         fichaRobar = VerticeCoords.PixelToVertice(e.Location, basePoint, zoomLevel);
                         string donante = "";
 
+                        // Mediante el color de la ficha obtenemos el nombre del jugador al que robar
                         foreach (VerticeCoords vecinos in posicionLadron.Vertices)
                         {
                             if (vecinos == fichaRobar)
@@ -596,6 +625,7 @@ namespace cliente.Partida
                         if (donante == "")
                             return;                       
 
+                        // Enviamos la petición de a quien hemos escogido para robar
                         pet = "32/" + idP.ToString() + "/" + donante;
                         pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                         conn.Send(pet_b);
@@ -607,6 +637,8 @@ namespace cliente.Partida
                         RefreshBotones();
                         break;
                     case Estado.ColocarCarretera:
+                        // Se elige la posición en la que colocar la carretera
+                        // Primero comporbamos que la posición sea válida
                         if (ComprobarCarretera(carreteraColocar.Coords))
                         {
                             lblInfo.Text = "";
@@ -615,7 +647,7 @@ namespace cliente.Partida
                             pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                             conn.Send(pet_b);
                             this.lblUndo.Visible = false;
-                            //Dos primeras rondas
+                            //Dos primeras rondas (sin coste)
                             if (numturnos <= (numJugadores * 2))
                             {                                
                                 btnCarretera.Enabled = false;
@@ -623,7 +655,7 @@ namespace cliente.Partida
                                 btnTurno.Tag = "ACABAR";
                                 btnTurno.Enabled = true;
                             }
-                            // Carta carreteras
+                            // Carta carreteras (sin coste)
                             else if (DosCarreteras > 0)
                             {
                                 DosCarreteras--;
@@ -646,6 +678,8 @@ namespace cliente.Partida
                         }
                         break;
                     case Estado.ColocarPoblado:
+                        // Se elige la posición en la que se quiere colocar un poblado
+                        // Primero comprobamos si la posición es válida
                         if (ComprobarFichaVertice(verticeColocar.Coords, verticesPosibles))
                         {
                             misPoblados.Add(verticeColocar.Coords);
@@ -656,7 +690,7 @@ namespace cliente.Partida
                             timerRaton.Start();
                             estado = Estado.Normal;
                             this.lblUndo.Visible = false;
-                            //Dos primeras rondas
+                            //Dos primeras rondas (sin coste)
                             if (numturnos <= (numJugadores*2))
                             {
                                 btnPoblado.Enabled = false;
@@ -673,6 +707,8 @@ namespace cliente.Partida
                         }
                         break;
                     case Estado.ColocarCiudad:
+                        // Se elige la posición en la que se quiere colocar una ciudad
+                        // Primero comprobamos si la posición es válida
                         if (ComprobarFichaVertice(verticeColocar.Coords, misPoblados.ToArray()))
                         {
                             pet = "19/" + idP.ToString() + "/" + verticeColocar.Coords.R.ToString() + "," +
@@ -692,12 +728,16 @@ namespace cliente.Partida
             }
         }
 
+        /// <summary>
+        /// Realiza diferentes eventos moviendo el cursor sobre el tablero
+        /// </summary>
         private void TabTablero_MouseMove(object sender, MouseEventArgs e)
         {
+            // Miramos los diferentes estados del jugador
             switch (estado)
             {
                 case Estado.Normal:
-                    // Panning
+                    // Panning / Arrastrar la visión del tablero
                     if (e.Button == MouseButtons.Left && timerRaton.Enabled == false)
                     {
                         basePoint.X += e.Location.X - oldMouse.X;
@@ -708,14 +748,17 @@ namespace cliente.Partida
                     }
                     break;
                 case Estado.ColocarCarretera:
+                    // Posición del lado más próximo a donde esta el cursor
                     carreteraColocar.Coords = LadoCoords.PixelToLado(e.Location, basePoint, zoomLevel);
                     pnlTablero.Refresh();
                     break;
                 case Estado.ColocarPoblado:
+                    // Posición del vértice más próximo a donde esta el cursor
                     verticeColocar.Coords = VerticeCoords.PixelToVertice(e.Location, basePoint, zoomLevel);
                     pnlTablero.Refresh();
                     break;
                 case Estado.ColocarCiudad:
+                    // Posición del vertice más próximo a donde esta el cursor
                     verticeColocar.Coords = VerticeCoords.PixelToVertice(e.Location, basePoint, zoomLevel);
                     pnlTablero.Refresh();
                     break;
@@ -724,6 +767,9 @@ namespace cliente.Partida
             }
         }
 
+        /// <summary>
+        /// Permite entrar en el estado colocar carrerera
+        /// </summary>
         private void btnCarretera_Click(object sender, EventArgs e)
         {
             this.lblUndo.Visible = true;
@@ -731,6 +777,9 @@ namespace cliente.Partida
             carreteraColocar = new Carretera(0, 0, Lado.Oeste, this.colorJugador);
         }
 
+        /// <summary>
+        /// Permite entrar en el estado colocar poblado
+        /// </summary>
         private void btnPoblado_Click(object sender, EventArgs e)
         {
             this.lblUndo.Visible = true;
@@ -738,6 +787,9 @@ namespace cliente.Partida
             estado = Estado.ColocarPoblado;
         }
 
+        /// <summary>
+        /// Permite entrar en el estado colocar ciudad
+        /// </summary>
         private void btnCiudad_Click(object sender, EventArgs e)
         {
             this.lblUndo.Visible = true;
@@ -745,6 +797,11 @@ namespace cliente.Partida
             estado = Estado.ColocarCiudad;
         }
 
+        /// <summary>
+        /// Comprueba si se puede colocar una carretera en la posición indicada
+        /// </summary>
+        /// <param name="coords"> Coordenadas lado </param>
+        /// <returns> True si se puede o False si no es válida la posición </returns>
         public bool ComprobarCarretera(LadoCoords coords)
         {
             foreach (LadoCoords posible in ladosPosibles)
@@ -754,6 +811,14 @@ namespace cliente.Partida
             }
             return false;
         }
+
+        /// <summary>
+        /// Comprueba si se puede colocar una ficha de vértice (poblado o ciudad) 
+        /// en la posición indicada
+        /// </summary>
+        /// <param name="coords"> Coordenadas vértice </param>
+        /// <param name="ListaVertices"> Lista de los vértices posibles </param>
+        /// <returns> True si se puede o False si no es válida la posición </returns>
         public bool ComprobarFichaVertice(VerticeCoords coords, VerticeCoords[] ListaVertices)
         {
             foreach (VerticeCoords posible in ListaVertices)
@@ -764,6 +829,10 @@ namespace cliente.Partida
             return false;
         }
 
+
+        /// <summary>
+        /// Calcula todos los lados posibles disponibles en el tablero
+        /// </summary>
         public void RecalcularLadosPosibles()
         {
             List<LadoCoords> lados = new List<LadoCoords>();
@@ -849,6 +918,9 @@ namespace cliente.Partida
             this.ladosPosibles = lados.ToArray();
         }
 
+        /// <summary>
+        /// Calcula todos los vértices posibles en el tablero
+        /// </summary>
         public void RecalcularVerticesPosibles()
         {
             List<VerticeCoords> vertices = new List<VerticeCoords>();
@@ -892,13 +964,19 @@ namespace cliente.Partida
             verticesPosibles = vertices.ToArray();
         }
 
+        /// <summary>
+        /// Escibe en el textbox de chat los mensajes recibidos del servidor con tal fin
+        /// </summary>
+        /// <param name="res"> Mensaje recibido </param>
         public void ActualizarChat(string res)
         {
+            // Si no empieza contiene ":" es porque es una notificación de la partida
             if (res.IndexOf(":") == -1)
             {
                 txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Italic);
                 txtChat.SelectionColor = Color.SkyBlue;
             }
+            // Si lo contiene es porque es un mensaje de algún jugador
             else
             {
                 txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Regular);
@@ -908,6 +986,9 @@ namespace cliente.Partida
             txtChat.AppendText(Environment.NewLine);
         }
 
+        /// <summary>
+        /// Envía mensaje del chat del jugador al servidor
+        /// </summary>
         public void EnviarMensaje()
         {
             if (txtMsg.Text != "")
@@ -919,6 +1000,10 @@ namespace cliente.Partida
             }
         }
 
+        /// <summary>
+        /// Configura datos de partida cuando se ha cambiado de turno
+        /// </summary>
+        /// <param name="nombre"> Nombre del jugador del cual es el turno </param>
         public void CambiarTurno(string nombre)
         {
             panelActualizar.BackColor = Color.White;
@@ -949,6 +1034,7 @@ namespace cliente.Partida
             }
             foreach (PanelInfoJugador panel in paneles)
             {
+                // Se pinta el panel del jugador del turno
                 if (panel.Nombre == this.turno)
                 {
                     panelActualizar = panel;
@@ -957,6 +1043,10 @@ namespace cliente.Partida
             }
         }
 
+        /// <summary>
+        /// Actualiza la viabilidad de los botones en función del estado
+        /// o recursos disponibles del jugador
+        /// </summary>
         public void RefreshBotones()
         {
             // Si no te toca no puedes hacer nada
@@ -990,6 +1080,10 @@ namespace cliente.Partida
             btnTurno.Enabled = true;
         }
 
+        /// <summary>
+        /// Muestra las imágenes de los dados con los valores sacados
+        /// </summary>
+        /// <param name="dados"> String de la forma dado1,dado2 </param>
         public void TirarDados(string dados)
         {
             string[] valores = dados.Split(",");
@@ -1005,18 +1099,19 @@ namespace cliente.Partida
             lblDado1.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado1location), new Size(35, 35));
             lblDado2.Image = new Bitmap((Image)Properties.Resources.ResourceManager.GetObject(dado2location), new Size(35, 35));
 
+            // Si la suma de los números es 7 se activa el ladrón
             if (sumadados == 7)
-            {                
+            {   
+                // Si se tienen >7 recursos se deben entregar la mitad
                 if ((madera + ladrillo + oveja + trigo + piedra) > 7)
                 {
                     FormLadron form = new FormLadron(this.conn, this.idP, this.nombre,
                         madera, ladrillo, oveja, trigo, piedra);
                     form.ShowDialog();
                 }
-
+                // Si es el turno se pasa al estado colocar ladrón
                 if (this.turno == this.nombre)
                 {
-                    //FALTA AMPLIAR
                     lblInfo.Text = "Ha salido un siete! Mueve el ladrón a la casilla que quieras";
                     estado = Estado.ColocarLadron;
                     RefreshBotones();
@@ -1114,6 +1209,9 @@ namespace cliente.Partida
             }
         }
 
+        /// <summary>
+        /// Se envía la petición de comprar una carta de desarrollo
+        /// </summary>
         private void btnDesarrollo_Click(object sender, EventArgs e)
         {
             string pet = "21/" + idP.ToString();
@@ -1121,17 +1219,26 @@ namespace cliente.Partida
             conn.Send(pet_b);
         }
 
+        /// <summary>
+        /// Se llama al método para enviar un mensaje del chat
+        /// </summary>
         private void btnEnviar_Click(object sender, EventArgs e)
         {
             EnviarMensaje();
         }
 
+        /// <summary>
+        /// Se llama al método para enviar un mensaje del chat al apretar Enter
+        /// </summary>
         private void txtMsg_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Return)
                 EnviarMensaje();
         }
 
+        /// <summary>
+        /// Se envía la petición de pasar el turno
+        /// </summary>
         private void btnTurno_Click(object sender, EventArgs e)
         {
             string pet;
@@ -1172,16 +1279,24 @@ namespace cliente.Partida
             }
         }
 
+        /// <summary>
+        /// Clacula los ratios con o sin puertos y abre el form de comercio
+        /// </summary>
         private void btnComercio_Click(object sender, EventArgs e)
         {
+            // Si no es tu turno no se puede comerciar
             if (this.nombre != this.turno)
                 return;
 
+            // Ratios de intercambio por defecto
             int ratioMadera = 4;
             int ratioLadrillo = 4;
             int ratioOveja = 4;
             int ratioTrigo = 4;
             int ratioPiedra = 4;
+
+            // Comprobar si se tiene una ficha vértice en puerto
+            // y recalcalr los ratios correspondientes
             foreach (Puerto puerto in this.puertos)
             {
                 foreach (VerticeCoords coords in puerto.Coords.VerticesExtremos())
@@ -1229,6 +1344,9 @@ namespace cliente.Partida
             RefreshBotones();
         }
 
+        /// <summary>
+        /// Vuelve al estado normal si se estaba en un estado de construcción
+        /// </summary>
         private void lblUndo_Click(object sender, EventArgs e)
         {
             this.lblUndo.Visible = false;
@@ -1236,12 +1354,17 @@ namespace cliente.Partida
             pnlTablero.Refresh();
         }
 
+
         private void BtnConstruir_MouseHover(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
             tooltipCostes.SetToolTip(btn, btn.Tag.ToString());
         }
 
+        /// <summary>
+        /// Timer para actualizar la obtención/pérdida de recursos y limpiar notificaciones
+        /// de acciones de la partida
+        /// </summary>
         private void timerRecursos_Tick(object sender, EventArgs e)
         {
             foreach(PanelInfoJugador panel in paneles)
@@ -1257,13 +1380,20 @@ namespace cliente.Partida
             lblInfo.Text = "";
         }
 
+        /// <summary>
+        /// Actualiza datos relativos a la obtención de una carta de desarrollo
+        /// </summary>
+        /// <param name="mensaje"> String de la forma: tipoCarta(integer de 0 a 4) </param>
         public void ComprarCarta(string mensaje)
         {
+            // Ya no quedan más cartas disponibles
             if (Convert.ToInt32(mensaje) == -1)
             {
                 btnDesarrollo.Enabled = false;
                 return;
             }
+
+            // Actialización de recursos 
             panelActualizar.Desarrollo++;
             panelActualizar.Recursos -= 3;
             panelActualizar.Oveja--;
@@ -1272,9 +1402,11 @@ namespace cliente.Partida
 
             timerRecursos.Start();
 
+            // Las cartas solo se muestran al jugador que las compró
             if (this.nombre != this.turno)
                 return;
 
+            // La carta de punto de victoria otorga punto extra que solo ve el jugador poseedor
             if ((Carta.TipoCarta)Convert.ToInt32(mensaje) == Carta.TipoCarta.Punto)
             {
                 panelActualizar.Puntos++;
@@ -1291,6 +1423,8 @@ namespace cliente.Partida
                     num++;
                 }
             }
+
+            // Añadir cartas a la mochila del jugador
             cartas.Add(carta);
             int x = 20 * num + 5;
             int y = cliente.Properties.Resources.CartaMonopolio.Size.Height * (int)carta.Tipo + 5;
@@ -1307,10 +1441,16 @@ namespace cliente.Partida
             RefreshBotones();
         }
 
+
+        /// <summary>
+        /// Envia las peticiones de usar carta y activa los estados pertinentes si se requiere
+        /// </summary>
         private void Carta_Click(object sender, EventArgs e)
         {
+            // Si no es tu turno no puedes usar las cartas
             if (this.nombre != this.turno)
                 return;
+            // Solo se puede usar una carta por turno
             if (desarrolloUsada == false)
             {
                 Carta carta = (Carta)sender;
@@ -1320,9 +1460,11 @@ namespace cliente.Partida
 
                 string pet;
                 byte[] pet_b;
+                // Comprobamos la carta que se ha decidido usar
                 switch ((int)carta.Tipo)
                 {
-                    case 0:
+                    case 0:     // Monopolio
+                        // Abre el form de monopolio y se elegirá el recurso a obtener
                         FormMonopolio form1 = new FormMonopolio();
                         form1.ShowDialog();
                         string recurso = form1.Recurso;
@@ -1330,7 +1472,8 @@ namespace cliente.Partida
                             return;
                         pet = "25/" + idP.ToString() + "/" + recurso;
                         break;
-                    case 1:
+                    case 1:     // Invento
+                        // Abre el form invento y se elegiran los dos recursos a obtener
                         FormInvento form2 = new FormInvento();
                         form2.ShowDialog();
                         string[] recursos = form2.recursos;
@@ -1338,13 +1481,14 @@ namespace cliente.Partida
                             return;
                         pet = "24/" + idP.ToString() + "/" + recursos[0] + "," + recursos[1];
                         break;
-                    case 2:
+                    case 2:     // Caballeria
+                        // Se entra en el estado colocar ladrón
                         pet = "22/" + idP.ToString();
                         estado = Estado.ColocarLadron;
                         lblInfo.Text = "Has usado el caballero! Mueve el ladrón a la casilla que quieras";
                         RefreshBotones();
                         break;
-                    case 3:
+                    case 3:     // Carreteras        
                         pet = "23/" + idP.ToString();
                         lblInfo.Text = "Has usado la carta Carreteras! Coloca 2 carreteras sin coste";
                         carreteraColocar = new Carretera(0, 0, Lado.Oeste, this.colorJugador);
@@ -1354,6 +1498,7 @@ namespace cliente.Partida
                 }
                 pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                 conn.Send(pet_b);
+                // Elimina la carta una vez usada
                 cartas.Remove(carta);
                 pnlCartas.Controls.Remove(carta);
                 for (int i = cartas.Count - 1; i >= 0; i--)
@@ -1367,6 +1512,10 @@ namespace cliente.Partida
                 desarrolloUsada = true;
             }
         }
+        /// <summary>
+        /// Actua en función de la carta usada por algun jugador
+        /// </summary>
+        /// <param name="mensaje"></param>
         public void UsarCarta(string mensaje)
         {
             panelActualizar.Desarrollo--;
@@ -1375,9 +1524,12 @@ namespace cliente.Partida
             int codigo = Convert.ToInt32(trozos[0]);
             int cantidad;
 
+            // Se comprueba la carta que se ha usado
             switch (codigo)
             {
-                case 22:
+                case 22:        // Caballero
+                    // Se comprueba el nuevo número de caballeros y si es el caso se
+                    // cambia de portador el punto de ejercito
                     lblInfo.Text = this.turno + " ha usado la carta Caballero";
                     PanelInfoJugador panelEj = null;
                     foreach (PanelInfoJugador panel in paneles)
@@ -1404,7 +1556,8 @@ namespace cliente.Partida
                     }
                     panelActualizar.Caballeros++;
                     break;
-                case 23:
+                case 23:        // Carreteras
+                    // Se inicializa variable para no descontar costes de la construcción
                     DosCarreteras = 3;
                     if (this.nombre != this.turno)
                         lblInfo.Text = this.turno + " ha usado la carta Carreteras";
@@ -1412,13 +1565,15 @@ namespace cliente.Partida
                         this.estado = Estado.ColocarCarretera;
                     timerRecursos.Start();
                     break;
-                case 24:
+                case 24:        // Invento
+                    // Se obtienen los dos recursos escogidos
                     UsarInvento(trozos[2]);
                     break;
-                case 25:
+                case 25:        // Monopolio
                     string recurso = trozos[2];                   
                     string pet;
                     byte[] pet_b;
+                    // Pone a 0 el recurso que se ha elegido
                     switch (recurso)
                     {
                         case "Madera":
@@ -1444,7 +1599,12 @@ namespace cliente.Partida
                         default:
                             cantidad = 0;
                             break;
-                    }                        
+                    }
+                    // Si no se tiene ningún recurso no se envia la petición
+                    if (cantidad == 0)
+                        return;
+
+                    // Envia la petición de los recursos a entregar
                     pet = "26/" + idP.ToString() + "/" + this.nombre + "," + recurso + "," + cantidad.ToString();
                     pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                     conn.Send(pet_b);
@@ -1452,12 +1612,23 @@ namespace cliente.Partida
             }
             RefreshBotones();
         }
+
+        /// <summary>
+        /// Coloca en tablero una ficha 
+        /// </summary>
+        /// <param name="mensaje"> String con las siguientes formas posibles:
+        /// 17/idPartida/R,Q    --> colocar ladrón
+        /// 18/idPartida/R,Q,V  --> colocar poblado
+        /// 19/idPartida/R,Q,V  --> colocar ciudad
+        /// 20/idPartida/R,Q,L  --> colocar carretera
+        /// </param>
         public void Colocar(string mensaje)
         {
             string[] trozos = mensaje.Split('/');
             int codigo = Convert.ToInt32(trozos[0]);
             string[] coordenadas = trozos[2].Split(',');
 
+            // La ficha será del color del jugador de ese turno
             ColorJugador Color = this.colorJugador;
 
             for (int i = 0; i < numJugadores; i++)
@@ -1466,15 +1637,16 @@ namespace cliente.Partida
                     Color = colores[i]; 
             }
 
+            // Mediante el código del mensaje sabemos que se esta colocando
             switch (codigo)
             {
-                case 17:
+                case 17:            // ladron
                     posicionLadron = new HexCoords(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]));
                     if(this.nombre != this.turno)
                         lblInfo.Text = "";
                     pnlTablero.Refresh();
                     break;
-                case 18:
+                case 18:            // poblado
                     verticeColocar = new FichaPoblado(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Vertice)Convert.ToInt32(coordenadas[2]), Color);
                     fichasVertices.Add(verticeColocar);
                     pnlTablero.Refresh();
@@ -1537,7 +1709,7 @@ namespace cliente.Partida
                         timerRecursos.Start();
                     }
                     break;
-                case 19:
+                case 19:            // ciudad
                     verticeColocar = new FichaCiudad(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Vertice)Convert.ToInt32(coordenadas[2]), Color);
                     foreach (FichaVertice ficha in fichasVertices)
                     {
@@ -1558,7 +1730,7 @@ namespace cliente.Partida
                     }
                         timerRecursos.Start();
                     break;
-                case 20:
+                case 20:            // carretera
                     carreteraColocar = new Carretera(Convert.ToInt32(coordenadas[1]), Convert.ToInt32(coordenadas[0]), (Lado)Convert.ToInt32(coordenadas[2]), Color);
                     carreteras.Add(carreteraColocar);
                     pnlTablero.Refresh();
@@ -1640,6 +1812,11 @@ namespace cliente.Partida
             RecalcularVerticesPosibles();
         }
 
+        /// <summary>
+        /// Envia la petición para notificar de los recursos a entregar
+        /// a quien ha usado la carta monopolio
+        /// </summary>
+        /// <param name="mensaje"> String de la forma: nombreEntrega,recurso,cantidad </param>
         public void DarMonopolio(string mensaje)
         {
             string[] trozos = mensaje.Split(',');
@@ -1647,8 +1824,10 @@ namespace cliente.Partida
             string recurso = trozos[1];
             int cantidad = Convert.ToInt32(trozos[2]);
 
+            // Comprueba si es tu turno
             if (this.turno == this.nombre)
             {
+                // Añade los recursos 
                 switch (recurso)
                 {
                     case "Madera":
@@ -1669,6 +1848,7 @@ namespace cliente.Partida
                 }
             }
             
+            // Indica el balance de recursos en el panel
             foreach (PanelInfoJugador panel in paneles)
             {
                 if (panel.Nombre == donante)
@@ -1720,6 +1900,12 @@ namespace cliente.Partida
             timerRecursos.Start();
         }
 
+        /// <summary>
+        /// Se indica que el jugador del turno presenta una oferta
+        /// </summary>
+        /// <param name="mensaje"> String de la forma: OMadera,OLadrillo...,PMadera,PLadrillo... 
+        /// Donde O representa el número de ese recurso que se ofrece y P el número de ese
+        /// recurso que se quiere a cambio </param>
         public void ComercioOferta(string mensaje)
         {
             if (this.formComerciar != null) return;
@@ -1729,15 +1915,25 @@ namespace cliente.Partida
             form.ShowDialog();
         }
 
+        /// <summary>
+        /// Pasa el mensaje al form de comercio
+        /// </summary>
+        /// <param name="mensaje"> String de la forma: NombreAcepta/SI o NO </param>
         public void ComercioRespuesta(string mensaje)
         {
+            // Solo se pasa el mensaje si no se ha cerrado el form
             if (this.formComerciar != null)
             {
                 formComerciar.ActualizarRespuesta(mensaje);
             }
         }
 
-
+        /// <summary>
+        /// Actualiza los parámetros acorde a un comercio realizado
+        /// </summary>
+        /// <param name="mensaje"> String de la forma: NombreAcepta/OMadera,OLadrillo...,PMadera,PLadrillo... </param>
+        /// Donde O representa el número de ese recurso que se ofrece y P el número de ese
+        /// recurso que se quiere a cambio </param>
         public void ComercioResultado(string mensaje)
         {
             string[] trozos = mensaje.Split("/");
@@ -1747,7 +1943,8 @@ namespace cliente.Partida
             {
                 recursos[i++] = Convert.ToInt32(num);
             }
-
+            
+            // Actualización del balance de recursos
             if (this.nombre == this.turno)
             {
                 Madera += recursos[5] - recursos[0];
@@ -1787,16 +1984,27 @@ namespace cliente.Partida
             timerRecursos.Start();
         }
 
+        /// <summary>
+        /// Evento de Tick del reloj
+        /// </summary>
         private void timerRaton_Tick(object sender, EventArgs e)
         {
             timerRaton.Stop();
         }
 
+        /// <summary>
+        /// Se indica que se ha producido un comercio de un jugador con la banca/puerto
+        /// </summary>
+        /// <param name="mensaje"> String de la forma: OMadera,OLadrillo...,PMadera,PLadrillo... </param>
+        /// Donde O representa el número de ese recurso que se ofrece y P el número de ese
+        /// recurso que se quiere a cambio </param> 
         public void ComercioMaritimo(string mensaje)
         {
             string[] trozos = mensaje.Split("/");
             int[] recursos = new int[10];
             int i = 0;
+
+            // Actualizar balance de los recursos
             foreach (string num in trozos[2].Split(","))
             {
                 recursos[i++] = Convert.ToInt32(num);
@@ -1821,6 +2029,10 @@ namespace cliente.Partida
             timerRecursos.Start();
         }
 
+        /// <summary>
+        /// Indica que un jugador a entregado al ladrón el recurso robado
+        /// </summary>
+        /// <param name="mensaje"></param>
         public void DarLadron(string mensaje)
         {
             string[] trozos = mensaje.Split('/');
@@ -1869,7 +2081,7 @@ namespace cliente.Partida
                 if (cantidad == 1 && donante != this.nombre)
                     lblInfo.Text = this.turno + " ha robado a " + donante;
 
-
+                // Actualizar balance de recursos
                 foreach (PanelInfoJugador panel in paneles)
                 {
                     if (panel.Nombre == donante)
@@ -1905,7 +2117,8 @@ namespace cliente.Partida
 
                     int[] recursos = new int[5] { madera, ladrillo, oveja, trigo, piedra };
                     int dar = 0;
-                    
+
+                    // Das un recurso al azar
                     while (dar == 0)
                     {
                         num = rnd.Next(0, 4);
@@ -1939,6 +2152,11 @@ namespace cliente.Partida
                 }
             }
         }
+
+        /// <summary>
+        /// Indica que alguien ha usado la carta invento
+        /// </summary>
+        /// <param name="mensaje"></param>
         private void UsarInvento(string mensaje)
         {
             if (this.nombre != this.turno)
@@ -1947,12 +2165,14 @@ namespace cliente.Partida
             string[] recursos = new string[] { mensaje.Split(',')[0], mensaje.Split(',')[1] };
             int cantidad = 1;
 
+            // Comporbar si se pide el mismo 2 veces
             if (recursos[0] == recursos[1])
             {
                 cantidad = 2;
                 recursos = new string[] { mensaje.Split(',')[0] };
 
             }
+            // añadir recursos a la bolsa de recursos
             foreach (string rec in recursos)
             {
                 switch (rec)
@@ -1988,6 +2208,14 @@ namespace cliente.Partida
             panelActualizar.Recursos += 2;
         }
 
+        /// <summary>
+        /// Calcula recursivamente el numero máximo de carreteras conectadas
+        /// </summary>
+        /// <param name="s"> Coordenadas vertice </param>
+        /// <param name="lado"> Coordenadas lado </param>
+        /// <param name="lados"> </param>
+        /// <param name="vertices"></param>
+        /// <returns></returns>
         private int MaximaLongitud(VerticeCoords s, LadoCoords lado, List<LadoCoords> lados,
             Dictionary<VerticeCoords, List<LadoCoords>> vertices)
         {
@@ -2012,6 +2240,10 @@ namespace cliente.Partida
             // Nunca ocurrirá
             return -10000;
         }
+
+        /// <summary>
+        /// Cambia la apariencia de los botones disponibles
+        /// </summary>
         private void btnPrincipal_EnabledChanged(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
