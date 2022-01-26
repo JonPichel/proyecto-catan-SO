@@ -71,6 +71,7 @@ namespace cliente.Partida
 
         private void btnCambioColor_Click(object sender, EventArgs e)
         {
+            // Muestra los colores disponibles
             int i = 0;
             foreach (ColorJugador color in Enum.GetValues(typeof(ColorJugador)))
             {
@@ -85,17 +86,24 @@ namespace cliente.Partida
 
         private void btnColor_Click(object sender, EventArgs e)
         {
+            // petición de cambio de color 
             Button btn = (Button)sender;
             string pet = "12/" + idP.ToString() + "/" + ((int)Colores.DameColorJugador(btn.BackColor)).ToString();
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
 
+            // Inhabilita el boton
             foreach (Button but in btns)
             {
                 but.Hide();
             }
         }
 
+        /// <summary>
+        /// Actualiza el datagrid de la lista de jugadores en el lobby
+        /// </summary>
+        /// <param name="res"> String de la forma: host,color,guest1,color,guest2,color,
+        /// guest3,color... </param>
         public void ActualizarListaJugadores(string res)
         {
             try
@@ -134,17 +142,24 @@ namespace cliente.Partida
 
         private void btnDesconectar_Click(object sender, EventArgs e)
         {
+            // Esconde el tab y cambia el tag para desconectar de la partida
             this.Tag = "DESCONECTAR";
             this.Hide();
         }
 
+        /// <summary>
+        /// Escibe en el textbox de chat los mensajes recibidos del servidor con tal fin
+        /// </summary>
+        /// <param name="res"> Mensaje recibido </param>
         public void ActualizarChat(string res)
         {
+            // Si no empieza contiene ":" es porque es una notificación de la partida
             if (res.IndexOf(":") == -1)
             {
                 txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Italic);
                 txtChat.SelectionColor = Color.SkyBlue;
             }
+            // Si lo contiene es porque es un mensaje de algún jugador
             else
             {
                 txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Regular);
@@ -154,10 +169,15 @@ namespace cliente.Partida
             txtChat.AppendText(Environment.NewLine);
         }
 
+        /// <summary>
+        /// Envía mensaje del chat del jugador al servidor
+        /// </summary>
         public void EnviarMensaje()
         {
+            // Texto no puede estar vacío
             if (txtMsg.Text != "")
             {
+                // Petición mensaje de chat
                 string pet = "13/" + idP.ToString() + "/" + nombre + ": " + txtMsg.Text;
                 byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                 conn.Send(pet_b);
@@ -167,16 +187,19 @@ namespace cliente.Partida
 
         private void btnEnviar_Click(object sender, EventArgs e)
         {
+            // Usa el método de enviar mensaje
             EnviarMensaje();
         }
 
         private void txtMsg_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Si se apreta Enter se usa el método enviar mensaje
             if (e.KeyChar == (char)Keys.Return)
                 EnviarMensaje();
         }
         private void dataGrid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
+            // Configura el estilo de celda en función de la acción sobre esta
             int index = 0;
             for(int i = 0; i<nombres.Length; i++)
             {
@@ -210,6 +233,7 @@ namespace cliente.Partida
 
         private void dataGridJugadores_SelectionChanged(object sender, EventArgs e)
         {
+            // Si se elige otro jugador se reconfigura el estilo por defecto
             dataGridJugadores.ClearSelection();
         }
     }

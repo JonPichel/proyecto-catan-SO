@@ -373,12 +373,15 @@ namespace cliente.Menu
             // Solo nos importa cuando se oculta
             if (!tabs[0].Visible)
             {
+                // Miramos el tag
                 switch (tabs[0].Tag)
                 {
                     case "REGISTRO":
+                        // Se muestra el tab registro
                         tabs[1].Show();
                         break;
                     case "LOGIN":
+                        // Se abre el menú principal
                         this.idJ = ((TabLogin)tabs[0]).idJ;
                         this.nombre = ((TabLogin)tabs[0]).nombre;
                         ((TabMenuPrincipal)tabs[2]).idJ = this.idJ;
@@ -393,8 +396,11 @@ namespace cliente.Menu
             // Solo nos importa cuando se oculta
             if (!tabs[1].Visible)
             {
+                // Miramos el tag
                 switch (tabs[1].Tag)
-                {
+                {   
+                    // Si el registro es positivo o se ha dado a ir atrás
+                    // Se muestra el tab de login
                     case "REGISTRO SI":
                     case "ATRAS":
                         tabs[0].Show();
@@ -405,14 +411,18 @@ namespace cliente.Menu
         
         private void tabMenuPrincipal_VisibleChanged(object sender, EventArgs e)
         {
+            // Solo nos importa cuando se oculta 
             if (!tabs[2].Visible)
             {
+                // Miramos del estado del que partimos
                 switch (tabs[2].Tag)
                 {
                     case "DESCONECTAR":
+                        // Si desconexión directamente cerramos el form
                         this.Close();
                         break;
                     case "INFO PARTIDA":
+                        // Si es info partida abrimos el tab de participación
                         tabs[3].Show();
                         break;
                 }
@@ -421,12 +431,18 @@ namespace cliente.Menu
 
         private void tabInfoPartidas_VisibleChanged(object sender, EventArgs e)
         {
+            // Solo nos importa cuando se oculta
             if (!tabs[3].Visible)
             {
+                // Sino se ve el de participación se debe mostrar el de menú principal
                 tabs[2].Show();
             }
         }
 
+        /// <summary>
+        /// Abre form de partida 
+        /// </summary>
+        /// <param name="idP"> identificador de la partida </param>
         private void AbrirPartidaHost(int idP)
         {
             FormPartida form = new FormPartida(this.conn, idP, this.nombre, true);
@@ -435,6 +451,10 @@ namespace cliente.Menu
             form.ShowDialog();
         }
 
+        /// <summary>
+        /// Abre un fomr indicando que has sido invitado a una partida
+        /// </summary>
+        /// <param name="mensaje"> String de la forma: idPartida/host </param>
         private void Invitacion(string mensaje)
         {
             string[] trozos = mensaje.Split("/");
@@ -461,6 +481,9 @@ namespace cliente.Menu
             }
         }
 
+        /// <summary>
+        /// Cierra el form y sale de la partida 
+        /// </summary>
         private void EliminarEntradaForm(object sender, EventArgs e)
         {
             FormPartida form = (FormPartida)sender;

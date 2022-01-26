@@ -84,6 +84,7 @@ namespace cliente.Partida
             Button btnClicked = (Button)sender;
             string[] recursosComparar = new string[] { "Madera", "Ladrillo", "Oveja", "Trigo", "Piedra" };
 
+            // Comprobar los recursos que se pueden o no dar
             int counter = 0;
             foreach (string recurso in recursosComparar)
             {
@@ -126,6 +127,7 @@ namespace cliente.Partida
                 counter = counter + 1;
             }
 
+            // Solo puedes dar los que te piden
             if (ofrecidos == obligatorios)
             {
                 btnAceptar.Enabled = true;
@@ -136,6 +138,7 @@ namespace cliente.Partida
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+            // Petición de entregar los recursos
             string pet = "31/" + this.idP + "/" + nombre + "/" +
                 lblMaderaO.Text + "," + lblLadrilloO.Text + "," + lblOvejaO.Text + "," + lblTrigoO.Text + "," + lblPiedraO.Text;
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);

@@ -49,48 +49,37 @@ namespace cliente.Menu
             dataGridJugadores.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
-        /// <summary>
-        /// Envia al servidor la peticion de lista de partidas del jugador
-        /// </summary>
         private void btnPartidas_Click(object sender, EventArgs e)
         {
+            // peticion de lista de partidas del jugador
             string pet = "3/" + idJ.ToString();
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
         }
 
-        /// <summary>
-        /// Envia al servidor la peticion de obtener la media de puntos del jugador
-        /// </summary>
         private void btnMedia_Click(object sender, EventArgs e)
         {
+            // peticion de obtener la media de puntos del jugador
             string pet = "5/" + idJ.ToString();
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
         }
 
-        /// <summary>
-        /// Envia al servidor la peticion de crear un lobby
-        /// </summary>
         private void btnCrearLobby_Click(object sender, EventArgs e)
         {
+            // peticion de crear un lobby
             string pet = "7/";
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
         }
 
-        /// <summary>
-        /// Envia al servidor la peticion de desconexión
-        /// </summary>
         private void btnDesconectar_Click(object sender, EventArgs e)
         {
+            // Escondemos el tab
             this.Tag = "DESCONECTAR";
             this.Hide();
         }
 
-        /// <summary>
-        /// Envia al servidor la peticion para obtener la participación de una partida seleccionada
-        /// </summary>
         private void dataGridPartidas_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int row = e.RowIndex;
@@ -98,6 +87,7 @@ namespace cliente.Menu
             // Se ha clickado en el header (no hay envio de la peticion)
             if (row == -1) return;
 
+            // peticion para obtener la participación de una partida seleccionada
             this.idP = Convert.ToInt32(dataGridPartidas.Rows[row].Cells[0].Value);
             string pet = "4/" + this.idP.ToString();
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);

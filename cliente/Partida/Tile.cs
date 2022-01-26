@@ -33,7 +33,7 @@ namespace cliente.Partida
         {
             get
             {
-
+                // Coordenadas de los lados que tiene un hexágono
                 return new LadoCoords[]
                 {
                     new LadoCoords(Q, R, Lado.Norte),
@@ -50,6 +50,7 @@ namespace cliente.Partida
         {
             get
             {
+                // Coordenadas de los hexágonos adyacentes
                 return new HexCoords[]
                 {
                     new HexCoords(this.Q + 1, this.R),
@@ -64,10 +65,18 @@ namespace cliente.Partida
 
         public HexCoords(int Q, int R)
         {
+            // Coordenadas hexágono
             this.Q = Q;
             this.R = R;
         }
 
+        /// <summary>
+        /// Convierte coordenadas de pixeles en coordenadas hexagonales
+        /// </summary>
+        /// <param name="pixelCoords"> Punto con coordenadas en pixeles </param>
+        /// <param name="basePoint"> Punto del origen </param>
+        /// <param name="zoomLevel"> Integer del nivel de zoom </param>
+        /// <returns> Coordenadas hexagonales </returns>
         public static HexCoords PixelToHex(Point pixelCoords, Point basePoint, int zoomLevel)
         {
             int x = pixelCoords.X - basePoint.X;
@@ -96,6 +105,12 @@ namespace cliente.Partida
             }
         }
 
+        /// <summary>
+        /// Convierte coordenadas hexagonales en coordenadas de pixeles
+        /// </summary>
+        /// <param name="basePoint"> Punto del origen </param>
+        /// <param name="zoomLevel"> Integer del nivel de zoom </param>
+        /// <returns> Punto </returns>
         public Point HexToPixel(Point basePoint, int zoomLevel)
         {
             basePoint.X += (int)(Tile.BRADIUS * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * (R - 1)) / zoomLevel);
@@ -103,14 +118,28 @@ namespace cliente.Partida
             return basePoint;
         }
 
+        /// <summary>
+        /// Comprueba si dos coordenadas hexagonales son iguales
+        /// </summary>
+        /// <param name="casilla1"> Coordenadas hexagonales 1 </param>
+        /// <param name="casilla2"> Coordenadas hexagonales 2 </param>
+        /// <returns> True si son iguales o false si diferentes </returns>
         public static bool operator ==(HexCoords casilla1, HexCoords casilla2)
         {
             return casilla1.Equals(casilla2);
         }
+
+        /// <summary>
+        /// Comprueba si dos coordenadas hexagonales son diferentes
+        /// </summary>
+        /// <param name="casilla1"> Coordenadas hexagonales 1 </param>
+        /// <param name="casilla2"> Coordenadas hexagonales 2 </param>
+        /// <returns> True si son diferentes o false si iguales </returns>
         public static bool operator !=(HexCoords casilla1, HexCoords casilla2)
         {
             return !casilla1.Equals(casilla2);
         }
+
         override public bool Equals(object? obj)
         {
             if ((obj == null) || !this.GetType().Equals(obj.GetType()))
@@ -121,7 +150,6 @@ namespace cliente.Partida
 
         public override int GetHashCode()
         {
-
             return (Q << 8) + R;
         }
 
@@ -148,6 +176,12 @@ namespace cliente.Partida
             this.Valor = valor;
         }
 
+        /// <summary>
+        /// Convierte coordenadas hexagonales en coordenadas de pixeles
+        /// </summary>
+        /// <param name="basePoint"> Punto del origen </param>
+        /// <param name="zoomLevel"> Integer del nivel de zoom </param>
+        /// <returns> Punto </returns>
         public Point HexToPixel(Point basePoint, int zoomLevel)
         {
             return Coords.HexToPixel(basePoint, zoomLevel);

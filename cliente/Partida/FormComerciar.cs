@@ -221,8 +221,11 @@ namespace cliente.Partida
         {
             string pet;
             byte[] pet_b;
+            
+            // Comercio marítimo
             if (this.Comercio == 1)
             {
+                // petición resultado comercio marítimo
                 pet = "30/" + this.idP + "/" + lblMaderaO.Text + "," + lblLadrilloO.Text + "," + lblOvejaO.Text + "," +
                     lblTrigoO.Text + "," + lblPiedraO.Text + "," + lblMaderaP.Text + "," + lblLadrilloP.Text + "," + 
                     lblOvejaP.Text + "," + lblTrigoP.Text + "," + lblPiedraP.Text;
@@ -232,6 +235,7 @@ namespace cliente.Partida
                 return;
             }
             
+            // Petición oferta de comercio al resto de jugadores
             pet = "27/" + this.idP + "/" + lblMaderaO.Text + "," + lblLadrilloO.Text + "," + lblOvejaO.Text + "," +
             lblTrigoO.Text + "," + lblPiedraO.Text + "," + lblMaderaP.Text + "," + lblLadrilloP.Text + "," + lblOvejaP.Text + "," +
             lblTrigoP.Text + "," + lblPiedraP.Text;
@@ -255,11 +259,13 @@ namespace cliente.Partida
             }
             btnComercioM.Enabled = false;
         }
+
         private void btnOfrecer_Click(object sender, EventArgs e)
         {
             Button btnClicked = (Button)sender;
             string[] recursosComparar = new string[] { "Madera", "Ladrillo", "Oveja", "Trigo", "Piedra" };
 
+            // Comprobar que tienes para ofrecer
             int counter = 0;
             foreach (string recurso in recursosComparar)
             {
@@ -271,6 +277,7 @@ namespace cliente.Partida
                         {
                             if (btnClicked.Name.Contains("Mas"))
                             {
+                                // Comprobar si se trata de comercio con jugadores o marítimo
                                 if (Comercio == 0)
                                 {
                                     lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) + 1);
@@ -295,6 +302,7 @@ namespace cliente.Partida
                             }
                             else
                             {
+                                // Comprobar si se trata de comercio con jugadores o marítimo
                                 if (Comercio == 0)
                                 {
                                     lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) - 1);
@@ -338,6 +346,7 @@ namespace cliente.Partida
             Button btnClicked = (Button)sender;
             string[] recursosComparar = new string[] { "Madera", "Ladrillo", "Oveja", "Trigo", "Piedra" };
 
+            // Actualizar valores pedir comercio
             int counter = 0;
             foreach (string recurso in recursosComparar)
             {
@@ -349,6 +358,7 @@ namespace cliente.Partida
                         {
                             if (btnClicked.Name.Contains("Mas"))
                             {
+                                // Comprobar si se trata de comercio con jugadores o marítimo
                                 if (Comercio == 0)
                                 {
                                     lbl.Text = Convert.ToString(Convert.ToInt32(lbl.Text) + 1);
@@ -395,6 +405,10 @@ namespace cliente.Partida
                 btnComerciar.Enabled = false;
         }
 
+        /// <summary>
+        /// Indica al jugador quien ha aceptado o denegado una oferta de comercio
+        /// </summary>
+        /// <param name="mensaje"> string de la forma: idPartida/NombreAcepta/SI o NO </param>
         public void ActualizarRespuesta(string mensaje)
         {
             if (pboxsComercio[0].Tag == null)
@@ -403,8 +417,10 @@ namespace cliente.Partida
 
             foreach (PictureBox pbox in pboxsComercio)
             {
+                // Comprueba quien es el jugador
                 if (pbox.Tag.ToString() == trozos[2])
                 {
+                    // Si acepta mostrarlo
                     if (trozos[3] == "SI")
                     {
                         pbox.Image = cliente.Properties.Resources.Si;
@@ -419,7 +435,10 @@ namespace cliente.Partida
 
         private void pboxComercio_Click(object sender, EventArgs e)
         {
+            // Indica a quien se ha escogido para realizar el comercio
             PictureBox pbox = (PictureBox)sender;
+
+            // Petición final ndicando el resultado
             string pet = "29/" + this.idP + "/" + pbox.Tag.ToString() + "/" +
                             lblMaderaO.Text + "," + lblLadrilloO.Text + "," + lblOvejaO.Text + "," + lblTrigoO.Text + "," + lblPiedraO.Text + "," +
                             lblMaderaP.Text + "," + lblLadrilloP.Text + "," + lblOvejaP.Text + "," + lblTrigoP.Text + "," + lblPiedraP.Text;
@@ -430,11 +449,13 @@ namespace cliente.Partida
 
         private void pboxComercio_MouseHover(object sender, EventArgs e)
         {
+            // Cambio de color al pasar el cursor por encima
             PictureBox pbox = (PictureBox)sender;
             pbox.BackColor = Color.DimGray;
         }
         private void pboxComercio_MouseLeave(object sender, EventArgs e)
         {
+            // Color normal al quitar el cursor por encima
             PictureBox pbox = (PictureBox)sender;
             pbox.BackColor = Color.White;
         }

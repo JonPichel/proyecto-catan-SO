@@ -991,8 +991,10 @@ namespace cliente.Partida
         /// </summary>
         public void EnviarMensaje()
         {
+            // Enviar siempre texto no vacío
             if (txtMsg.Text != "")
             {
+                // Petición de mensaje chat
                 string pet = "13/" + idP.ToString() + "/" + nombre + ": " + txtMsg.Text;
                 byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                 conn.Send(pet_b);

@@ -31,8 +31,6 @@ namespace cliente.Partida
             this.host = host;
         }
 
-
-
         private void FormPartida_Load(object sender, EventArgs e)
         {
             // Preparar pantallas
@@ -63,21 +61,29 @@ namespace cliente.Partida
         private void tabLobby_VisibleChanged(object sender, EventArgs e)
         {
             TabPartida tab = (TabPartida)sender;
+
             // Solo nos importa cuando se oculta
             if (!tab.Visible)
             {
+                // Comprobamos el tag
                 switch (tab.Tag)
                 {
                     case "EMPEZAR":
+                        // Se habre el tab tablero
                         tabs[2].Show();
                         break;
                     case "DESCONECTAR":
+                        // Se cierra el form de partida
                         this.Close();
                         break;
                 }
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mensaje"> string de la forma  </param>
         public void AtenderListaJugadores(string mensaje)
         {
             mensaje = mensaje.Split("/",2)[1];

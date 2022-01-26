@@ -22,6 +22,7 @@ namespace cliente.Menu
 
         private void TabInfoPartida_Load(object sender, EventArgs e)
         {
+            // Carga header de la tabla
             dataGridResultadoPartida.RowHeadersVisible = false;
             dataGridResultadoPartida.Columns.Add("Posición", "Posición");
             dataGridResultadoPartida.Columns.Add("Jugador", "Jugador");
@@ -51,7 +52,6 @@ namespace cliente.Menu
 
 
             // Rellenamos la tabla con los datos de las partidas
-            //dataGridResultadoPartida.Rows.Clear();
             dataGridResultadoPartida.Rows.Add(numj);
             dataGridResultadoPartida.BackgroundColor = Color.FromArgb(213, 79, 10);
             for (int i = 0; i < numj; i++)
@@ -59,11 +59,14 @@ namespace cliente.Menu
                 dataGridResultadoPartida.Rows[i].Cells[0].Value = datos[3*i + 0];     // Posición del jugador
                 dataGridResultadoPartida.Rows[i].Cells[1].Value = datos[3*i + 1];     // Nombre del jugador
                 dataGridResultadoPartida.Rows[i].Cells[2].Value = datos[3*i + 2];     // Puntos del jugador
+                
             }
+            
         }
 
         private void btnAtras_Click(object sender, EventArgs e)
         {
+            dataGridResultadoPartida.Rows.Clear();
             this.Hide();
         }
         private void dataGridJugadores_SelectionChanged(object sender, EventArgs e)

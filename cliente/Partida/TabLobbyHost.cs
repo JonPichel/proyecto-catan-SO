@@ -87,15 +87,17 @@ namespace cliente.Partida
         {
             numJug = 0;
             int a = 0;
+            // No pueden haber más de 4 jugadores
             while (a < 4)
             {
                 if (dataGridJugadores.Rows[a].Cells[0].Value != null)
                     numJug++;
                 a++;
             } 
-                
+            // Deben haber más de 1 jugador    
             if(numJug > 1)
             {
+                // Cambiar tag y petición empezar partida
                 this.Tag = "EMPEZAR";
                 string pet = "14/" + idP.ToString();
                 byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
@@ -109,6 +111,7 @@ namespace cliente.Partida
 
         private void btnCambioColor_Click(object sender, EventArgs e)
         {
+            // Muestra los colores disponibles
             int i = 0;
             foreach (ColorJugador color in Enum.GetValues(typeof(ColorJugador)))
             {
@@ -123,15 +126,19 @@ namespace cliente.Partida
 
         private void btnInvitar_Click(object sender, EventArgs e)
         {
+            // Envia una invitación al jugador seleccionado de la lista de conectados
             foreach (DataGridViewCell celda in dataGridConectados.SelectedCells)
             {
+                // Si la celda esta vacía no hace nada
                 if (celda.Value == null)
                 {
                     dataGridConectados.ClearSelection();
                     return;
                 }
+                // Se tiene que invitar a alguien que no este en la partida
                 if(!nombres.Contains(celda.Value.ToString()))
                 {
+                    // Petición de invitación
                     string pet = "8/" + idP.ToString() + "/" + celda.Value.ToString();
                     byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                     conn.Send(pet_b);
@@ -144,17 +151,24 @@ namespace cliente.Partida
     
         private void btnColor_Click(object sender, EventArgs e)
         {
+            // Petición de cambio de color
             Button btn = (Button)sender;
             string pet = "12/" + idP.ToString() + "/" + ((int)Colores.DameColorJugador(btn.BackColor)).ToString();
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             conn.Send(pet_b);
 
+            // Esconde el color seleccionado de los disponibles
             foreach (Button but in btns)
             {
                 but.Hide();
             }
         }
 
+        /// <summary>
+        /// Actualiza el datagrid de la lista de jugadores en el lobby
+        /// </summary>
+        /// <param name="res"> String de la forma: host,color,guest1,color,guest2,color,
+        /// guest3,color... </param>
         public void ActualizarListaConectados(string res)
         {
             try
@@ -181,6 +195,12 @@ namespace cliente.Partida
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        /// <summary>
+        /// Actualiza el datagrid de la lista de jugadores en el lobby
+        /// </summary>
+        /// <param name="res"> String de la forma: host,color,guest1,color,guest2,color,
+        /// guest3,color... </param>
         public void ActualizarListaJugadores(string res)
         {
             try
@@ -218,6 +238,7 @@ namespace cliente.Partida
 
         private void dataGridConectados_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            // Se debe seleccionar más de una celda para poder invitar
             if (dataGridConectados.SelectedCells.Count > 0)
             {
                 btnInvitar.Enabled = true;
@@ -229,17 +250,24 @@ namespace cliente.Partida
 
         private void btnDesconectar_Click(object sender, EventArgs e)
         {
+            // Cambiar tag y esconder tab para seguida desconexión de la partida
             this.Tag = "DESCONECTAR";
             this.Hide();
         }
 
+        /// <summary>
+        /// Escibe en el textbox de chat los mensajes recibidos del servidor con tal fin
+        /// </summary>
+        /// <param name="res"> Mensaje recibido </param>
         public void ActualizarChat(string res)
         {
+            // Si no empieza contiene ":" es porque es una notificación de la partida
             if (res.IndexOf(":") == -1)
             {
                 txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Italic);
                 txtChat.SelectionColor = Color.SkyBlue;
             }
+            // Si lo contiene es porque es un mensaje de algún jugador
             else
             {
                 txtChat.SelectionFont = new Font("Segoe UI", 9, FontStyle.Regular);
@@ -249,37 +277,52 @@ namespace cliente.Partida
             txtChat.AppendText(Environment.NewLine);
         }
 
+
+        /// <summary>
+        /// Informa al host de si la invitación a sido aceptada o rechazada
+        /// </summary>
+        /// <param name="res"> String de la forma: idPartida/guest/SI o NO </param>
         public void RespuestaInvitacion(string res) {
             string[] trozos = res.Split("/");
+            // Se indica si se ha rechazado
             if (trozos[2] == "NO")
             {
                 MessageBox.Show(trozos[1] + " ha rechazado tu invitación");
             }
         }
 
+        /// <summary>
+        /// Envía mensaje del chat del jugador al servidor
+        /// </summary>
         public void EnviarMensaje()
         {
+            // Texto no puede estar vacío
             if (txtMsg.Text != "")
             {
+                // Petición mensaje de chat
                 string pet = "13/" + idP.ToString() + "/" + nombre + ": " + txtMsg.Text;
                 byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                 conn.Send(pet_b);
                 txtMsg.Clear();
             }
         }
+
         private void btnEnviar_Click(object sender, EventArgs e)
         {
+            // Usa el método de enviar mensaje
             EnviarMensaje();
         }
 
         private void txtMsg_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Si se apreta Enter usa el método de enviar mensaje
             if (e.KeyChar == (char)Keys.Return)
                 EnviarMensaje();
         }
 
         private void dataGrid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
+            // Configura el estilo de celda en función de la acción sobre esta
             if (e.ColumnIndex == 0 & e.RowIndex == 0)
             {
                 //Pen for left and top borders
@@ -307,6 +350,7 @@ namespace cliente.Partida
 
         private void dataGridJugadores_SelectionChanged(object sender, EventArgs e)
         {
+            // Si se elige otro jugador se reconfigura el estilo por defecto
             dataGridJugadores.ClearSelection();
         }
     }

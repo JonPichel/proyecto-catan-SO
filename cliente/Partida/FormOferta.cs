@@ -74,6 +74,7 @@ namespace cliente.Partida
                 lblsP[i-5].Text = trozos[i];
             }
 
+            // Configurar color del jugador que esta realizando la oferta
             switch (colorturno)
             {
                 case ColorJugador.Azul:
@@ -102,6 +103,7 @@ namespace cliente.Partida
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+            // Petición indicando que se ha aceptado la oferta mostrada
             string pet = "28/" + this.idP + "/" + this.nombre + "/" + "SI";
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             this.conn.Send(pet_b);
@@ -111,6 +113,7 @@ namespace cliente.Partida
 
         private void btnRechazar_Click(object sender, EventArgs e)
         {
+            // Petición indicando que no se ha aceptado la oferta mostrada
             string pet = "28/" + this.idP + "/" + this.nombre + "/" + "NO";
             byte[] pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
             this.conn.Send(pet_b);

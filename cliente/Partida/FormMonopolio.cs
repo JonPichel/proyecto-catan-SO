@@ -29,6 +29,7 @@ namespace cliente
 
         private void btnEscoger_Click(object sender, EventArgs e)
         {
+            // Si no se escoge un recurso no se puede aceptar
             if (Recurso != "")
                 Close();
         }
@@ -36,6 +37,8 @@ namespace cliente
         private void radiobtnRecurso_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton recurso = (RadioButton)sender;
+
+            // Comprobar que recurso se escoge
             switch (recurso.Name)
             {
                 case "radiobtnMadera":
@@ -59,6 +62,7 @@ namespace cliente
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
+            // Si se cancela no se escoge ningún recurso
             Recurso = "";
             Close();
         }

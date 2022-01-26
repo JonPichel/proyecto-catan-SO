@@ -45,18 +45,28 @@ namespace cliente.Menu
 
         private void btnAtras_Click(object sender, EventArgs e)
         {
+            // El tab de registro se esconde
             this.Tag = "ATRAS";
             this.Hide();
         }
+
+        /// <summary>
+        /// Informa de el correcto o incorrecto registro de un jugador
+        /// </summary>
+        /// <param name="res"> String de la forma YES o NO </param>
         public void ActualizarRegistro(string res)
         {
+            // Se ha registrado bien el usuario
             if (res == "YES")
             {
                 MessageBox.Show("Usuario creado correctamente.", "Registro de usuario",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Respuesta del tab de registro correcto
                 this.Tag = "REGISTRO SI";
                 this.Hide();
             }
+            // Si no es porque ya existe
             else
             {
                 MessageBox.Show("Usuario ya existente.", "Registro de usuario",
