@@ -262,6 +262,20 @@ namespace cliente.Partida
                 tabs[0].Show();
             else
                 tabs[1].Show();
+
+            this.Controls.Remove(tabs[2]);
+            this.Controls.Remove(tabs[3]);
+            tabs.Remove(tabs[3]);
+            tabs.Remove(tabs[2]);
+            tabs.Add(new TabTablero(this.conn, this.idP, this.nombre));
+            tabs.Add(new TabPartidaGanada());
+            tabs[2].Hide();
+            tabs[2].Location = new Point(0, 0);
+            tabs[3].Hide();
+            tabs[3].Location = new Point(0, 0);
+            this.Controls.Add(tabs[2]);
+            this.Controls.Add(tabs[3]);
+
             timerFinalPartida.Stop();
         }
     }
