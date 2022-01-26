@@ -1244,7 +1244,7 @@ namespace cliente.Partida
             string pet;
             byte[] pet_b;
             puntos = panelActualizar.Puntos + panelActualizar.Larga * 2 + panelActualizar.Ejercito * 2;
-            if (puntos >= 10)
+            if (puntos >= 3)
             {
                 pet = "33/" + idP.ToString() + "/02/10/2021 09:00";
                 pet_b = System.Text.Encoding.ASCII.GetBytes(pet);

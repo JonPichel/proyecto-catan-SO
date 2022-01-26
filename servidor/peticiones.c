@@ -541,7 +541,6 @@ void pet_acabar_turno(char *resto, int socket) {
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
     int idP = atoi(strtok_r(resto, "/", &resto));
-    printf("%d,%d\n",partidas[idP].turno,partidas[idP].numturnos);
 
     pthread_mutex_lock(&mutex_estructuras);
     // Turno normal
@@ -698,7 +697,7 @@ void pet_partida_ganada(char *resto, int socket) {
 	sprintf(tag, "THREAD %d", socket);
 	
 	int idP = atoi(strtok_r(resto, "/", &resto));
-	char *fechahora = strtok_r(resto, "/", &resto);
+	char *fechahora = strtok_r(resto, "\0", &resto);
 
     // Registrar la partida en la base de datos
     int id = bdd_registrar_partida(fechahora, partidas[idP].numturnos / 4, partidas[idP].jugadores[partidas[idP].turno].nombre);

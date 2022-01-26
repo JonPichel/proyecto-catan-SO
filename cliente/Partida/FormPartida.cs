@@ -263,6 +263,7 @@ namespace cliente.Partida
             else
                 tabs[1].Show();
 
+            // Reseteamos los Tabs de Tablero y PartidaGanada
             this.Controls.Remove(tabs[2]);
             this.Controls.Remove(tabs[3]);
             tabs.Remove(tabs[3]);

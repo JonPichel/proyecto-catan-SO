@@ -212,6 +212,7 @@ void *atender_cliente(void *sock_ptr) {
                 break;
             case 34:
                 pet_registrar_participacion(resto, socket);
+                break;
             case 35:
                 /* BORRAR JUGADOR */
                 pet_borrar_jugador(resto, socket);
