@@ -140,6 +140,7 @@ namespace cliente.Partida
             return !casilla1.Equals(casilla2);
         }
 
+        // Comprueba si dos objetos son iguales
         override public bool Equals(object? obj)
         {
             if ((obj == null) || !this.GetType().Equals(obj.GetType()))
@@ -159,8 +160,10 @@ namespace cliente.Partida
         }
     }
 
+    // Clase ficha
     public class Tile
     {
+        // Configurar propiedades de estilo
         public const int BRADIUS = 256;
         public const int BWIDTH = 443;
         public const int BHEIGHT = 512;
@@ -188,7 +191,7 @@ namespace cliente.Partida
         }
     }
 
-    // Constructor ficha desierto
+    // Ficha desierto
     class TileDesierto : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TileDesiertoBmp; }
@@ -198,7 +201,7 @@ namespace cliente.Partida
         }
     }
 
-    // Constructor ficha mar
+    // Ficha mar
     class TileMar : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TileMarBmp; }
@@ -208,7 +211,7 @@ namespace cliente.Partida
         }
     }
 
-    // Constructor madera
+    // Ficha madera / bosque
     class TileMadera : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TileMaderaBmp; }
@@ -218,7 +221,7 @@ namespace cliente.Partida
         }
     }
 
-    // Constructor ficha cantera
+    // Ficha ladrillo / cantera
     class TileLadrillo : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TileLadrilloBmp; }
@@ -228,7 +231,7 @@ namespace cliente.Partida
         }
     }
 
-    // Constructor prado
+    // Ficha oveja / prado
     class TileOveja : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TileOvejaBmp; }
@@ -238,7 +241,7 @@ namespace cliente.Partida
         }
     }
 
-    // Constructor ficha campo
+    // Ficha trigo / campo
     class TileTrigo : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TileTrigoBmp; }
@@ -248,7 +251,7 @@ namespace cliente.Partida
         }
     }
 
-    // Constructor ficha montaña
+    // Ficha piedra / montaña
     class TilePiedra : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TilePiedraBmp; }
@@ -258,7 +261,7 @@ namespace cliente.Partida
         }
     }
 
-    // Constructor ficha ladrón
+    // Ficha ladrón
     class TileLadron : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.Ladron; }

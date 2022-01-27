@@ -1034,6 +1034,8 @@
             this.Controls.Add(this.btnPuntos);
             this.Controls.Add(this.btnRecursos);
             this.Controls.Add(this.btnComercio);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "FormManual";
             this.Text = "FormManual";
             this.Load += new System.EventHandler(this.FormManual_Load);

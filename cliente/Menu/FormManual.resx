@@ -528,7 +528,7 @@ En el caso que se active el Ladrón mediante los dados todos los jugadores que d
   <data name="pictureBox6.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIsAAAAcCAYAAABRekwEAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAC
-        8wAAAvMB0ukKKgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAqkSURBVGhD7ZsJ
+        8gAAAvIBAK7ozgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAqkSURBVGhD7ZsJ
         UBRXGscHxVu8zyjKHICCigooeACiCHIMKIeAoCCIoKAgcswMKh6sF8Zb0CRF1HjEK5pDE62tuIlxN1rZ
         ZN1kY7LGZBM3VYnZ3RjjeoHfvv+DbnpmXlysCIVmuuoH8+6efv/+vu+96VZZHoVqtWuRWr2+xFl72ajR
         3CpWq6k5Y9Bq7ph02ptPI0ad9iejVnujsSlx0V3jOOuuGHWa08UaTZ5Bp+tZJwnrozQgwN7g5LSRTUB1
@@ -1027,7 +1027,7 @@ También se puede comerciar con otros jugadores haciendo intercambios de diferen
   <data name="pictureBox7.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAANcAAACRCAYAAABQfC3EAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAEq0SURBVHhe7Z0H
+        vQAADr0BR/uQrQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAEq0SURBVHhe7Z0H
         fBVV9sfjuu7uf1dRBLGtXeyiYO+IIFJEegkhCRDSOyGQQEin91CldwglCZDQe4fYK3YFXcuq2Fe3nP/9
         3pcJ8+bNe3kJRNllfp/P+aS8mblvZu7vnnPPPfecAHHgwEGtwCGXAwe1BIdcDhzUEhxyOXBQS3DI5cBB
         LcEhlwMHtQSHXA4c1BIccjn41fGf//xHvv32W/n000/l6NGj8tZbb8lrr70mb7zxhv79/ffflw8++KDW
@@ -1402,7 +1402,7 @@ También se puede comerciar con otros jugadores haciendo intercambios de diferen
   <data name="pictureBox9.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAcMAAAIICAYAAAASQYU0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAJxWSURBVHhe7Z0J
+        vQAADr0BR/uQrQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAJxWSURBVHhe7Z0J
         eFXVuf7LPDrPc2tta3vb3tvb9na+999e2zpVazUkqFQgCRkgTCIIMkQQxKJS1LaXzpXee71Y1IoDFZxQ
         QQZlSEggEOYhISFAIBME1n+966wddnZWcvY5Z+99hrzv8/weNGfa4/futda3vvUJiqKCV0FBQa+cnJyx
         w4YNK5Wcxr/4f/xdv4WiKIqiUlfZ2dk3SPMrkQgD2yRp+q0URVEUlVrKy8v7nDTCVx3mZ0S2Et/Mysr6
@@ -2132,7 +2132,7 @@ Por cada poblado se obtiene 1 recurso y por cada ciudad 2.
   <data name="pictureBox16.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAcMAAAIICAYAAAASQYU0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAILCSURBVHhe7b13
+        vQAADr0BR/uQrQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAILCSURBVHhe7b13
         uBXXdfcf3Fvc7cR2XOI4jtOcX4rz5k17U/w8ae/75/2TPIh7rm6BK0BCIDCIa1UkWdV2bBxXybIc2TiJ
         JSEkkEAIJECo0duld0QXTSCd3/4e9sTDaM3M3jN7Tznn+32ez4MEp8zM2XutXdZa+5coiipeg4ODb+3t
         7b380ksvXad4DX/i//H3+iUURVEU1b7q6en5onJ+axVNgc2KLv1SiqIoimov9ff3/5ZyhA9FnJ+ImiU+
@@ -2744,7 +2744,7 @@ Por cada poblado se obtiene 1 recurso y por cada ciudad 2.
   <data name="pictureBox14.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAcMAAAIICAYAAAASQYU0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAP+NSURBVHhe7P0J
+        vQAADr0BR/uQrQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAP+NSURBVHhe7P0J
         nF1Vme8PdwLOI6K2ioADggiCDC2ComjbreDQ3bc7XiU0BBBwQhtH1FbQttXbtv3+vb73f9v//76+b3ff
         tyVVqUyVicwJBBIgc81DakxVpsqcGlKV7P/6rr2fOuusWnuffcaqJOv5fH6fpM7eZ5+9117rmZ9n/ZEn
         T54qTw8//PBL7r777m/+7d/+baPCaf7lbz6PTvHkyZMnT57OXlJC7+NK+DUoBA60KcyITvXkyZMnT57O
@@ -4230,7 +4230,7 @@ Por cada poblado se obtiene 1 recurso y por cada ciudad 2.
   <data name="pictureBox12.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAcMAAAIICAYAAAASQYU0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAP+NSURBVHhe7P0H
+        vQAADr0BR/uQrQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAP+NSURBVHhe7P0H
         eFVV+veN/3/v08v7PO/7tPc3fRwdZ8YZJQm9CQoWxAaIbXR0BEbFcRR17AV7xwIWkJpCE+xtbKPYld6S
         nIRqFwW7ImX978+990rW2WednJPk5BBgLa/vFUx232vf33X3/18YYYRR/HH22Wf/h9NPP/28v/zlL9WC
         7fzk//l9vEkYYYQRRhhh7LpjxIgR/YX8VgqMB/WCofGmYYQRRhhhhLFrjTPPPPM3QoRPJsjPC9ESXxg+
@@ -6195,7 +6195,7 @@ Por cada poblado se obtiene 1 recurso y por cada ciudad 2.
   <data name="pictureBox10.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAcMAAAIICAYAAAASQYU0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAH5QSURBVHhe7b0H
+        vQAADr0BR/uQrQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAH5QSURBVHhe7b0H
         eFzVmf+/JJue3WyS3WzJZvsvW35b/vvb3VAChF6tGbmMjYtsWRpZxZYludu4yBUZt9gmBEMaOGRZiJNd
         IMEJEBIvhBAbArZx78YNy7IsV7lw/u975owZjV7NnDtz7507M9/v83weJ2jKnXvPfd97znnLb0EQ5L/q
         6+s/Ul1dPWbEiBGbiff4X/7//N/NSyAIgiCocFVVVXULOb9NhBLYQUTMSyEIgiCosFRbW/u35Ah/lOT8
@@ -6741,7 +6741,7 @@ Por cada poblado se obtiene 1 recurso y por cada ciudad 2.
   <data name="pictureBox23.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAKIAAADLCAYAAADtCUiJAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wAAADsABataJCQAAlsJJREFUeF7tvXd0Xdd55n3/mTWTlXgSx5nESSZfZtZkUjwpk1mzkklmnJnYllVY
+        vwAADr8BOAVTJAAAlsJJREFUeF7tvXd0Xdd55n3/mTWTlXgSx5nESSZfZtZkUjwpk1mzkklmnJnYllVY
         AaI3Auy9SqJY1DspUdWyJEuyJKvREimJHSB67x3sTc1yXOLu2I7t/T2/d58NHFwckABFyqRkrPUuALec
         e+7Zz3ne/u7U7KZ+t6xjyF3bc8jk6u5DbnX7QTevbtBlV3e4qw40uavKm91l+5vcP+5rGJZPST6rx6aW
         t7kZ5e1uxoEON62q082o6XYz6rxk1PW4mXUdbmZtu8uu6XRFVX0uo6LDXb6/2X0m7Xjp8pl9TW5KRbMr
@@ -7390,7 +7390,7 @@ Por cada poblado se obtiene 1 recurso y por cada ciudad 2.
   <data name="pictureBox26.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAg4AAAIMCAYAAACdcyQyAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vwAADr8BOAVTJAAAtBNJREFUeF7tnQeY1FQXhlcUUUEEVCwg/beC0qWI9Cqg9AV2YWm7S1t6X3pHeu+I
+        vgAADr4B6kKxwAAAtBNJREFUeF7tnQeY1FQXhlcUUUEEVCwg/beC0qWI9Cqg9AV2YWm7S1t6X3pHeu+I
         Im2Bpffei/QiRUBFKVLtFb4/J5nMZGbuzGQmWSY7nM/nfZzJTXLvXJKcb29LGFgsFovFYrF0io0Di8Vi
         sVgs3WLjwGKxWCwWS7fYOLBYLBaLxdItNg4sFovFYrF0i40Di8VisVgs3WLjwGKxWCwWS7fYOLBYLBaL
         xdItNg4sFovFYrF0i40Di8VisVgs3WLjwGKxWCwWS7fYOLBYLBaLxdItNg4sFovFYrF0i40Di+W3LuDm
@@ -8164,7 +8164,7 @@ Por cada poblado se obtiene 1 recurso y por cada ciudad 2.
   <data name="pictureBox28.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAPIAAADLCAYAAABUHc7BAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wAAADsABataJCQAAz95JREFUeF7tvQd4XtWV76078907996ZO0kmmZlMekgPAQMJpBESOhhw77bk3rsx
+        vwAADr8BOAVTJAAAz95JREFUeF7tvQd4XtWV76078907996ZO0kmmZlMekgPAQMJpBESOhhw77bk3rsx
         YGMMprtgejPFBgPGuOFuS7Zsq1td7r3Sa8gklITA+v6/dd4tHb0+sg1YicHW86xH0vues88+e6//6nvv
         jPOXF1rLVcXWraDSrqjaYldUb7Fuq9fZZSuK7ZIVhdZsVYm1z62ynnkbbWTlFuut3y3WlFqzNSW1xP9t
         V1dYi7xKa5ZXZZ3XrLeuhaIiUfF6yyypsTary635ihJrqjbPXVZoZy8rqKULlhfZxdlF/sz2Kyusy+pK
@@ -9057,7 +9057,7 @@ Por cada poblado se obtiene 1 recurso y por cada ciudad 2.
   <data name="pictureBox18.Image" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgsAAAGaCAYAAACBjQC1AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vwAADr8BOAVTJAAAmVNJREFUeF7tnQd4FFX3hyMKqCACKhZ6sYvSpYj0KqCUhASSEFoSIIQSOqF3pCO9
+        vgAADr4B6kKxwAAAmVNJREFUeF7tnQd4FFX3hyMKqCACKhZ6sYvSpYj0KqCUhASSEFoSIIQSOqF3pCO9
         WZAWegm9d5COiqDYwQKIfv79Pgv8/nOm7M7u3p2d3dkkk3jO87wPuzOzM7OXvXPe3Ln3Tgg4ODg4ODg4
         OAyCZYGDg4ODg4PDMFgWODg4ODg4OAyDZYGDg4ODg4PDMFgWODg4ODg4OAyDZYGDg4Mjk8WGT75Dtw0f
         oU/qGZz6/pa6lIMj7YJlgYODgyMTxD937qLT2hNol3JMyOi9H6tbcnAEP1gWODg4OGweP/3+P6EgiODg
