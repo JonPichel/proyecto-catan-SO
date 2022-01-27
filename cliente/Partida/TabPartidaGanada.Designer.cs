@@ -51,6 +51,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.lblInfo = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pboxC4)).BeginInit();
@@ -297,17 +298,28 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "CATAN";
             // 
+            // lblInfo
+            // 
+            this.lblInfo.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblInfo.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lblInfo.Location = new System.Drawing.Point(516, 47);
+            this.lblInfo.Name = "lblInfo";
+            this.lblInfo.Size = new System.Drawing.Size(248, 25);
+            this.lblInfo.TabIndex = 5;
+            this.lblInfo.Text = "Espera para volver al lobby";
+            this.lblInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // TabPartidaGanada
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(96)))), ((int)(((byte)(63)))));
+            this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panel1);
             this.Name = "TabPartidaGanada";
-            this.Size = new System.Drawing.Size(800, 600);
             this.Load += new System.EventHandler(this.TabPartidaGanada_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -352,5 +364,6 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblInfo;
     }
 }
