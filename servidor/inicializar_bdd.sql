@@ -13,7 +13,6 @@ CREATE TABLE Jugador (
 CREATE TABLE Partida (
     id INT NOT NULL AUTO_INCREMENT,
     fechahora VARCHAR(16),
-    duracion INT,
     ganador INT,
     PRIMARY KEY (id),
     FOREIGN KEY (ganador) REFERENCES Jugador(id)
@@ -33,8 +32,8 @@ INSERT INTO Jugador VALUES (0, 'Jonathan', '123');
 INSERT INTO Jugador VALUES (0, 'Alba', 'asdf');
 INSERT INTO Jugador VALUES (0, 'Raul', '123');
 
-INSERT INTO Partida VALUES (0, '01/10/2021 15:00', 20, 1);
-INSERT INTO Partida VALUES (0, '02/10/2021 09:00', 15, 2);
+INSERT INTO Partida VALUES (0, '01/10/2021 15:00', 1);
+INSERT INTO Partida VALUES (0, '02/10/2021 09:00', 2);
 
 INSERT INTO Participacion VALUES (2, 1, 10);
 INSERT INTO Participacion VALUES (3, 1, 3);
