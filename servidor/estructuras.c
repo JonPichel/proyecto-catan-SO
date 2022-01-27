@@ -12,6 +12,15 @@ int saltos_puertos[9] = {3, 3, 3, 3, 3, 3, 4, 4, 4};
 int tipos_cartas[25] = {0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 4};
 
 int conn_add_jugador(listaconn_t *lista, int socket) {
+    /*
+    Descripcion:
+        Añade un jugador a la lista de conectados
+    Parametros:
+        lista: lista de conectados
+        socket: socket del cliente conectado
+    Retorno:
+        0 si OK, -1 si ERR
+    */
     if (lista->num > MAX_CONN)
         return -1;
     lista->conectados[lista->num].nombre[0] = '\0';
@@ -21,6 +30,16 @@ int conn_add_jugador(listaconn_t *lista, int socket) {
 }
 
 int conn_id_jugador(listaconn_t *lista, char nombre[20], int socket) {
+    /*
+    Descripcion:
+        Identifica al jugador conectado con un nombre
+    Parametros:
+        lista: lista de conectados
+        nombre: nombre del jugador
+        socket: socket del cliente conectado
+    Retorno:
+        0 si OK, -1 si ERR
+    */
     for (int i = lista->num - 1; i >= 0; i--) {
         if (socket == lista->conectados[i].socket) {
             strcpy(lista->conectados[i].nombre, nombre);
@@ -32,6 +51,15 @@ int conn_id_jugador(listaconn_t *lista, char nombre[20], int socket) {
 }
 
 int conn_delete_jugador(listaconn_t *lista, int socket) {
+    /*
+    Descripcion:
+        Elimina el jugador de la lista de conectados
+    Parametros:
+        lista: lista de conectados
+        socket: socket del jugador conectado
+    Retorno:
+        0 si OK, -1 si ERR
+    */
     for (int i = 0; i < lista->num; i++) {
         if (lista->conectados[i].socket == socket) {
             for (int j = i+1; j < lista->num; j++) {
@@ -47,6 +75,15 @@ int conn_delete_jugador(listaconn_t *lista, int socket) {
 }
 
 int conn_socket_jugador(listaconn_t *lista, char *nombre) {
+    /*
+    Descripcion:
+        Devuelve el socket del jugador conectado
+    Parametros:
+        lista: lista de conectados
+        nombre: nombre del jugador conectado
+    Retorno:
+        socket si OK, -1 si ERR
+    */
     for (int i = 0; i < lista->num; i++) {
         if (strcmp(lista->conectados[i].nombre, nombre) == 0)
             return lista->conectados[i].socket;
@@ -55,6 +92,12 @@ int conn_socket_jugador(listaconn_t *lista, char *nombre) {
 }
 
 void inicializar_partidas(partida_t partidas[MAX_PART]) {
+    /*
+    Descripcion:
+        Inicializa el vector de partidas
+    Parametros:
+        partidas: lista de Partidas
+    */
     for (int i = 0; i < MAX_PART; i++) {
         partidas[i].estado = VACIA;
         partidas[i].numj = 0;
@@ -63,6 +106,16 @@ void inicializar_partidas(partida_t partidas[MAX_PART]) {
 }
 
 int part_add_jugador(partida_t *partida, char nombre[20], int socket){
+    /*
+    Descripcion:
+        Añade un jugador a la Partida
+    Parametros:
+        partida: puntero a la Partida
+        nombre: nombre del jugador a añadir
+        socket: socket del jugador a añadir
+    Retorno:
+        0 si OK, -1 si ERR
+    */
     if (partida->numj < 4) {
         strcpy(partida->jugadores[partida->numj].nombre, nombre);
         partida->jugadores[partida->numj].socket = socket;
@@ -84,6 +137,15 @@ int part_add_jugador(partida_t *partida, char nombre[20], int socket){
 }
 
 int part_delete_jugador(partida_t *partida, char nombre[20]){
+    /*
+    Descripcion:
+        Elimina un jugador de la Partida
+    Parametros:
+        partida: puntero a la Partida
+        nombre: nombre del jugador a eliminar
+    Retorno:
+        posicion del jugador si OK, -1 si ERR (no encontrado)
+    */
     for (int i = 0; i < partida->numj; i++) {
         if (strcmp(partida->jugadores[i].nombre, nombre) == 0) {
             for (int j = i+1; j < partida->numj; j++) {
@@ -99,6 +161,16 @@ int part_delete_jugador(partida_t *partida, char nombre[20]){
 }
 
 int part_cambio_color(partida_t *partida, char nombre[20], int color){
+    /*
+    Descripcion:
+        Cambia el color de un jugador de la partida
+    Parametros:
+        partida: puntero a la Partida
+        nombre: nombre del jugador a eliminar
+        color: color elegido
+    Retorno:
+        0 si OK, -1 si ERR (no se ha podido cambiar)
+    */
     int num;
     enum COLOR colores[6] = {AZUL, ROJO, NARANJA, GRIS, MORADO, VERDE};
     for (int i = 0; i < partida->numj; i++) {
@@ -127,6 +199,12 @@ void barajar(int *a, int size) {
 }
 
 void barajar_casillas(char *asignacion) {
+    /*
+    Descripcion:
+        Baraja las casillas para usar en una partida
+    Parametros:
+        asignacion: puntero a un vector de caracteres para escribir
+    */
     barajar(tipos_casillas, 19);
 
     for (int i = 0; i < 19; i++) {
@@ -154,6 +232,12 @@ void barajar_casillas(char *asignacion) {
 }
 
 void barajar_puertos(char *asignacion) {
+    /*
+    Descripcion:
+        Baraja los puertos para usar en una partida
+    Parametros:
+        asignacion: puntero a un vector de caracteres para escribir
+    */
     barajar(tipos_puertos, 9);
     barajar(saltos_puertos, 9);
 
@@ -185,6 +269,12 @@ void barajar_puertos(char *asignacion) {
 }
 
 void barajar_cartas(partida_t *partida) {
+    /*
+    Descripcion:
+        Baraja las cartas para usar en una partida
+    Parametros:
+        partida: puntero a la Partida
+    */
     for (int i = 0; i < 25; i++) {
         partida->cartas[i] = tipos_cartas[i];
     }

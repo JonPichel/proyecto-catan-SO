@@ -11,6 +11,14 @@ MYSQL *conn;
 pthread_mutex_t mutex_bdd = PTHREAD_MUTEX_INITIALIZER;
 
 int bdd_inicializar(char *maquina) {
+    /*
+    Descripcion:
+        Inicializa la base de datos
+    Parametros:
+        maquina: nombre de la máquina a la que conectarse
+    Retorno:
+        0 si OK, -1 si ERR
+    */
     if ((conn = mysql_init(NULL)) == NULL) {
         log_msg("BDD", "Error al inicializar MySQL: %u %s\n", mysql_errno(conn), mysql_error(conn));
         return -1;

@@ -9,6 +9,10 @@
 #define STREAM stdout
 
 void log_msg(char *tag, char *format, ...) {
+    /*
+    Descripcion:
+        Imprime en pantalla un mensaje de log
+    */
     time_t rawtime;
     struct tm *caltime;
     char timestamp[18];

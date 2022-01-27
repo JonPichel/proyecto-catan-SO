@@ -426,6 +426,13 @@ void pet_crear_lobby(char *nombre, int socket) {
 }
 
 void pet_invitar_lobby(char *resto, char *nombre, int socket) {
+    /*
+    Descripcion:
+        Atiende la petición de invitar al lobby
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
@@ -451,6 +458,13 @@ void pet_invitar_lobby(char *resto, char *nombre, int socket) {
 }
 
 void pet_responder_invitacion(char *resto, char *nombre, int socket) {
+    /*
+    Descripcion:
+        Atiende la petición de responder invitacion de lobby
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
@@ -479,6 +493,13 @@ void pet_responder_invitacion(char *resto, char *nombre, int socket) {
 }
 
 void pet_abandonar_lobby(char *resto, char *nombre, int socket) {
+    /*
+    Descripcion:
+        Atiende la petición de abandonar el lobby
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
@@ -519,6 +540,13 @@ void pet_cambio_color(char *resto, char *nombre, int socket) {
 }
 
 void pet_enviar_chat(char *resto, int socket) {
+    /*
+    Descripcion:
+        Atiende la petición de mandar un mensaje por chat
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
 	char tag[32];
 	sprintf(tag, "THREAD %d", socket);
 	
@@ -529,6 +557,13 @@ void pet_enviar_chat(char *resto, int socket) {
 }
 
 void pet_empezar_partida(char *resto, int socket){
+    /*
+    Descripcion:
+        Atiende la petición de empezar partida y prepara la estructura
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
     
@@ -538,6 +573,13 @@ void pet_empezar_partida(char *resto, int socket){
 }
 
 void pet_acabar_turno(char *resto, int socket) {
+    /*
+    Descripcion:
+        Atiende la petición de acabar turno
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
     int idP = atoi(strtok_r(resto, "/", &resto));
@@ -559,6 +601,13 @@ void pet_acabar_turno(char *resto, int socket) {
 }
 
 void pet_tirar_dados(char *resto, int socket) {
+    /*
+    Descripcion:
+        Atiende la petición de tirar dados
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
@@ -570,6 +619,13 @@ void pet_tirar_dados(char *resto, int socket) {
 }
 
 void pet_carta(char *resto, int socket){
+    /*
+    Descripcion:
+        Atiende la petición de comprar carta
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     int idP, carta;
     sprintf(tag, "THREAD %d", socket);
@@ -586,6 +642,13 @@ void pet_carta(char *resto, int socket){
 }
 
 void pet_usar_carta(int codigo, char *resto, int socket){
+    /*
+    Descripcion:
+        Atiende la petición de usar carta
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
     
@@ -602,6 +665,13 @@ void pet_usar_carta(int codigo, char *resto, int socket){
 }
 
 void pet_dar_recurso_mono(char *resto, int socket){
+    /*
+    Descripcion:
+        Atiende la petición de entregar recursos por monopolio
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
     
@@ -613,6 +683,13 @@ void pet_dar_recurso_mono(char *resto, int socket){
 }
 
 void pet_colocar(int codigo, char *resto, int socket){
+    /*
+    Descripcion:
+        Atiende la petición de colocar fichas en el tablero
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
     
@@ -624,6 +701,13 @@ void pet_colocar(int codigo, char *resto, int socket){
 }
 
 void pet_oferta_comercio(char *resto, int socket) {
+    /*
+    Descripcion:
+        Atiende la petición de ofrecer un trueque de comercio
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
@@ -635,6 +719,13 @@ void pet_oferta_comercio(char *resto, int socket) {
 }
 
 void pet_respuesta_comercio(char *resto, int socket) {
+    /*
+    Descripcion:
+        Atiende la petición de dar respuesta de comercio
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
@@ -649,6 +740,13 @@ void pet_respuesta_comercio(char *resto, int socket) {
 }
 
 void pet_resultado_comercio(char *resto, int socket) {
+    /*
+    Descripcion:
+        Atiende la petición del resultado de comercio
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
@@ -660,6 +758,13 @@ void pet_resultado_comercio(char *resto, int socket) {
 }
 
 void pet_resultado_comercio_mar(char *resto, int socket) {
+    /*
+    Descripcion:
+        Atiende la petición del resultado de comercio marítimo
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
     char tag[32];
     sprintf(tag, "THREAD %d", socket);
 
@@ -671,6 +776,13 @@ void pet_resultado_comercio_mar(char *resto, int socket) {
 }
 
 void pet_dar_recursos_ladron(char *resto, int socket) {
+    /*
+    Descripcion:
+        Atiende la petición de dar recursos por ladrón
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
 	char tag[32];
 	sprintf(tag, "THREAD %d", socket);
 	
@@ -682,6 +794,13 @@ void pet_dar_recursos_ladron(char *resto, int socket) {
 }
 
 void pet_pedir_recursos_ladron(char *resto, int socket) {
+    /*
+    Descripcion:
+        Atiende la petición de robar a otro jugador
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
 	char tag[32];
 	sprintf(tag, "THREAD %d", socket);
 	
@@ -693,6 +812,13 @@ void pet_pedir_recursos_ladron(char *resto, int socket) {
 }
 
 void pet_partida_ganada(char *resto, int socket) {
+    /*
+    Descripcion:
+        Registra la partida en la base de datos y notifica al resto de jugadores
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
 	char tag[32];
 	sprintf(tag, "THREAD %d", socket);
 	
@@ -714,6 +840,13 @@ void pet_partida_ganada(char *resto, int socket) {
 }
 
 void pet_registrar_participacion(char *resto, int socket) {
+    /*
+    Descripcion:
+        Registra la participación de un jugador en la base de datos
+    Parametros:
+        resto: puntero al resto del mensaje (sin contar el código)
+        socket: socket del cliente que ha hecho la petición
+    */
 	char tag[32];
 	sprintf(tag, "THREAD %d", socket);
 	
