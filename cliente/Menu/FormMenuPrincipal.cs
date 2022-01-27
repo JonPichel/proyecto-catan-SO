@@ -115,30 +115,37 @@ namespace cliente.Menu
                     switch (codigo)
                     {
                         case 1:
+                            // Registrarse
                             delegado = new DelegadoRespuestas(((TabRegistro)tabs[1]).ActualizarRegistro);
                             tabs[1].Invoke(delegado, new object[] { mensaje });
                             break;
                         case 2:
+                            // Iniciar sesión
                             delegado = new DelegadoRespuestas(((TabLogin)tabs[0]).ActualizarLogin);
                             tabs[0].Invoke(delegado, new object[] { mensaje });
                             break;
                         case 3:
+                            // Mostrar partidas jugadas
                             delegado = new DelegadoRespuestas(((TabMenuPrincipal)tabs[2]).ActualizarDataGrid);
                             tabs[2].Invoke(delegado, new object[] { mensaje });
                             break;
                         case 4:
+                            // Información de una partida
                             delegado = new DelegadoRespuestas(((TabInfoPartida)tabs[3]).MostrarInfoPartida);
                             tabs[3].Invoke(delegado, new object[] { mensaje });
                             break;
                         case 5:
+                            // Media de puntos del jugador
                             delegado = new DelegadoRespuestas(((TabMenuPrincipal)tabs[2]).ActualizarMedia);
                             tabs[2].Invoke(delegado, new object[] { mensaje });
                             break;
                         case 6:
+                            // Lista de conectados
                             delegado = new DelegadoRespuestas(((TabMenuPrincipal)tabs[2]).ActualizarListaConectados);
                             tabs[2].Invoke(delegado, new object[] { mensaje });
                             foreach (FormPartida form in partidas.Values)
                             {
+                                // El host la tiene que ver en el lobby para poder invitar
                                 if (form.host)
                                 {
                                     delegado = new DelegadoRespuestas(form.ActualizarListaConectados);
@@ -147,12 +154,14 @@ namespace cliente.Menu
                             }
                             break;
                         case 7:
+                            // Crear un lobby
                             idP = Convert.ToInt32(mensaje);
                             ts = delegate { AbrirPartidaHost(idP); };
                             thread = new Thread(ts);
                             thread.Start();
                             break;
                         case 8:
+                            // Respuesta a la invitación de unirse al lobby
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -161,11 +170,13 @@ namespace cliente.Menu
                             }
                             break;
                         case 9:
+                            // Invitación para unirse lobby
                             ts = delegate { Invitacion(mensaje); };
                             thread = new Thread(ts);
                             thread.Start();
                             break;
                         case 10:
+                            // Abandonar lobby y/o partida
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -175,6 +186,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 11:
+                            // Lista de jugadores en el lobby
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -183,6 +195,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 13:
+                            // Recibes un mensaje por el chat
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -191,6 +204,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 14:
+                            // Empezar la partida (orden de las fichas del tablero)
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -199,15 +213,16 @@ namespace cliente.Menu
                             }
                             break;
                         case 15:
+                            // Cambio de turno
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
                                 delegado = new DelegadoRespuestas(partidas[idP].PartidaTurno);
                                 partidas[idP].Invoke(delegado, new object[] { mensaje });
                             }
-
                             break;
                         case 16:
+                            // Resultado dados
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -216,6 +231,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 17:
+                            // Nueva posición del ladrón
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -224,6 +240,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 18:
+                            // Posición de poblado colocado
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -232,6 +249,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 19:
+                            // Posición ciudad colocada
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -240,6 +258,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 20:
+                            // Posición carretera colocada
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -248,6 +267,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 21:
+                            // Jugador del turno compra carta
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -256,6 +276,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 22:
+                            // Jugador del turno usa carta caballero
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -264,6 +285,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 23:
+                            // Jugador del turno usa carta carretera
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -272,6 +294,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 24:
+                            // Jugador del turno usa carta invento
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -280,6 +303,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 25:
+                            // Jugador del turno usa carta monopolio
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -288,6 +312,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 26:
+                            // Jugador entrega recursos por monopolio
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -296,6 +321,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 27:
+                            // Llega una oferta de comercio
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -304,6 +330,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 28:
+                            // Respuesta de comercio (aceptar o no)
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -312,6 +339,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 29:
+                            // Resultado de un comercio
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -320,6 +348,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 30:
+                            // Resultado de un comercio marítimo o con la banca
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -328,6 +357,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 31:
+                            // Se indica que un jugador ha entregado al ladrón
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -336,6 +366,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 32:
+                            // Se indica a quien se elige robar al mover ladrón
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -344,6 +375,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 33:
+                            // Id partida en la BBDD trás finalizar la partida
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -352,6 +384,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 34:
+                            // Nombre del jugador y puntos obtenidos al finalizar la partida
                             idP = Convert.ToInt32(mensaje.Split("/")[0]);
                             if (partidas.ContainsKey(idP))
                             {
@@ -360,6 +393,7 @@ namespace cliente.Menu
                             }
                             break;
                         case 35:
+                            // Se indica si el jugador ha sido dado de baja correctamente
                             delegado = new DelegadoRespuestas(((TabLogin)tabs[0]).DarBaja);
                             tabs[0].Invoke(delegado, new object[] { mensaje });
                             break;
