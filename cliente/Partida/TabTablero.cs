@@ -1248,7 +1248,7 @@ namespace cliente.Partida
             puntos = panelActualizar.Puntos + panelActualizar.Larga * 2 + panelActualizar.Ejercito * 2;
             if (puntos >= 10)
             {
-                pet = "33/" + idP.ToString() + "/02/10/2021 09:00";
+                pet = "33/" + idP.ToString() + DateTime.Now.ToString("/dd/MM/yyyy HH:mm");
                 pet_b = System.Text.Encoding.ASCII.GetBytes(pet);
                 conn.Send(pet_b);
                 return;
