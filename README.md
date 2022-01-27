@@ -47,3 +47,8 @@ Protección Cross-Threading y Múltiples Formularios
  * **Comunicada** por Raúl
 
  URL del vídeo: https://drive.google.com/file/d/1EO4t_K6Uvcv446YvKj6CrMioJgbHOjeu/view?usp=sharing 
+
+ ## Versión Final
+
+ Implementación del juego y mejoras
+  * **Generada** por Raúl
