@@ -20,7 +20,7 @@ namespace cliente.Partida
         Inferior
     };
 
-
+    // Coordenadas de vértice
     public struct VerticeCoords
     {
         public HexCoords HexCoords;
@@ -62,6 +62,13 @@ namespace cliente.Partida
             return basePoint;
         }
 
+        /// <summary>
+        /// Convierte coordenadas de pixeles en coordenadas de vértice
+        /// </summary>
+        /// <param name="pixelCoords"> Punto con coordenadas en pixeles </param>
+        /// <param name="basePoint"> Punto del origen </param>
+        /// <param name="zoomLevel"> Integer del nivel de zoom </param>
+        /// <returns> Coordenadas hexagonales </returns>
         public static VerticeCoords PixelToVertice(Point pixelCoords, Point basePoint, int zoomLevel)
         {
             // Grid centrada en vertice superior
@@ -90,6 +97,7 @@ namespace cliente.Partida
             }
         }
 
+        // Vector de lados adyacentes a un vértice
         public LadoCoords[] LadosVecinos()
         {
             LadoCoords[] vecinos = new LadoCoords[3];
@@ -109,6 +117,8 @@ namespace cliente.Partida
             }
             return vecinos;
         }
+
+        // Vector de vértices adyacentes a un vértice
         public VerticeCoords[] VerticesVecinos()
         {
             VerticeCoords[] vecinos = new VerticeCoords[3];
@@ -129,10 +139,23 @@ namespace cliente.Partida
             return vecinos;
         }
 
+        /// <summary>
+        /// Comprueba si dos coordenadas de vértice son iguales
+        /// </summary>
+        /// <param name="vertice1"> Coordenadas vértice 1 </param>
+        /// <param name="vertice2"> Coordenadas vértice 2 </param>
+        /// <returns> True si son iguales o false si diferentes </returns>
         public static bool operator ==(VerticeCoords vertice1, VerticeCoords vertice2)
         {
             return vertice1.Equals(vertice2);
         }
+
+        /// <summary>
+        /// Comprueba si dos coordenadas de vértice son diferentes
+        /// </summary>
+        /// <param name="vertice1"> Coordenadas vértice 1 </param>
+        /// <param name="vertice2"> Coordenadas vértice 2 </param>
+        /// <returns> True si son diferentes o false si iguales </returns>
         public static bool operator !=(VerticeCoords vertice1, VerticeCoords vertice2)
         {
             return !vertice1.Equals(vertice2);
@@ -157,14 +180,17 @@ namespace cliente.Partida
         }
     }
 
+    // Ficha de vertice
     public class FichaVertice
     {
+        // Comnfiguración de los parámetros del objeto
         public const int BHALFSIDE = 162 / 2;
 
         public VerticeCoords Coords;
         public ColorJugador Color;
         virtual public Bitmap Bitmap { get => cliente.Properties.Resources.PobladoAzul; }
 
+        // Constructor de ficha vertice
         public FichaVertice(int q, int r, Vertice v, ColorJugador color)
         {
             this.Coords.HexCoords = new HexCoords(q, r); 
@@ -172,18 +198,26 @@ namespace cliente.Partida
             this.Color = color;
         }
 
+        // <summary>
+        /// Ajusta a punto sabiendo punto original y nivel de zoom
+        /// </summary>
+        /// <param name="basePoint"> Punto origen </param>
+        /// <param name="<zoomLevel>"> Nivel de zoom del tablero </param>
+        /// <returns> Punto con coordenadas de pixeles </returns>        
         public Point VerticeToPixel(Point basePoint, int zoomLevel)
         {
             return Coords.VerticeToPixel(basePoint, zoomLevel);
         }
     }
 
+    // Ficha de poblado
     public sealed class FichaPoblado : FichaVertice
     {
         override public Bitmap Bitmap
         {
             get
             {
+                // Cargar imagen en función del color de jugador
                 switch (Color)
                 {
                     case ColorJugador.Azul:
@@ -208,12 +242,14 @@ namespace cliente.Partida
         }
     }
 
+    // Ficha de ciudad
     public sealed class FichaCiudad : FichaVertice
     {
         override public Bitmap Bitmap
         {
             get
             {
+                // Cargar imagen en función del color de jugador
                 switch (Color)
                 {
                     case ColorJugador.Azul:
@@ -239,12 +275,15 @@ namespace cliente.Partida
         }
     }
 
+    // Lado tiene 3 posiciones en un hexágono
     public enum Lado
     {
         Norte,
         Oeste,
         Sur
     }
+
+    // Constructor coordenadas de lado
     public struct LadoCoords
     {
         public HexCoords HexCoords;
@@ -270,6 +309,13 @@ namespace cliente.Partida
             this.L = l;
         }
 
+        /// <summary>
+        /// Convierte coordenadas de pixel a coordenadas de lado
+        /// </summary>
+        /// <param name="pixelCoords"> coordenadas de pixel </param>
+        /// <param name="<basePoint>"> punto del origen </param>
+        /// <param name="zoomLevel"> nivel de zoom del tablero </param>
+        /// <returns> Coordenadas de lado </returns>
         public static LadoCoords PixelToLado(Point pixelCoords, Point basePoint, int zoomLevel)
         {
             HexCoords tile = HexCoords.PixelToHex(pixelCoords, basePoint, zoomLevel);
@@ -303,6 +349,14 @@ namespace cliente.Partida
             }
         }
 
+        /// <summary>
+        /// Convierte coordenadas de lado a un punto en pixeles
+        /// </summary>
+        /// <param name="basePoint"> Punto origen </param>
+        /// <param name="<zoomLevel>"> Nivel de zoom del tablero </param>
+        /// <param name="dx"> Variación de distancia horizontal </param>
+        /// <param name="<dy>"> Variación de distancia vertical </param>
+        /// <returns> Punto con coordenadas de pixeles </returns>
         public Point LadoToPixel(Point basePoint, int zoomLevel, int dx, int dy)
         {
             basePoint.X += (int)((Tile.BRADIUS * (Math.Sqrt(3) * Q + Math.Sqrt(3) / 2 * (R - 1)) - dx) / zoomLevel);
@@ -310,6 +364,7 @@ namespace cliente.Partida
             return basePoint;
         }
 
+        // Vector de vértices de un lado
         public VerticeCoords[] VerticesExtremos()
         {
             VerticeCoords[] extremos = new VerticeCoords[2];
@@ -333,28 +388,29 @@ namespace cliente.Partida
             return extremos;
         }
 
+        // Vector de lados adyacences a un lado
         public LadoCoords[] LadosVecinos()
         {
             LadoCoords[] vecinos = new LadoCoords[4];
             switch (L)
             {
                 case Lado.Norte:
-                    vecinos[0] = new LadoCoords(Q + 1, R - 1, Lado.Oeste);  // Derecha arriba
-                    vecinos[1] = new LadoCoords(Q + 1, R - 1, Lado.Sur);    // Derecha abajo
-                    vecinos[2] = new LadoCoords(Q, R - 1, Lado.Sur);        // Izquierda arriba
-                    vecinos[3] = new LadoCoords(Q, R, Lado.Oeste);          // Izquierda abajo
+                    vecinos[0] = new LadoCoords(Q + 1, R - 1, Lado.Oeste);      // Derecha arriba
+                    vecinos[1] = new LadoCoords(Q + 1, R - 1, Lado.Sur);        // Derecha abajo
+                    vecinos[2] = new LadoCoords(Q, R - 1, Lado.Sur);            // Izquierda arriba
+                    vecinos[3] = new LadoCoords(Q, R, Lado.Oeste);              // Izquierda abajo
                     break;
                 case Lado.Oeste:
-                    vecinos[0] = new LadoCoords(Q, R, Lado.Norte);            // Derecha arriba
-                    vecinos[1] = new LadoCoords(Q, R, Lado.Sur);              // Derecha abajo
-                    vecinos[2] = new LadoCoords(Q , R - 1, Lado.Sur);         // Izquierda arriba
-                    vecinos[3] = new LadoCoords(Q - 1, R + 1, Lado.Norte);    // Izquierda abajo
+                    vecinos[0] = new LadoCoords(Q, R, Lado.Norte);              // Derecha arriba
+                    vecinos[1] = new LadoCoords(Q, R, Lado.Sur);                // Derecha abajo
+                    vecinos[2] = new LadoCoords(Q , R - 1, Lado.Sur);           // Izquierda arriba
+                    vecinos[3] = new LadoCoords(Q - 1, R + 1, Lado.Norte);      // Izquierda abajo
                     break;
                 case Lado.Sur:
-                    vecinos[0] = new LadoCoords(Q, R + 1, Lado.Norte);        // Derecha arriba
-                    vecinos[1] = new LadoCoords(Q, R + 1, Lado.Oeste);        // Derecha abajo
-                    vecinos[2] = new LadoCoords(Q, R, Lado.Oeste);            // Izquierda arriba
-                    vecinos[3] = new LadoCoords(Q - 1, R + 1, Lado.Norte);    // Izquierda abajo
+                    vecinos[0] = new LadoCoords(Q, R + 1, Lado.Norte);          // Derecha arriba
+                    vecinos[1] = new LadoCoords(Q, R + 1, Lado.Oeste);          // Derecha abajo
+                    vecinos[2] = new LadoCoords(Q, R, Lado.Oeste);              // Izquierda arriba
+                    vecinos[3] = new LadoCoords(Q - 1, R + 1, Lado.Norte);      // Izquierda abajo
                     break;
             }
             return vecinos;
@@ -388,6 +444,7 @@ namespace cliente.Partida
         }
     }
 
+    // Constructor carretera
     public class Carretera
     {
         public const int DX = 40;
@@ -399,6 +456,7 @@ namespace cliente.Partida
         {
             get
             {
+                // Cargar imagenes de acuerdo a la posición y color del jugador
                 switch (Coords.L)
                 {
                     case Lado.Norte when Color == ColorJugador.Azul:
@@ -455,6 +513,8 @@ namespace cliente.Partida
             return Coords.LadoToPixel(basePoint, zoomLevel, DX, DY);
         }
     }
+
+    // Constructor puerto
     public class Puerto
     {
         public const int DX = 138;
@@ -476,6 +536,7 @@ namespace cliente.Partida
         }
     }
 
+    // Constructor de puerto general 1:3
     class PuertoGeneral : Puerto
     {
         public override Bitmap Bitmap
@@ -500,6 +561,7 @@ namespace cliente.Partida
         }
     }
 
+    // Puerto de madera
     class PuertoMadera : Puerto
     {
         public override Bitmap Bitmap
@@ -547,6 +609,7 @@ namespace cliente.Partida
         }
     }
 
+    // Puerto de oveja
     class PuertoOveja : Puerto
     {
         public override Bitmap Bitmap
@@ -571,6 +634,7 @@ namespace cliente.Partida
         }
     }
 
+    // Puerto de trigo
     class PuertoTrigo : Puerto
     {
         public override Bitmap Bitmap
@@ -595,6 +659,7 @@ namespace cliente.Partida
         }
     }
 
+    // Puerto de piedra
     class PuertoPiedra : Puerto
     {
         public override Bitmap Bitmap

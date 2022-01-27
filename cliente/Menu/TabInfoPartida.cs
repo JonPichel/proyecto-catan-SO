@@ -40,11 +40,15 @@ namespace cliente.Menu
 
         }
 
+        /// <summary>
+        /// Rellena el datagrid con las participaciones de una partida
+        /// </summary>
+        /// <param name="res"> String de la forma: jugadores/posicion,nombre,puntos,... </param>
         public void MostrarInfoPartida(string res)
         {
            
-            // Ahora primero separamos el numero de partidas juagadas
-            // de los datos de cada partida
+            // Ahora primero separamos el numero de juagadores
+            // de los datos de cada jugador en la partida
             string[] trozos = res.Split("/", 2);  // Tendremos 2 trozos
 
             int numj = Convert.ToInt32(trozos[0]);      // Numero de jugadores
@@ -66,11 +70,13 @@ namespace cliente.Menu
 
         private void btnAtras_Click(object sender, EventArgs e)
         {
+            // Esconder el tab y eliminar las filas de jugadores
             dataGridResultadoPartida.Rows.Clear();
             this.Hide();
         }
         private void dataGridJugadores_SelectionChanged(object sender, EventArgs e)
         {
+            // Quitar selección al cambiar de celda
             dataGridResultadoPartida.ClearSelection();
         }
     }

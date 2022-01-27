@@ -7,7 +7,7 @@ namespace cliente.Partida
 {
     static class Colores
     {
-
+        // Colores
         public static Color DameColor(ColorJugador color)
         {
             switch (color)
@@ -28,6 +28,8 @@ namespace cliente.Partida
                     return Color.FromArgb(95, 171, 200);
             }
         }
+
+        // Colores de jugador
         public static ColorJugador DameColorJugador(Color color)
         {
             if (color == Color.FromArgb(111, 145, 111))

@@ -2107,7 +2107,7 @@ namespace cliente.Partida
                 }
                 timerRecursos.Start();
             }
-            // Petición 32
+            // Petición 32 - Robar recursos por el ladrón
             else
             {
                 // Te roban

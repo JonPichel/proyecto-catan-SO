@@ -29,11 +29,11 @@ namespace cliente.Partida
             }
         }
 
+        // Coordenadas de los lados que tiene un hexágono
         public LadoCoords[] Lados
         {
             get
-            {
-                // Coordenadas de los lados que tiene un hexágono
+            {                
                 return new LadoCoords[]
                 {
                     new LadoCoords(Q, R, Lado.Norte),
@@ -46,11 +46,11 @@ namespace cliente.Partida
             }
         }
 
+        // Coordenadas de los hexágonos adyacentes
         public HexCoords[] Vecinos
         {
             get
-            {
-                // Coordenadas de los hexágonos adyacentes
+            {                
                 return new HexCoords[]
                 {
                     new HexCoords(this.Q + 1, this.R),
@@ -63,9 +63,9 @@ namespace cliente.Partida
             }
         }
 
+        // Coordenadas hexágono
         public HexCoords(int Q, int R)
-        {
-            // Coordenadas hexágono
+        {            
             this.Q = Q;
             this.R = R;
         }
@@ -188,6 +188,7 @@ namespace cliente.Partida
         }
     }
 
+    // Constructor ficha desierto
     class TileDesierto : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TileDesiertoBmp; }
@@ -197,6 +198,7 @@ namespace cliente.Partida
         }
     }
 
+    // Constructor ficha mar
     class TileMar : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TileMarBmp; }
@@ -206,6 +208,7 @@ namespace cliente.Partida
         }
     }
 
+    // Constructor madera
     class TileMadera : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TileMaderaBmp; }
@@ -215,6 +218,7 @@ namespace cliente.Partida
         }
     }
 
+    // Constructor ficha cantera
     class TileLadrillo : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TileLadrilloBmp; }
@@ -224,6 +228,7 @@ namespace cliente.Partida
         }
     }
 
+    // Constructor prado
     class TileOveja : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TileOvejaBmp; }
@@ -233,6 +238,7 @@ namespace cliente.Partida
         }
     }
 
+    // Constructor ficha campo
     class TileTrigo : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TileTrigoBmp; }
@@ -242,6 +248,7 @@ namespace cliente.Partida
         }
     }
 
+    // Constructor ficha montaña
     class TilePiedra : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.TilePiedraBmp; }
@@ -251,6 +258,7 @@ namespace cliente.Partida
         }
     }
 
+    // Constructor ficha ladrón
     class TileLadron : Tile
     {
         public override Bitmap Bitmap { get => cliente.Properties.Resources.Ladron; }

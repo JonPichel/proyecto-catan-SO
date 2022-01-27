@@ -48,16 +48,21 @@ namespace cliente.Partida
                 pbox.Visible = false;
         }
 
+        /// <summary>
+        /// Actualiza el orden de los jugadores en función de los puntos que tienen
+        /// </summary>
+        /// <param name="mensaje"> nombre,puntos </param>
         public void ActualizarRanking(string mensaje)
         {
-            string[] trozos = mensaje.Split(',');
-            int Puntos = Convert.ToInt32(trozos[1]);
-            string Nombre = trozos[0];
+            string[] trozos = mensaje.Split(',');                   // Separamos en 2 el mensaje
+            int Puntos = Convert.ToInt32(trozos[1]);                // El trozo 2 tiene los puntos
+            string Nombre = trozos[0];                              // El trozo 1 el nombre
             Bitmap Figura = cliente.Properties.Resources.JugadorAzul;
 
             int i = 0;
             while (i < colores.Length)
             {
+                // Mira en los colores que concuerde con el nombre
                 if (Nombre == nombres[i])
                 {
                     switch (colores[i])
@@ -89,6 +94,7 @@ namespace cliente.Partida
                 i++;
             }
 
+            // Ordenar y hacer visible la información del jugador
             i = 0;
             while (i < puntos.Length)
             {

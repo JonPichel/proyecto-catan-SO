@@ -21,6 +21,7 @@ namespace cliente.Partida
 
         public TipoCarta Tipo;
 
+        // Constructor tipo de carta
         public Carta(TipoCarta tipo)
         {
             InitializeComponent();
@@ -29,6 +30,7 @@ namespace cliente.Partida
             this.Size = cliente.Properties.Resources.CartaMonopolio.Size;
             this.Enabled = true;
 
+            // Carga la imagen correspondiente a la carta
             switch (this.Tipo)
             {
                 case TipoCarta.Monopolio:
