@@ -52,3 +52,4 @@ Protección Cross-Threading y Múltiples Formularios
 
  Implementación del juego y mejoras
   * **Generada** por Raúl
+  * **Verificada** por Alba

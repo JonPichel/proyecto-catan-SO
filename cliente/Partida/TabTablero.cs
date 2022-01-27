@@ -1435,7 +1435,6 @@ namespace cliente.Partida
             pnlCartas.Controls.Add(carta);
             carta.Location = new Point(x, y);
             carta.BringToFront();
-
             Oveja--;
             Trigo--;
             Piedra--;
