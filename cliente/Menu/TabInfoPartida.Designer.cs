@@ -55,9 +55,9 @@ namespace cliente.Menu
             this.lblIdPartida.Font = new System.Drawing.Font("Palatino Linotype", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
             this.lblIdPartida.Location = new System.Drawing.Point(45, 44);
             this.lblIdPartida.Name = "lblIdPartida";
-            this.lblIdPartida.Size = new System.Drawing.Size(286, 35);
+            this.lblIdPartida.Size = new System.Drawing.Size(252, 35);
             this.lblIdPartida.TabIndex = 6;
-            this.lblIdPartida.Text = "Datos de la partida: X";
+            this.lblIdPartida.Text = "Datos de la partida";
             // 
             // btnAtras
             // 
@@ -77,7 +77,6 @@ namespace cliente.Menu
             this.Controls.Add(this.dataGridResultadoPartida);
             this.Controls.Add(this.lblIdPartida);
             this.Name = "TabInfoPartida";
-            this.Size = new System.Drawing.Size(750, 550);
             this.Load += new System.EventHandler(this.TabInfoPartida_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridResultadoPartida)).EndInit();
             this.ResumeLayout(false);
